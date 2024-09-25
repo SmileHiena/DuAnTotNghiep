@@ -8,6 +8,7 @@ export default async function Home() {
   const movies = jsonData.data.items; // Mảng chứa danh sách phim lẻ
 
   return (
+    <>
     <div className="container mt-5">
       <h1 className="text-center">Danh sách phim lẻ</h1>
       <div className="row">
@@ -34,5 +35,7 @@ export default async function Home() {
         ))}
       </div>
     </div>
+  
+    </>
   );
 }
