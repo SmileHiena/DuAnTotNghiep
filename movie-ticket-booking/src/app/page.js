@@ -9,7 +9,7 @@ export default async function Home() {
 
   return (
     <>
-    <div className="container mt-5">
+    {/* <div className="container mt-5">
       <h1 className="text-center">Danh sách phim lẻ</h1>
       <div className="row">
         {movies.map((movie) => (
@@ -34,7 +34,7 @@ export default async function Home() {
           </div>
         ))}
       </div>
-    </div>
+    </div> */}
   
     </>
   );

@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000; /* Đặt màu nền thành đen */
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #212529; /* Bạn có thể giữ hoặc thay đổi màu nền tối */
     --foreground: #ededed;
   }
 }
@@ -24,4 +24,13 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.text-yellow {
+  color: #F5CF49;
+  font-size: 24px;
+}
+.text-white {
+  color: #FFFFFF; 
+  font-size: 24px;
 }
