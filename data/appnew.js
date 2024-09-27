@@ -308,3 +308,29 @@ const data = {
 
 
     };
+// Hàm kết nối MongoDB và lưu trữ dữ liệu
+async function insertData() {
+  const client = new MongoClient(url, { useUnifiedTopology: true });
+
+  try {
+    await client.connect();
+    console.log('Kết nối thành công tới MongoDB');
+    
+    const db = client.db(dbName);
+
+    // Thêm dữ liệu vào các bộ sưu tập
+    await db.collection('Phim').insertMany(data.Phim);
+    await db.collection('TheLoai').insertMany(data.TheLoai);
+    await db.collection('Rap').insertMany(data.Rap);
+    await db.collection('SuatChieu').insertMany(data.SuấtChiếu);
+
+    console.log('Dữ liệu đã được thêm thành công');
+  } catch (err) {
+    console.error('Lỗi khi kết nối hoặc lưu trữ dữ liệu:', err);
+  } finally {
+    await client.close();
+  }
+}
+
+// Gọi hàm để lưu dữ liệu
+insertData();
