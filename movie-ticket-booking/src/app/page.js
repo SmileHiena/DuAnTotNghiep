@@ -1,38 +1,42 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-// src/app/page.js
-export default async function Home() {
-  // Giả sử dữ liệu được lấy từ JSON tĩnh
-  const res = await fetch('https://phimapi.com/v1/api/danh-sach/phim-le');
-  const jsonData = await res.json();
-  const movies = jsonData.data.items; // Mảng chứa danh sách phim lẻ
+import React from 'react';
+import Header from './component/header.jsx'; 
+import HeroSection from './component/banner';
+// import MovieSlider from './component/MovieSlider';
+import Promotions from './component/promotion';
+import BlogSection from './component/blog';
+import FAQSection from './component/FAQ';
+import Footer from './component/footer';
+
+export default function Home() {
+  const movies = [
+    { id: 1, title: 'Movie 1', poster: '/movie1.jpg' },
+    { id: 2, title: 'Movie 2', poster: '/movie2.jpg' },
+    // Add more movies
+  ];
+
+  const posts = [
+    { id: 1, title: 'Blog Post 1', excerpt: 'This is a blog post', thumbnail: '/post1.jpg' },
+    { id: 2, title: 'Blog Post 2', excerpt: 'This is another blog post', thumbnail: '/post2.jpg' },
+    // Add more posts
+  ];
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center">Danh sách phim lẻ</h1>
-      <div className="row">
-        {movies.map((movie) => (
-          <div key={movie._id} className="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div className="card h-100">
-              <img
-                src={`https://phimimg.com/${movie.poster_url}`}
-                className="card-img-top"
-                alt={movie.name}
-              />
-              <div className="card-body">
-                <h5 className="card-title">{movie.name}</h5>
-                <p className="card-text">
-                  <strong>Thời lượng:</strong> {movie.time} <br />
-                  <strong>Chất lượng:</strong> {movie.quality} <br />
-                  <strong>Năm sản xuất:</strong> {movie.year} <br />
-                  <strong>Thể loại:</strong>{" "}
-                  {movie.category.map((cat) => cat.name).join(", ")}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+      {/* <Header /> */}
+      {/* <HeroSection /> */}
+      {/* <MovieSlider movies={movies} /> */}
+      {/* <Promotions /> */}
+      <BlogSection posts={posts} />
+      {/* <FAQSection /> */}
+      {/* <Footer /> */}
     </div>
   );
 }
+
+
+
+
+
+
