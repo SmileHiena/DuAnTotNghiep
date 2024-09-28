@@ -1,5 +1,4 @@
-const { MongoClient
-} = require('mongodb');
+const { MongoClient } = require('mongodb');
 // khai báo url
 const url = "mongodb://localhost:27017";
 // tên database
