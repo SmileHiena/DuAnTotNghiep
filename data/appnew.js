@@ -6,7 +6,7 @@ const data = {
   "Phim": [
     {
       "id": 1,
-      "name": "ĐỐ ANH CỒNG ĐƯỢC TÔI",
+      "Ten": "ĐỐ ANH CỒNG ĐƯỢC TÔI",
       "TheLoai": {
         "KieuPhim": "Hài, Hành Động",
         "ThoiLuong": "118'",
@@ -14,8 +14,8 @@ const data = {
         "NgonNgu": "Phụ Đề",
         "KhuyenCao": "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+)"
       },
-      "img": "Do-anh-cong-duoc-toi.jpg",
-      "id_DanhMuc": 4,
+      "Anh": "Do-anh-cong-duoc-toi.jpg",
+      "IdDanhMuc": 4,
       "TrangThai": "Đang Chiếu",
       "MoTa": {
         "DaoDien": "RYOO Seung-wan",
@@ -27,7 +27,7 @@ const data = {
 
     {
       "id": 2,
-      "name": "CÁM(T18)",
+      "Ten": "CÁM(T18)",
       "TheLoai": {
         "KieuPhim": "Kinh Dị",
         "ThoiLuong": "122'",
@@ -35,8 +35,8 @@ const data = {
         "NgonNgu": "VN",
         "KhuyenCao": "T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)"
       },
-      "img": "cam.jpg",
-      "id_DanhMuc": 2,
+      "Anh": "cam.jpg",
+      "IdDanhMuc": 2,
       "TrangThai": "Đang Chiếu",
       "MoTa": {
         "DaoDien": "Trần Hữu Tấn",
@@ -48,7 +48,7 @@ const data = {
 
     {
       "id": 3,
-      "name": "LÀM GIÀU VỚI MA (T16)",
+      "Ten": "LÀM GIÀU VỚI MA (T16)",
       "TheLoai": {
         "KieuPhim": "Hài, Tâm Lý",
         "ThoiLuong": "112'",
@@ -56,8 +56,8 @@ const data = {
         "NgonNgu": "VN",
         "KhuyenCao": "T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)"
       },
-      "img": "lam-giau-voi-ma.jpg",
-      "id_DanhMuc": 1,
+      "Anh": "lam-giau-voi-ma.jpg",
+      "IdDanhMuc": 1,
       "TrangThai": "Đang Chiếu",
       "MoTa": {
         "DaoDien": "Trung Lùn",
@@ -69,7 +69,7 @@ const data = {
 
     {
       "id": 4,
-      "name": "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
+      "Ten": "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
       "TheLoai": {
         "KieuPhim": "Anime",
         "ThoiLuong": "58'",
@@ -77,8 +77,8 @@ const data = {
         "NgonNgu": "Phụ Đề",
         "KhuyenCao": "T13: Phim dành cho khán giả từ đủ 13 tuổi trở lên (13+)"
       },
-      "img": "look-back.jpg",
-      "id_DanhMuc": 5,
+      "Anh": "look-back.jpg",
+      "IdDanhMuc": 5,
       "TrangThai": "Đang Chiếu",
       "MoTa": {
         "DaoDien": "Kiyotaka Oshiyama",
@@ -87,49 +87,68 @@ const data = {
       },
       "ThongTinPhim": "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt."
     },
-  ],
 
+    {
+      "id": 5,
+      "Ten": "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
+      "TheLoai": {
+        "KieuPhim": "Hài",
+        "ThoiLuong": "96'",
+        "QuocGia": "Hàn Quốc",
+        "NgonNgu": "Phụ Đề",
+        "KhuyenCao": "T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)"
+      },
+      "Anh": "anh-trai-vuot-moi-tam-tai.jpg",
+      "IdDanhMuc": 3,
+      "TrangThai": "Đang Chiếu",
+      "MoTa": {
+        "DaoDien": "Kim Jae-hoon",
+        "DienVien": "Park Sung-woong, Kwak Si-yang, Yoon Kyung-ho",
+        "NgayKhoiChieu": "Thứ Sáu, 13/09/2024"
+      },
+      "ThongTinPhim": "Cho Su-gwang là một thanh tra cực kỳ nóng tính, dù có tỷ lệ bắt giữ tội phạm ấn tượng nhưng anh luôn gặp khó khăn trong việc kiểm soát cơn giận của mình. Vì liên tục tấn công các nghi phạm, Cho Su-gwang bị chuyển đến đảo Jeju. Tại đây, vị thanh tra nhận nhiệm vụ truy bắt kẻ lừa đảo giỏi nhất Hàn Quốc - Kim In-hae với 7 tiền án, nổi tiếng thông minh và có khả năng “thiên biến vạn hoá” để ngụy trang hoàn hảo mọi nhân dạng. Cùng lúc đó, Kim In-hae bất ngờ dính vào vụ án mạng nghiêm trọng có liên quan đến tên trùm xã hội đen đang nhăm nhe “thôn tính” đảo Jeju. Trước tình hình nguy cấp phải “giải cứu” hòn đảo Jeju và triệt phá đường dây nguy hiểm của tên trùm xã hội đen, thanh tra Cho Su-gwang bất đắc dĩ phải hợp tác cùng nghi phạm Kim In-hae, tận dụng triệt để các kỹ năng từ phá án đến lừa đảo trên hành trình rượt đuổi vừa gay cấn vừa hài hước để có thể hoàn thành nhiệm vụ cam go."
+    },
+  ],
 
   "TheLoai": [
     {
       "id": 1,
-      "name": "Tình Cảm",
-      "img": "theloaitinhcam.jpg"
+      "Ten": "Tình Cảm",
+      "Anh": "theloaitinhcam.jpg"
     },
     {
       "id": 2,
-      "name": "Kinh Dị",
-      "img": "theloaikinhdi.jpg"
+      "Ten": "Kinh Dị",
+      "Anh": "theloaikinhdi.jpg"
     },
     {
       "id": 3,
-      "name": "Hài Hước",
-      "img": "theloaihaihuoc.jpg"
+      "Ten": "Hài Hước",
+      "Anh": "theloaihaihuoc.jpg"
     },
     {
       "id": 4,
-      "name": "Trinh Thám",
-      "img": "theloaitrinhtham.jpg"
+      "Ten": "Trinh Thám",
+      "Anh": "theloaitrinhtham.jpg"
     },
     {
       "id": 5,
-      "name": "Anime",
-      "img": "theloaianime.jpg"
+      "Ten": "Anime",
+      "Anh": "theloaianime.jpg"
     }
   ],
-
 
   "Rap": [
     {
       "id": 1,
-      "tên_rạp": "Rạp ScreenTime Quận 12",
-      "vị_trí": "Vincom Center, Quận 12, TP.HCM",
-      "phòng_chiếu": [
+      "TenRap": "Rạp ScreenTime Quận 12",
+      "ViTri": "Vincom Center, Quận 12, TP.HCM",
+      "PhongChieu": [
 
         //Phòng 1
         {
           "id": "screenId1",
-          "tên_phòng_chiếu": "Phòng chiếu 1",
+          "TenPhongChieu": "Phòng chiếu 1",
           "SoLuongGhe": 50,
           "Ghe": [
             // Hàng A
@@ -492,25 +511,25 @@ const data = {
               "TrangThai": "Còn Trống"
             }
           ],
-          "lịch_chiếu": [
+          "LichChieu": [
             {
               "IdSuatChieu": 1,
-              "giờ_chiếu": [
+              "GioChieu": [
                 {
                   "id": "showtimeId1",
-                  "giờ": "18:00",
+                  "Gio": "18:00",
                   "MaPhim": 1,
                   "TrangThai": "Đã đặt"
                 },
                 {
-                  "_id": "showtimeId2",
-                  "giờ": "20:00",
+                  "id": "showtimeId2",
+                  "Gio": "20:00",
                   "MaPhim": 2,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId3",
-                  "giờ": "22:00",
+                  "id": "showtimeId3",
+                  "Gio": "22:00",
                   "MaPhim": 3,
                   "TrangThai": "Chưa đặt"
                 }
@@ -522,7 +541,7 @@ const data = {
         //Phòng 2
         {
           "id": "screenId2",
-          "tên_phòng_chiếu": "Phòng chiếu 2",
+          "TenPhongChieu": "Phòng chiếu 2",
           "SoLuongGhe": 50,
           "Ghe": [
             // Hàng A
@@ -885,25 +904,25 @@ const data = {
               "TrangThai": "Còn Trống"
             }
           ],
-          "lịch_chiếu": [
+          "LichChieu": [
             {
               "IdSuatChieu": 1,
-              "giờ_chiếu": [
+              "GioChieu": [
                 {
                   "id": "showtimeId1",
-                  "giờ": "18:00",
+                  "Gio": "18:00",
                   "MaPhim": 1,
                   "TrangThai": "Đã đặt"
                 },
                 {
-                  "_id": "showtimeId2",
-                  "giờ": "20:00",
+                  "id": "showtimeId2",
+                  "Gio": "20:00",
                   "MaPhim": 2,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId3",
-                  "giờ": "22:00",
+                  "id": "showtimeId3",
+                  "Gio": "22:00",
                   "MaPhim": 3,
                   "TrangThai": "Chưa đặt"
                 }
@@ -915,7 +934,7 @@ const data = {
         //Phòng 3
         {
           "id": "screenId3",
-          "tên_phòng_chiếu": "Phòng chiếu 3",
+          "TenPhongChieu": "Phòng chiếu 3",
           "SoLuongGhe": 50,
           "Ghe": [
             // Hàng A
@@ -1278,26 +1297,26 @@ const data = {
               "TrangThai": "Còn Trống"
             }
           ],
-          "lịch_chiếu": [
+          "LichChieu": [
             {
               "IdSuatChieu": 2,
-              "giờ_chiếu": [
+              "GioChieu": [
                 {
                   "id": "showtimeId1",
-                  "giờ": "18:00",
+                  "Gio": "18:00",
                   "MaPhim": 1,
                   "TrangThai": "Chưa đặt"
 
                 },
                 {
-                  "_id": "showtimeId2",
-                  "giờ": "20:00",
+                  "id": "showtimeId2",
+                  "Gio": "20:00",
                   "MaPhim": 2,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId3",
-                  "giờ": "22:00",
+                  "id": "showtimeId3",
+                  "Gio": "22:00",
                   "MaPhim": 3,
                   "TrangThai": "Chưa đặt"
                 }
@@ -1309,7 +1328,7 @@ const data = {
         //Phòng 4
         {
           "id": "screenId4",
-          "tên_phòng_chiếu": "Phòng chiếu 4",
+          "TenPhongChieu": "Phòng chiếu 4",
           "SoLuongGhe": 50,
           "Ghe": [
             // Hàng A
@@ -1672,25 +1691,25 @@ const data = {
               "TrangThai": "Còn Trống"
             }
           ],
-          "lịch_chiếu": [
+          "LichChieu": [
             {
               "IdSuatChieu": 2,
-              "giờ_chiếu": [
+              "GioChieu": [
                 {
                   "id": "showtimeId1",
-                  "giờ": "18:00",
+                  "Gio": "18:00",
                   "MaPhim": 1,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId2",
-                  "giờ": "20:00",
+                  "id": "showtimeId2",
+                  "Gio": "20:00",
                   "MaPhim": 2,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId3",
-                  "giờ": "22:00",
+                  "id": "showtimeId3",
+                  "Gio": "22:00",
                   "MaPhim": 3,
                   "TrangThai": "Chưa đặt"
                 }
@@ -1702,7 +1721,7 @@ const data = {
         //Phòng 5
         {
           "id": "screenId5",
-          "tên_phòng_chiếu": "Phòng chiếu 5",
+          "TenPhongChieu": "Phòng chiếu 5",
           "SoLuongGhe": 50,
           "Ghe": [
             // Hàng A
@@ -2065,25 +2084,25 @@ const data = {
               "TrangThai": "Còn Trống"
             }
           ],
-          "lịch_chiếu": [
+          "LichChieu": [
             {
               "IdSuatChieu": 3,
-              "giờ_chiếu": [
+              "GioChieu": [
                 {
                   "id": "showtimeId1",
-                  "giờ": "18:00",
+                  "Gio": "18:00",
                   "MaPhim": 1,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId2",
-                  "giờ": "20:00",
+                  "id": "showtimeId2",
+                  "Gio": "20:00",
                   "MaPhim": 2,
                   "TrangThai": "Chưa đặt"
                 },
                 {
-                  "_id": "showtimeId3",
-                  "giờ": "22:00",
+                  "id": "showtimeId3",
+                  "Gio": "22:00",
                   "MaPhim": 3,
                   "TrangThai": "Chưa đặt"
                 }
@@ -2101,24 +2120,24 @@ const data = {
   "SuatChieu": [
     {
       "id": 1,
-      "thời_gian": "Thứ Năm",
-      "ngày_chiếu": "26/09",
+      "ThoiGian": "Thứ Năm",
+      "NgayChieu": "26/09",
       "MaPhim": 1,
       "MaVe": 1,
     },
 
     {
       "id": 2,
-      "thời_gian": "Thứ Sáu",
-      "ngày_chiếu": "27/09",
+      "ThoiGian": "Thứ Sáu",
+      "NgayChieu": "27/09",
       "MaPhim": 1,
       "MaVe": 1,
     },
 
     {
       "id": 3,
-      "thời_gian": "Thứ Bảy",
-      "ngày_chiếu": "28/09",
+      "ThoiGian": "Thứ Bảy",
+      "NgayChieu": "28/09",
       "MaPhim": 1,
       "MaVe": 1,
     },
@@ -2186,63 +2205,63 @@ const data = {
   "Combo": [
     {
       "id": 1,
-      "img": "combo1.jpg",
+      "Anh": "combo1.jpg",
       "TenCombo": "COMBO PARYPARY",
       "NoiDung": "2 Bắp Ngọt 60oz + 4 Coke 22oz",
       "Gia": 209000
     },
     {
       "id": 2,
-      "img": "combo2.jpg",
+      "Anh": "combo2.jpg",
       "TenCombo": "COMBO SOLO",
       "NoiDung": "1 Bắp Ngọt 60oz + 1 Coke 32oz",
       "Gia": 94000
     },
     {
       "id": 3,
-      "img": "combo3.jpg",
+      "Anh": "combo3.jpg",
       "TenCombo": "COMBO COUPLE",
       "NoiDung": "1 Bắp Ngọt 60oz + 2 Coke 32oz",
       "Gia": 115000
     },
     {
       "id": 4,
-      "img": "combo4.jpg",
+      "Anh": "combo4.jpg",
       "TenCombo": "NƯỚC SUỐI DASANI",
       "NoiDung": "500/510ML",
       "Gia": 20000
     },
     {
       "id": 5,
-      "img": "combo5.jpg",
+      "Anh": "combo5.jpg",
       "TenCombo": "NƯỚC TRÁI CÂY NUTRIBOOST",
       "NoiDung": "",
       "Gia": 28000
     },
     {
       "id": 6,
-      "img": "combo6.jpg",
+      "Anh": "combo6.jpg",
       "TenCombo": "NƯỚC CAM TEPPY",
       "NoiDung": "",
       "Gia": 28000
     },
     {
       "id": 7,
-      "img": "combo7.jpg",
+      "Anh": "combo7.jpg",
       "TenCombo": "FANTA",
       "NoiDung": "",
       "Gia": 37000
     },
     {
       "id": 8,
-      "img": "combo8.jpg",
+      "Anh": "combo8.jpg",
       "TenCombo": "SPRITE",
       "NoiDung": "",
       "Gia": 37000
     },
     {
       "id": 9,
-      "img": "combo9.jpg",
+      "Anh": "combo9.jpg",
       "TenCombo": "COCACOLA",
       "NoiDung": "",
       "Gia": 37000
@@ -2256,9 +2275,44 @@ const data = {
       "id": 1,
       "TenDangNhap": "NguyenThaiSon",
       "MatKhau": "12345678",
-      "LoaiTaiKhoang": "",
+      "LoaiTaiKhoang": 0,
+
+
+
+      // "LichSuMuaVe": [
+      //   {
+      //     "id"
+      //   }
+      // ],
+
+
+
+
+      //NOTE 
+      "LichSuBinhLuan": ""
+      //NOTE
+
+
+
+
+    },
+
+    {
+      "id": 2,
+      "TenDangNhap": "NguyenThaiSon",
+      "MatKhau": "12345678",
+      //1 admin, 0 nhan vien, 3 khách hàng
+      "LoaiTaiKhoang": 1,
       "LichSuMuaVe": "26-09-2024",
-      "LichSuBinhLuan": "30-09-2024"
+
+
+
+      //NOTE 
+      "LichSuBinhLuan": ""
+      //NOTE
+
+
+
     }
   ],
 
@@ -2298,6 +2352,7 @@ const data = {
   "KhuyenMai": [
     {
       "id": 1,
+      "Anh": "url_even",
       "NoiDungKhuyenMai": "Sự Kiện Tháng 10, Giảm giá khi mua vé xem phim tại rạp.",
       "ThoiGianBatDau": "10-10-2024",
       "ThoiGianKetThuc": "15-09-2024",
@@ -2321,20 +2376,113 @@ const data = {
       "TenDangNhap": "Toandev",
       "MatKhau": "12345678nv",
     }
+  ],
+  "Sukien": [
+    {
+      "id": 1,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    },
+    {
+      "id": 2,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 3,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 4,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 5,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 6,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 7,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 8,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 9,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 10,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 11,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }, {
+      "id": 12,
+      "Ten": "Mua vé xem phim",
+      "Anh": "./public/images/theloai/theloaianime.jpg",
+      "Noidung": "12345678qt",
+    }
   ]
 
 };
 
 
+async function main() {
+  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+  const db = client.db(dbName);
 
+  const collections = [
+    { name: 'phim', data: data.Phim },
+    { name: 'theloai', data: data.TheLoai },
+    { name: 'rap', data: data.Rap },
+    { name: 'suatchieu', data: data.SuatChieu },
+    { name: 'loaive', data: data.LoaiVe },
+    { name: 'hoadon', data: data.HoaDon },
+    { name: 'taikhoan', data: data.TaiKhoan },
+    { name: 'binhluan', data: data.BinhLuan },
+    { name: 'hotro', data: data.HoTro },
+    { name: 'khuyenmai', data: data.KhuyenMai },
+    { name: 'sukien', data: data.Sukien }
+  ];
 
+  for (const { name, data } of collections) {
+    await insertData(db, name, data);
+    const results = await db.collection(name).find().toArray();
+    console.log(`${name.charAt(0).toUpperCase() + name.slice(1)}:`, results);
+  }
 
-// Viết data: 1 là tiếng việt, 2 là tiếng anh hẳn, chẳng ai 1 nữa 1 nữa đâu
-//  đặt key mà có dấu?
-//  lấy hình ảnh vui lòng lấy ảnh không có logo hay bản quyền của web khác 
-//  hàm đóng lại đâu của cái đóng phía dưới đâu
-// const MongoClient = require('mongodb').MongoClient;
-// const url = 'mongodb://localhost:27017';
-// const dbName = 'Ticker_Movie';
+  client.close();
+}
 
-// const data = {
+async function insertData(db, collectionName, data) {
+  const collection = db.collection(collectionName);
+
+  // Drop the collection if it already exists
+  await collection.drop().catch(err => {
+    if (err.codeName !== 'NamespaceNotFound') {
+      throw err;
+    }
+  });
+
+  await collection.insertMany(data);
+}
+
+main().catch(console.error);
