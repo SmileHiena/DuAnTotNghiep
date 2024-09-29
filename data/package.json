@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "start": "nodemon ./bin/www",
     "dev": "nodemon ./bin/www"
+=======
+    "start": "nodemon ./bin/www"
+>>>>>>> c1cce5fc4a55249f746d807c15185d63113be964
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
