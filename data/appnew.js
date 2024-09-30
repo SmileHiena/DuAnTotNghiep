@@ -2165,6 +2165,71 @@ const data = {
     ],
 
 
+    "Sukien": [
+      {
+        "id": 1,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      },
+      {
+        "id": 2,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 3,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 4,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 5,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 6,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 7,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 8,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 9,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 10,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 11,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }, {
+        "id": 12,
+        "Ten": "Mua vé xem phim",
+        "Anh": "./public/images/theloai/theloaianime.jpg",
+        "Noidung": "12345678qt",
+      }
+    ],
+
 // ----- GHẾ -----
     // "Ghế": [
     //     {
@@ -2397,6 +2462,7 @@ const data = {
       await insertData(db, 'binhluan', data.BinhLuan);
       await insertData(db, 'hotro', data.HoTro);
       await insertData(db, 'khuyenmai', data.KhuyenMai);
+      await insertData(db, 'Sukien', data.Sukien);
   
       const phim = await db.collection('phim').find().toArray();
       const theloai = await db.collection('theloai').find().toArray();
@@ -2408,6 +2474,7 @@ const data = {
       const binhluan = await db.collection('binhluan').find().toArray();
       const hotro = await db.collection('hotro').find().toArray();
       const khuyenmai = await db.collection('khuyenmai').find().toArray();
+      const Sukien = await db.collection('Sukien').find().toArray();
   
       console.log('Phim:', phim);
       console.log('Thể Loại', theloai);
@@ -2419,7 +2486,7 @@ const data = {
       console.log('Bình Luận:', binhluan);
       console.log('Hỗ Trợ:', hotro);
       console.log('Khuyến Mãi:', khuyenmai);
-  
+      console.log('Su kien:', Sukien);
       client.close();
   }
   

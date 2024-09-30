@@ -34,44 +34,6 @@ function generateToken() {
 }
 
 router.get('/', async (req, res, next) => {
-  res.render('api');
-});
-
-
-// Lấy sản phẩm hot
-router.get('/products/hot', async (req, res, next) => {
-  try {
-    const db = await connectDb();
-    const productCollection = db.collection('products');
-    const hotProducts = await productCollection.find({ hot: 1 }).toArray();
-    if (hotProducts.length > 0) {
-      res.status(200).json(hotProducts);
-    } else {
-      res.status(404).json({ message: "Không tìm thấy sản phẩm nào được đánh dấu là hot" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi server", error });
-  }
-});
-
-// Lấy sản phẩm bestsale
-router.get('/products/bestsale', async (req, res, next) => {
-  try {
-    const db = await connectDb();
-    const productCollection = db.collection('products');
-    const bestsaleProducts = await productCollection.find({ bestsale: 1 }).toArray();
-    if (bestsaleProducts.length > 0) {
-      res.status(200).json(bestsaleProducts);
-    } else {
-      res.status(404).json({ message: "Không tìm thấy sản phẩm nào được đánh dấu là bestsale" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi server", error });
-  }
-});
-
-//Trả về json danh sách sản phẩm
-router.get('/phim', async (req, res, next) => {
   const db = await connectDb();
   const productCollection = db.collection('phim');
   const phim = await productCollection.find().toArray();
@@ -84,5 +46,19 @@ router.get('/phim', async (req, res, next) => {
 
 
 
-module.exports = router;
 
+// //Trả về json danh sách sản phẩm
+// router.get('/api/Movie', async (req, res, next) => {
+//   const db = await connectDb();
+//   const productCollection = db.collection('phim');
+//   const phim = await productCollection.find().toArray();
+//   if (phim) {
+//     res.status(200).json(phim);
+//   } else {
+//     res.status(404).json({ message: 'Not found' });
+//   }
+// });
+
+
+
+module.exports = router;
