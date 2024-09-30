@@ -2350,65 +2350,75 @@ const data = {
   "Sukien": [
     {
       "id": 1,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
+      "Ten": "Mua vé phim Bố Già",
+      "Anh": "./public/images/sukien/bo_gia.jpg",
+      "Noidung": "Mua vé xem phim Bố Già - Bộ phim tình cảm gia đình đầy cảm xúc với diễn xuất đỉnh cao của Trấn Thành.",
     },
     {
       "id": 2,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Hai Phượng",
+      "Anh": "./public/images/sukien/hai_phuong.jpg",
+      "Noidung": "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính.",
+    },
+    {
       "id": 3,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Mắt Biếc",
+      "Anh": "./public/images/sukien/mat_biec.jpg",
+      "Noidung": "Xem ngay bộ phim Mắt Biếc, câu chuyện tình yêu lãng mạn chuyển thể từ tiểu thuyết nổi tiếng của Nguyễn Nhật Ánh.",
+    },
+    {
       "id": 4,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Lật Mặt: 48H",
+      "Anh": "./public/images/sukien/lat_mat_48h.jpg",
+      "Noidung": "Đừng bỏ lỡ Lật Mặt: 48H - Bộ phim hành động, hài hước đầy kịch tính của Lý Hải.",
+    },
+    {
       "id": 5,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Ròm",
+      "Anh": "./public/images/sukien/rom.jpg",
+      "Noidung": "Thưởng thức Ròm, bộ phim phản ánh hiện thực xã hội với giải thưởng quốc tế danh giá.",
+    },
+    {
       "id": 6,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Tiệc Trăng Máu",
+      "Anh": "./public/images/sukien/tiec_trang_mau.jpg",
+      "Noidung": "Tiệc Trăng Máu - Phim tâm lý hài kịch với sự tham gia của dàn diễn viên đình đám Việt Nam.",
+    },
+    {
       "id": 7,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Cua Lại Vợ Bầu",
+      "Anh": "./public/images/sukien/cua_lai_vo_bau.jpg",
+      "Noidung": "Cua Lại Vợ Bầu - Bộ phim hài lãng mạn về tình yêu và gia đình không thể bỏ lỡ.",
+    },
+    {
       "id": 8,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Đôi Mắt Âm Dương",
+      "Anh": "./public/images/sukien/doi_mat_am_duong.jpg",
+      "Noidung": "Đôi Mắt Âm Dương - Bộ phim kinh dị Việt Nam khiến khán giả không thể rời mắt.",
+    },
+    {
       "id": 9,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Em Chưa 18",
+      "Anh": "./public/images/sukien/em_chua_18.jpg",
+      "Noidung": "Xem ngay Em Chưa 18 - Bộ phim tình cảm hài hước đã làm mưa làm gió tại các rạp phim Việt Nam.",
+    },
+    {
       "id": 10,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Song Lang",
+      "Anh": "./public/images/sukien/song_lang.jpg",
+      "Noidung": "Song Lang - Bộ phim nghệ thuật về tình yêu và cải lương, đầy cảm xúc và ấn tượng.",
+    },
+    {
       "id": 11,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
-    }, {
+      "Ten": "Mua vé phim Trạng Quỳnh",
+      "Anh": "./public/images/sukien/trang_quynh.jpg",
+      "Noidung": "Trạng Quỳnh - Bộ phim hài cổ trang mang đậm văn hóa Việt với những tình huống dở khóc dở cười.",
+    },
+    {
       "id": 12,
-      "Ten": "Mua vé xem phim",
-      "Anh": "./public/images/theloai/theloaianime.jpg",
-      "Noidung": "12345678qt",
+      "Ten": "Mua vé phim Tháng Năm Rực Rỡ",
+      "Anh": "./public/images/sukien/thang_nam_ruc_ro.jpg",
+      "Noidung": "Tháng Năm Rực Rỡ - Bộ phim về tình bạn tuổi thanh xuân đầy hoài niệm và cảm xúc.",
     }
   ]
 
