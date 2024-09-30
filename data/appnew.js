@@ -113,28 +113,23 @@ const data = {
   "TheLoai": [
     {
       "id": 1,
-      "Ten": "Tình Cảm",
-      "Anh": "theloaitinhcam.jpg"
+      "Ten": "Tình Cảm"
     },
     {
       "id": 2,
-      "Ten": "Kinh Dị",
-      "Anh": "theloaikinhdi.jpg"
+      "Ten": "Kinh Dị"
     },
     {
       "id": 3,
-      "Ten": "Hài Hước",
-      "Anh": "theloaihaihuoc.jpg"
+      "Ten": "Hài Hước"
     },
     {
       "id": 4,
-      "Ten": "Trinh Thám",
-      "Anh": "theloaitrinhtham.jpg"
+      "Ten": "Trinh Thám"
     },
     {
       "id": 5,
-      "Ten": "Anime",
-      "Anh": "theloaianime.jpg"
+      "Ten": "Anime"
     }
   ],
 
@@ -2316,22 +2311,6 @@ const data = {
     },
   ],
 
-
-
-  // ----- KHUYẾN_MÃI_SỰ_KIỆN -----
-  "KhuyenMai": [
-    {
-      "id": 1,
-      "Anh": "url_even",
-      "NoiDungKhuyenMai": "Sự Kiện Tháng 10, Giảm giá khi mua vé xem phim tại rạp.",
-      "ThoiGianBatDau": "10-10-2024",
-      "ThoiGianKetThuc": "15-09-2024",
-      "IdPhim": 1,
-    }
-  ],
-
-
-
   // ----- ADMIN -----
   "Admin": [
     {
@@ -2347,83 +2326,121 @@ const data = {
       "MatKhau": "12345678nv",
     }
   ],
+
+  // ------ Sukien ---- //
   "Sukien": [
-    {
-      "id": 1,
-      "Ten": "Mua vé phim Bố Già",
-      "Anh": "./public/images/sukien/bo_gia.jpg",
-      "Noidung": "Mua vé xem phim Bố Già - Bộ phim tình cảm gia đình đầy cảm xúc với diễn xuất đỉnh cao của Trấn Thành.",
-    },
-    {
-      "id": 2,
-      "Ten": "Mua vé phim Hai Phượng",
-      "Anh": "./public/images/sukien/hai_phuong.jpg",
-      "Noidung": "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính.",
-    },
-    {
-      "id": 3,
-      "Ten": "Mua vé phim Mắt Biếc",
-      "Anh": "./public/images/sukien/mat_biec.jpg",
-      "Noidung": "Xem ngay bộ phim Mắt Biếc, câu chuyện tình yêu lãng mạn chuyển thể từ tiểu thuyết nổi tiếng của Nguyễn Nhật Ánh.",
-    },
-    {
-      "id": 4,
-      "Ten": "Mua vé phim Lật Mặt: 48H",
-      "Anh": "./public/images/sukien/lat_mat_48h.jpg",
-      "Noidung": "Đừng bỏ lỡ Lật Mặt: 48H - Bộ phim hành động, hài hước đầy kịch tính của Lý Hải.",
-    },
-    {
-      "id": 5,
-      "Ten": "Mua vé phim Ròm",
-      "Anh": "./public/images/sukien/rom.jpg",
-      "Noidung": "Thưởng thức Ròm, bộ phim phản ánh hiện thực xã hội với giải thưởng quốc tế danh giá.",
-    },
-    {
-      "id": 6,
-      "Ten": "Mua vé phim Tiệc Trăng Máu",
-      "Anh": "./public/images/sukien/tiec_trang_mau.jpg",
-      "Noidung": "Tiệc Trăng Máu - Phim tâm lý hài kịch với sự tham gia của dàn diễn viên đình đám Việt Nam.",
-    },
-    {
-      "id": 7,
-      "Ten": "Mua vé phim Cua Lại Vợ Bầu",
-      "Anh": "./public/images/sukien/cua_lai_vo_bau.jpg",
-      "Noidung": "Cua Lại Vợ Bầu - Bộ phim hài lãng mạn về tình yêu và gia đình không thể bỏ lỡ.",
-    },
-    {
-      "id": 8,
-      "Ten": "Mua vé phim Đôi Mắt Âm Dương",
-      "Anh": "./public/images/sukien/doi_mat_am_duong.jpg",
-      "Noidung": "Đôi Mắt Âm Dương - Bộ phim kinh dị Việt Nam khiến khán giả không thể rời mắt.",
-    },
-    {
-      "id": 9,
-      "Ten": "Mua vé phim Em Chưa 18",
-      "Anh": "./public/images/sukien/em_chua_18.jpg",
-      "Noidung": "Xem ngay Em Chưa 18 - Bộ phim tình cảm hài hước đã làm mưa làm gió tại các rạp phim Việt Nam.",
-    },
-    {
-      "id": 10,
-      "Ten": "Mua vé phim Song Lang",
-      "Anh": "./public/images/sukien/song_lang.jpg",
-      "Noidung": "Song Lang - Bộ phim nghệ thuật về tình yêu và cải lương, đầy cảm xúc và ấn tượng.",
-    },
-    {
-      "id": 11,
-      "Ten": "Mua vé phim Trạng Quỳnh",
-      "Anh": "./public/images/sukien/trang_quynh.jpg",
-      "Noidung": "Trạng Quỳnh - Bộ phim hài cổ trang mang đậm văn hóa Việt với những tình huống dở khóc dở cười.",
-    },
-    {
-      "id": 12,
-      "Ten": "Mua vé phim Tháng Năm Rực Rỡ",
-      "Anh": "./public/images/sukien/thang_nam_ruc_ro.jpg",
-      "Noidung": "Tháng Năm Rực Rỡ - Bộ phim về tình bạn tuổi thanh xuân đầy hoài niệm và cảm xúc.",
-    }
-  ]
+  {
+    "id": 1,
+    "idPhim": "P001",
+    "Ten": "Mua vé phim Bố Già",
+    "Anh": "./public/images/sukien/bo_gia.jpg",
+    "Noidung": "Mua vé xem phim Bố Già - Bộ phim tình cảm gia đình đầy cảm xúc với diễn xuất đỉnh cao của Trấn Thành.",
+    "NgayBatDau": "01-10-2024",
+    "NgayKetThuc": "01-11-2024"
+  },
+  {
+    "id": 2,
+    "idPhim": "P002",
+    "Ten": "Mua vé phim Hai Phượng",
+    "Anh": "./public/images/sukien/hai_phuong.jpg",
+    "Noidung": "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính.",
+    "NgayBatDau": "05-10-2024",
+    "NgayKetThuc": "05-11-2024"
+  },
+  {
+    "id": 3,
+    "idPhim": "P003",
+    "Ten": "Mua vé phim Mắt Biếc",
+    "Anh": "./public/images/sukien/mat_biec.jpg",
+    "Noidung": "Xem ngay bộ phim Mắt Biếc, câu chuyện tình yêu lãng mạn chuyển thể từ tiểu thuyết nổi tiếng của Nguyễn Nhật Ánh.",
+    "NgayBatDau": "10-10-2024",
+    "NgayKetThuc": "10-11-2024"
+  },
+  {
+    "id": 4,
+    "idPhim": "P004",
+    "Ten": "Mua vé phim Lật Mặt: 48H",
+    "Anh": "./public/images/sukien/lat_mat_48h.jpg",
+    "Noidung": "Đừng bỏ lỡ Lật Mặt: 48H - Bộ phim hành động, hài hước đầy kịch tính của Lý Hải.",
+    "NgayBatDau": "15-10-2024",
+    "NgayKetThuc": "15-11-2024"
+  },
+  {
+    "id": 5,
+    "idPhim": "P005",
+    "Ten": "Mua vé phim Ròm",
+    "Anh": "./public/images/sukien/rom.jpg",
+    "Noidung": "Thưởng thức Ròm, bộ phim phản ánh hiện thực xã hội với giải thưởng quốc tế danh giá.",
+    "NgayBatDau": "20-10-2024",
+    "NgayKetThuc": "20-11-2024"
+  },
+  {
+    "id": 6,
+    "idPhim": "P006",
+    "Ten": "Mua vé phim Tiệc Trăng Máu",
+    "Anh": "./public/images/sukien/tiec_trang_mau.jpg",
+    "Noidung": "Tiệc Trăng Máu - Phim tâm lý hài kịch với sự tham gia của dàn diễn viên đình đám Việt Nam.",
+    "NgayBatDau": "25-10-2024",
+    "NgayKetThuc": "25-11-2024"
+  },
+  {
+    "id": 7,
+    "idPhim": "P007",
+    "Ten": "Mua vé phim Cua Lại Vợ Bầu",
+    "Anh": "./public/images/sukien/cua_lai_vo_bau.jpg",
+    "Noidung": "Cua Lại Vợ Bầu - Bộ phim hài lãng mạn về tình yêu và gia đình không thể bỏ lỡ.",
+    "NgayBatDau": "01-11-2024",
+    "NgayKetThuc": "01-12-2024"
+  },
+  {
+    "id": 8,
+    "idPhim": "P008",
+    "Ten": "Mua vé phim Đôi Mắt Âm Dương",
+    "Anh": "./public/images/sukien/doi_mat_am_duong.jpg",
+    "Noidung": "Đôi Mắt Âm Dương - Bộ phim kinh dị Việt Nam khiến khán giả không thể rời mắt.",
+    "NgayBatDau": "05-11-2024",
+    "NgayKetThuc": "05-12-2024"
+  },
+  {
+    "id": 9,
+    "idPhim": "P009",
+    "Ten": "Mua vé phim Em Chưa 18",
+    "Anh": "./public/images/sukien/em_chua_18.jpg",
+    "Noidung": "Xem ngay Em Chưa 18 - Bộ phim tình cảm hài hước đã làm mưa làm gió tại các rạp phim Việt Nam.",
+    "NgayBatDau": "10-11-2024",
+    "NgayKetThuc": "10-12-2024"
+  },
+  {
+    "id": 10,
+    "idPhim": "P010",
+    "Ten": "Mua vé phim Song Lang",
+    "Anh": "./public/images/sukien/song_lang.jpg",
+    "Noidung": "Song Lang - Bộ phim nghệ thuật về tình yêu và cải lương, đầy cảm xúc và ấn tượng.",
+    "NgayBatDau": "15-11-2024",
+    "NgayKetThuc": "15-12-2024"
+  },
+  {
+    "id": 11,
+    "idPhim": "P011",
+    "Ten": "Mua vé phim Trạng Quỳnh",
+    "Anh": "./public/images/sukien/trang_quynh.jpg",
+    "Noidung": "Trạng Quỳnh - Bộ phim hài cổ trang mang đậm văn hóa Việt với những tình huống dở khóc dở cười.",
+    "NgayBatDau": "20-11-2024",
+    "NgayKetThuc": "20-12-2024"
+  },
+  {
+    "id": 12,
+    "idPhim": "P012",
+    "Ten": "Mua vé phim Tháng Năm Rực Rỡ",
+    "Anh": "./public/images/sukien/thang_nam_ruc_ro.jpg",
+    "Noidung": "Tháng Năm Rực Rỡ - Bộ phim về tình bạn tuổi thanh xuân đầy hoài niệm và cảm xúc.",
+    "NgayBatDau": "25-11-2024",
+    "NgayKetThuc": "25-12-2024"
+  }
+]
+
 
 };
-
 
 async function main() {
   const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -2439,14 +2456,11 @@ async function main() {
     { name: 'taikhoan', data: data.TaiKhoan },
     { name: 'binhluan', data: data.BinhLuan },
     { name: 'hotro', data: data.HoTro },
-    { name: 'khuyenmai', data: data.KhuyenMai },
     { name: 'sukien', data: data.Sukien }
   ];
 
   for (const { name, data } of collections) {
     await insertData(db, name, data);
-    const results = await db.collection(name).find().toArray();
-    console.log(`${name.charAt(0).toUpperCase() + name.slice(1)}:`, results);
   }
 
   client.close();
@@ -2455,14 +2469,12 @@ async function main() {
 async function insertData(db, collectionName, data) {
   const collection = db.collection(collectionName);
 
-  // Drop the collection if it already exists
-  await collection.drop().catch(err => {
-    if (err.codeName !== 'NamespaceNotFound') {
-      throw err;
-    }
-  });
-
-  await collection.insertMany(data);
+  // Drop collection nếu tồn tại
+  await collection.drop().catch(() => {});
+  
+  if (data && data.length) {
+    await collection.insertMany(data);
+  }
 }
 
 main().catch(console.error);

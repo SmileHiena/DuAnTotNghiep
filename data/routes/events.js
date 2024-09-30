@@ -26,7 +26,7 @@ function checkFileUpload(req, file, cb) {
 let upload = multer({ storage: storage, fileFilter: checkFileUpload });
 
 // API lấy danh sách sự kiện
-router.get('/event', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const db = await connectDb();
     const eventCollection = db.collection('sukien');
@@ -43,19 +43,27 @@ router.get('/event', async (req, res) => {
 });
 
 // API thêm sự kiện (với upload ảnh)
-router.post('/event', upload.single('Anh'), async (req, res) => {
+router.post('/addevent', upload.single('Anh'), async (req, res) => {
   try {
-    const { Ten, Noidung } = req.body;
+    const { Ten, Noidung, idPhim, NgayBatDau, NgayKetThuc } = req.body;
     const Anh = req.file ? req.file.path : null;
 
-    if (!Ten || !Noidung || !Anh) {
+    if (!Ten || !Noidung || !idPhim || !NgayBatDau || !NgayKetThuc || !Anh) {
       return res.status(400).json({ message: 'Thiếu thông tin cần thiết' });
     }
 
     const db = await connectDb();
     const eventCollection = db.collection('sukien');
 
-    const newEvent = { Ten, Noidung, Anh };
+    const newEvent = {
+      Ten,
+      Noidung,
+      idPhim,
+      NgayBatDau,
+      NgayKetThuc,
+      Anh
+    };
+
     await eventCollection.insertOne(newEvent);
 
     res.status(201).json({ message: 'Thêm sự kiện thành công', newEvent });
@@ -64,8 +72,46 @@ router.post('/event', upload.single('Anh'), async (req, res) => {
   }
 });
 
+// API sửa sự kiện theo ID
+router.put('/editevent/:id', upload.single('Anh'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { Ten, Noidung, idPhim, NgayBatDau, NgayKetThuc } = req.body;
+    const Anh = req.file ? req.file.path : null;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID không hợp lệ' });
+    }
+
+    const db = await connectDb();
+    const eventCollection = db.collection('sukien');
+
+    const updatedEvent = {
+      Ten,
+      Noidung,
+      idPhim,
+      NgayBatDau,
+      NgayKetThuc,
+      ...(Anh && { Anh }) // Chỉ cập nhật ảnh nếu có
+    };
+
+    const result = await eventCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedEvent }
+    );
+
+    if (result.matchedCount === 1) {
+      res.status(200).json({ message: 'Cập nhật sự kiện thành công' });
+    } else {
+      res.status(404).json({ message: 'Không tìm thấy sự kiện' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error });
+  }
+});
+
 // API xóa sự kiện theo ID
-router.delete('/event/:id', async (req, res) => {
+router.delete('/deleteevent/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
