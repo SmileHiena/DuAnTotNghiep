@@ -42,8 +42,35 @@ router.get('/', async (req, res) => {
   }
 });
 
+// API lấy sự kiện theo _ID
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Kiểm tra tính hợp lệ của ID
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID không hợp lệ' });
+    }
+
+    const db = await connectDb();
+    const eventCollection = db.collection('sukien');
+
+    // Tìm sự kiện theo _id
+    const event = await eventCollection.findOne({ _id: new ObjectId(id) });
+
+    if (event) {
+      res.status(200).json(event);
+    } else {
+      res.status(404).json({ message: 'Không tìm thấy sự kiện' });
+    }
+  } catch (error) {
+    console.error('Lỗi khi lấy sự kiện:', error); // Ghi lại lỗi ra console
+    res.status(500).json({ message: 'Lỗi server', error });
+  }
+});
+
 // API thêm sự kiện (với upload ảnh)
-router.post('/addevent', upload.single('Anh'), async (req, res) => {
+router.post('/add', upload.single('Anh'), async (req, res) => {
   try {
     const { Ten, Noidung, idPhim, NgayBatDau, NgayKetThuc } = req.body;
     const Anh = req.file ? req.file.path : null;
@@ -55,7 +82,12 @@ router.post('/addevent', upload.single('Anh'), async (req, res) => {
     const db = await connectDb();
     const eventCollection = db.collection('sukien');
 
+    // Lấy sự kiện cuối cùng để tự động tăng ID
+    const lastEvent = await eventCollection.find({}).sort({ id: -1 }).limit(1).toArray();
+    let id = lastEvent.length > 0 ? lastEvent[0].id + 1 : 1;
+
     const newEvent = {
+      id, 
       Ten,
       Noidung,
       idPhim,
@@ -72,13 +104,14 @@ router.post('/addevent', upload.single('Anh'), async (req, res) => {
   }
 });
 
-// API sửa sự kiện theo ID
-router.put('/editevent/:id', upload.single('Anh'), async (req, res) => {
+// API sửa sự kiện theo _ID
+router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
   try {
     const { id } = req.params;
     const { Ten, Noidung, idPhim, NgayBatDau, NgayKetThuc } = req.body;
     const Anh = req.file ? req.file.path : null;
 
+    // Kiểm tra tính hợp lệ của ID
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'ID không hợp lệ' });
     }
@@ -92,7 +125,7 @@ router.put('/editevent/:id', upload.single('Anh'), async (req, res) => {
       idPhim,
       NgayBatDau,
       NgayKetThuc,
-      ...(Anh && { Anh }) // Chỉ cập nhật ảnh nếu có
+      ...(Anh && { Anh }) 
     };
 
     const result = await eventCollection.updateOne(
@@ -110,11 +143,12 @@ router.put('/editevent/:id', upload.single('Anh'), async (req, res) => {
   }
 });
 
-// API xóa sự kiện theo ID
-router.delete('/deleteevent/:id', async (req, res) => {
+// API xóa sự kiện theo _ID
+router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Kiểm tra tính hợp lệ của ID
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'ID không hợp lệ' });
     }
@@ -122,7 +156,7 @@ router.delete('/deleteevent/:id', async (req, res) => {
     const db = await connectDb();
     const eventCollection = db.collection('sukien');
 
-    const result = await eventCollection.deleteOne({ _id: new ObjectId(id) });
+    const result = await eventCollection.deleteOne({ _id: new ObjectId(id) }); 
 
     if (result.deletedCount === 1) {
       res.status(200).json({ message: 'Xóa sự kiện thành công' });
