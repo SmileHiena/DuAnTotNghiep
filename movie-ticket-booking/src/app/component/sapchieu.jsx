@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'; // Import đúng icon
-import '../styles/DangChieu.css'; // Đảm bảo file CSS đã được cấu hình đúng
+// import '../styles/DangChieu.css'; // Đảm bảo file CSS đã được cấu hình đúng
 
 const PhimDangChieu = () => {
     const movies = [

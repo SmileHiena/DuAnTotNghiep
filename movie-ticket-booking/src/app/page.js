@@ -6,10 +6,12 @@ import React from 'react';
 // import BlogSection from './component/blog';
 // import FAQSection from './component/FAQ';
 import Event from './component/event';
+import PhimDangChieu from './component/sapchieu';
 export default function Home() {
   return (
     <div>
     <Event/>
+<PhimDangChieu/>
       {/* <HeroSection />
       <Promotions />
       <BlogSection />
