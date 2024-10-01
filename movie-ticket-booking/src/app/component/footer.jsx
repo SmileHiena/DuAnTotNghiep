@@ -1,28 +1,57 @@
+import './footer.css';
+
 const Footer = () => {
-    return (
-    <footer className="bg-black text-gray-400 py-8">
-      <div className="container mx-auto px-6">
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-lg font-bold mb-4">Xem Phim</h3>
-            <ul>
-              <li><a href="#" className="hover:text-white">Phim đang chiếu</a></li>
-              <li><a href="#" className="hover:text-white">Phim sắp chiếu</a></li>
-            </ul>
+  return (
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-butoom">
+          <h3 className="logo-footer">Ticker Man</h3>
+          <img className="footer-img" src="../../public/img/logo.jpg" alt="" />
+          <div className="social-icons">
+            <i className="fab fa-facebook-f"></i>
+            <i className="fab fa-twitter"></i>
+            <i className="fab fa-instagram"></i>
+            <i className="fab fa-youtube"></i>
           </div>
-          <div>
-            <h3 className="text-lg font-bold mb-4">StickerMan</h3>
-            <ul>
-              <li><a href="#" className="hover:text-white">Giới thiệu</a></li>
-              <li><a href="#" className="hover:text-white">Liên hệ</a></li>
-            </ul>
-          </div>
-          {/* Add more footer sections as needed */}
         </div>
-        <p className="text-center mt-8">&copy; 2024 StickerMan. All rights reserved.</p>
+
+        <div className="footer-column">
+          <h4>Xem Phim</h4>
+          <ul>
+            <li>Phim Đang Chiếu</li>
+            <li>Phim Sắp Chiếu</li>
+            <li>Suất Chiếu Đặc Biệt</li>
+          </ul>
+        </div>
+
+        <div className="footer-column">
+          <h4>Ticker Man</h4>
+          <ul>
+            <li>Giới Thiệu</li>
+            <li>Liên Hệ</li>
+            <li>Tuyển Dụng</li>
+          </ul>
+        </div>
+
+        <div className="footer-column">
+          <h4>Thuê Sự Kiện</h4>
+          <ul>
+            <li>Thuê Rạp</li>
+            <li>Các Hoạt Động Thuê Khác</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <p>© 2024 Tickerman. All rights reserved.</p>
+        <ul className="footer-links">
+          <li>Chính Sách Bảo Mật</li>
+          <li>Tin Điện Ảnh</li>
+          <li>Hỏi và Đáp</li>
+        </ul>
       </div>
     </footer>
-  )};
-  
-  export default Footer;
-  
+  );
+};
+
+export default Footer;
