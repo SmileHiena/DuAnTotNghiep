@@ -1,44 +1,80 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../globals.css";
+import './events.css'; // Nhập tệp CSS mới
 
 const Event = () => {
-  // Danh sách các URL hình ảnh
-  const images = [
-    "https://via.placeholder.com/440x210?text=Image+1",
-    "https://via.placeholder.com/440x210?text=Image+2",
-    "https://via.placeholder.com/440x210?text=Image+3",
-    "https://via.placeholder.com/440x210?text=Image+4",
-    "https://via.placeholder.com/440x210?text=Image+5",
-    "https://via.placeholder.com/440x210?text=Image+6",
-    "https://via.placeholder.com/440x210?text=Image+7",
-    "https://via.placeholder.com/440x210?text=Image+8",
-    "https://via.placeholder.com/440x210?text=Image+9",
-    "https://via.placeholder.com/440x210?text=Image+10",
-    "https://via.placeholder.com/440x210?text=Image+11",
-    "https://via.placeholder.com/440x210?text=Image+12",
+  const Sukien = [
+    {
+      "id": 1,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 2,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 3,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 4,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 5,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 6,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 7,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 8,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 9,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 10,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 11,
+      "Anh": "/images/phim/cam.jpg",
+    },
+    {
+      "id": 12,
+      "Anh": "/images/phim/cam.jpg",
+    }
   ];
 
   return (
-    <div className='event'>
-      <h1 className='text-center text-uppercase text-white'>Khuyến mãi</h1>
-      <div className="container mt-4">
-        <div className="row">
-          {/* Hiển thị tất cả hình ảnh mà không cần đếm số lượng */}
-          {images.map((src) => (
-            <div className="col-md-4 col-12 mb-3" key={src}>
-              <div className="card">
-                <img
-                  src={src}
-                  className="card-img-top"
-                  alt="Image"
-                  style={{ width: '440px', height: '210px' }} 
-                />
+    <section>
+      <div className='event'>
+        <h1 className='text-center text-uppercase'>Khuyến mãi</h1>
+        <div className="container mt-4">
+          <div className="row">
+            {Sukien.slice(0, 6).map(item => ( // Lấy 6 ảnh đầu tiên
+              <div className="col-md-4 col-6 mb-3" key={item.id}>
+                <div className="card">
+                  <img
+                    src={item.Anh} // Sử dụng đường dẫn từ mảng
+                    className="card-img-top"
+                    alt={`Image ${item.id}`}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
