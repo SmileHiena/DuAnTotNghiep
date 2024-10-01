@@ -110,28 +110,35 @@ const data = {
     },
   ],
 
+
   "TheLoai": [
     {
       "id": 1,
-      "Ten": "Tình Cảm"
+      "Ten": "Tình Cảm",
+      "Anh": "theloaitinhcam.jpg"
     },
     {
       "id": 2,
-      "Ten": "Kinh Dị"
+      "Ten": "Kinh Dị",
+      "Anh": "theloaikinhdi.jpg"
     },
     {
       "id": 3,
-      "Ten": "Hài Hước"
+      "Ten": "Hài Hước",
+      "Anh": "theloaihaihuoc.jpg"
     },
     {
       "id": 4,
-      "Ten": "Trinh Thám"
+      "Ten": "Trinh Thám",
+      "Anh": "theloaitrinhtham.jpg"
     },
     {
       "id": 5,
-      "Ten": "Anime"
+      "Ten": "Anime",
+      "Anh": "theloaianime.jpg"
     }
   ],
+
 
   "Rap": [
     {
@@ -2118,7 +2125,7 @@ const data = {
       "ThoiGian": "Thứ Năm",
       "NgayChieu": "26/09",
       "MaPhim": 1,
-      "MaVe": 1,
+      "IdVe": 1,
     },
 
     {
@@ -2126,7 +2133,7 @@ const data = {
       "ThoiGian": "Thứ Sáu",
       "NgayChieu": "27/09",
       "MaPhim": 1,
-      "MaVe": 1,
+      "IdVe": 1,
     },
 
     {
@@ -2134,7 +2141,7 @@ const data = {
       "ThoiGian": "Thứ Bảy",
       "NgayChieu": "28/09",
       "MaPhim": 1,
-      "MaVe": 1,
+      "IdVe": 1,
     },
   ],
 
@@ -2156,6 +2163,38 @@ const data = {
       "GiaVe": 155000,
     }
   ],
+
+
+  // ----- GHẾ -----\
+  // "Ghế": [
+  //     {
+  //         "id": 1, 
+  //         "TenGhe": "A",
+  //         "IdRap": 1,
+  //         "LoaiGhe": [
+  //             {
+  //                 "Ghe1": "A01",
+  //                 "Ghe2": "A02",
+  //                 "Ghe2": "A03",
+  //                 "Ghe2": "A04",
+  //                 "Ghe2": "A05",
+  //                 "Ghe2": "A06",
+  //                 "Ghe2": "A07",
+  //                 "Ghe2": "A08",
+  //                 "Ghe2": "A09",
+  //                 "Ghe2": "A010",
+  //                 "Ghe2": "A011",
+  //                 "Ghe2": "A012",
+  //                 "Ghe2": "A013",
+  //                 "Ghe2": "A014",
+  //             }
+  //         ]
+  //     }
+  // ]
+
+
+
+
   // ----- HÓA ĐƠN -----
   "HoaDon": [
     {
@@ -2241,43 +2280,75 @@ const data = {
       "TenDangNhap": "NguyenThaiSon",
       "MatKhau": "12345678",
       "LoaiTaiKhoang": 0,
-
-
-
-      // "LichSuMuaVe": [
-      //   {
-      //     "id"
-      //   }
-      // ],
-
-
-
-
-      //NOTE 
-      "LichSuBinhLuan": ""
-      //NOTE
-
-
-
-
+      "LichSuMuaVe": [
+        {
+          "id": 1,
+          "IdVe": 1,
+          "NgayMua": "2024-09-28",
+          "GiaVe": 500000
+        },
+        {
+          "id": 2,
+          "IdVe": 1,
+          "NgayMua": "2024-09-27",
+          "GiaVe": 450000
+        }
+      ]
     },
-
     {
       "id": 2,
-      "TenDangNhap": "NguyenThaiSon",
-      "MatKhau": "12345678",
-      //1 admin, 0 nhan vien, 3 khách hàng
+      "TenDangNhap": "LeThiMinhChau",
+      "MatKhau": "987654321",
       "LoaiTaiKhoang": 1,
-      "LichSuMuaVe": "26-09-2024",
-
-
-
-      //NOTE 
-      "LichSuBinhLuan": ""
-      //NOTE
-
-
-
+      "LichSuMuaVe": [
+        {
+          "id": 1,
+          "IdVe": 2,
+          "NgayMua": "2024-09-26",
+          "GiaVe": 300000
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "TenDangNhap": "TranVanBinh",
+      "MatKhau": "abcd1234",
+      "LoaiTaiKhoang": 0,
+      "LichSuMuaVe": [
+        {
+          "id": 1,
+          "IdVe": 3,
+          "NgayMua": "2024-09-25",
+          "GiaVe": 600000
+        },
+        {
+          "id": 2,
+          "IdVe": 1,
+          "NgayMua": "2024-09-24",
+          "GiaVe": 400000
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "TenDangNhap": "NguyenVanAn",
+      "MatKhau": "qwerty123",
+      "LoaiTaiKhoang": 1,
+      "LichSuMuaVe": []
+    },
+    {
+      "id": 5,
+      "TenDangNhap": "PhamThiHoa",
+      "MatKhau": "pass12345",
+      "LoaiTaiKhoang": 0,
+      "LichSuMuaVe": [
+        {
+          "id": 1,
+          "IdVe": 2,
+          "NgayMua": "2024-09-23",
+          "GiaVe": 550000
+        }
+      ]
     }
   ],
 
@@ -2289,26 +2360,84 @@ const data = {
       "NoiDung": "Phim hay",
       "NgayBinhLuan": "26-09-2024",
       "IdPhim": 1,
-      "IdTaiKhoan": 1,
-    }
-  ],
-
-
-
-  // ----- HỖ_TRỢ -----
-  "HoTro": [
-    {
-      "id": 1,
-      "IdTaiKhoan": 1,
-      "ThoiGianHoTro": "30 phút",
-      "NoiDung": "Miễn Phí Ship"
+      "IdTaiKhoan": 1
     },
     {
       "id": 2,
-      "IdTaiKhoan": 1,
-      "ThoiGianHoTro": "30 phút",
-      "NoiDung": "Hoàn Tiền 50%"
+      "NoiDung": "Phim rất hấp dẫn",
+      "NgayBinhLuan": "27-09-2024",
+      "IdPhim": 2,
+      "IdTaiKhoan": 2
     },
+    {
+      "id": 3,
+      "NoiDung": "Kỹ xảo đẹp mắt",
+      "NgayBinhLuan": "28-09-2024",
+      "IdPhim": 3,
+      "IdTaiKhoan": 3
+    },
+    {
+      "id": 4,
+      "NoiDung": "Nội dung dễ hiểu",
+      "NgayBinhLuan": "28-09-2024",
+      "IdPhim": 1,
+      "IdTaiKhoan": 4
+    },
+    {
+      "id": 5,
+      "NoiDung": "Phim đáng xem",
+      "NgayBinhLuan": "29-09-2024",
+      "IdPhim": 2,
+      "IdTaiKhoan": 5
+    }
+  ],
+
+  "ChoTietHoaDon": [
+    {
+      "id": 1,
+      "IdHoaDon": 1,
+      "NgayXuatHoaDon": "30/09/2024",
+      "IdXuatChieu": 1,
+      "SoGhe": 1,
+      "NgayChieu": "30/09/2024",
+      "TongTien": 175000
+    },
+    {
+      "id": 2,
+      "IdHoaDon": 2,
+      "NgayXuatHoaDon": "01/10/2024",
+      "IdXuatChieu": 2,
+      "SoGhe": 5,
+      "NgayChieu": "01/10/2024",
+      "TongTien": 200000
+    },
+    {
+      "id": 3,
+      "IdHoaDon": 3,
+      "NgayXuatHoaDon": "02/10/2024",
+      "IdXuatChieu": 3,
+      "SoGhe": 12,
+      "NgayChieu": "02/10/2024",
+      "TongTien": 180000
+    },
+    {
+      "id": 4,
+      "IdHoaDon": 4,
+      "NgayXuatHoaDon": "02/10/2024",
+      "IdXuatChieu": 4,
+      "SoGhe": 8,
+      "NgayChieu": "03/10/2024",
+      "TongTien": 250000
+    },
+    {
+      "id": 5,
+      "IdHoaDon": 5,
+      "NgayXuatHoaDon": "03/10/2024",
+      "IdXuatChieu": 5,
+      "SoGhe": 15,
+      "NgayChieu": "03/10/2024",
+      "TongTien": 220000
+    }
   ],
 
   // ----- ADMIN -----
@@ -2326,118 +2455,117 @@ const data = {
       "MatKhau": "12345678nv",
     }
   ],
-
   // ------ Sukien ---- //
   "Sukien": [
-  {
-    "id": 1,
-    "idPhim": "P001",
-    "Ten": "Mua vé phim Bố Già",
-    "Anh": "./public/images/sukien/bo_gia.jpg",
-    "Noidung": "Mua vé xem phim Bố Già - Bộ phim tình cảm gia đình đầy cảm xúc với diễn xuất đỉnh cao của Trấn Thành.",
-    "NgayBatDau": "01-10-2024",
-    "NgayKetThuc": "01-11-2024"
-  },
-  {
-    "id": 2,
-    "idPhim": "P002",
-    "Ten": "Mua vé phim Hai Phượng",
-    "Anh": "./public/images/sukien/hai_phuong.jpg",
-    "Noidung": "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính.",
-    "NgayBatDau": "05-10-2024",
-    "NgayKetThuc": "05-11-2024"
-  },
-  {
-    "id": 3,
-    "idPhim": "P003",
-    "Ten": "Mua vé phim Mắt Biếc",
-    "Anh": "./public/images/sukien/mat_biec.jpg",
-    "Noidung": "Xem ngay bộ phim Mắt Biếc, câu chuyện tình yêu lãng mạn chuyển thể từ tiểu thuyết nổi tiếng của Nguyễn Nhật Ánh.",
-    "NgayBatDau": "10-10-2024",
-    "NgayKetThuc": "10-11-2024"
-  },
-  {
-    "id": 4,
-    "idPhim": "P004",
-    "Ten": "Mua vé phim Lật Mặt: 48H",
-    "Anh": "./public/images/sukien/lat_mat_48h.jpg",
-    "Noidung": "Đừng bỏ lỡ Lật Mặt: 48H - Bộ phim hành động, hài hước đầy kịch tính của Lý Hải.",
-    "NgayBatDau": "15-10-2024",
-    "NgayKetThuc": "15-11-2024"
-  },
-  {
-    "id": 5,
-    "idPhim": "P005",
-    "Ten": "Mua vé phim Ròm",
-    "Anh": "./public/images/sukien/rom.jpg",
-    "Noidung": "Thưởng thức Ròm, bộ phim phản ánh hiện thực xã hội với giải thưởng quốc tế danh giá.",
-    "NgayBatDau": "20-10-2024",
-    "NgayKetThuc": "20-11-2024"
-  },
-  {
-    "id": 6,
-    "idPhim": "P006",
-    "Ten": "Mua vé phim Tiệc Trăng Máu",
-    "Anh": "./public/images/sukien/tiec_trang_mau.jpg",
-    "Noidung": "Tiệc Trăng Máu - Phim tâm lý hài kịch với sự tham gia của dàn diễn viên đình đám Việt Nam.",
-    "NgayBatDau": "25-10-2024",
-    "NgayKetThuc": "25-11-2024"
-  },
-  {
-    "id": 7,
-    "idPhim": "P007",
-    "Ten": "Mua vé phim Cua Lại Vợ Bầu",
-    "Anh": "./public/images/sukien/cua_lai_vo_bau.jpg",
-    "Noidung": "Cua Lại Vợ Bầu - Bộ phim hài lãng mạn về tình yêu và gia đình không thể bỏ lỡ.",
-    "NgayBatDau": "01-11-2024",
-    "NgayKetThuc": "01-12-2024"
-  },
-  {
-    "id": 8,
-    "idPhim": "P008",
-    "Ten": "Mua vé phim Đôi Mắt Âm Dương",
-    "Anh": "./public/images/sukien/doi_mat_am_duong.jpg",
-    "Noidung": "Đôi Mắt Âm Dương - Bộ phim kinh dị Việt Nam khiến khán giả không thể rời mắt.",
-    "NgayBatDau": "05-11-2024",
-    "NgayKetThuc": "05-12-2024"
-  },
-  {
-    "id": 9,
-    "idPhim": "P009",
-    "Ten": "Mua vé phim Em Chưa 18",
-    "Anh": "./public/images/sukien/em_chua_18.jpg",
-    "Noidung": "Xem ngay Em Chưa 18 - Bộ phim tình cảm hài hước đã làm mưa làm gió tại các rạp phim Việt Nam.",
-    "NgayBatDau": "10-11-2024",
-    "NgayKetThuc": "10-12-2024"
-  },
-  {
-    "id": 10,
-    "idPhim": "P010",
-    "Ten": "Mua vé phim Song Lang",
-    "Anh": "./public/images/sukien/song_lang.jpg",
-    "Noidung": "Song Lang - Bộ phim nghệ thuật về tình yêu và cải lương, đầy cảm xúc và ấn tượng.",
-    "NgayBatDau": "15-11-2024",
-    "NgayKetThuc": "15-12-2024"
-  },
-  {
-    "id": 11,
-    "idPhim": "P011",
-    "Ten": "Mua vé phim Trạng Quỳnh",
-    "Anh": "./public/images/sukien/trang_quynh.jpg",
-    "Noidung": "Trạng Quỳnh - Bộ phim hài cổ trang mang đậm văn hóa Việt với những tình huống dở khóc dở cười.",
-    "NgayBatDau": "20-11-2024",
-    "NgayKetThuc": "20-12-2024"
-  },
-  {
-    "id": 12,
-    "idPhim": "P012",
-    "Ten": "Mua vé phim Tháng Năm Rực Rỡ",
-    "Anh": "./public/images/sukien/thang_nam_ruc_ro.jpg",
-    "Noidung": "Tháng Năm Rực Rỡ - Bộ phim về tình bạn tuổi thanh xuân đầy hoài niệm và cảm xúc.",
-    "NgayBatDau": "25-11-2024",
-    "NgayKetThuc": "25-12-2024"
-  }
-]
+    {
+      "id": 1,
+      "idPhim": "P001",
+      "Ten": "Mua vé phim Bố Già",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Mua vé xem phim Bố Già - Bộ phim tình cảm gia đình đầy cảm xúc với diễn xuất đỉnh cao của Trấn Thành.",
+      "NgayBatDau": "01-10-2024",
+      "NgayKetThuc": "01-11-2024"
+    },
+    {
+      "id": 2,
+      "idPhim": "P002",
+      "Ten": "Mua vé phim Hai Phượng",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính.",
+      "NgayBatDau": "05-10-2024",
+      "NgayKetThuc": "05-11-2024"
+    },
+    {
+      "id": 3,
+      "idPhim": "P003",
+      "Ten": "Mua vé phim Mắt Biếc",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Xem ngay bộ phim Mắt Biếc, câu chuyện tình yêu lãng mạn chuyển thể từ tiểu thuyết nổi tiếng của Nguyễn Nhật Ánh.",
+      "NgayBatDau": "10-10-2024",
+      "NgayKetThuc": "10-11-2024"
+    },
+    {
+      "id": 4,
+      "idPhim": "P004",
+      "Ten": "Mua vé phim Lật Mặt: 48H",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Đừng bỏ lỡ Lật Mặt: 48H - Bộ phim hành động, hài hước đầy kịch tính của Lý Hải.",
+      "NgayBatDau": "15-10-2024",
+      "NgayKetThuc": "15-11-2024"
+    },
+    {
+      "id": 5,
+      "idPhim": "P005",
+      "Ten": "Mua vé phim Ròm",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Thưởng thức Ròm, bộ phim phản ánh hiện thực xã hội với giải thưởng quốc tế danh giá.",
+      "NgayBatDau": "20-10-2024",
+      "NgayKetThuc": "20-11-2024"
+    },
+    {
+      "id": 6,
+      "idPhim": "P006",
+      "Ten": "Mua vé phim Tiệc Trăng Máu",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Tiệc Trăng Máu - Phim tâm lý hài kịch với sự tham gia của dàn diễn viên đình đám Việt Nam.",
+      "NgayBatDau": "25-10-2024",
+      "NgayKetThuc": "25-11-2024"
+    },
+    {
+      "id": 7,
+      "idPhim": "P007",
+      "Ten": "Mua vé phim Cua Lại Vợ Bầu",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Cua Lại Vợ Bầu - Bộ phim hài lãng mạn về tình yêu và gia đình không thể bỏ lỡ.",
+      "NgayBatDau": "01-11-2024",
+      "NgayKetThuc": "01-12-2024"
+    },
+    {
+      "id": 8,
+      "idPhim": "P008",
+      "Ten": "Mua vé phim Đôi Mắt Âm Dương",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Đôi Mắt Âm Dương - Bộ phim kinh dị Việt Nam khiến khán giả không thể rời mắt.",
+      "NgayBatDau": "05-11-2024",
+      "NgayKetThuc": "05-12-2024"
+    },
+    {
+      "id": 9,
+      "idPhim": "P009",
+      "Ten": "Mua vé phim Em Chưa 18",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Xem ngay Em Chưa 18 - Bộ phim tình cảm hài hước đã làm mưa làm gió tại các rạp phim Việt Nam.",
+      "NgayBatDau": "10-11-2024",
+      "NgayKetThuc": "10-12-2024"
+    },
+    {
+      "id": 10,
+      "idPhim": "P010",
+      "Ten": "Mua vé phim Song Lang",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Song Lang - Bộ phim nghệ thuật về tình yêu và cải lương, đầy cảm xúc và ấn tượng.",
+      "NgayBatDau": "15-11-2024",
+      "NgayKetThuc": "15-12-2024"
+    },
+    {
+      "id": 11,
+      "idPhim": "P011",
+      "Ten": "Mua vé phim Trạng Quỳnh",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Trạng Quỳnh - Bộ phim hài cổ trang mang đậm văn hóa Việt với những tình huống dở khóc dở cười.",
+      "NgayBatDau": "20-11-2024",
+      "NgayKetThuc": "20-12-2024"
+    },
+    {
+      "id": 12,
+      "idPhim": "P012",
+      "Ten": "Mua vé phim Tháng Năm Rực Rỡ",
+      "Anh": "./public/images/phim/cam.jpg",
+      "Noidung": "Tháng Năm Rực Rỡ - Bộ phim về tình bạn tuổi thanh xuân đầy hoài niệm và cảm xúc.",
+      "NgayBatDau": "25-11-2024",
+      "NgayKetThuc": "25-12-2024"
+    }
+  ]
 
 
 };
@@ -2455,7 +2583,6 @@ async function main() {
     { name: 'hoadon', data: data.HoaDon },
     { name: 'taikhoan', data: data.TaiKhoan },
     { name: 'binhluan', data: data.BinhLuan },
-    { name: 'hotro', data: data.HoTro },
     { name: 'sukien', data: data.Sukien }
   ];
 
@@ -2470,8 +2597,8 @@ async function insertData(db, collectionName, data) {
   const collection = db.collection(collectionName);
 
   // Drop collection nếu tồn tại
-  await collection.drop().catch(() => {});
-  
+  await collection.drop().catch(() => { });
+
   if (data && data.length) {
     await collection.insertMany(data);
   }
