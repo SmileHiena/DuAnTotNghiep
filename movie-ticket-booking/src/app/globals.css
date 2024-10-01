@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff; /* Đặt màu nền thành đen */
-  --foreground: #ffffff;
+  --background: #000000; /* Đặt màu nền thành đen */
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,7 +33,4 @@ body {
 .text-white {
   color: #FFFFFF; 
   font-size: 24px;
-}
-.banner{
-  margin: auto;
 }

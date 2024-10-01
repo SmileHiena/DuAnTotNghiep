@@ -1,3 +1,4 @@
+
 // src/app/phim/[slug]/page.js
 
 export default async function MovieDetail({ params }) {
