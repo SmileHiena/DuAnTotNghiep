@@ -1,10 +1,17 @@
-import './header.css';
+import '../../../public/styles/header.css';
 function Header() {
   return (
       <header className="header">
         <div className="container">
         <div className=" logo-name">
-         <h3> Ticker Man</h3>
+        <h3>
+    <img 
+        src="/image/logo.png" 
+        alt="Logo" 
+        style={{ width: '100px', height: '100px' }} 
+    />
+</h3>
+
         </div>
         <nav className=" ryuga menu">
           <ul>
@@ -15,7 +22,7 @@ function Header() {
           </ul>
         </nav>
         <div className=" ryuga change-language">
-            <img src="./../../public/img/logovn.png" alt="" />
+            <img src="/image/image.png" alt="" />
         </div>
         <div className="ryuga search-area">
     <div className="input-container">
