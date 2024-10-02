@@ -3,13 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #000000; /* Đặt màu nền thành đen */
-  --foreground: #000000;
+  --background: #212529;
+  /* Đặt màu nền thành đen */
+  --foreground: #212529;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #212529; /* Bạn có thể giữ hoặc thay đổi màu nền tối */
+    --background: #212529;
+    /* Bạn có thể giữ hoặc thay đổi màu nền tối */
     --foreground: #ededed;
   }
 }
@@ -30,7 +32,8 @@ body {
   color: #F5CF49;
   font-size: 24px;
 }
+
 .text-white {
-  color: #FFFFFF; 
+  color: #FFFFFF;
   font-size: 24px;
 }
