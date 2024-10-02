@@ -4,19 +4,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 100px;
+    max-height: 75px;
+    padding: 0 10px; /* Thêm padding để cải thiện bố cục */
 }
 
 .container {
     display: flex;
     align-items: center;
-    max-width: 80vw;
+    justify-content: space-between; /* Thay đổi cách bố trí để khoảng cách đều */
+    max-width: 1200px; /* Đặt chiều rộng tối đa */
     width: 100%;
-
 }
 
 .logo-name {
-   font-size: 24px;
+    font-size: 24px;
+}
+
+.logo-img {
+    width: 100px;
+    height: auto; /* Giữ tỷ lệ khung hình */
 }
 
 .menu ul {
@@ -59,14 +65,6 @@
     border: 1.5px solid rgb(238, 158, 9);
     font-size: 13px;
 }
-.search-area {
-    display: flex;
-    align-items: center; 
-}
-.search-area {
-    display: flex;
-    align-items: center;
-}
 
 .input-container {
     position: relative; 
@@ -85,6 +83,42 @@
     border: 2px solid #ffffff;
     border-radius: 5px;
 }
-.ryuga{
+
+.ryuga {
     margin-left: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Chuyển thành cột trên màn hình nhỏ */
+        align-items: flex-start; /* Canh lề bên trái */
+    }
+
+    .menu {
+        margin: 10px 0; /* Thêm khoảng cách giữa menu và các phần khác */
+    }
+
+    .menu ul {
+        flex-direction: column; /* Menu dưới dạng cột */
+        align-items: flex-start; /* Canh lề bên trái */
+    }
+
+    .menu li {
+        margin: 5px 0; /* Khoảng cách giữa các mục menu */
+    }
+
+    .search-area {
+        width: 100%; /* Đảm bảo thanh tìm kiếm rộng */
+        margin-top: 10px; /* Thêm khoảng cách trên */
+    }
+
+    .input-container input {
+        width: 100%; /* Đảm bảo thanh tìm kiếm đầy đủ chiều rộng */
+    }
+
+    .login-button {
+        width: 100%; /* Đảm bảo nút đăng nhập đầy đủ chiều rộng */
+        margin-top: 10px; /* Thêm khoảng cách trên */
+    }
 }

@@ -6,51 +6,51 @@ const Event = () => {
   const Sukien = [
     {
       "id": 1,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 2,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 3,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 4,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 5,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 6,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 7,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 8,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 9,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 10,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 11,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     },
     {
       "id": 12,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "http://localhost:3000/images/phim/cam.jpg",
     }
   ];
 
