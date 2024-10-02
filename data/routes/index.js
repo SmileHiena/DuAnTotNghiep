@@ -27,7 +27,7 @@ function checkFileUpLoad(req, file, cb) {
 let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 const connectDb = require('../model/db');
 
-//---------------------------Products--------------------------------//
+//---------------------------Phim--------------------------------//
 // Generate a token for password reset
 function generateToken() {
   return crypto.randomBytes(20).toString('hex');
@@ -37,38 +37,6 @@ router.get('/', async (req, res, next) => {
   res.render('api');
 });
 
-
-// Lấy sản phẩm hot
-router.get('/products/hot', async (req, res, next) => {
-  try {
-    const db = await connectDb();
-    const productCollection = db.collection('products');
-    const hotProducts = await productCollection.find({ hot: 1 }).toArray();
-    if (hotProducts.length > 0) {
-      res.status(200).json(hotProducts);
-    } else {
-      res.status(404).json({ message: "Không tìm thấy sản phẩm nào được đánh dấu là hot" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi server", error });
-  }
-});
-
-// Lấy sản phẩm bestsale
-router.get('/products/bestsale', async (req, res, next) => {
-  try {
-    const db = await connectDb();
-    const productCollection = db.collection('products');
-    const bestsaleProducts = await productCollection.find({ bestsale: 1 }).toArray();
-    if (bestsaleProducts.length > 0) {
-      res.status(200).json(bestsaleProducts);
-    } else {
-      res.status(404).json({ message: "Không tìm thấy sản phẩm nào được đánh dấu là bestsale" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi server", error });
-  }
-});
 
 //Trả về json danh sách sản phẩm
 router.get('/phim', async (req, res, next) => {

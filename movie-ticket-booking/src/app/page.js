@@ -24,13 +24,13 @@ export default function Home() {
 
   return (
     <div>
-      {/* <Header /> */}
-      {/* <HeroSection /> */}
+      <Header />
+      <HeroSection />
       {/* <MovieSlider movies={movies} /> */}
-      {/* <Promotions /> */}
+      <Promotions />
       <BlogSection posts={posts} />
-      {/* <FAQSection /> */}
-      {/* <Footer /> */}
+      <FAQSection />
+      <Footer />
     </div>
   );
 }
