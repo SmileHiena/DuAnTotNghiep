@@ -10,12 +10,13 @@ import Event from './component/event';
 export default function Home() {
   return (
     <div>
-      <Event/>
-      {/* <PhimDangChieu/> */}
+      {/* <Header /> */}
       {/* <HeroSection /> */}
+      {/* <MovieSlider movies={movies} /> */}
       {/* <Promotions /> */}
-      <BlogSection />
+      <BlogSection posts={posts} />
       {/* <FAQSection /> */}
+      {/* <Footer /> */}
     </div>
   );
 }
