@@ -6,51 +6,51 @@ const Event = () => {
   const Sukien = [
     {
       "id": 1,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 2,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 3,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 4,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 5,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 6,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 7,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 8,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 9,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 10,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 11,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     },
     {
       "id": 12,
-      "Anh": "http://localhost:3000/images/phim/cam.jpg",
+      "Anh": "/image/logovn.png",
     }
   ];
 
@@ -67,7 +67,7 @@ const Event = () => {
                   <img
                     src={item.Anh} // Sử dụng đường dẫn từ mảng
                     className="card-img-top"
-                    alt={`Image ${item.id}`}
+                    alt={`Image ${item.id}`} style={{width: '440px', height: '200px',borderRadius: '0' }}
                   />
                 </div>
               </div>

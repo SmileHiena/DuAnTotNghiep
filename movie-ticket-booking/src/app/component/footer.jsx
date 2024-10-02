@@ -5,8 +5,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-butoom">
-          <h3 className="logo-footer">Ticker Man</h3>
-          <img className="footer-img" src="../../public/img/logo.jpg" alt="" />
+          <img className="footer-img" src="image/logo.png" alt="" />
           <div className="social-icons">
             <i className="fab fa-facebook-f"></i>
             <i className="fab fa-twitter"></i>
@@ -43,7 +42,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2024 Tickerman. All rights reserved.</p>
+        <p>© 2024 ScreenTime. All rights reserved.</p>
         <ul className="footer-links">
           <li>Chính Sách Bảo Mật</li>
           <li>Tin Điện Ảnh</li>
