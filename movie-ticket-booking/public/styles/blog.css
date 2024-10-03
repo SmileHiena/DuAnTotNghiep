@@ -19,6 +19,8 @@
 .blog-card img {
   width: 100%;
   height: auto;
+  object-fit: cover; /* Đảm bảo hình ảnh giữ đúng tỷ lệ mà không bị kéo dãn */
+  border-radius: 8px; /* Bo góc cho ảnh */
 }
 
 /* Responsive cho màn hình lớn hơn hoặc bằng 1920px */
@@ -136,4 +138,30 @@
     width: 100%; /* Chiều rộng nút */
     height: 40px; /* Điều chỉnh chiều cao nút */
   }
+}
+
+/* Phong cách cho nút "Xem thêm" */
+.see-more-button {
+  background-color: #212529;
+  color: #FFFFFF;
+  border: 2px solid #F5CF49;
+  width: 150px;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.see-more-button:hover {
+  background-color: #F5CF49;
+  color: #000000;
+  font-weight: bold;
+  border-color: #F5CF49;
+}
+
+.see-more-button:active {
+  background-color: #FFD700;
+  border-color: #F5CF49;
 }
