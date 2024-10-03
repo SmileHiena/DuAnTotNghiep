@@ -1,91 +1,111 @@
+html, body {
+  height: 100%; /* Đặt chiều cao cho html và body */
+  margin: 0; /* Xóa margin mặc định */
+}
+
 .footer {
-    background-color: #000000;
-    color: #fff;
-    text-align: left;
-    /* width: 100vw; */
-    display: flex;
-    flex-direction: column; 
-    justify-content: space-between;
-    align-items: center; 
-  }
-  
+  background-color: #000000;
+  color: #fff;
+  text-align: left;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;
+  align-items: center; 
+  padding: 20px 0; /* Thêm padding để tạo khoảng cách */
+  position: relative; /* Đặt footer ở vị trí tương đối */
+  bottom: 0; /* Đặt footer ở dưới cùng */
+  width: 100%; /* Đặt chiều rộng 100% */
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap; /* Cho phép các cột xếp chồng lên nhau khi không đủ không gian */
+  max-width: 80vw;
+  width: 100%;
+  justify-content: space-between; /* Đảm bảo các cột có khoảng cách đều */
+}
+
+.footer-column {
+  margin: 20px 30px; /* Giảm khoảng cách giữa các cột */
+}
+
+.footer-bottom {
+  width: 100%;
+  border-top: 1px solid #555;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  max-width: 80vw;
+}
+
+.footer-bottom p {
+  margin: 0; 
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+}
+
+.footer-links li {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.footer-links li:hover {
+  text-decoration: underline;
+}
+
+.footer .btn1 {
+  background-color: #d4af37;
+  border: none;
+  max-height: 40px;
+  color: #000;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+  text-align: center;
+  width: 140px;
+}
+
+.footer .btn.secondary {
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  max-height: 40px;
+  text-align: center;
+}
+
+.logo-footer {
+  font-size: 24px;
+}
+
+.footer-bottom {
+  margin-bottom: 20px;
+}
+
+.footer i {
+  margin: 18px;
+  font-size: 20px;
+}
+
+.footer-img {
+  width: 110px;
+  height: auto;
+  border-radius: 50%;
+  margin-left: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .footer-container {
-    display: flex;
-    max-width: 80vw;
-    width: 100%;
+      flex-direction: column; /* Chuyển đổi bố cục cột trên màn hình nhỏ */
+      align-items: center; /* Canh giữa các phần tử */
   }
-  
+
   .footer-column {
-    margin:   40px 50px;
+      margin: 20px 0; /* Giảm khoảng cách trên và dưới cho các cột */
   }
-  
-  .footer-bottom {
-    width: 100%;
-    border-top: 1px solid #555;
-    padding-top: 20px;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    max-width: 80vw;
-  }
-  
-  .footer-bottom p {
-    margin: 0; 
-  }
-  
-  .footer-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-  }
-  
-  .footer-links li {
-    margin-right: 20px;
-    cursor: pointer;
-  }
-  
-  .footer-links li:hover {
-    text-decoration: underline;
-  }
-  
-  .footer .btn1 {
-    background-color: #d4af37;
-    border: none;
-    max-height: 40px;
-    color: #000;
-    cursor: pointer;
-    margin-right: 10px;
-    font-weight: bold;
-    text-align: center;
-    width: 140px;
-
-  }
-  
-  .footer .btn.secondary {
-    background-color: transparent;
-    border: 1px solid #d4af37;
-    color: #d4af37;
-   max-height: 40px;
-
-   
-    text-align: center;
-  }
-  
-  .logo-footer{
-    font-size: 24px;
-    margin-left: 44px;
-  }
-  .footer-butoom{
-    margin-bottom: 20px;
-  }
-  .footer i{
-    margin: 18px;
-    font-size: 20px;
-    
-  }
-  .footer-img{
-    width: 110px;
-    height: auto;
-    border-radius: 50%;
-    margin-left:  50px;
-  }
+}

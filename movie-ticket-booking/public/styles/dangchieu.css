@@ -1,0 +1,48 @@
+.sap-chieu {
+    background-color: #1a1a1a; /* Màu nền tối */
+    color: white; /* Màu chữ trắng */
+    padding: 2rem 0; /* Khoảng cách trên và dưới */
+}
+
+.sap-chieu__title {
+    font-weight: bold;
+    color: #f9c60c; /* Màu vàng */
+    text-align: center;
+    margin-bottom: 2rem; /* Khoảng cách dưới tiêu đề */
+}
+
+.sap-chieu__container {
+    width: 1410px;
+    margin: 0 auto; /* Giữa trang */
+}
+
+.sap-chieu__row {
+    display: flex; /* Sử dụng Flexbox để tạo hàng */
+    flex-wrap: wrap; /* Bọc các phần tử khi không đủ chỗ */
+    justify-content: center; /* Căn giữa các phần tử */
+}
+
+.sap-chieu__card {
+    /* background-color: #2c2c2c; Màu nền thẻ */
+    /* border-radius: 8px; Bo góc */
+    margin: 1rem; /* Khoảng cách giữa các thẻ */
+    /* margin: 40px; Khoảng cách bên trong thẻ */
+    text-align: center; /* Căn giữa nội dung bên trong thẻ */
+    width: 250px; /* Độ rộng cố định cho thẻ */
+}
+
+.sap-chieu__image {
+    width: 100%; /* Đảm bảo ảnh chiếm 100% chiều rộng của thẻ */
+    height: 354px; /* Chiều cao cố định */
+    object-fit: cover; /* Cắt ảnh cho phù hợp */
+    /* border-radius: 8px; Bo góc ảnh */
+    margin-bottom: 1rem; /* Khoảng cách dưới ảnh */
+}
+
+.sap-chieu__card-title {
+    /* color: #f9c60c; Màu vàng cho tiêu đề thẻ */
+    /* font-weight: bold; Chữ in đậm */
+    overflow: hidden; /* Giới hạn văn bản nếu quá dài */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu văn bản quá dài */
+    white-space: nowrap; /* Không xuống dòng */
+}

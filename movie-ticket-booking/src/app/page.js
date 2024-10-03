@@ -1,21 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-// import HeroSection from './component/banner';
-// import MovieSlider from './component/MovieSlider';
-// import Promotions from './component/promotion';
 import BlogSection from './component/blog';
-// import FAQSection from './component/FAQ';
 import Event from './component/event';
-// import PhimDangChieu from './component/sapchieu';
+import SapChieu from './component/sapchieu';
+import PhimDangChieu from './component/dangchieu';
 export default function Home() {
   return (
     <div>
       <Event/>
-      {/* <PhimDangChieu/> */}
-      {/* <HeroSection /> */}
-      {/* <Promotions /> */}
+      <SapChieu/>
+      <PhimDangChieu/>
       <BlogSection />
-      {/* <FAQSection /> */}
+     
     </div>
   );
 }
