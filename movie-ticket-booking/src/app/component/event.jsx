@@ -67,8 +67,8 @@ const Event = () => {
                   <img
                     src={item.Anh} // Sử dụng đường dẫn từ mảng
                     className="card-img-top"
-                    alt={`Image ${item.id}`} style={{width: '440px', height: '200px' }}
-                  />
+                    alt={`Image ${item.id}`} 
+                  /> 
                 </div>
               </div>
             ))}

@@ -40,6 +40,10 @@
     margin: 0 15px;
 }
 
+.menu li a:hover {
+    color: #f5cf49;
+}
+
 .menu a {
     text-decoration: none;
     color: #ffff;
@@ -70,6 +74,11 @@
     border: 1.5px solid rgb(238, 158, 9);
     font-size: 13px;
     height: 40px;
+}
+
+.login-button:hover {
+    background-color: #f5cf49;
+    color: #000000;
 }
 
 .input-container {
