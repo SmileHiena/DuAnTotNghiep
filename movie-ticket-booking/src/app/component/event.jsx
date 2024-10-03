@@ -60,7 +60,7 @@ const Event = () => {
         <h1 className='text-center text-uppercase'>Khuyến mãi</h1>
         <div className="container mt-4">
           <div className="row">
-              {/* tôi muốn có mũi tên qua lại ở đây */}
+            {/*  */}
             {Sukien.slice(0, 6).map(item => ( // Lấy 6 ảnh đầu tiên
               <div className="col-md-4 col-6 mb-3" key={item.id}>
                 <div className="card">
@@ -72,7 +72,7 @@ const Event = () => {
                 </div>
               </div>
             ))}
-              {/* tôi muốn có mũi tên qua lại ở đây */}
+             {/*  */}
           </div>
         </div>
       </div>
