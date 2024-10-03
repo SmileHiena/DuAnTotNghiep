@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
+import { faThumbsUp, faReply } from '@fortawesome/free-solid-svg-icons';
+
+import '../../../public/styles/detail.css';
 
 const Detail = () => {
   // Example movie data
@@ -20,28 +23,49 @@ const Detail = () => {
     },
   ];
 
-    const lienquan = [
-        { id: 1, title: "Công tử bạc liêu", image: "/images/phim/cong-tu-bac-lieu.jpg" },
-        { id: 2, title: "Transformers: Một", image: "/images/phim/transformers-one.jpg" },
-        { id: 3, title: "Làm giàu với ma", image: "/images/phim/lam-giau-voi-ma.jpg" },
-        { id: 4, title: "Cám", image: "/images/phim/cam.jpg" },
-        { id: 5, title: "Đố anh cồng được tôi", image: "/images/phim/Do-anh-cong-duoc-toi.jpg" }
-    ];
+  const lienquan = [
+    { id: 1, title: "Công tử bạc liêu", image: "/images/phim/cong-tu-bac-lieu.jpg" },
+    { id: 2, title: "Transformers: Một", image: "/images/phim/transformers-one.jpg" },
+    { id: 3, title: "Làm giàu với ma", image: "/images/phim/lam-giau-voi-ma.jpg" },
+    { id: 4, title: "Cám", image: "/images/phim/cam.jpg" },
+    { id: 5, title: "Đố anh cồng được tôi", image: "/images/phim/Do-anh-cong-duoc-toi.jpg" }
+  ];
 
   // Sample comments
   const comments = [
-    { id: 1, name: "Nguyễn Văn A", content: "Phim hay quá! Tôi rất thích.", avt: "/images/avt/nghinhphong.jpg" },
-    { id: 2, name: "Trần Thị B", content: "Nội dung hấp dẫn và diễn xuất tuyệt vời!", avt: "/images/avt/nghinhphong.jpg" },
-    { id: 3, name: "Nguyễn Thái Sơn", content: "Web đẹp vậy trờiii!", avt: "/images/avt/nghinhphong.jpg" },
+    { 
+      id: 1, 
+      name: "Nguyễn Văn A", 
+      content: "Phim hay quá! Tôi rất thích.", 
+      avt: "./images/logo.png", 
+      timestamp: "2 hours ago", // Add timestamp
+      likes: 12, // Add likes
+    },
+    { 
+      id: 2, 
+      name: "Trần Thị B", 
+      content: "Nội dung hấp dẫn và diễn xuất tuyệt vời!", 
+      avt: "./images/logo.png", 
+      timestamp: "1 hour ago", // Add timestamp
+      likes: 5, // Add likes
+    },
+    { 
+      id: 3, 
+      name: "Nguyễn Thái Sơn", 
+      content: "Web đẹp vậy trờiii!", 
+      avt: "./images/logo.png", 
+      timestamp: "10 minutes ago", // Add timestamp
+      likes: 7, // Add likes
+    },
   ];
 
   // For demonstration, using the first movie in the array
   const movie = movies[0];
 
   return (
-    <div className="container mx-auto py-8 text-white">
+    <div className="justify-centercontainer mx-auto text-white">
       <div className="flex justify-center">
-        <div className="bg-black bg-opacity-40 p-6 rounded-lg shadow-lg w-[1200px]">
+        <div className="bg-[rgba(0,0,0,0.3)] p-6 rounded-lg shadow-lg w-[1410px]">
           <div className="flex flex-col md:flex-row items-start gap-20">
             {/* Left box for image */}
             <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
@@ -107,75 +131,98 @@ const Detail = () => {
           </div>
 
           {/* Comment Form Section */}
-          <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-4 text-center">Bình luận</h2>
-            <form className="relative flex flex-col items-center"> {/* Center the form */}
-              <div className="relative w-full">
-                <textarea 
-                  placeholder="Mời bạn thảo luận, vui lòng không spam, share link kiếm tiền, thiếu lành mạnh,... để tránh bị khóa tài khoản"
-                  className="text p-2 mb-4 rounded border border-gray-300 h-15 resize-none w-full pr-10" // Add padding to the right
-                  rows="2" 
-                />
-                <button 
-                  type="submit" 
-                  className="absolute right-2 top-2" 
-                  style={{ background: 'none', border: 'none' }} // Remove button background
-                >
-                  <FontAwesomeIcon icon={faPaperPlane} style={{ color: "#FFD43B", fontSize: '20px' }} />
+          <div className="flex justify-center mt-10 w-full">
+            <div className="w-[1920px]">
+              {/* Comment Section Wrapper */}
+              <div className="flex justify-center mt-6 flex flex-col items-center bg-[rgba(0,0,0,0.5)] p-6 rounded w-full">
+                <h2 className="text-2xl font-bold mb-4 text-center text-white">Bình luận</h2>
+
+                {/* Comment Input Section */}
+                <form className="relative flex flex-col items-center w-full">
+                  <div className="relative w-full mb-4">
+                    <textarea 
+                      placeholder="Mời bạn thảo luận, vui lòng không spam, share link kiếm tiền, thiếu lành mạnh,... để tránh bị khóa tài khoản"
+                       className="text p-2 border w-full pr-10 text-white bg-white"
+                      rows="2"
+                    />
+                    <button 
+                      type="submit" 
+                      className="absolute right-2 top-2"
+                      style={{ background: 'none', border: 'none' }} // Remove button background
+                    >
+                      <FontAwesomeIcon icon={faPaperPlane} style={{ color: "#FFD43B", fontSize: '20px' }} />
+                    </button>
+                  </div>
+                </form>
+
+                {/* Displaying Comments */}
+                {comments.map((comment) => (
+                  <div key={comment.id} className="mb-4 p-4 bg-[#423E3E] rounded w-full flex items-start gap-4">
+                    {/* Avatar */}
+                    {comment.avt && (
+                      <img 
+                        src={comment.avt} 
+                        alt={`${comment.name}'s avatar`} 
+                        className="w-12 h-12 rounded-full" 
+                      />
+                    )}
+                    {/* Comment Content */}
+                    <div className="flex flex-col flex-1">
+                      <p className="font-bold text-white">{comment.name}</p>
+                      <p className="ml-2 text-sm text-gray-300">{comment.content}</p>
+
+                      {/* Timestamp */}
+                    <p className="text-xs text-gray-500 mt-1">{comment.timestamp}</p>
+                      {/* Actions (Like, Reply) */}
+                      <div className="flex items-center gap-4 text-gray-400">
+                        {/* Like Button */}
+                        <button className="flex items-center gap-1 hover:text-yellow-500">
+                          
+                          <span className="text-sm"><FontAwesomeIcon icon={faThumbsUp} />{comment.likes || 0}</span>
+                        </button>
+
+                        {/* Reply Button */}
+                        <button className="flex items-center gap-1 hover:text-yellow-500">
+                          <FontAwesomeIcon icon={faReply} />
+                          <span className="text-sm">Reply</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Load More Button */}
+                <button className="bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-600 mt-4">
+                  Xem thêm
                 </button>
               </div>
-            </form>
-
-            {/* Display comments */}
-            <div className="mt-6 flex flex-col items-center">   
-              {comments.map(comment => (
-                <div key={comment.id} className="mb-4 p-4 bg-gray-800 rounded w-full flex items-center"> {/* Set width for comments */}
-                  {comment.avt && ( // Check if avatar exists
-                    <img 
-                      src={comment.avt} 
-                      alt={`${comment.name}'s avatar`} 
-                      className="w-10 h-10 rounded-full mr-2" // Adjust size and margin
-                    />
-                  )}
-                  <hr />
-                  <div className="flex flex-col">
-                    <p className="font-bold">{comment.name}</p>
-                    <p className="ml-2">{comment.content}</p>
-                  </div>
-                </div>
-              ))}
-            {/* Xem thêm button */}
-            <button className="bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-600 mt-4">
-            Xem thêm
-            </button>
             </div>
           </div>
         </div>
       </div>
-        
-    {/*Thể loại tương tự*/}
-    <div style={{ background: "url('/images/image.png')" }} className="container mx-auto text-center py-8 relative">
-            {/* Tiêu đề */}
-            <h2 className="text-3xl font-bold text-yellow-500 mb-8">Thể loại tương tự</h2>
 
-            {/* Danh sách phim */}
-            <div className="flex justify-center flex-wrap gap-6">
-                {lienquan.map((lienquan) => (
-                    <div key={lienquan.id} className="text-center">
-                        <img
-                            src={lienquan.image}
-                            alt={lienquan.title}
-                            className="object-cover rounded-md mb-4"
-                            style={{ height: '350px', width: '250px' }}
-                        />
-                        <h4 style={{ fontSize: 18 }} className="font-semibold text-white mb-2">{lienquan.title}</h4>
-                    </div>
-                ))}
+      {/* Thể loại tương tự */}
+      <div className="w-[1410px] mx-auto related-movies-container mb-10">
+        {/* Tiêu đề */}
+        <h2 className="related-movies-title">Thể loại tương tự</h2>
+        {/* Danh sách phim */}
+        <div className="related-movies-list">
+          {lienquan.map((movie) => (
+            <div key={movie.id} className="related-movie-card">
+              <img
+                src={movie.image}
+                alt={movie.title}
+                className="related-movie-image"
+              />
+              <h4 className="related-movie-title">{movie.title}</h4>
             </div>
+          ))}
         </div>
+        <button className="justify-center border-2 border-yellow-500 text-white font-bold py-2 px-4 rounded hover:bg-yellow-500 hover:text-black mt-10">
+          Xem thêm
+        </button>
+      </div>
     </div>
-
-    
   );
 };
 
