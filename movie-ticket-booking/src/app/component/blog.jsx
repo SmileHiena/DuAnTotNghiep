@@ -1,6 +1,6 @@
 import "../../../public/styles/blog.css";
 
-const BlogSection = () => {
+const sapchieu = () => {
     const posts = [
         {
             id: 1,
@@ -61,7 +61,7 @@ const BlogSection = () => {
             title: 'Phim J',
             excerpt: 'Đoạn trích về phim J.',
             thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
-        },
+        }
     ];
 
     return (
@@ -97,4 +97,4 @@ const BlogSection = () => {
     );
 };
 
-export default BlogSection;
+export default sapchieu;

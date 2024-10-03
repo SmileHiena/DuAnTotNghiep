@@ -43,7 +43,7 @@
   height: auto;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .card img {
       width: 400px;
       height: 210px;
@@ -53,4 +53,4 @@
       flex: 0 0 33.33%;
       max-width: 33.33%;
   }
-}
+} */

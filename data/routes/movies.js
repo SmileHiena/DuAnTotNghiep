@@ -25,7 +25,7 @@ function checkFileUpLoad(req, file, cb) {
 
 // Upload file
 let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
-const connectDb = require('../model/db');
+const connectDb = require('../models/db');
 
 //---------------------------Products--------------------------------//
 

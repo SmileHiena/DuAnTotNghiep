@@ -6,51 +6,51 @@ const Event = () => {
   const Sukien = [
     {
       "id": 1,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 2,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 3,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 4,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 5,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 6,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 7,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 8,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 9,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 10,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 11,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     },
     {
       "id": 12,
-      "Anh": "/images/phim/cam.jpg",
+      "Anh": "/images/image.png",
     }
   ];
 
@@ -67,7 +67,7 @@ const Event = () => {
                   <img
                     src={item.Anh} // Sử dụng đường dẫn từ mảng
                     className="card-img-top"
-                    alt={`Image ${item.id}`}
+                    alt={`Image ${item.id}`} style={{width: '440px', height: '200px' }}
                   />
                 </div>
               </div>

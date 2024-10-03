@@ -73,3 +73,10 @@
   background-color: #FFD700;
   border-color: #F5CF49;
 }
+
+.cut {
+  white-space: nowrap;        /* Không xuống dòng */
+  overflow: hidden;           /* Ẩn phần văn bản vượt quá khung */
+  text-overflow: ellipsis;    /* Hiển thị dấu ... */
+  width: 200px;               /* Chiều rộng cố định */
+}
