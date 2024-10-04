@@ -31,7 +31,7 @@ function Header() {
             <input type="text" placeholder="Tìm kiếm..." />
           </div>
         </div>
-        <button className="login-button">Đăng Nhập</button>
+        <Link href="/page/login"> <button className="login-button">Đăng Nhập</button></Link>
       </div>
     </header>
   );
