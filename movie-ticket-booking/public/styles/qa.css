@@ -1,72 +1,66 @@
 
-faq-section {
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
 
-a {
-    color: #FFD700;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+h1 {
+    color: #FFD700; /* Màu vàng */
+    text-align: center; /* Căn giữa chữ */
 }
 
 .faq-section {
     display: flex;
-    width: 80%;
-    max-width: 1200px;
-    justify-content: space-between;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    max-height: 540px; /* Chiều cao tối thiểu là chiều cao màn hình */
 }
 
-.faq-left {
-    flex: 1;
-    padding-right: 20px;
-}
-
-.faq-left h1 {
-    color: #FFD700;
-    font-size: 36px;
-    margin-bottom: 20px;
-}
-
-.faq-left p {
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-.faq-right {
-    flex: 1;
-}
-
-.faq-item {
-    margin-bottom: 10px;
-}
-
-.faq-question {
+ul {
     width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    background-color: #111111;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
     color: #fff;
-    border: 1px solid #333;
-    text-align: left;
+}
+
+/* i {
     cursor: pointer;
-    transition: background-color 0.3s ease;
+} */
+
+/* Responsive cho màn hình lớn hơn 1920px */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1410px;
+    }
 }
 
-.faq-question:hover {
-    background-color: #222;
+/* Responsive cho các màn hình nhỏ hơn */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2.5rem; /* Giảm kích thước chữ cho màn hình nhỏ */
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    ul li {
+        flex-direction: column; /* Chuyển từ row thành column */
+        align-items: flex-start;
+    }
 }
 
-.faq-question:after {
-    content: '\25BC'; /* Unicode for down arrow */
-    float: right;
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem; /* Kích thước chữ nhỏ hơn nữa */
+    }
+
+    .container {
+        padding: 0 5px;
+    }
+
+    ul li {
+        font-size: 0.9rem; /* Giảm kích thước font */
+    }
 }
