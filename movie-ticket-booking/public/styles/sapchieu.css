@@ -1,5 +1,5 @@
 .sap-chieu {
-    background-color: #1a1a1a; /* Màu nền tối */
+    background-color: #000000; /* Màu nền tối */
     color: white; /* Màu chữ trắng */
     padding: 2rem 0; /* Khoảng cách trên và dưới */
 }
@@ -9,11 +9,13 @@
     color: #f9c60c; /* Màu vàng */
     text-align: center;
     margin-bottom: 2rem; /* Khoảng cách dưới tiêu đề */
-}
 
+}
 .sap-chieu__container {
-    width: 1410px;
+    width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
+    max-width: 1410px; /* Đặt giới hạn chiều rộng tối đa */
     margin: 0 auto; /* Giữa trang */
+    padding: 0 1rem; /* Khoảng cách padding cho các thiết bị nhỏ */
 }
 
 .sap-chieu__row {
@@ -21,28 +23,139 @@
     flex-wrap: wrap; /* Bọc các phần tử khi không đủ chỗ */
     justify-content: center; /* Căn giữa các phần tử */
 }
-
 .sap-chieu__card {
-    /* background-color: #2c2c2c; Màu nền thẻ */
-    /* border-radius: 8px; Bo góc */
-    margin: 1rem; /* Khoảng cách giữa các thẻ */
-    /* margin: 40px; Khoảng cách bên trong thẻ */
-    text-align: center; /* Căn giữa nội dung bên trong thẻ */
-    width: 250px; /* Độ rộng cố định cho thẻ */
+    position: relative;
+    width: 250px;
+    height: 350px;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
 }
 
 .sap-chieu__image {
-    width: 100%; /* Đảm bảo ảnh chiếm 100% chiều rộng của thẻ */
-    height: 354px; /* Chiều cao cố định */
-    object-fit: cover; /* Cắt ảnh cho phù hợp */
-    /* border-radius: 8px; Bo góc ảnh */
-    margin-bottom: 1rem; /* Khoảng cách dưới ảnh */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.sap-chieu__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    /* text-align: center; */
+    padding: 20px;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+}
+
+.sap-chieu__card:hover {
+    transform: scale(1.05);
+}
+
+.sap-chieu__card:hover .sap-chieu__image {
+    transform: scale(1.1);
+}
+
+.sap-chieu__card:hover .sap-chieu__overlay {
+    opacity: 1;
 }
 
 .sap-chieu__card-title {
-    /* color: #f9c60c; Màu vàng cho tiêu đề thẻ */
-    /* font-weight: bold; Chữ in đậm */
-    overflow: hidden; /* Giới hạn văn bản nếu quá dài */
-    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu văn bản quá dài */
-    white-space: nowrap; /* Không xuống dòng */
+font-size: 16px;
+    /* font-size: 1.6rem; */
+    font-weight: 700;
+    text-transform: uppercase;
+    /* width: 250px; */
+}
+
+.sap-chieu__info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sap-chieu__info li {
+    margin-bottom: 0.3rem;
+}
+
+.sap-chieu__date {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #ffcc00;
+}
+
+
+
+
+.button-container {
+    text-align: center;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+
+    
+}
+.button-hover{
+    background-color: #f5cf49;
+    color: #000000;
+    width: 200px;
+    height: 40px;
+    font-weight: bold;
+}
+.button-hover:hover{
+    background-color: #212529;
+    color: #ffffff;
+    border: #f5cf49 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+
+
+/* Responsive adjustments for tablets (screen width below 1200px) */
+@media (max-width: 1200px) {
+    .sap-chieu__card {
+        width: calc(25% - 2rem); /* Độ rộng 25% cho màn hình trung bình */
+    }
+}
+
+/* Responsive adjustments for mobile (screen width below 768px) */
+@media (max-width: 768px) {
+    .sap-chieu__card {
+        width: calc(50% - 2rem); /* Độ rộng 50% cho điện thoại */
+    }
+
+    .sap-chieu__container {
+        padding: 0 0.5rem; /* Thu nhỏ padding khi màn hình nhỏ hơn */
+    }
+
+    .sap-chieu__title {
+        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+    }
+
+    .sap-chieu__image {
+        height: auto; /* Đặt chiều cao tự động cho ảnh để linh hoạt */
+    }
+}
+
+/* Responsive adjustments for very small mobile screens (screen width below 480px) */
+@media (max-width: 480px) {
+    .sap-chieu__card {
+        width: calc(100% - 2rem); /* Độ rộng 100% cho màn hình nhỏ */
+    }
+
+    .sap-chieu__title {
+        font-size: 1.2rem; /* Giảm kích thước chữ tiêu đề hơn nữa */
+    }
 }

@@ -6,61 +6,61 @@ const BlogSection = () => {
             id: 1,
             title: 'Phim A',
             excerpt: 'Đoạn trích về phim A.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 2,
             title: 'Phim B',
             excerpt: 'Đoạn trích về phim B.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 3,
             title: 'Phim C',
             excerpt: 'Đoạn trích về phim C.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 4,
             title: 'Phim D',
             excerpt: 'Đoạn trích về phim D.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 5,
             title: 'Phim E',
             excerpt: 'Đoạn trích về phim E.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 6,
             title: 'Phim F',
             excerpt: 'Đoạn trích về phim F.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 7,
             title: 'Phim G',
             excerpt: 'Đoạn trích về phim G.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 8,
             title: 'Phim H',
             excerpt: 'Đoạn trích về phim H.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 9,
             title: 'Phim I',
             excerpt: 'Đoạn trích về phim I.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
         {
             id: 10,
             title: 'Phim J',
             excerpt: 'Đoạn trích về phim J.',
-            thumbnail: 'http://localhost:3000/images/phim/cam.jpg',
+            thumbnail: '/images/logovn.png',
         },
     ];
 
@@ -68,7 +68,7 @@ const BlogSection = () => {
         <section className="text-white py-8 event-section1">
             <h2 className="font-bold text-yellow text-center h24">Blog Phim Ảnh</h2>
             <h6 className="mb-6 text-center h16">Tổng hợp và Review các bộ phim hot, bom tấn, phim chiếu rạp hay mỗi ngày</h6>
-            <div className="container mx-auto px-6">
+            <div className="container row ">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     {posts.map((post) => (
                         <div key={post.id} className="blog-card">
@@ -79,7 +79,7 @@ const BlogSection = () => {
                                     width: '254px',
                                     height: '122px',
                                     marginBottom: '11px',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                 }}
                             />
                             <h3 style={{ fontSize: '16px', marginBottom: '11px' }} className="text-xl font-semibold mb-2">{post.title}</h3>

@@ -1,4 +1,5 @@
-import '../../../public/css/register.css';
+import '../../../../public/styles/register.css';
+import Link from 'next/link';
 
 const Register = () => {
     return (
