@@ -8,7 +8,7 @@ function Header() {
         <div className="logo-name">
           <h3>
             <img
-              src="/image/logo.png"
+              src="/images/logo.png"
               alt="Logo"
               className="logo-img"
             />

@@ -6,51 +6,51 @@ const Event = () => {
   const Sukien = [
     {
       "id": 1,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 2,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 3,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 4,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 5,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 6,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 7,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 8,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 9,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 10,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 11,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 12,
-      "Anh": "/image/logovn.png",
+      "Anh": "/images/logovn.png",
     }
   ];
 

@@ -1,5 +1,5 @@
 .phim-dang-chieu__container {
-    background-image: url('../../public/images/image.png');
+    background-image: url('../../public/images/background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -11,7 +11,8 @@
 .phim-dang-chieu__title {
     font-size: 2rem;
     font-weight: bold;
-    color: #f9c60c; /* Yellow color */
+    color: #f9c60c;
+    /* Yellow color */
     margin-bottom: 2rem;
 }
 
@@ -19,7 +20,8 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #f9c60c; /* Yellow button */
+    background-color: #f9c60c;
+    /* Yellow button */
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
@@ -67,4 +69,8 @@
     font-weight: 600;
     color: white;
     margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+a {
+    text-decoration: none; /* Loại bỏ gạch chân cho tất cả các thẻ link */
 }

@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-butoom">
-          <img className="footer-img" src="image/logo.png" alt="" />
+          <img className="footer-img" src="images/logo.png" alt="" />
           <div className="social-icons">
             <i className="fab fa-facebook-f"></i>
             <i className="fab fa-twitter"></i>
