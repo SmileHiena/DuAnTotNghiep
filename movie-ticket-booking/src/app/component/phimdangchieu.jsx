@@ -33,7 +33,6 @@ const PhimDangChieu = () => {
                                 alt={movie.title}
                                 className="phim-dang-chieu__movie-image"
                             />
-                            <h4 className="phim-dang-chieu__movie-title">{movie.title}</h4>
                         </Link>
                     </div>
                 ))}

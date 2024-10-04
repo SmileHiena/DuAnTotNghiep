@@ -11,10 +11,10 @@ import Detail from './page/details';
 export default function Home() {
   return (
     <div>
-      {/* <PhimDangChieu/> */}
-      {/* <SapChieu/> */}
-      {/* <Event/> */}
-      {/* <BlogSection /> */}
+      <PhimDangChieu/>
+      <SapChieu/>
+      <Event/>
+      <BlogSection />
       <Detail/>
     </div>
   );
