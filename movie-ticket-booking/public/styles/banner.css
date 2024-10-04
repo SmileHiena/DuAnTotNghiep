@@ -1,0 +1,55 @@
+/* styles.css */
+.banner {
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 1400px;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.container {
+    width: 100%;
+}
+
+.text-container {
+    text-align: center;
+}
+
+.heading {
+    font-size: 30px; /* tương đương với text-xl */
+    margin-bottom: 1rem; /* tương đương với mb-4 */
+}
+
+.paragraph {
+    font-size: 30px; /* tương đương với text-lg */
+    margin-bottom: 130px; 
+    margin-top: 70px;
+
+}
+
+.button {
+    padding: 0.5rem 1.5rem; /* tương đương với px-6 py-2 */
+    border: 2px solid #fbbf24; /* tương đương với border-yellow-500 */
+    color: #fbbf24;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+    background-color: #fbbf24; /* tương đương với hover:bg-yellow-500 */
+    color: black; /* tương đương với hover:text-black */
+}
+
+.image {
+    border-radius: 0.5rem; /* tương đương với rounded-lg */
+    width: 500px;
+    height: 300px;
+}

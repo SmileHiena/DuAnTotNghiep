@@ -107,33 +107,60 @@ const SapChieu = () => {
     ];    
 
     return (
+        <>
         <section className="sap-chieu">
-            <h2 className="sap-chieu__title">Phim sắp chiếu</h2>
-            <div className="sap-chieu__container">
-                <div className="sap-chieu__row">
-                    {posts.map((post) => (
-                        <div key={post.id} className="sap-chieu__card">
-                            <img src={`/images/phim/${post.Anh}`} alt={post.Ten} className="sap-chieu__image" />
-                            <div className="sap-chieu__overlay">
-                                <p className="sap-chieu__card-title">{post.Ten} </p>
-                                <ul className="sap-chieu__info">
-                                    <li> <i class="fa-solid fa-tag" style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.KieuPhim}</li>
-                                    <li><i class="fa-solid fa-clock"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.ThoiLuong}</li>
-                                    <li><i class="fa-solid fa-earth-americas"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.QuocGia}</li>
-                                    <li><i class="fa-solid fa-comment"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.NgonNgu}</li>
-                                </ul>
-                                {/* <p className="sap-chieu__date">Khởi chiếu: {post.MoTa.NgayKhoiChieu}</p> */}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="button-container">
-                <button className="button-hover">
-                    Xem thêm
-                </button>
-            </div>
-        </section>
+  <h2 className="sap-chieu__title">Phim sắp chiếu</h2>
+  <div className="sap-chieu__container">
+    <div className="sap-chieu__row">
+      {posts.map((post) => (
+        <div key={post.id} className="sap-chieu__card">
+          <img
+            src={`/images/phim/${post.Anh}`}
+            alt={post.Ten}
+            className="sap-chieu__image"
+          />
+          <div className="sap-chieu__overlay">
+            <p className="sap-chieu__card-title">{post.Ten}</p>
+            <ul className="sap-chieu__info">
+              <li>
+                <i className="fa-solid fa-tag" style={{ color: '#FFD43B' }}></i>{' '}
+                &nbsp; {post.TheLoai.KieuPhim}
+              </li>
+              <li>
+                <i
+                  className="fa-solid fa-clock"
+                  style={{ color: '#FFD43B' }}
+                ></i>{' '}
+                &nbsp; {post.TheLoai.ThoiLuong}
+              </li>
+              <li>
+                <i
+                  className="fa-solid fa-earth-americas"
+                  style={{ color: '#FFD43B' }}
+                ></i>{' '}
+                &nbsp; {post.TheLoai.QuocGia}
+              </li>
+              <li>
+                <i
+                  className="fa-solid fa-comment"
+                  style={{ color: '#FFD43B' }}
+                ></i>{' '}
+                &nbsp; {post.TheLoai.NgonNgu}
+              </li>
+            </ul>
+          </div>
+          {/* Thêm tên phim dưới ảnh, cố định vị trí */}
+          <h6 className="SapChieu-name">{post.Ten}</h6>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div className="button-container">
+    <button className="button-hover">Xem thêm</button>
+  </div>
+</section>
+
+        </>
     );
 };
 

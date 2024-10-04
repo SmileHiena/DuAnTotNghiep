@@ -3,6 +3,7 @@ import React from 'react';
 // import HeroSection from './component/banner';
 // import MovieSlider from './component/MovieSlider';
 // import Promotions from './component/promotion';
+import Banner from './component/banner';
 import BlogSection from './component/blog.jsx';
 import Sapchieu from './component/sapchieu.jsx';
 // import FAQSection from './component/FAQ';
@@ -15,6 +16,7 @@ export default function Home() {
       {/* <PhimDangChieu/> */}
       {/* <HeroSection /> */}
       {/* <Promotions /> */}
+      <Banner/>
       <Sapchieu />
       <Event/>
       <BlogSection />

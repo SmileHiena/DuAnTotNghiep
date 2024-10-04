@@ -1,5 +1,6 @@
 import '../../../public/styles/header.css';
 import Link from 'next/link';
+// import danhSachPhim from './danhSachPhim';
 
 function Header() {
   return (
@@ -17,8 +18,8 @@ function Header() {
         <nav className="menu">
           <ul>
             <li><Link href="/">Trang chủ</Link></li>
-            <li><Link href="/">Trang chủ</Link></li>
-            <li><Link href="/page/about">Giới thiệu</Link></li>
+            <li><Link href="/page/DanhSachPhim">Danh Sách Phim</Link></li>
+            <li><Link href="/page/admin">Giới thiệu</Link></li>
             <li><a href="#services">Dịch vụ</a></li>
             <li><a href="#contact">Liên hệ</a></li>
           </ul>

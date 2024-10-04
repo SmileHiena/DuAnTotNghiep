@@ -1,8 +1,11 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.min.css"; // Thêm dòng này
 import Header from "./component/header";
 import Footer from "./component/footer";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,8 +26,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></link>
+          <script src="https://unpkg.com/react/umd/react.development.js"></script>
+          <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+          <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <Link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></link> */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} style={{ backgroundColor: 'var(--background)' }}>
+
         <Header />
         {children}
         <Footer />
