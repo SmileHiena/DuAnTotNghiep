@@ -12,7 +12,11 @@ const Banner = () => {
       </div>
       <div className="imageBox">
         <img
+<<<<<<< HEAD
           src="/images/image.png" 
+=======
+          src="/image/image.png" 
+>>>>>>> origin/Son_dev
           alt="Banner Image 1"
           width={500}
           height={300}

@@ -3,7 +3,6 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./component/header";
 import Footer from "./component/footer";
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -23,7 +22,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-        {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></link> */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} style={{ backgroundColor: 'var(--background)' }}>
         <Header />
         {children}
