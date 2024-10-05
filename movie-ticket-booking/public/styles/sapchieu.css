@@ -60,7 +60,7 @@
 
 .sap-chieu__row {
     display: flex; /* Sử dụng Flexbox để tạo hàng */
-    flex-wrap: wrap; /* Bọc các phần tử khi không đủ chỗ */
+
     justify-content: center; /* Căn giữa các phần tử */
 }
 .sap-chieu__card {
@@ -164,38 +164,77 @@ font-size: 16px;
 
 
 /* Responsive adjustments for tablets (screen width below 1200px) */
-@media (max-width: 1200px) {
-    .sap-chieu__card {
-        width: calc(25% - 2rem); /* Độ rộng 25% cho màn hình trung bình */
-    }
+@media (max-width: 1920px) {
+    .sap-chieu__container {
+        width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
+        max-width: 1410px; /* Đặt giới hạn chiều rộng tối đa */
+        margin: 0 auto; /* Giữa trang */
+        padding: 0 1rem; /* Khoảng cách padding cho các thiết bị nhỏ */
+    }    
 }
 
 /* Responsive adjustments for mobile (screen width below 768px) */
-@media (max-width: 768px) {
-    .sap-chieu__card {
-        width: calc(50% - 2rem); /* Độ rộng 50% cho điện thoại */
-    }
-
+@media (max-width: 1920px) and (min-width: 1440px) {
     .sap-chieu__container {
-        padding: 0 0.5rem; /* Thu nhỏ padding khi màn hình nhỏ hơn */
+        /* flex: 0 0 15%; */
+        max-width: 85%;
+        padding: 0 0.5rem;
+        /* max-width: 1440px;    */
     }
+    .sap-chieu__card{
+        height: fit-content;
+    }
+    .sap-chieu__title {
+        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+    }
+}
+@media (max-width: 1440px) and (min-width: 1024px) {
+    .sap-chieu__container{
 
+        padding: 0 0.5rem;
+        max-width: 85%;
+    }
+    .sap-chieu__card{
+        height: fit-content;
+    }
+    .sap-chieu__title {
+        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+    }
+}
+@media (max-width: 1024px) and (min-width: 768px) {
+    .sap-chieu__container{
+        padding: 0 0.5rem;
+        max-width: 85%;
+    }
+    .sap-chieu__card{
+        height: fit-content;
+    }
+    .sap-chieu__title {
+        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+    }
+    .sap-chieu__row {
+        display: flex; /* Sử dụng Flexbox để tạo hàng */
+        flex-wrap: wrap;
+        justify-content: center; /* Căn giữa các phần tử */
+    }
+}
+
+/* Responsive adjustments for very small mobile screens (screen width below 480px) */
+@media (max-width: 768px)  {
+    .sap-chieu__card {
+        width: calc(50% - 2rem); /* Độ rộng 50% cho điện thoại và tablet */
+    }
     .sap-chieu__title {
         font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
     }
 
     .sap-chieu__image {
-        height: auto; /* Đặt chiều cao tự động cho ảnh để linh hoạt */
-    }
-}
-
-/* Responsive adjustments for very small mobile screens (screen width below 480px) */
-@media (max-width: 480px) {
-    .sap-chieu__card {
-        width: calc(100% - 2rem); /* Độ rộng 100% cho màn hình nhỏ */
+        height: auto; /* Đặt chiều cao tự động cho ảnh */
     }
 
-    .sap-chieu__title {
-        font-size: 1.2rem; /* Giảm kích thước chữ tiêu đề hơn nữa */
+    .sap-chieu__row {
+        display: flex; /* Sử dụng Flexbox để tạo hàng */
+        flex-wrap: wrap;
+        justify-content: center; /* Căn giữa các phần tử */
     }
 }

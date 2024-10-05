@@ -1,6 +1,5 @@
 import '../../../public/styles/header.css';
 import Link from 'next/link';
-// import danhSachPhim from './danhSachPhim';
 
 function Header() {
   return (
@@ -17,11 +16,11 @@ function Header() {
         </div>
         <nav className="menu">
           <ul>
-            <li><Link href="/">Trang chủ</Link></li>
+            <li><Link href="/">Trang Chủ</Link></li>
             <li><Link href="/page/DanhSachPhim">Danh Sách Phim</Link></li>
-            <li><Link href="/page/admin">Giới thiệu</Link></li>
-            <li><a href="#services">Dịch vụ</a></li>
-            <li><a href="#contact">Liên hệ</a></li>
+            <li><Link href="/page/about">Giới Thiệu</Link></li>
+            <li><a href="#services">Dịch Vụ</a></li>
+            <li><a href="#contact">Liên Hệ</a></li>
           </ul>
         </nav>
         <div className="change-language">
@@ -33,7 +32,7 @@ function Header() {
             <input type="text" placeholder="Tìm kiếm..." />
           </div>
         </div>
-        <button className="login-button">Đăng Nhập</button>
+        <Link href="/page/login"> <button className="login-button">Đăng Nhập</button></Link>
       </div>
     </header>
   );

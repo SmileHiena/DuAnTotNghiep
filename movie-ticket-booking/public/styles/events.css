@@ -22,7 +22,7 @@
   display: flex;
   max-width: 1410px;
   flex-wrap: wrap;
-  margin: 0 -10px;
+  margin: 0 auto;
   justify-content: center;
 }
 
@@ -89,8 +89,8 @@
   }
 
   .col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
   }
 
 

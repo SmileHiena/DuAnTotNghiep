@@ -6,51 +6,51 @@ const Event = () => {
   const Sukien = [
     {
       "id": 1,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 2,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 3,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 4,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 5,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 6,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 7,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 8,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 9,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 10,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 11,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     },
     {
       "id": 12,
-      "Anh": "/images/image.png",
+      "Anh": "/images/logovn.png",
     }
   ];
 
@@ -60,19 +60,19 @@ const Event = () => {
         <h1 className='text-center text-uppercase'>Khuyến mãi</h1>
         <div className="container mt-4">
           <div className="row">
-              {/* tôi muốn có mũi tên qua lại ở đây */}
+            {/*  */}
             {Sukien.slice(0, 6).map(item => ( // Lấy 6 ảnh đầu tiên
               <div className="col-md-4 col-6 mb-3" key={item.id}>
                 <div className="card">
                   <img
                     src={item.Anh} // Sử dụng đường dẫn từ mảng
                     className="card-img-top"
-                    alt={`Image ${item.id}`} 
-                  /> 
+                    alt={`Image ${item.id}`} style={{width: '440px', height: '200px',borderRadius: '0' }}
+                  />
                 </div>
               </div>
             ))}
-              {/* tôi muốn có mũi tên qua lại ở đây */}
+             {/*  */}
           </div>
         </div>
       </div>
