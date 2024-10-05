@@ -1,7 +1,6 @@
-import '../../../public/styles/dangchieu.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link'; // Import Link from next/link
+import Link from 'next/link'; // Import Link từ next/link
 
 const PhimDangChieu = () => {
     const movies = [
@@ -13,35 +12,37 @@ const PhimDangChieu = () => {
     ];
 
     return (
-        <div className="phim-dang-chieu__container">
-            {/* Title */}
-            <h2 className="phim-dang-chieu__title">Phim đang chiếu</h2>
+        <div className="relative flex flex-col items-center justify-center">
+            {/* Tiêu đề */}
+            <h2 className="text-3xl font-bold text-center mb-8">Phim đanh chiếu</h2>
 
-            {/* Left navigation button */}
-            <button className="phim-dang-chieu__nav-button phim-dang-chieu__nav-button--left">
-                <FontAwesomeIcon icon={faChevronLeft} className="phim-dang-chieu__icon" />
-            </button>
+            <div className="relative w-full max-w-[1434px] px-3"> {/* 1410px + 12px padding mỗi bên */}
+                {/* Nút điều hướng bên trái */}
+                <button className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full">
+                    <FontAwesomeIcon icon={faChevronLeft} className="text-lg" />
+                </button>
 
-            {/* Movie list */}
-            <div className="phim-dang-chieu__movies">
-                {movies.map((movie) => (
-                    <div key={movie.id} className="phim-dang-chieu__movie-card">
-                        {/* Chuyển hướng tới trang Detail khi nhấp vào ảnh */}
-                        <Link href={`/detail/${movie.id}`}>
-                            <img
-                                src={movie.image}
-                                alt={movie.title}
-                                className="phim-dang-chieu__movie-image"
-                            />
-                        </Link>
-                    </div>
-                ))}
+                {/* Danh sách phim */}
+                <div className="flex justify-between space-x-6 py-4 w-[1398px] mx-auto"> {/* 1398px để bù cho padding */}
+                    {movies.map((movie) => (
+                        <div key={movie.id} className="flex-shrink-0 w-[250px]">
+                            {/* Chuyển hướng tới trang chi tiết khi nhấp vào ảnh */}
+                            <Link href={`/detail/${movie.id}`}>
+                                <img
+                                    src={movie.image}
+                                    alt={movie.title}
+                                    className="w-[250px] h-[354px] object-cover rounded-lg"
+                                />
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Nút điều hướng bên phải */}
+                <button className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full">
+                    <FontAwesomeIcon icon={faChevronRight} className="text-lg" />
+                </button>
             </div>
-
-            {/* Right navigation button */}
-            <button className="phim-dang-chieu__nav-button phim-dang-chieu__nav-button--right">
-                <FontAwesomeIcon icon={faChevronRight} className="phim-dang-chieu__icon" />
-            </button>
         </div>
     );
 };

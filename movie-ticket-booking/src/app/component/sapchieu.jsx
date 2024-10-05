@@ -117,10 +117,10 @@ const SapChieu = () => {
                             <div className="sap-chieu__overlay">
                                 <p className="sap-chieu__card-title">{post.Ten} </p>
                                 <ul className="sap-chieu__info">
-                                    <li> <i class="fa-solid fa-tag" style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.KieuPhim}</li>
-                                    <li><i class="fa-solid fa-clock"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.ThoiLuong}</li>
-                                    <li><i class="fa-solid fa-earth-americas"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.QuocGia}</li>
-                                    <li><i class="fa-solid fa-comment"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.NgonNgu}</li>
+                                    <li> <i className="fa-solid fa-tag" style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.KieuPhim}</li>
+                                    <li><i className="fa-solid fa-clock"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.ThoiLuong}</li>
+                                    <li><i className="fa-solid fa-earth-americas"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.QuocGia}</li>
+                                    <li><i className="fa-solid fa-comment"  style={{color: '#FFD43B',}}></i> &nbsp; {post.TheLoai.NgonNgu}</li>
                                 </ul>
                                 {/* <p className="sap-chieu__date">Khởi chiếu: {post.MoTa.NgayKhoiChieu}</p> */}
                             </div>
