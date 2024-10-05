@@ -1,18 +1,20 @@
 .phim-dang-chieu__container {
-    background-image: url('../../public/images/background.png');
+    background-image: url('/images/image1.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     text-align: center;
     padding: 2rem 0;
     position: relative;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto; /* Center the section */
 }
 
 .phim-dang-chieu__title {
     font-size: 2rem;
     font-weight: bold;
     color: #f9c60c;
-    /* Yellow color */
     margin-bottom: 2rem;
 }
 
@@ -21,11 +23,11 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: #f9c60c;
-    /* Yellow button */
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    z-index: 1;
 }
 
 .phim-dang-chieu__nav-button:hover {
@@ -50,15 +52,19 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 1.5rem;
+    padding: 0 1rem;
 }
 
 .phim-dang-chieu__movie-card {
     text-align: center;
+    flex: 1 1 calc(20% - 1.5rem); /* 5 ảnh trên một dòng ở màn hình lớn */
+    max-width: 250px;
 }
 
 .phim-dang-chieu__movie-image {
-    width: 250px;
-    height: 350px;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
     object-fit: cover;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
@@ -69,8 +75,58 @@
     font-weight: 600;
     color: white;
     margin-bottom: 0.5rem;
-    text-decoration: none;
 }
-a {
-    text-decoration: none; /* Loại bỏ gạch chân cho tất cả các thẻ link */
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+    .phim-dang-chieu__movies {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .phim-dang-chieu__movie-card {
+        flex: 1 1 calc(33.33% - 1.5rem); /* 3 ảnh trên một dòng */
+    }
+
+    .phim-dang-chieu__nav-button--left {
+        left: 0.5rem;
+    }
+
+    .phim-dang-chieu__nav-button--right {
+        right: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .phim-dang-chieu__movies {
+        justify-content: center;
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+
+    .phim-dang-chieu__movie-card {
+        flex: 1 1 calc(50% - 1.5rem); /* 2 ảnh trên một dòng */
+        max-width: 180px; /* Giới hạn kích thước ảnh */
+    }
+
+    .phim-dang-chieu__nav-button {
+        display: none; /* Ẩn nút điều hướng khi ở kích thước nhỏ */
+    }
+}
+
+@media (max-width: 480px) {
+    .phim-dang-chieu__movies {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center; /* Căn giữa các box trên mobile */
+    }
+
+    .phim-dang-chieu__movie-card {
+        flex: 1 1 calc(100% - 1.5rem); /* 1 ảnh trên một dòng */
+        max-width: 250px; /* Đảm bảo kích thước không quá lớn */
+    }
+
+    .phim-dang-chieu__nav-button {
+        display: none; /* Ẩn nút điều hướng khi ở kích thước nhỏ */
+    }
 }

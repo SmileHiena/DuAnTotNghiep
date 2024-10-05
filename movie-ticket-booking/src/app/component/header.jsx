@@ -23,7 +23,7 @@ function Header() {
           </ul>
         </nav>
         <div className="change-language">
-          <img src="/image/logovn.png" alt="Ngôn ngữ" className="language-img" />
+          <img src="/images/logovn.png" alt="Ngôn ngữ" className="language-img" />
         </div>
         <div className="search-area">
           <div className="input-container">
