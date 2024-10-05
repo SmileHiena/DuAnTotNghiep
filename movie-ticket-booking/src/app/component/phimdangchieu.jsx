@@ -23,7 +23,7 @@ const PhimDangChieu = () => {
                 </button>
 
                 {/* Danh sách phim */}
-                <div className="flex justify-between space-x-6 mx-auto"> {/* 1398px để bù cho padding */}
+                <div className="flex justify-between space-x-6 mx-auto">
                     {movies.map((movie) => (
                         <div key={movie.id} className="flex-shrink-0 w-[250px]">
                             {/* Chuyển hướng tới trang chi tiết khi nhấp vào ảnh */}
