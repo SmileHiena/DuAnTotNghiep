@@ -16,14 +16,14 @@ const PhimDangChieu = () => {
             {/* Tiêu đề */}
             <h2 className="text-3xl font-bold text-center mb-8">Phim đanh chiếu</h2>
 
-            <div className="relative w-full max-w-[1434px] px-3"> {/* 1410px + 12px padding mỗi bên */}
+            <div className="relative w-full max-w-[1410px]">
                 {/* Nút điều hướng bên trái */}
                 <button className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full">
                     <FontAwesomeIcon icon={faChevronLeft} className="text-lg" />
                 </button>
 
                 {/* Danh sách phim */}
-                <div className="flex justify-between space-x-6 py-4 w-[1398px] mx-auto"> {/* 1398px để bù cho padding */}
+                <div className="flex justify-between space-x-6 mx-auto"> {/* 1398px để bù cho padding */}
                     {movies.map((movie) => (
                         <div key={movie.id} className="flex-shrink-0 w-[250px]">
                             {/* Chuyển hướng tới trang chi tiết khi nhấp vào ảnh */}
