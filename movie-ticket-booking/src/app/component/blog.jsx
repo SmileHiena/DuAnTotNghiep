@@ -18,7 +18,7 @@ const BlogSection = () => {
             <h6 className="mb-6 text-center text-[#737373] text-[17px] font-normal mb-[55px]">
                 Tổng hợp và Review các bộ phim hot, bom tấn, phim chiếu rạp hay mỗi ngày
             </h6>
-            <div className="container mx-auto mb-[40px]" style={{ maxWidth: '1410px' }}>
+            <div className="mx-auto mb-[40px]" style={{ maxWidth: '1410px' }}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[15px]"> {/* Khoảng cách giữa các ảnh */}
                     {posts.map((post) => (
                         <div key={post.id} className="rounded-lg overflow-hidden transition-transform transform hover:scale-105">

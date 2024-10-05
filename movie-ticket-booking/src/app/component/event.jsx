@@ -19,7 +19,7 @@ const Event = () => {
       <div className="pt-4"> {/* Thay margin top bằng padding top */}
         <h1 className='text-center uppercase text-[40px] text-[#FFFFFF] font-bold mb-8'>Khuyến mãi</h1>
       </div>
-      <div className="container mx-auto mt-4" style={{ maxWidth: '1410px' }}>
+      <div className="mx-auto" style={{ maxWidth: '1410px' }}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-[20px] lg:gap-[20px] mb-24">
           {Sukien.slice(0, 6).map(item => (
             <div className="mb-[5px]" key={item.id}>
