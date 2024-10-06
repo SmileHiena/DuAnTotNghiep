@@ -1,7 +1,7 @@
-import Link from "next/link";
+// import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import Head from "next/head";
+// import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+// import Head from "next/head";
 import { faThumbsUp, faReply } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../public/styles/detail.css";
