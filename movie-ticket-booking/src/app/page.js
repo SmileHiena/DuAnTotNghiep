@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <div>
       <Banner/>
-      <SapChieu/>
       <PhimDangChieu/>
+      <SapChieu/>
       <Event/>
       <BlogSection />
       <QA/>
