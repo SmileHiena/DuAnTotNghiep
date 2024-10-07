@@ -1,10 +1,7 @@
-// import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-// import Head from "next/head";
 import { faThumbsUp, faReply } from "@fortawesome/free-solid-svg-icons";
 
-import "../../../public/styles/detail.css";
+// import "../../../public/styles/detail.css";
 
 const Detail = () => {
   // Example movie data
@@ -229,7 +226,7 @@ const Detail = () => {
       {/* Thể loại tương tự */}
       <div className="w-full max-w-[1410px] mx-auto related-movies-container mb-10">
         {/* Tiêu đề */}
-        <h2 className="related-movies-title text-xl font-bold mb-4">
+        <h2 className="related-movies-title font-bold mb-4 text-center text-[20px]">
           Thể loại tương tự
         </h2>
         {/* Danh sách phim */}
