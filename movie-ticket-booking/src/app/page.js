@@ -19,8 +19,8 @@ export default function Home() {
       {/* <BlogSection /> */}
       {/* <QA/> */}
      
-     {/* <Detail/> */}
-     <BookTicker/>
+     <Detail/>
+     {/* <BookTicker/> */}
     </div>
   );
 }

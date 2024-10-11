@@ -17,7 +17,7 @@ const BookTicker = () => {
     <div className="max-w-full mx-auto p-4 sm:p-8 bg-[rgba(0,0,0,0.6)]" style={{ maxWidth: '1410px' }}>
       <h2 className="text-xl sm:text-2xl font-semibold text-white">CHI TIẾT HÓA ĐƠN</h2>
       <hr className="border-white" />
-      <div className="mx-auto p-4 sm:p-6 bg-black shadow-lg rounded-lg border-2 border-customBorder w-full sm:w-[854px] h-auto my-12">
+      <div className="mx-auto p-4 sm:p-6 bg-black shadow-lg rounded-lg border-2 border-customBorder w-full sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[854px] h-auto my-12">
         {HoaDon.map((hoaDon) => (
           <div key={hoaDon.id} className="space-y-4 text-white">
             <h2 className=" text-center text-xl sm:text-2xl font-semibold">CHI TIẾT HÓA ĐƠN</h2>
