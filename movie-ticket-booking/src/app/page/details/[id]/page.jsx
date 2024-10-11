@@ -176,7 +176,7 @@ const Detail = () => {
 
           {/* Comment Form Section */}
           <div className="flex justify-center mt-10 w-full">
-            <div className="w-full max-w-[1200px]">
+            <div className="w-full max-w-[1410px]">
               {" "}
               {/* Giới hạn chiều rộng */}
               {/* Comment Section Wrapper */}
