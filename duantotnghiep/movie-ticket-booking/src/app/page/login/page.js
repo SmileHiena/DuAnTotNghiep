@@ -4,10 +4,11 @@ import Link from 'next/link';
 const Login = () => {
     return (
         <div className="login-container">
+           <div className="box-login">
             <form className="login-form">
-                <h1>Đăng nhập</h1>
+                <h1 className="login-header">Đăng nhập</h1>
 
-                <label htmlFor="username">Tên đăng nhập, email hoặc số điện thoại*</label>
+                <label htmlFor="username" className="login-text">Tên đăng nhập, email hoặc số điện thoại*</label>
                 <input
                     type="text"
                     id="username"
@@ -16,7 +17,7 @@ const Login = () => {
                     required
                 />
 
-                <label htmlFor="password">Mật khẩu*</label>
+                <label htmlFor="password" className="login-text">Mật khẩu*</label>
                 <input
                     type="password"
                     id="password"
@@ -36,10 +37,11 @@ const Login = () => {
                 <button type="submit" className="login-btn">Đăng nhập</button>
                 <hr className="login-hr" />
                 <div className="next-regiter">
-                    <p>Bạn chưa có tài khoản? </p>
+                    <p className="acount">Bạn chưa có tài khoản? </p>
                     <Link href="register">Đăng ký ngay!</Link>
                 </div>
             </form>
+        </div>
         </div>
     );
 };

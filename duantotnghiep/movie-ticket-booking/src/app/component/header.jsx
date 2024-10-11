@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 function Header() {
   return (
-    <header className="bg-black">
+    <header className="bg-black w-[1920px]">
       <div className="max-w-[1410px] mx-auto flex items-center justify-between">
 
         {/* Logo */}

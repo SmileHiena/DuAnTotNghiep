@@ -1,0 +1,143 @@
+/* Container and general layout */
+.box-pay {
+    display: flex;
+    margin: 20px 60px;
+    width: 1200px;
+  }
+  .checkout{
+    color: aliceblue;
+        background-color: #1d1d1d;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+        width: 1920px;
+  }
+  .paymentOption {
+    display: flex;
+ 
+    background-color: #222;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff;
+  }
+  
+  .paymentOption input {
+    margin-right: 10px;
+  }
+
+  .color-toge{
+    color: #F2F549;
+    font-size: 24px;
+  }
+  .box-pay .box-check{
+    width: 50%;
+  }
+  .box-infor{
+    margin-left: 20px;
+    width: 50%;
+    border-radius: 5px;
+    background-color: black;
+    padding: 15px;
+
+  }
+  .checkout-Container{
+    width: 1410px;
+  }
+
+.customerInfo {
+    margin-bottom: 20px;
+    margin:0 60px;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    display: flex;
+    border: 1px solid #F2F549;
+    border-radius: 5px;
+    width: 1200px;
+  }
+  .text-infor{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 50px;
+  }
+  .movieHeader{
+    display: flex;
+    justify-content: space-between;
+  }
+  .movieHeader .checkout-clock{
+    padding: 3px;
+    color: #1d1d1d;
+    background-color: #F2F549;
+    border-radius: 5px;
+    
+  }
+  .discountCode {
+    margin-bottom: 20px;
+  }
+  
+  .discountCode input {
+    width: 100%;
+    padding: 20px;
+    background-color: #222;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: white;
+  }
+.text-forn{
+    display: flex;
+    margin-top: 15px;
+}
+.font-input{
+    opacity: 0;
+    position: 'absolute'
+}
+.discount-input{
+    border: 1px solid #F2F549;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; 
+}
+.backButton, .payButton {
+  font-size: 16px; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer;
+  transition: background-color 0.3s; 
+  background-color: #F2F549;
+  color: black;
+  height: 50px;
+  width: 250px;
+}
+
+.backButton {
+  background-color: #F2F549;
+ 
+  font-weight: bold;
+}
+
+.backButton:hover {
+  background-color: #F2F549;
+}
+p{
+  font-size: 20px;
+}
+
+.payButton {
+  background-color: #F2F549;
+
+  font-weight: bold;
+}
+
+.payButton:hover {
+  background-color: #F2F549;
+}
+.totalAmount{
+  display: flex;
+  justify-content: space-between;
+}

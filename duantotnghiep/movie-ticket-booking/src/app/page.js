@@ -10,13 +10,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function Home() {
   return (
     <div>
-      <Banner/>
+      {/* <Banner/>
       <SapChieu/>
       <PhimDangChieu/>
       <Event/>
       <BlogSection />
-      <QA/>
-      {/* < Checkout /> */}
+      <QA/> */}
+      < Checkout />
 
      
     </div>

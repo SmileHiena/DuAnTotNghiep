@@ -6,31 +6,40 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      width: 98.925vw;
-      max-height: 70%;
+      width: 1920px;
+      height: 980px;
   }
+  
+  .box-login{
+    width: 950px;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0px 40px;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 150px;
 
+  }
   .login-form h1 {
       text-align: center;
       margin: 20px;
-      font-size: 24px;
+      font-size: 36px;
       padding: 20px;
   }
 
   .login-form {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 0px 40px;
-      border-radius: 8px;
-      color: white;
-      width: 400px;
-      height: 500px;
-      margin: 20px 0px;
+      width: 520px;
+      height: 550px;
+      margin-bottom: 100px;
   }
 
   .login-form label {
       display: block;
       margin-bottom: 8px;
-      font-size: 14px;
+      font-size: 18px;
   }
 
   .login-form input {
@@ -40,10 +49,13 @@
       margin-bottom: 10px;
       border-radius: 5px;
       border: none;
-      font-size: 14px;
+      font-size: 16px;
       border: 1.5px solid white;
+      background-color: black;
   }
-
+  .login-header{
+    font-size: 100px;
+}
   input[type="checkbox"] {
       width: auto;
       margin-right: 10px;
@@ -78,8 +90,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 18px;
   }
 
   .login-hr {
       margin-top: 20px;
   }
+.acount{
+    margin-top: 15px;
+}

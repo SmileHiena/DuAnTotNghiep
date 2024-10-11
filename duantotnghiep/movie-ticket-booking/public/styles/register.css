@@ -6,43 +6,56 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    width: 98.925vw;
-    max-height: 70%;
+    width: 1920px;
+    height: 1350px;
 }
 
 .registration-form {
-    background-color: rgba(0, 0, 0, 0.8);
-    /* Dark background for the form */
     padding: 0px 40px;
     border-radius: 8px;
-
     color: white;
-    width: 400px;
-    height: 700px;
-    margin: 20px 0px;
+    width: 570px;
+    height: 90%;
 }
+.box-register{
+    width: 950px;
+    height: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0px 40px;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 120px;
 
-h2 {
+}
+h1{
     text-align: center;
+    margin: 20px;
+    font-size: 36px;
+    padding: 20px;
 }
 
 
 .form-input {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: none;
-    font-size: 14px;
-    border: 1.5px solid white;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 18px;
+      border: 1.5px solid white;
+      background-color: black;
 }
+
 
 input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
+    padding: 20px;
 }
-
 .regiter-button {
     width: 100%;
     padding: 10px;
@@ -71,4 +84,10 @@ input[type="checkbox"] {
 
 .login-link a:hover {
     text-decoration: underline;
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
 }

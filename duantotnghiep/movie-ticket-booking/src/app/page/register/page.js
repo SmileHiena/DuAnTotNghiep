@@ -4,8 +4,9 @@ import Link from 'next/link';
 const Register = () => {
     return (
         <div className="registration-container">
+            <div className='box-register'>
             <form className="registration-form">
-                <h2>Đăng ký</h2>
+                <h1>Đăng ký</h1>
                 <label>Họ và tên *</label>
                 <input className='form-input' type="text" placeholder="Họ và tên" required />
 
@@ -25,14 +26,17 @@ const Register = () => {
                 <input className='form-input' type="password" placeholder="Nhập lại mật khẩu" required />
 
                 <div className="checkbox">
-                    <input className='form-input' type="checkbox" />
-                    <label>Tôi đồng ý với điều khoản.</label>
+                <label>
+                        <input type="checkbox" />
+                        Tôi đồng ý các điểu khoản 
+                    </label>
                 </div>
 
                 <button className='regiter-button' type="submit">Đăng ký</button>
 
                 <p className="login-link">Bạn đã có tài khoản? Đăng nhập ngay!</p>
             </form>
+        </div>
         </div>
     );
 };

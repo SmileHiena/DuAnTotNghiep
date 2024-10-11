@@ -14,14 +14,15 @@ html, body {
   padding: 20px 0; /* Thêm padding để tạo khoảng cách */
   position: relative; /* Đặt footer ở vị trí tương đối */
   bottom: 0; /* Đặt footer ở dưới cùng */
-  width: 100%; /* Đặt chiều rộng 100% */
+  width: 1920px; /* Đặt chiều rộng 100% */
+  font-size: 26;
 }
 
 .footer-container {
   display: flex;
   flex-wrap: wrap; /* Cho phép các cột xếp chồng lên nhau khi không đủ không gian */
-  max-width: 80vw;
-  width: 100%;
+  width: 1410px;
+
   justify-content: space-between; /* Đảm bảo các cột có khoảng cách đều */
 }
 
@@ -30,13 +31,13 @@ html, body {
 }
 
 .footer-bottom {
-  width: 100%;
+  width: 1410px;
   border-top: 1px solid #555;
   padding-top: 20px;
   display: flex;
   justify-content: space-between; 
   align-items: center;
-  max-width: 80vw;
+
 }
 
 .footer-bottom p {
@@ -49,9 +50,10 @@ html, body {
   display: flex;
 }
 
-.footer-links li {
+ li, p{
   margin-right: 20px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .footer-links li:hover {
