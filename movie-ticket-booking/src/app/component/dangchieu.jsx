@@ -1,6 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+"use client";
+import "../../../public/styles/dangchieu.css";
+import React from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
+
+const Slider = dynamic(() => import('react-slick'), { ssr: false });
 
 const PhimDangChieu = () => {
     const movies = [
@@ -106,38 +110,68 @@ const PhimDangChieu = () => {
         },
     ];
 
-    return (
-        <section style={{ backgroundColor: 'rgba(0, 0, 0, 1)' }}>
-        <div className="sap-chieu max-w-full mx-auto py-8" style={{ backgroundImage: 'url(/images/image1.png)', maxWidth: '1410px' }}>
-            {/* Title */}
-            <h2 className="sap-chieu__title text-yellow-400 mb-8 text-3xl font-bold">Phim đang chiếu</h2>
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
+    };
 
-            <div className="sap-chieu__ flex justify-center">
-                {/* Movie list */}
-                <div className="sap-chieu__row flex justify-between" style={{ overflowX: 'auto' }}>
-                    {movies.map((movie) => (
-                        <div key={movie.id} className="sap-chieu__card relative flex-shrink-0 mx-2">
-                            <Link href={`/detail/${movie.id}`}>
-                                <img
-                                    src={`/images/phim/${movie.Anh}`}
-                                    alt={movie.Ten}
-                                    className="sap-chieu__image w-full h-[354px] object-cover transition-transform duration-300 transform hover:scale-110"
-                                />
-                                <div className="sap-chieu__overlay">
-                                    <h3 className="sap-chieu__card-title text-white font-bold text-lg">{movie.Ten}</h3>
-                                    <ul className="sap-chieu__info">
+    return (
+        <section className="dang-chieu">
+            <div className="dang-chieu__container mx-auto py-8">
+                <h2 className="dang-chieu__title">Phim đang chiếu</h2>
+                <div className="sap-chieu max-w-full mx-auto py-8" style={{ backgroundImage: 'url(/images/image1.png)', maxWidth: '1410px' }}>
+                    <Slider {...settings}>
+                        {movies.map((movie) => (
+                            <div key={movie.id} className="dang-chieu__card">
+                                <Link href={`/detail/${movie.id}`}>
+                                    <img
+                                        src={`/images/phim/${movie.Anh}`}
+                                        alt={movie.Ten}
+                                        className="dang-chieu__image"
+                                    />
+                                    {/* <div className="dang-chieu__overlay">
+                                    <h3 className="dang-chieu__card-title">{movie.Ten}</h3>
+                                    <ul className="dang-chieu__info">
                                         <li>{movie.TheLoai.ThoiLuong}</li>
                                         <li>{movie.TheLoai.KieuPhim}</li>
                                         <li>{movie.TheLoai.QuocGia}</li>
                                         <li>{movie.TheLoai.NgonNgu}</li>
                                     </ul>
-                                </div>
-                            </Link>
-                        </div>
-                    ))}
+                                </div> */}
+                                </Link>
+                            </div>
+                        ))}
+                    </Slider>
                 </div>
             </div>
-        </div>
         </section>
     );
 };

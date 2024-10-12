@@ -44,4 +44,4 @@ const BlogSection = () => {
     );
 };
 
-export default sapchieu;
+export default BlogSection;
