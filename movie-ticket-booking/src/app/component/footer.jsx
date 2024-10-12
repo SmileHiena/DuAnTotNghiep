@@ -41,7 +41,7 @@ const Footer = () => {
 
       </div>
       </section>
-      <div className="flex justify-center space-x-8 mb-4">
+      <div className="flex justify-around space-x-8 mb-4">
         <div>
           <p>© 2024 Tickerman. All rights reserved.</p>
         </div>
