@@ -1,10 +1,8 @@
-// import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-// import Head from "next/head";
 import { faThumbsUp, faReply } from "@fortawesome/free-solid-svg-icons";
-
-import "../../../public/styles/detail.css";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import DangChieu from "../../../component/phimdangchieu.jsx";
+import "../../../../../public/styles/sapchieu.css";
 
 const Detail = () => {
   // Example movie data
@@ -20,7 +18,7 @@ const Detail = () => {
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
       thoigian: "122 phút",
       quocgia: "Việt Nam",
-      image: "/images/phim/cam.jpg",
+      image: "/images/phim/cong-tu-bac-lieu.jpg",
     },
   ];
 
@@ -82,66 +80,97 @@ const Detail = () => {
   return (
     <div className="justify-centercontainer mx-auto text-white">
       <div className="flex justify-center">
-        <div className="bg-[rgba(0,0,0,0.3)] p-6 rounded-lg shadow-lg w-full max-w-[1410px] mx-auto">
-          <div className="flex flex-col md:flex-row items-start gap-20">
+        <div className="bg-[rgba(0,0,0,0.3)] shadow-lg w-full max-w-[1410px] mx-auto">
+          <div className="flex flex-col md:flex-row items-start gap-20 mr-[120px]">
             {/* Left box for image */}
             <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
               <img
                 src={movie.image}
                 alt={movie.title}
-                className="object-cover rounded-md"
+                className="object-cover"
                 style={{ height: "650px", width: "auto" }}
               />
             </div>
 
             {/* Right box for information */}
             <div className="md:w-1/2 flex flex-col">
-              <h1 className="text-3xl font-bold mb-4">{movie.title}</h1>
+              <h1
+                className="text-[30px] font-semibold mb-4"
+
+              >
+                {movie.title}
+              </h1>
 
               {/* Director */}
-              <p className="mt-7 mb-2">
-                <span className="font-bold">Đạo diễn:</span> {movie.daodien}
+              <p className="text-[18px] mt-7 mb-2">
+                <span className=" font-semibold">Đạo diễn:</span>{" "}
+                {movie.daodien}
               </p>
 
               {/* Actors */}
-              <p className="mb-2">
-                <span className="font-bold">Diễn viên:</span> {movie.dienvien}
+              <p className="text-[18px] mb-2">
+                <span className="font-semibold">Diễn viên:</span>{" "}
+                {movie.dienvien}
               </p>
 
               {/* Release date */}
-              <p className="mb-2">
-                <span className="font-bold">Ngày khởi chiếu:</span>{" "}
+              <p className="text-[18px] mb-2">
+                <span className="font-semibold">Ngày khởi chiếu:</span>{" "}
                 {movie.ngaykhoichieu}
               </p>
 
               {/* Genre */}
-              <p className="mb-2">
-                <span className="font-bold">Thể loại:</span> {movie.theloai}
+              <p className="text-[18px] mb-2">
+                <span className="font-semibold">Thể loại:</span> {movie.theloai}
               </p>
 
               {/* Description */}
-              <h1 className="font-bold mt-7 mb-2">Nội Dung</h1>
-              <p className="text-sm mb-4">{movie.description}</p>
+              <h1
+                className="text-[20px] font-bold mt-7 mb-2"
+
+              >
+                Nội Dung
+              </h1>
+              <p className="text-[18px] mb-4">{movie.description}</p>
 
               {/* Additional movie information */}
               <div className="boton flex space-x-4 mb-6">
-                <p>
-                  <span className="font-bold">Thể loại:</span> {movie.theloai}
+                <p className="text-[18px]">
+                  <span className="font-semibold">Thể loại:</span>{" "}
+                  {movie.theloai}
                 </p>
-                <p>
-                  <span className="font-bold">Thời gian:</span> {movie.thoigian}
+                <p className="text-[18px]">
+                  <span className="font-semibold">Thời gian:</span>{" "}
+                  {movie.thoigian}
                 </p>
-                <p>
-                  <span className="font-bold">Quốc gia:</span> {movie.quocgia}
+                <p className="text-[18px]">
+                  <span className="font-semibold">Quốc gia:</span>{" "}
+                  {movie.quocgia}
                 </p>
               </div>
 
               {/* Buttons for booking and trailer */}
-              <div className="flex mt-7 space-x-4">
-                <button className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600 flex-1 max-w-[150px] md:max-w-[200px]">
-                  Xem trailer
-                </button>
-                <button className="bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-600 flex-1 max-w-[150px] md:max-w-[200px]">
+              <div className="flex mt-7 space-x-2">
+                <div className="flex">
+                  <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
+                    <FontAwesomeIcon
+                      icon={faPlay}
+                      style={{
+                        color: "#F5CF49",
+                        width: "12px",
+                        height: "12px",
+                      }}
+                    />
+                  </p>
+
+                  <button className="text-[16px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
+                    Xem trailer
+                  </button>
+                </div>
+                <button
+                  className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300 "
+                  style={{ width: '150px', height: '41px' }}
+                >
                   Đặt vé
                 </button>
               </div>
@@ -150,12 +179,15 @@ const Detail = () => {
 
           {/* Comment Form Section */}
           <div className="flex justify-center mt-10 w-full">
-            <div className="w-full max-w-[1200px]">
+            <div className="w-full max-w-[1410px]">
               {" "}
               {/* Giới hạn chiều rộng */}
               {/* Comment Section Wrapper */}
-              <div className="flex justify-center mt-6 flex flex-col items-center bg-[rgba(0,0,0,0.5)] p-6 rounded w-full">
-                <h2 className="text-2xl font-bold mb-4 text-center text-white">
+              <div className="flex justify-center mt-6 flex flex-col items-center bg-[rgba(0,0,0,0.5)] p-6 w-full">
+                <h2
+                  className="text-[28px] font-bold mb-4 text-center text-white"
+
+                >
                   Bình luận
                 </h2>
 
@@ -164,12 +196,15 @@ const Detail = () => {
                   <div className="relative w-full mb-4">
                     <textarea
                       placeholder="Mời bạn thảo luận, vui lòng không spam, share link kiếm tiền, thiếu lành mạnh,... để tránh bị khóa tài khoản"
-                      className="text p-2 border w-full pr-10 text-black bg-white resize-none" // Thêm resize-none để không thể thay đổi kích thước
+                      className="text-[16px] p-2 border w-full pr-10 text-black bg-white resize-none" // Thêm resize-none để không thể thay đổi kích thước
                       rows="2"
                     />
-                    <button className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600 mt-2">
-                      Gửi
-                    </button>
+                   <button
+                  className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300 "
+                  style={{ width: '150px', height: '41px' }}
+                >
+                Gửi
+                </button>
                   </div>
                 </form>
 
@@ -189,7 +224,9 @@ const Detail = () => {
                     )}
                     {/* Comment Content */}
                     <div className="flex flex-col flex-1">
-                      <p className="font-bold text-white">{comment.name}</p>
+                      <p className="font-semibold text-[28px] text-white">
+                        {comment.name}
+                      </p>
                       <p className="ml-2 text-sm text-gray-300">
                         {comment.content}
                       </p>
@@ -217,7 +254,7 @@ const Detail = () => {
                 ))}
 
                 {/* Load More Button */}
-                <button className="bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-600 mt-4">
+                <button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">
                   Xem thêm
                 </button>
               </div>
@@ -226,19 +263,31 @@ const Detail = () => {
         </div>
       </div>
 
+      {/* conponent phim đang chieu */}
+      <DangChieu />
+
       {/* Thể loại tương tự */}
-      <div className="w-full max-w-[1410px] mx-auto related-movies-container mb-10">
+      <div
+        className="w-full max-w-[1410px] mx-auto related-movies-container mb-10 p-5"
+        style={{
+          backgroundImage: "url(/images/image1.png)", // Add your image path here
+          backgroundSize: "cover", // Ensure the image covers the whole background
+          backgroundPosition: "center", // Center the background image
+          borderRadius: "10px", // Smooth out the corners
+        }}
+      >
         {/* Tiêu đề */}
-        <h2 className="related-movies-title text-xl font-bold mb-4">
+        <h2
+          className="related-movies-title font-semibold mb-4 text-center text-[#F5CF49] text-[30px]"
+
+        >
           Thể loại tương tự
         </h2>
+
         {/* Danh sách phim */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {lienquan.map((movie) => (
-            <div
-              key={movie.id}
-              className="related-movie-card rounded-lg p-2"
-            >
+            <div key={movie.id} className="related-movie-card rounded-lg p-2">
               <img
                 src={movie.image}
                 alt={movie.title}
@@ -250,9 +299,13 @@ const Detail = () => {
             </div>
           ))}
         </div>
-        <button className="justify-center border-2 border-yellow-500 text-white font-bold py-2 px-4 rounded hover:bg-yellow-500 hover:text-black mt-10">
-          Xem thêm
-        </button>
+
+        {/* Center the button */}
+        <div className="flex justify-center mt-10">
+          <button className="border-2 border-yellow-500 text-white font-bold px-4 rounded hover:bg-yellow-500 hover:text-black">
+            Xem thêm
+          </button>
+        </div>
       </div>
     </div>
   );
