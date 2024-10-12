@@ -9,13 +9,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function Home() {
   return (
     <div>
-      <Banner/>
-      <SapChieu/>
-      <PhimDangChieu/>
-      <Event/>
+      <Banner />
+      <PhimDangChieu />
+      <SapChieu />
+      <Event />
       <BlogSection />
-      <QA/>
-     
+      <QA />
+
     </div>
   );
 }
