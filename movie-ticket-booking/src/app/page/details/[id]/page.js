@@ -60,7 +60,7 @@ const Detail = () => {
     {
       id: 2,
       name: "Trần Thị B",
-      content: "Nội dung hấp dẫn và diễn xuất tuyệt vờiahahahaaaaaaadddddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaa!",
+      content: "Nội dung hấp dẫn và diễn xuất tuyệt vờiahahahaaaaaaaddnpmdddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaa!",
       avt: "./images/logo.png",
       timestamp: "1 hour ago", // Add timestamp
       likes: 5, // Add likes
