@@ -34,7 +34,8 @@ const Register = () => {
 
                 <button className='regiter-button' type="submit">Đăng ký</button>
 
-                <p className="login-link">Bạn đã có tài khoản? Đăng nhập ngay!</p>
+                <p className="login-link">Bạn đã có tài khoản? <spam className='link-login'>Đăng nhập ngay!</spam></p>
+
             </form>
         </div>
         </div>

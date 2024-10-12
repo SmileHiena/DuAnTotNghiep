@@ -11,17 +11,17 @@ const CheckoutPage = () => {
         <hr />
         <div className="checkoutBox">
           <div className="customerInfo">
-            <div>
+            <div className='name'>
               <p>Tên khách hàng</p>
-              <h5>Nguyễn Văn A</h5>
+              <h5 className='infor_custoumer'>Nguyễn Văn A</h5>
             </div>
-            <div>
+            <div className='name'>
               <p>Số điện thoại</p>
-              <h5>0123456789</h5>
+              <h5 className='infor_custoumer'>0123456789</h5>
             </div>
-            <div>
+            <div className='name'>
               <p>Email</p>
-              <h5>A123@gmail.com</h5>
+              <h5 className='infor_custoumer'>A123@gmail.com</h5>
             </div>
           </div>
         </div>
