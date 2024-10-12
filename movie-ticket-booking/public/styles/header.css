@@ -28,7 +28,7 @@
 }
 
 .menu {
-    width: fit-content;
+    width: 650px;
 }
 
 .menu ul {
@@ -104,7 +104,7 @@
     }
 
     .menu {
-        width: fit-content;
+        width: 700px;
     }
 
     .menu a {
@@ -127,7 +127,7 @@
     }
 
     .menu {
-        width: fit-content;
+        width: 600px;
     }
 
     .menu a {
@@ -150,7 +150,7 @@
     }
 
     .menu {
-        width: fit-content;
+        width: 500px;
     }
 
     .menu a {

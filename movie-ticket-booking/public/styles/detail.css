@@ -1,0 +1,200 @@
+/* General Styling */
+.font-bold {
+    font-size: 18px;
+  }
+  
+  .text-3xl {
+    font-size: 30px;
+  }
+  
+  .mb-2 {
+    font-size: 18px;
+  }
+  
+  .boton {
+    font-size: 18px;
+  }
+  
+  .text-2xl {
+    font-size: 28px;
+  }
+  
+  .text {
+    font-size: 16px;
+  }
+  
+  .ml-2 {
+    font-size: 18px;
+  }
+  
+  /* Thể loại tương tự section container */
+  .related-movies-container {
+    background-image: url('../image/image1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 50px;
+    padding-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    margin-top: 2rem; /* Space above related movies */
+  padding: 1rem; /* Padding for related movies */
+  }
+
+  .related-movies {
+    display: flex; /* Flexbox layout */
+    overflow-x: auto; /* Horizontal scroll */
+    padding: 0.5rem 0; /* Padding for scroll area */
+    flex-wrap: nowrap; /* Prevent wrapping for movies */
+  }
+  
+  /* Title of Thể loại tương tự section */
+  .related-movies-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f9c60c;
+    margin-bottom: 2rem;
+  }
+  
+  /* Movie list for related movies */
+  .related-movies-list {
+    display: grid; /* Change to grid layout */
+    grid-template-columns: repeat(5, 1fr); /* Default to 5 items per row */
+    gap: 16px; /* Space between items */
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Each movie card for the related movies section */
+  .related-movie-card {
+    text-align: center;
+  }
+  
+  /* Image styling for each movie */
+  .related-movie-image {
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Movie title styling */
+  .related-movie-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .comment {
+    margin-bottom: 1rem; /* Space between comments */
+    padding: 1rem; /* Padding for comments */
+    background-color: rgba(66, 62, 62, 0.9); /* Dark background for comments */
+    border-radius: 0.5rem; /* Rounded corners */
+    display: flex; /* Flexbox for avatar and content */
+    align-items: flex-start; /* Align items vertically */
+    flex-direction: column; /* Stack vertically on small screens */
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 1024px) {
+    .related-movies-list {
+      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  
+    .related-movie-image {
+      width: 200px;
+      height: 300px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .related-movies-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row on small screens */
+      }
+    /* Stack content vertically */
+    .flex {
+      flex-direction: column;
+    }
+
+    .comment {
+        flex-direction: row; /* Side by side on larger screens */
+      }
+
+    .comment img {
+        width: 48px; /* Avatar size */
+        height: 48px; /* Avatar size */
+        border-radius: 50%; /* Circle avatar */
+    }
+      
+    .comment-content {
+        margin-left: 0.5rem; /* Space between avatar and content */
+        flex: 1; /* Take remaining space */
+    }
+  
+    /* Resize image and text */
+    .related-movie-image {
+      width: 150px;
+      height: 225px;
+    }
+  
+    /* Reduce movie card font sizes */
+    .text-3xl {
+      font-size: 24px;
+    }
+  
+    .text-2xl {
+      font-size: 20px;
+    }
+  
+    .mb-2, .font-bold, .boton {
+      font-size: 16px;
+    }
+  
+    .related-movies-list {
+      gap: 0.5rem;
+    }
+  
+    /* Adjust padding for smaller screens */
+    .related-movies-container {
+      padding-top: 30px;
+      padding-bottom: 1rem;
+    }
+
+
+    .related-movies-container {
+        padding: 0.5rem; /* Less padding on small screens */
+      }
+    
+      .related-movie {
+        min-width: 120px; /* Smaller minimum width for mobile */
+      }
+    }
+    
+    .related-movie {
+      background-color: black; /* Background for related movie */
+      border-radius: 0.5rem; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor */
+      transition: transform 0.3s; /* Animation on hover */
+    }
+    
+    .related-movie:hover {
+      transform: scale(1.05); /* Scale up on hover */
+    }
+    
+    .related-movie img {
+      width: 100%; /* Full width for images */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 0.5rem 0.5rem 0 0; /* Rounded top corners */
+    }
+
+    .comments-section.comments-section {
+        width: 100%; /* Full width */
+        max-width: 1200px; /* Maximum width for larger screens */
+        margin: auto; /* Centering */
+        padding: 20px; /* Padding */
+      }
+      
+  
