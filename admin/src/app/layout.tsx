@@ -30,18 +30,18 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet" />
 
 
-        <link rel="stylesheet" type="text/css" href="../../public/css/main.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
 
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+        {/* <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" /> */}
 
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+        <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" />
       </Head>
-      <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }}>
+      <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }} className="app sidebar-mini rtl">
         <Headers />
         {children}
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
