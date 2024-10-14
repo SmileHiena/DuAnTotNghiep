@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 function Header() {
-  // State để điều khiển hiển thị menu trên di động
+  // State để điều khiển hiển thị menu con trên di động
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Hàm toggle menu
+  // Hàm để toggle menu con
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
@@ -16,21 +16,21 @@ function Header() {
       <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
 
         {/* Logo */}
-        <div className="flex items-center h-[100px]">
+        <div className="flex items-center h-[100px] mx-auto">
           <h3>
             <img src="/images/logo.png" alt="Logo" className="w-[100px] h-[100px]" />
           </h3>
         </div>
 
-        {/* Menu Toggle Button */}
-        <div className="md:hidden">
+        {/* Menu Toggle Button (Chuyển sang bên phải) */}
+        <div className="md:hidden ml-auto">
           <button onClick={toggleMenu} className="text-white">
-            <i className={`fas fa-${isMenuOpen ? 'times' : 'bars'} text-xl`}></i>
+            <i className={`fas fa-bars text-xl`}></i> {/* Chuyển đổi biểu tượng */}
           </button>
         </div>
 
-        {/* Menu */}
-        <nav className={`ml-8 w-full md:w-auto ${isMenuOpen ? 'block' : 'hidden'} md:block`}>
+        {/* Menu chính (Ẩn khi màn hình nhỏ hơn 1000px) */}
+        <nav className="ml-8 w-full md:w-auto hidden md:block">
           <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 items-center justify-center" style={{ marginBottom: '0px' }}>
             <li>
               <Link href="/" className="text-white no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
@@ -89,6 +89,39 @@ function Header() {
             </button>
           </Link>
         </div>
+
+        {/* Dropdown Menu (Xuất hiện khi nhấn Toggle Button) */}
+        {isMenuOpen && (
+          <div className="absolute top-[100px] left-0 w-full bg-white z-50 md:hidden">
+            <ul className="flex flex-col items-center space-y-4 py-4">
+              <li>
+                <Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                  Trang Chủ
+                </Link>
+              </li>
+              <li>
+                <Link href="/page/about" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                  Giới Thiệu
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                  Xem vé
+                </Link>
+              </li>
+              <li>
+                <a href="#services" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                  Dịch Vụ
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                  Liên Hệ
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </header>
   );
