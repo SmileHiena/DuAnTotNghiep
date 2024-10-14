@@ -2571,37 +2571,46 @@ const data = {
 };
 
 async function main() {
-  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-  const db = client.db(dbName);
+    const client = await MongoClient.connect(url); // Không sử dụng các tùy chọn deprecated
+    const db = client.db(dbName);
 
-  const collections = [
-    { name: 'phim', data: data.Phim },
-    { name: 'theloai', data: data.TheLoai },
-    { name: 'rap', data: data.Rap },
-    { name: 'suatchieu', data: data.SuatChieu },
-    { name: 'loaive', data: data.LoaiVe },
-    { name: 'hoadon', data: data.HoaDon },
-    { name: 'taikhoan', data: data.TaiKhoan },
-    { name: 'binhluan', data: data.BinhLuan },
-    { name: 'sukien', data: data.Sukien }
-  ];
+    const collections = [
+        { name: 'phim', data: data.Phim },
+        { name: 'theloai', data: data.TheLoai },
+        { name: 'rap', data: data.Rap },
+        { name: 'suatchieu', data: data.SuatChieu },
+        { name: 'loaive', data: data.LoaiVe },
+        { name: 'hoadon', data: data.HoaDon },
+        { name: 'taikhoan', data: data.TaiKhoan },
+        { name: 'binhluan', data: data.BinhLuan },
+        { name: 'sukien', data: data.Sukien }
+    ];
 
-  for (const { name, data } of collections) {
-    await insertData(db, name, data);
-  }
+    // Chèn dữ liệu vào các collection
+    for (const { name, data } of collections) {
+        await insertData(db, name, data);
+    }
 
-  client.close();
+    // Tạo chỉ mục văn bản cho collection 'phim' sau khi dữ liệu đã được chèn
+    await db.collection('phim').createIndex({
+        Ten: "text",
+        "MoTa.DienVien": "text",
+        "MoTa.DaoDien": "text"
+    });
+
+    console.log("Dữ liệu đã được chèn và chỉ mục văn bản đã được tạo thành công.");
+    client.close();
 }
 
 async function insertData(db, collectionName, data) {
-  const collection = db.collection(collectionName);
+    const collection = db.collection(collectionName);
 
-  // Drop collection nếu tồn tại
-  await collection.drop().catch(() => { });
+    // Drop collection nếu tồn tại
+    await collection.drop().catch(() => { });
 
-  if (data && data.length) {
-    await collection.insertMany(data);
-  }
+    if (data && data.length) {
+        await collection.insertMany(data);
+    }
 }
 
 main().catch(console.error);
