@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "../../../public/styles/sapchieu.css";
 const SapChieu = () => {
     const posts = [
@@ -114,12 +115,15 @@ const SapChieu = () => {
                     <div className="sap-chieu__row">
                         {posts.map((post) => (
                             <div key={post.id} className="sap-chieu__card">
+                                <Link href={`/page/details/${post.id}`}>
                                 <img
                                     src={`/images/phim/${post.Anh}`}
                                     alt={post.Ten}
                                     className="sap-chieu__image"
                                 />
+                                </Link>
                                 <div className="sap-chieu__overlay">
+                                <Link href={`/page/details/${post.id}`}>
                                     <p className="sap-chieu__card-title">{post.Ten}</p>
                                     <ul className="sap-chieu__info">
                                         <li>
@@ -147,6 +151,7 @@ const SapChieu = () => {
                                             &nbsp; {post.TheLoai.NgonNgu}
                                         </li>
                                     </ul>
+                                    </Link>
                                 </div>
                                 {/* Thêm tên phim dưới ảnh, cố định vị trí */}
                                 <h6 className="SapChieu-name">{post.Ten}</h6>

@@ -151,7 +151,7 @@ const PhimDangChieu = () => {
                     <Slider {...settings}>
                         {movies.map((movie) => (
                             <div key={movie.id} className="dang-chieu__card">
-                                <Link href={`/detail/${movie.id}`}>
+                                <Link href={`/page/details/${movie.id}`}>
                                     <img
                                         src={`/images/phim/${movie.Anh}`}
                                         alt={movie.Ten}
