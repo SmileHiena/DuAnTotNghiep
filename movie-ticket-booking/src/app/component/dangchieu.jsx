@@ -146,8 +146,8 @@ const PhimDangChieu = () => {
     return (
         <section className="dang-chieu">
             <div className="dang-chieu__container mx-auto py-8">
-                <h2 className="dang-chieu__title">Phim đang chiếu</h2>
                 <div className="sap-chieu max-w-full mx-auto py-8" style={{ backgroundImage: 'url(/images/image1.png)', maxWidth: '1410px' }}>
+                <h2 className="dang-chieu__title">Phim đang chiếu</h2>
                     <Slider {...settings}>
                         {movies.map((movie) => (
                             <div key={movie.id} className="dang-chieu__card">

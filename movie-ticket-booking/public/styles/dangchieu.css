@@ -1,7 +1,6 @@
 .dang-chieu {
     background-color: rgba(0, 0, 0, 1); /* Màu nền tối */
     color: white; /* Màu chữ trắng */
-    padding: 2rem 0; /* Khoảng cách trên và dưới */
 }
 
 .dang-chieu__title {

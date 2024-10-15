@@ -1,15 +1,17 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/**/*.{js,jsx,ts,tsx}', // Chỉ định tất cả các file trong thư mục src (hoặc thư mục chính của bạn)
+    './public/**/*.html',         // Chỉ định các file HTML trong thư mục public
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      screens: {
+        'xs': '480px',  // Kích thước màn hình nhỏ
+        'sm': '640px',  // Kích thước màn hình nhỏ (default)
+        'md': '768px',  // Kích thước màn hình vừa
+        'lg': '1024px', // Kích thước màn hình lớn
+        'xl': '1280px', // Kích thước màn hình rất lớn
+        '2xl': '1536px', // Kích thước màn hình lớn hơn (2xl)
       },
     },
   },

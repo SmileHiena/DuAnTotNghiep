@@ -1,6 +1,6 @@
 import React from 'react';
 import BlogSection from './component/blog';
-import Event from './component/event';
+import Event from './component/sukien';
 import SapChieu from './component/sapchieu';
 import PhimDangChieu from './component/dangchieu';
 import QA from './component/qa';
