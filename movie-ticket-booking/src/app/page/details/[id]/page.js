@@ -60,7 +60,8 @@ const Detail = () => {
     {
       id: 2,
       name: "Trần Thị B",
-      content: "Nội dung hấp dẫn và diễn xuất tuyệt vờiahahahaaaaaaaddnpmdddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaa!",
+      content:
+        "Nội dung hấp dẫn và diễn xuất tuyệt vờiahahahaaaaaaaddnpmdddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaa!",
       avt: "./images/logo.png",
       timestamp: "1 hour ago", // Add timestamp
       likes: 5, // Add likes
@@ -95,9 +96,7 @@ const Detail = () => {
 
             {/* Right box for information */}
             <div className="md:w-1/2 flex flex-col">
-              <h1 className="text-[30px] font-semibold mb-4">
-                {movie.title}
-              </h1>
+              <h1 className="text-[30px] font-semibold mb-4">{movie.title}</h1>
 
               {/* Director */}
               <p className="text-[18px] mt-7 mb-2">
@@ -123,9 +122,7 @@ const Detail = () => {
               </p>
 
               {/* Description */}
-              <h1 className="text-[20px] font-bold mt-7 mb-2">
-                Nội Dung
-              </h1>
+              <h1 className="text-[20px] font-bold mt-7 mb-2">Nội Dung</h1>
               <p className="text-[18px] mb-4">{movie.description}</p>
 
               {/* Additional movie information */}
@@ -164,7 +161,7 @@ const Detail = () => {
                 </div>
                 <button
                   className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300"
-                  style={{ width: '150px', height: '41px' }}
+                  style={{ width: "150px", height: "41px" }}
                 >
                   Đặt vé
                 </button>
@@ -190,64 +187,70 @@ const Detail = () => {
                       />
                       <button
                         className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300"
-                        style={{ width: '150px', height: '41px' }}
+                        style={{ width: "150px", height: "41px" }}
                       >
                         Gửi
                       </button>
                     </div>
                   </form>
 
-                {/* Displaying Comments */}
-{comments.map((comment) => (
-  <div
-    key={comment.id}
-    className="mb-4 p-4 bg-[#423E3E] rounded w-full flex items-start gap-4 border border-white"
-  >
-    {/* Avatar */}
-    {comment.avt && (
-      <img
-        src={comment.avt}
-        alt={`${comment.name}'s avatar`}
-        className="w-12 h-12 rounded-full"
-      />
-    )}
-    {/* Comment Content */}
-    <div className="flex flex-col flex-1">
-      {/* Tên bình luận với gạch ngang */}
-      <div className="flex flex-col">
-        <p className="font-semibold text-[28px] text-white mb-1">
-          {comment.name}
-        </p>
-        <div className="border-b border-white w-full"></div> {/* Gạch ngang */}
-      </div>
-      <p className="ml-2 text-sm text-gray-300">
-        {comment.content}
-      </p>
-      {/* Timestamp */}
-      <p className="text-xs text-gray-500 mt-1">
-        {comment.timestamp}
-      </p>
-      {/* Actions (Like, Reply) */}
-      <div className="flex items-center gap-4 text-gray-400 mt-2">
-        {/* Like Button */}
-        <button className="flex items-center gap-1 hover:text-yellow-500">
-          <span className="text-xs" style={{ fontSize: '16px' }}>
-            <FontAwesomeIcon icon={faThumbsUp} />
-            {comment.likes || 0}
-          </span>
-        </button>
-        {/* Reply Button */}
-        <button className="flex items-center gap-1 hover:text-yellow-500">
-          <FontAwesomeIcon icon={faReply} />
-          <span className="text-xs" style={{ fontSize: '16px' }}>
-            Reply
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-))}
-
+                  {/* Displaying Comments */}
+                  {comments.map((comment) => (
+                    <div
+                      key={comment.id}
+                      className="mb-4 p-4 bg-[#423E3E] rounded w-full flex items-start gap-4 border border-white"
+                    >
+                      {/* Avatar */}
+                      {comment.avt && (
+                        <img
+                          src={comment.avt}
+                          alt={`${comment.name}'s avatar`}
+                          className="w-12 h-12 rounded-full"
+                        />
+                      )}
+                      {/* Comment Content */}
+                      <div className="flex flex-col flex-1">
+                        {/* Tên bình luận với gạch ngang */}
+                        <div className="flex flex-col">
+                          <p className="font-semibold text-[28px] text-white mb-1">
+                            {comment.name}
+                          </p>
+                          <div className="border-b border-white w-full"></div>{" "}
+                          {/* Gạch ngang */}
+                        </div>
+                        <p className="ml-2 text-sm text-gray-300">
+                          {comment.content}
+                        </p>
+                        {/* Timestamp */}
+                        <p className="text-xs text-gray-500 mt-1">
+                          {comment.timestamp}
+                        </p>
+                        {/* Actions (Like, Reply) */}
+                        <div className="flex items-center gap-4 text-gray-400 mt-2">
+                          {/* Like Button */}
+                          <button className="flex items-center gap-1 hover:text-yellow-500">
+                            <span
+                              className="text-xs"
+                              style={{ fontSize: "16px" }}
+                            >
+                              <FontAwesomeIcon icon={faThumbsUp} />
+                              {comment.likes || 0}
+                            </span>
+                          </button>
+                          {/* Reply Button */}
+                          <button className="flex items-center gap-1 hover:text-yellow-500">
+                            <FontAwesomeIcon icon={faReply} />
+                            <span
+                              className="text-xs"
+                              style={{ fontSize: "16px" }}
+                            >
+                              Reply
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
 
                   {/* Load More Button */}
                   <div className="flex justify-center">
@@ -265,10 +268,10 @@ const Detail = () => {
       {/* conponent phim đang chieu */}
       <DangChieu />
 
+      {/* conponent the loai phim tuong tu */}
       <TuongTu />
     </div>
   );
 };
 
 export default Detail;
-

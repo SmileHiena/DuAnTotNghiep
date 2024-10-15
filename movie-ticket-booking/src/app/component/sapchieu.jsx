@@ -160,7 +160,9 @@ const SapChieu = () => {
                     </div>
                 </div>
                 <div className="button-container">
+                    <Link href={`/page/sapchieu`}>
                     <button className="button-hover">Xem thêm</button>
+                    </Link>
                 </div>
             </section>
 

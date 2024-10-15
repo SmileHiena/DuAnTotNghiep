@@ -1,1 +1,12 @@
 .vscode/
+# Bỏ qua thư mục node_modules
+node_modules/
+
+# Bỏ qua file cấu hình
+config.json
+
+# Bỏ qua tất cả các file có đuôi .log
+*.log
+
+# Bỏ qua thư mục temp
+temp/

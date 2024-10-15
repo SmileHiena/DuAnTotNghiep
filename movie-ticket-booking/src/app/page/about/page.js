@@ -1,5 +1,4 @@
 import React from 'react';
-import cinemaImage from '../../../../public/images/phim/cong-tu-bac-lieu.jpg'; // Thay đổi đường dẫn tới hình ảnh của bạn
 
 const About = () => {
   return (
@@ -9,7 +8,7 @@ const About = () => {
           Về <span className="text-yellow-400">Screen Time</span>
         </h1>
         <img 
-          src={cinemaImage} 
+          src={`/images/phim/cong-tu-bac-lieu.jpg`} 
           alt="Cinema"
           className="w-full h-64 object-cover rounded-md mb-6"
         />

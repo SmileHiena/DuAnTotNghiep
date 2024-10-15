@@ -3,14 +3,25 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
 var categoriesRouter = require('./routes/categories');
 var eventsRouter = require('./routes/events');
+var searchRouter = require('./routes/search');
+var sapchieuRouter = require('./routes/sapchieu');
+var dangchieuRouter = require('./routes/dangchieu');
+
 
 var app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3001', // Cho phép truy cập từ địa chỉ này
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
+  credentials: true // Cho phép cookie và các thông tin xác thực khác
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +38,9 @@ app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
 app.use('/categories', categoriesRouter);
 app.use('/events', eventsRouter);
+app.use('/search', searchRouter);
+app.use('/sapchieu', sapchieuRouter);
+app.use('/dangchieu', dangchieuRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

@@ -15,7 +15,6 @@ export default function Home() {
       <Event />
       <BlogSection />
       <QA />
-
     </div>
   );
 }
