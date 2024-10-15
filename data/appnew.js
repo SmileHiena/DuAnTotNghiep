@@ -3034,12 +3034,14 @@ const data = {
   KhuyenMai: [
     {
       id: 1,
-      Ten: "Sinh Nhật 20/10",
+      Ten: "SINHNHAt286",
       NoiDung: "Khuyến mãi giảm giá khi mua vé tại ScreenTime",
       Anh: "hay.jpg",
       NgayBatDau: "20/10/2024",
       NgayKetThuc: "22/10/2024",
       TrangThai: "Sắp được áp dụng",
+      Luuy: "áp dụng vào ngày 28 tháng 6",
+      Dieukien: "áp dụng tại web 28 tháng 6",
     },
   ],
 
