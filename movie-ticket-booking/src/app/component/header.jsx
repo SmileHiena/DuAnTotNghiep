@@ -122,11 +122,11 @@ function Header() {
                   sự kiện
                 </Link>
               </li>
-              {/* <li>
-                <a href="#contact" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+              <li>
+                <a href="/page/lienhe" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Liên Hệ
                 </a>
-              </li> */}
+              </li>
             </ul>
           </div>
         )}

@@ -7,6 +7,8 @@ config.json
 
 # Bỏ qua tất cả các file có đuôi .log
 *.log
+*.env
 
 # Bỏ qua thư mục temp
 temp/
+
