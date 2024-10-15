@@ -6,6 +6,7 @@
 @import "~slick-carousel/slick/slick-theme.css";
 
 :root {
+  
   --background: #212529;
   /* Đặt màu nền thành đen */
   --foreground: #212529;
@@ -31,12 +32,3 @@ body {
   }
 }
 
-.text-yellow {
-  color: #F5CF49;
-  font-size: 24px;
-}
-
-.text-white {
-  color: #FFFFFF;
-  font-size: 24px;
-}
