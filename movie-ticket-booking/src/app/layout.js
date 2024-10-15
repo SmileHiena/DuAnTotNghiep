@@ -16,9 +16,9 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>ScreenTime</title>
         {/* Favicon Icons */}
-        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="./favicon.ico" />
-        <link rel="icon" type="image/png" sizes="16x16" href="./favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
         <meta name="description" content="ScreenTime booking tickets for movies." />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
         {/* Fonts */}
