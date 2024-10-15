@@ -87,7 +87,7 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
     let id = lastEvent.length > 0 ? lastEvent[0].id + 1 : 1;
 
     const newEvent = {
-      id, 
+      id,
       Ten,
       Noidung,
       idPhim,
@@ -125,7 +125,7 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
       idPhim,
       NgayBatDau,
       NgayKetThuc,
-      ...(Anh && { Anh }) 
+      ...(Anh && { Anh })
     };
 
     const result = await eventCollection.updateOne(
@@ -156,7 +156,7 @@ router.delete('/delete/:id', async (req, res) => {
     const db = await connectDb();
     const eventCollection = db.collection('sukien');
 
-    const result = await eventCollection.deleteOne({ _id: new ObjectId(id) }); 
+    const result = await eventCollection.deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 1) {
       res.status(200).json({ message: 'Xóa sự kiện thành công' });

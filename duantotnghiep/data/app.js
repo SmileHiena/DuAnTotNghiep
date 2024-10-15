@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
 var categoriesRouter = require('./routes/categories');
 var eventsRouter = require('./routes/events');
+var searchRouter = require('./routes/search');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
 app.use('/categories', categoriesRouter);
 app.use('/events', eventsRouter);
+app.use('/search', searchRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
