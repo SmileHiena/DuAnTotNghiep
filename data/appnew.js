@@ -16,7 +16,7 @@ const data = {
         NgonNgu: "Phụ Đề",
         KhuyenCao: "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+)",
       },
-      Anh: "Do-anh-cong-duoc-toi.jpg",
+      Anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
       IdDanhMuc: 4,
       TrangThai: "Đang Chiếu",
       MoTa: {
@@ -38,7 +38,7 @@ const data = {
         NgonNgu: "VN",
         KhuyenCao: "T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)",
       },
-      Anh: "cam.jpg",
+      Anh: "/images/phim/cam.jpg",
       IdDanhMuc: 2,
       TrangThai: "Đang Chiếu",
       MoTa: {
@@ -60,7 +60,7 @@ const data = {
         NgonNgu: "VN",
         KhuyenCao: "T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)",
       },
-      Anh: "lam-giau-voi-ma.jpg",
+      Anh: "/images/phim/lam-giau-voi-ma.jpg",
       IdDanhMuc: 1,
       TrangThai: "Đang Chiếu",
       MoTa: {
@@ -82,7 +82,7 @@ const data = {
         NgonNgu: "Phụ Đề",
         KhuyenCao: "T13: Phim dành cho khán giả từ đủ 13 tuổi trở lên (13+)",
       },
-      Anh: "look-back.jpg",
+      Anh: "/images/phim/look-back.jpg",
       IdDanhMuc: 5,
       TrangThai: "Đang Chiếu",
       MoTa: {
@@ -104,7 +104,7 @@ const data = {
         NgonNgu: "Phụ Đề",
         KhuyenCao: "T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)",
       },
-      Anh: "anh-trai-vuot-moi-tam-tai.jpg",
+      Anh: "/images/phim/anh-trai-vuot-moi-tam-tai.jpg",
       IdDanhMuc: 3,
       TrangThai: "Đang Chiếu",
       MoTa: {
