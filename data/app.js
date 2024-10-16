@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,6 +17,12 @@ var dangchieuRouter = require('./routes/dangchieu');
 
 
 var app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3001', // Cho phép truy cập từ địa chỉ này
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
+  credentials: true // Cho phép cookie và các thông tin xác thực khác
+}));
 
 app.use(cors({
   origin: 'http://localhost:3001', // Cho phép truy cập từ địa chỉ này

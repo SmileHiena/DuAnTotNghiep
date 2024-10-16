@@ -6,6 +6,7 @@
 @import "~slick-carousel/slick/slick-theme.css";
 
 :root {
+  
   --background: #212529;
   /* Đặt màu nền thành đen */
   --foreground: #FFFFFF;
