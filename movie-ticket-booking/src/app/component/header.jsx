@@ -1,18 +1,43 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false); // State quản lý dropdown cho "Danh sách phim"
+  const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false); // State quản lý dropdown khi màn hình nhỏ
+  const menuRef = useRef(null); // Tham chiếu đến menu di động
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  return (
-    <header className="bg-black">
-      <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
+  const toggleSubMenu = () => {
+    setIsSubMenuOpen((prev) => !prev); // Toggle dropdown khi nhấp vào "Pages" cho desktop
+  };
 
+  const toggleMobileSubMenu = () => {
+    setIsMobileSubMenuOpen((prev) => !prev); // Toggle dropdown cho "Pages" trong menu di động
+  };
+
+  // Đóng menu khi nhấp ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+        setIsMobileSubMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
+
+  return (
+    <header className="bg-black relative z-10">
+      <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
         {/* Logo */}
         <div className="flex items-center h-[100px] mx-auto">
           <h3>
@@ -35,11 +60,41 @@ function Header() {
                 Trang Chủ
               </Link>
             </li>
-            <li>
-              <Link href="/page/danhsachphim" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Danh sách phim
-              </Link>
+
+            {/* Dropdown cho "Pages" */}
+            <li className="relative">
+              <button
+                onClick={toggleSubMenu}
+                className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300"
+              >
+                Pages
+              </button>
+              {isSubMenuOpen && (
+                <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-20">
+                  <li>
+                    <Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">
+                      Liên hệ
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">
+                      Danh sách phim
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
+                      Phim đang chiếu
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
+                      Phim sắp chiếu
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
+
             <li>
               <Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
                 Giới Thiệu
@@ -100,13 +155,48 @@ function Header() {
 
         {/* Dropdown Menu (Xuất hiện khi nhấn Toggle Button) */}
         {isMenuOpen && (
-          <div className="absolute top-[100px] left-0 w-full bg-white z-50 lg:hidden">
+          <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 w-[200px] bg-white z-50 xl:hidden" >
             <ul className="flex flex-col items-center space-y-4 py-4">
               <li>
                 <Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Trang Chủ
                 </Link>
               </li>
+
+              {/* Dropdown cho "Pages" trong menu di động */}
+              <li className="relative">
+                <button
+                  onClick={toggleMobileSubMenu}
+                  className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300"
+                >
+                  Pages
+                </button>
+                {isMobileSubMenuOpen && (
+                  <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-50" ref={menuRef}>
+                    <li>
+                      <Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">
+                        Liên hệ
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">
+                        Danh sách phim
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
+                        Phim đang chiếu
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
+                        Phim sắp chiếu
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+
               <li>
                 <Link href="/page/about" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Giới Thiệu
@@ -119,7 +209,7 @@ function Header() {
               </li>
               <li>
                 <Link href="/page/event" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
-                  sự kiện
+                  Sự kiện
                 </Link>
               </li>
               <li>
