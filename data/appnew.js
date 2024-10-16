@@ -3,7 +3,6 @@ const url = "mongodb://localhost:27017";
 const dbName = "Ticker_Movie";
 
 const data = {
-  
   // ----- Phim -----
   Phim: [
     {
@@ -117,7 +116,6 @@ const data = {
     },
   ],
 
-
   // ----- Thể Loại -----
   TheLoai: [
     {
@@ -146,7 +144,6 @@ const data = {
       Anh: "theloaianime.jpg",
     },
   ],
-
 
   // ----- Blog -----
   Blog: [
@@ -212,7 +209,6 @@ const data = {
       LuotXem: "314 lượt xem",
     },
   ],
-
 
   // ----- Rạp -----
   Rap: [
@@ -2189,7 +2185,6 @@ const data = {
     },
   ],
 
-
   // ----- Suất Chiếu -----
   SuatChieu: [
     {
@@ -2217,7 +2212,6 @@ const data = {
     },
   ],
 
-
   // ----- Loại Vé -----
   LoaiVe: [
     {
@@ -2236,7 +2230,6 @@ const data = {
       GiaVe: 155000,
     },
   ],
-
 
   // ----- GHẾ -----\
   Ghe: [
@@ -2601,7 +2594,6 @@ const data = {
     },
   ],
 
-
   // ----- HÓA ĐƠN -----
   HoaDon: [
     {
@@ -2611,7 +2603,6 @@ const data = {
       IdLoaiVe: 1,
     },
   ],
-
 
   // ----- Combo -----
   Combo: [
@@ -2679,7 +2670,6 @@ const data = {
       Gia: 37000,
     },
   ],
-  
 
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
@@ -2760,7 +2750,6 @@ const data = {
     },
   ],
 
-
   // ----- BÌNH_LUẬN -----
   BinhLuan: [
     {
@@ -2799,7 +2788,6 @@ const data = {
       IdTaiKhoan: 5,
     },
   ],
-
 
   // ----- Chi Tiết Hóa Đơn -----
   ChoTietHoaDon: [
@@ -2850,7 +2838,6 @@ const data = {
     },
   ],
 
-
   // ----- ADMIN -----
   Admin: [
     {
@@ -2868,130 +2855,141 @@ const data = {
   ],
 
 
-  // ------ Sukien ---- //
+  // ----- Sự Kiện -----
   Sukien: [
     {
       id: 1,
-      idPhim: "P001",
-      Ten: "Mua vé phim Bố Già",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Mua vé xem phim Bố Già - Bộ phim tình cảm gia đình đầy cảm xúc với diễn xuất đỉnh cao của Trấn Thành.",
-      NgayBatDau: "01-10-2024",
-      NgayKetThuc: "01-11-2024",
+      Ten: "SINHNHAT1",
+      NoiDung: "Khuyến mãi giảm giá khi mua vé tại ScreenTime",
+      Anh: "/images/event/sinhnhat.jpg",
+      NgayBatDau: "20/10/2024",
+      NgayKetThuc: "22/10/2024",
+      Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      DieuKien: "Áp dụng tại web 28 tháng 6.",
     },
     {
       id: 2,
-      idPhim: "P002",
-      Ten: "Mua vé phim Hai Phượng",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính.",
+      Ten: "HAIPHUONG45",
+      Anh: "/images/event/haiphuong.jpg",
+      NoiDung:
+        "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính...........................................",
       NgayBatDau: "05-10-2024",
       NgayKetThuc: "05-11-2024",
+      Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      DieuKien:
+        "Áp dụng cho học sinh sinh viên xuất trình thẻ học sinh hoặc CCCD dưới 22 tuổi.",
     },
     {
       id: 3,
-      idPhim: "P003",
-      Ten: "Mua vé phim Mắt Biếc",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Xem ngay bộ phim Mắt Biếc, câu chuyện tình yêu lãng mạn chuyển thể từ tiểu thuyết nổi tiếng của Nguyễn Nhật Ánh.",
-      NgayBatDau: "10-10-2024",
-      NgayKetThuc: "10-11-2024",
+      Ten: "GIANGSINH2024",
+      NoiDung: "Ưu đãi vé xem phim mùa Giáng Sinh 2024 tại tất cả các rạp.",
+      Anh: "/images/event/giangsinh2024.jpg",
+      NgayBatDau: "01/12/2024",
+      NgayKetThuc: "25/12/2024",
+      Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      DieuKien: "Áp dụng khi mua trực tuyến qua ứng dụng ScreenTime.",
     },
     {
       id: 4,
-      idPhim: "P004",
-      Ten: "Mua vé phim Lật Mặt: 48H",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Đừng bỏ lỡ Lật Mặt: 48H - Bộ phim hành động, hài hước đầy kịch tính của Lý Hải.",
-      NgayBatDau: "15-10-2024",
-      NgayKetThuc: "15-11-2024",
+      Ten: "TET2025",
+      NoiDung: "Mua vé xem phim và nhận ngay lì xì Tết 2025.",
+      Anh: "/images/event/tet2025.jpg",
+      NgayBatDau: "01/02/2025",
+      NgayKetThuc: "15/02/2025",
+      Luuy: "Áp dụng trong dịp Tết Nguyên Đán.",
+      DieuKien: "Áp dụng cho đơn hàng từ 2 vé trở lên.",
     },
     {
       id: 5,
-      idPhim: "P005",
-      Ten: "Mua vé phim Ròm",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Thưởng thức Ròm, bộ phim phản ánh hiện thực xã hội với giải thưởng quốc tế danh giá.",
-      NgayBatDau: "20-10-2024",
-      NgayKetThuc: "20-11-2024",
+      Ten: "BLACKFRIDAY2024",
+      NoiDung: "Giảm giá 50% tất cả các phim nhân dịp Black Friday.",
+      Anh: "/images/event/Black_Friday.jpg",
+      NgayBatDau: "28/11/2024",
+      NgayKetThuc: "29/11/2024",
+      Luuy: "Áp dụng cho tất cả các suất chiếu trong ngày.",
+      DieuKien: "Áp dụng cho các giao dịch trực tuyến.",
     },
     {
       id: 6,
-      idPhim: "P006",
-      Ten: "Mua vé phim Tiệc Trăng Máu",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Tiệc Trăng Máu - Phim tâm lý hài kịch với sự tham gia của dàn diễn viên đình đám Việt Nam.",
-      NgayBatDau: "25-10-2024",
-      NgayKetThuc: "25-11-2024",
+      Ten: "SUMMERSALE2025",
+      NoiDung: "Giảm 30% vé xem phim mùa hè 2025 tại ScreenTime.",
+      Anh: "/images/event/summer.jpg",
+      NgayBatDau: "01/06/2025",
+      NgayKetThuc: "30/06/2025",
+      Luuy: "Áp dụng vào các ngày cuối tuần.",
+      DieuKien: "Áp dụng cho tất cả thành viên ScreenTime.",
     },
     {
       id: 7,
-      idPhim: "P007",
-      Ten: "Mua vé phim Cua Lại Vợ Bầu",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Cua Lại Vợ Bầu - Bộ phim hài lãng mạn về tình yêu và gia đình không thể bỏ lỡ.",
-      NgayBatDau: "01-11-2024",
-      NgayKetThuc: "01-12-2024",
+      Ten: "HALLOWEEN2024",
+      NoiDung: "Mua vé phim kinh dị giảm 40% trong dịp Halloween.",
+      Anh: "/images/event/halloween.jpg",
+      NgayBatDau: "25/10/2024",
+      NgayKetThuc: "31/10/2024",
+      Luuy: "Áp dụng cho phim thuộc thể loại kinh dị.",
+      DieuKien: "Áp dụng cho học sinh, sinh viên xuất trình thẻ.",
     },
     {
       id: 8,
-      idPhim: "P008",
-      Ten: "Mua vé phim Đôi Mắt Âm Dương",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Đôi Mắt Âm Dương - Bộ phim kinh dị Việt Nam khiến khán giả không thể rời mắt.",
-      NgayBatDau: "05-11-2024",
-      NgayKetThuc: "05-12-2024",
+      Ten: "QUOCKHANH2025",
+      NoiDung: "Ưu đãi đặc biệt nhân dịp Quốc Khánh 2/9.",
+      Anh: "/images/event/quockhanh.jpg",
+      NgayBatDau: "01/09/2025",
+      NgayKetThuc: "02/09/2025",
+      Luuy: "Áp dụng trong ngày lễ Quốc Khánh.",
+      DieuKien: "Áp dụng cho tất cả các khách hàng.",
     },
     {
       id: 9,
-      idPhim: "P009",
-      Ten: "Mua vé phim Em Chưa 18",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Xem ngay Em Chưa 18 - Bộ phim tình cảm hài hước đã làm mưa làm gió tại các rạp phim Việt Nam.",
-      NgayBatDau: "10-11-2024",
-      NgayKetThuc: "10-12-2024",
+      Ten: "VALENTINE2025",
+      NoiDung: "Giảm 50% cho các cặp đôi nhân dịp Valentine 2025.",
+      Anh: "/images/event/valentine.jpg",
+      NgayBatDau: "14/02/2025",
+      NgayKetThuc: "14/02/2025",
+      Luuy: "Áp dụng cho các suất chiếu buổi tối.",
+      DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
     },
     {
       id: 10,
-      idPhim: "P010",
-      Ten: "Mua vé phim Song Lang",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Song Lang - Bộ phim nghệ thuật về tình yêu và cải lương, đầy cảm xúc và ấn tượng.",
-      NgayBatDau: "15-11-2024",
-      NgayKetThuc: "15-12-2024",
+      Ten: "WOMENSDAY2025",
+      NoiDung: "Miễn phí vé cho khách hàng nữ nhân ngày 8/3.",
+      Anh: "/images/event/womenday.jpg",
+      NgayBatDau: "08/03/2025",
+      NgayKetThuc: "08/03/2025",
+      Luuy: "Áp dụng cho khách hàng nữ.",
+      DieuKien: "Áp dụng cho suất chiếu đầu tiên trong ngày.",
     },
     {
       id: 11,
-      idPhim: "P011",
-      Ten: "Mua vé phim Trạng Quỳnh",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Trạng Quỳnh - Bộ phim hài cổ trang mang đậm văn hóa Việt với những tình huống dở khóc dở cười.",
-      NgayBatDau: "20-11-2024",
-      NgayKetThuc: "20-12-2024",
+      Ten: "MOTHERSDAY2025",
+      NoiDung: "Giảm giá 30% cho khách hàng đi cùng mẹ vào ngày 10/5.",
+      Anh: "/images/event/mothersday.jpg",
+      NgayBatDau: "10/05/2025",
+      NgayKetThuc: "10/05/2025",
+      Luuy: "Áp dụng cho tất cả các phim.",
+      DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
     },
     {
       id: 12,
-      idPhim: "P012",
-      Ten: "Mua vé phim Tháng Năm Rực Rỡ",
-      Anh: "./public/images/phim/cam.jpg",
-      Noidung:
-        "Tháng Năm Rực Rỡ - Bộ phim về tình bạn tuổi thanh xuân đầy hoài niệm và cảm xúc.",
-      NgayBatDau: "25-11-2024",
-      NgayKetThuc: "25-12-2024",
+      Ten: "THANKSGIVING2024",
+      NoiDung: "Khuyến mãi dịp lễ Tạ Ơn - Mua vé xem phim giảm 20%.",
+      Anh: "/images/event/thanksgiving.jpg",
+      NgayBatDau: "27/11/2024",
+      NgayKetThuc: "29/11/2024",
+      Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      DieuKien: "Áp dụng cho giao dịch mua online.",
+    },
+    {
+      id: 13,
+      Ten: "TRUNGTET2024",
+      NoiDung: "Ưu đãi Trung Thu - Giảm 25% vé phim thiếu nhi.",
+      Anh: "/images/event/trungthu.jpg",
+      NgayBatDau: "15/09/2024",
+      NgayKetThuc: "20/09/2024",
+      Luuy: "Áp dụng cho phim thiếu nhi.",
+      DieuKien: "Áp dụng cho khách hàng dưới 12 tuổi.",
     },
   ],
-
 
   // ----- Khách Hàng -----
   KhachHang: [
@@ -3029,7 +3027,6 @@ const data = {
     },
   ],
 
-
   // ----- Khuyến Mãi -----
   KhuyenMai: [
     {
@@ -3043,10 +3040,8 @@ const data = {
     },
   ],
 
-
   // ----- Vé -----
-  Ve: 
-  [
+  Ve: [
     {
       id: 1,
       NgayXuatChieu: "29/10/2024",
@@ -3058,7 +3053,6 @@ const data = {
       MaTaiKhoan: 1,
     },
   ],
-
 };
 
 async function main() {
@@ -3066,39 +3060,39 @@ async function main() {
 
   try {
     await client.connect();
-    console.log('Kết nối thành công đến server MongoDB');
+    console.log("Kết nối thành công đến server MongoDB");
     const db = client.db(dbName);
 
     const collections = [
-      { name: "phim", data: data.Phim},
-      { name: "theloai", data: data.TheLoai},
-      { name: "blog", data: data.Blog},
-      { name: "rap", data: data.Rap},
-      { name: "suatchieu", data: data.SuatChieu},
+      { name: "phim", data: data.Phim },
+      { name: "theloai", data: data.TheLoai },
+      { name: "blog", data: data.Blog },
+      { name: "rap", data: data.Rap },
+      { name: "suatchieu", data: data.SuatChieu },
       { name: "loaive", data: data.LoaiVe },
-      { name: "ghe", data: data.Ghe},
-      { name: "hoadon", data: data.HoaDon},
-      { name: "combo", data: data.Combo},
-      { name: "taikhoan", data: data.TaiKhoan},
-      { name: "binhluan", data: data.BinhLuan},
-      { name: "chitiethoadon", data: data.ChoTietHoaDon},
-      { name: "admin", data: data.Admin},
-      { name: "sukien", data: data.Sukien},
-      { name: "khachhang", data: data.KhachHang},
-      { name: "khuyenmai", data: data.KhuyenMai},
-      { name: "ve", data: data.Ve},
+      { name: "ghe", data: data.Ghe },
+      { name: "hoadon", data: data.HoaDon },
+      { name: "combo", data: data.Combo },
+      { name: "taikhoan", data: data.TaiKhoan },
+      { name: "binhluan", data: data.BinhLuan },
+      { name: "chitiethoadon", data: data.ChoTietHoaDon },
+      { name: "admin", data: data.Admin },
+      { name: "sukien", data: data.Sukien },
+      { name: "khachhang", data: data.KhachHang },
+      { name: "khuyenmai", data: data.KhuyenMai },
+      { name: "ve", data: data.Ve },
     ];
 
     for (const { name, data } of collections) {
       await insertData(db, name, data);
     }
 
-    console.log('Dữ liệu đã được nhập thành công.');
+    console.log("Dữ liệu đã được nhập thành công.");
   } catch (error) {
-    console.error('Lỗi khi kết nối hoặc thao tác với MongoDB:', error);
+    console.error("Lỗi khi kết nối hoặc thao tác với MongoDB:", error);
   } finally {
     await client.close();
-    console.log('Đã ngắt kết nối khỏi MongoDB.');
+    console.log("Đã ngắt kết nối khỏi MongoDB.");
   }
 }
 
@@ -3110,7 +3104,10 @@ async function insertData(db, collectionName, data) {
     await collection.drop();
     console.log(`Đã xóa collection: ${collectionName}`);
   } catch (error) {
-    console.log(`Không thể xóa collection ${collectionName} (có thể không tồn tại):`, error.message);
+    console.log(
+      `Không thể xóa collection ${collectionName} (có thể không tồn tại):`,
+      error.message
+    );
   }
 
   if (data && data.length) {

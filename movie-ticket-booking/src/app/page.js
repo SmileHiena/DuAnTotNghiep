@@ -13,17 +13,12 @@ import DatVe from './page/datve/page';
 export default function Home() {
   return (
     <div>
-      {/* <Banner/>
+      <Banner/>
       <PhimDangChieu/>
       <SapChieu/>
       <Event/>
       <BlogSection />
-      <QA/> */}
-
-      {/* // <Detail/> */}
-     
-
-        <DatVe/>
+      <QA/>
     </div>
   );
 }

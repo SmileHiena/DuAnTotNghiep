@@ -457,8 +457,4 @@ const DatVe = () => {
   );
 };
 
-<<<<<<< HEAD
 export default DatVe;
-=======
-export default DatVe;
->>>>>>> master
