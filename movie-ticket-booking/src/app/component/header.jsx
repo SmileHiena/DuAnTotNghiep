@@ -44,6 +44,7 @@ function Header() {
           <h3>
             <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
           </h3>
+          </Link>
         </div>
 
         {/* Menu Toggle Button (Hiển thị trên màn hình nhỏ hơn 1200px) */}
@@ -57,11 +58,7 @@ function Header() {
         {/* Menu chính (Ẩn khi màn hình nhỏ hơn 1200px) */}
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center" style={{ marginBottom: '0px' }}>
-        {/* Menu chính (Ẩn khi màn hình nhỏ hơn 1200px) */}
-        <nav className="ml-8 w-full xl:w-auto hidden xl:block">
-          <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center" style={{ marginBottom: '0px' }}>
             <li>
-              <Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
               <Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
                 Trang Chủ
               </Link>
@@ -127,8 +124,6 @@ function Header() {
         {/* Search Area */}
         <div className="ml-8 relative hidden lg:block">
           <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-lg lg:max-w-md md:max-w-sm" style={{ height: '30px' }}>
-        <div className="ml-8 relative hidden lg:block">
-          <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-lg lg:max-w-md md:max-w-sm" style={{ height: '30px' }}>
             <i className="fas fa-search text-white" style={{ fontSize: '14px', marginRight: '10px' }}></i>
             <input
               type="text"
@@ -140,7 +135,7 @@ function Header() {
         </div>
 
         {/* Mobile Search Icon */}
-        <div className="ml-8 relative lg:hidden">
+        
         <div className="ml-8 relative lg:hidden">
           <button className="text-white">
             <i className="fas fa-search"></i>
@@ -231,7 +226,7 @@ function Header() {
                 <a href="/page/lienhe" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Liên Hệ
                 </a>
-              </li> */}
+              </li> 
             </ul>
           </div>
         )}

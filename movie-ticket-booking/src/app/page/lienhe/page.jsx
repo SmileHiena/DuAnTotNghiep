@@ -32,16 +32,16 @@ const Contact = () => {
   };
 
   return (
-    <section className="bg-[rgba(0,0,0,0.4)] py-8">
-      <div className="container mx-auto px-4 max-w-[600px]">
+    <section className="bg-[rgba(0,0,0,0.3)] py-8">
+      <div className="container bg-[rgba(0,0,0,0.6)] mx-auto px-4 max-w-[600px]">
         <h1 className="text-center text-[30px] font-bold text-[#F5CF49] mb-4">Liên Hệ Chúng Tôi</h1>
         
         {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         {successMessage && <div className="text-green-500">{successMessage}</div>}
 
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+        <form onSubmit={handleSubmit} className="bg-[rgba(0,0,0,0.6)] text-[#FFFFFF] p-6 rounded shadow-md">
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700">Tên của bạn</label>
+            <label htmlFor="name" className="block text-[#FFF]">Tên của bạn</label>
             <input
               type="text"
               id="name"
@@ -52,7 +52,7 @@ const Contact = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email của bạn</label>
+            <label htmlFor="email" className="block text-[#FFF]">Email của bạn</label>
             <input
               type="email"
               id="email"
@@ -63,7 +63,7 @@ const Contact = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="message" className="block text-gray-700">Tin nhắn</label>
+            <label htmlFor="message" className="block text-[#FFF]">Tin nhắn</label>
             <textarea
               id="message"
               value={message}
