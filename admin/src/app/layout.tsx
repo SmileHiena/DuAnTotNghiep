@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   // Thêm fonts vào phần preconnect
   links: [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
     {
       rel: "stylesheet",
       href: "https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Open+Sans:wght@300;400;600;700&display=swap"
@@ -25,10 +25,6 @@ export const metadata: Metadata = {
     },
     {
       rel: "stylesheet",
-      href: "https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-    },
-    {
-      rel: "stylesheet",
       href: "https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
     },
     {
@@ -36,8 +32,8 @@ export const metadata: Metadata = {
       href: "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
     },
     {
-      href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css",
-      rel: "stylesheet"
+      rel: "stylesheet",
+      href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     }
   ],
 };
@@ -62,7 +58,6 @@ export default function RootLayout({
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://example.com/path/to/your/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.3/pace.min.js"></script>
       </body>
     </html>

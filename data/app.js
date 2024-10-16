@@ -12,7 +12,7 @@ var categoriesRouter = require('./routes/categories');
 var eventsRouter = require('./routes/events');
 var searchRouter = require('./routes/search');
 var sapchieuRouter = require('./routes/sapchieu');
-
+var employeesRouter = require('./routes/employees');
 
 var app = express();
 
@@ -39,7 +39,7 @@ app.use('/categories', categoriesRouter);
 app.use('/events', eventsRouter);
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
-
+app.use('/employees', employeesRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
