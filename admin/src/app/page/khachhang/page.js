@@ -10,7 +10,7 @@ const KhachHang = () => {
       id: 1,
       Ten: "Nguyễn Thái Sơn",
       Anh: "nginhphong.jpg",
-      DiaChi: "Trung Mỹ Tây, Hà Thị Khiêm, Quận 12, TP.HCM",
+      DiaChi: "Nhà xí",
       SDT: "0123456789",
       NgaySinh: "29/10/2004",
     },

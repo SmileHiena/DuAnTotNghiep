@@ -3,6 +3,7 @@ const url = "mongodb://localhost:27017";
 const dbName = "Ticker_Movie";
 
 const data = {
+  
   // ----- Phim -----
   Phim: [
     {
@@ -150,62 +151,62 @@ const data = {
     {
       id: 1,
       TenBlog: "Top phim Địch Lệ Nhiệt Ba đã làm nên tên tuổi",
-      Anh: "blog1.png",
+      Anh: "/images/blog/blog1.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 2,
       TenBlog: "Phim cổ trang Trung Quốc 2024khiến bạn cực phấn khích",
-      Anh: "blog2.jpg",
+      Anh: "/images/blog/blog2.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 3,
       TenBlog: "Top 9 phim của Bạch Lộc Khẩng định tên tuổi xứ Trung",
-      Anh: "blog3.png",
+      Anh: "/images/blog/blog3.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 4,
       TenBlog: "Trò chơi con mực 2 sẽ có gì và được phát sóng khi nào?",
-      Anh: "blog4.png",
+      Anh: "/images/blog/blog4.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 5,
       TenBlog: "Danh sách phim hay Netflix tháng 9/2024",
-      Anh: "blog5.png",
+      Anh: "/images/blog/blog5.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 6,
       TenBlog: "Top phim xuất sắc của Vương Sở Nhiên được đánh giá cao",
-      Anh: "blog6.png",
+      Anh: "/images/blog/blog6.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 7,
       TenBlog:
         "Top 12 phim hoạt hình 3D Trung Quốc hay nhất tới thời điểm hiện tại.",
-      Anh: "blog7.png",
+      Anh: "/images/blog/blog7.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 8,
       TenBlog: "Danh sách phim hay Netflix tháng 8/2024",
-      Anh: "blog8.png",
+      Anh: "/images/blog/blog8.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 9,
       TenBlog: "Top phim Triệu Lộ Tư đóng đáng xem nhất hiện nay",
-      Anh: "blog9.png",
+      Anh: "/images/blog/blog9.jpg",
       LuotXem: "314 lượt xem",
     },
     {
       id: 10,
       TenBlog: "Tổng hợp phim Anime 2024 đang cực kỳ hot hiện nay",
-      Anh: "blog10.png",
+      Anh: "/images/blog/blog10.jpg",
       LuotXem: "314 lượt xem",
     },
   ],
@@ -2231,7 +2232,7 @@ const data = {
     },
   ],
 
-  // ----- GHẾ -----\
+  // ----- GHẾ -----
   Ghe: [
     // Hàng A
     {
@@ -2670,6 +2671,7 @@ const data = {
       Gia: 37000,
     },
   ],
+  
 
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
@@ -3031,17 +3033,20 @@ const data = {
   KhuyenMai: [
     {
       id: 1,
-      Ten: "Sinh Nhật 20/10",
+      Ten: "SINHNHAt286",
       NoiDung: "Khuyến mãi giảm giá khi mua vé tại ScreenTime",
       Anh: "hay.jpg",
       NgayBatDau: "20/10/2024",
       NgayKetThuc: "22/10/2024",
       TrangThai: "Sắp được áp dụng",
+      Luuy: "áp dụng vào ngày 28 tháng 6",
+      Dieukien: "áp dụng tại web 28 tháng 6",
     },
   ],
 
   // ----- Vé -----
-  Ve: [
+  Ve: 
+  [
     {
       id: 1,
       NgayXuatChieu: "29/10/2024",
@@ -3053,6 +3058,7 @@ const data = {
       MaTaiKhoan: 1,
     },
   ],
+
 };
 
 async function main() {
@@ -3064,11 +3070,11 @@ async function main() {
     const db = client.db(dbName);
 
     const collections = [
-      { name: "phim", data: data.Phim },
-      { name: "theloai", data: data.TheLoai },
-      { name: "blog", data: data.Blog },
-      { name: "rap", data: data.Rap },
-      { name: "suatchieu", data: data.SuatChieu },
+      { name: "phim", data: data.Phim},
+      { name: "theloai", data: data.TheLoai},
+      { name: "blog", data: data.Blog},
+      { name: "rap", data: data.Rap},
+      { name: "suatchieu", data: data.SuatChieu},
       { name: "loaive", data: data.LoaiVe },
       { name: "ghe", data: data.Ghe },
       { name: "hoadon", data: data.HoaDon },
