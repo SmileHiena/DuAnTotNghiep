@@ -47,7 +47,7 @@ const Contact = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border bg-[#212529] border-gray-300 rounded"
               required
             />
           </div>
@@ -58,7 +58,7 @@ const Contact = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2  border bg-[#212529] border-gray-300 rounded"
               required
             />
           </div>
@@ -68,7 +68,7 @@ const Contact = () => {
               id="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full text-black p-2 border border-gray-300 rounded"
+              className="w-full p-2 border bg-[#212529] border-gray-300 rounded"
               rows="4"
               required
             />

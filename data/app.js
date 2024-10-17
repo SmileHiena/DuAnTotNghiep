@@ -6,6 +6,9 @@ var logger = require('morgan');
 var cors = require('cors');
 var cors = require('cors');
 
+const authMiddleware = require('./middleware/authMiddleware');
+
+const authRoutes = require('./routes/users');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
@@ -46,6 +49,7 @@ app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/khachhang', khachhangRouter);
+app.use('/auth', authRoutes);
 
 app.use(function (req, res, next) {
   next(createError(404));
@@ -57,6 +61,10 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.get('/protected', authMiddleware, (req, res) => {
+  res.json({ message: 'Bạn đã truy cập vào route được bảo vệ!' });
 });
 
 module.exports = app;

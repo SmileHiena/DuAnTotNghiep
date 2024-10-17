@@ -4,23 +4,42 @@ import { useState, useEffect, useRef } from 'react';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false); // State quản lý dropdown cho "Danh sách phim"
-  const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false); // State quản lý dropdown khi màn hình nhỏ
-  const menuRef = useRef(null); // Tham chiếu đến menu di động
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false);
+  const [username, setUsername] = useState(null);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const fetchFullName = async (userId) => {
+      try {
+          const response = await fetch(`http://localhost:3000/users/${userId}/fullname`);
+          if (!response.ok) {
+              throw new Error('Failed to fetch user fullname');
+          }
+          const data = await response.json();
+          return data.fullname; // Trả về tên người dùng
+      } catch (error) {
+          console.error(error);
+      }
+  };
+  
+
+
+  fetchFullName();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
   const toggleSubMenu = () => {
-    setIsSubMenuOpen((prev) => !prev); // Toggle dropdown khi nhấp vào "Pages" cho desktop
+    setIsSubMenuOpen((prev) => !prev);
   };
 
   const toggleMobileSubMenu = () => {
-    setIsMobileSubMenuOpen((prev) => !prev); // Toggle dropdown cho "Pages" trong menu di động
+    setIsMobileSubMenuOpen((prev) => !prev);
   };
 
-  // Đóng menu khi nhấp ra ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -41,21 +60,20 @@ function Header() {
         {/* Logo */}
         <div className="flex items-center h-[100px] mx-auto">
           <Link href="/">
-          <h3>
-            <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
-          </h3>
+            <h3>
+              <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
+            </h3>
           </Link>
         </div>
 
-        {/* Menu Toggle Button (Hiển thị trên màn hình nhỏ hơn 1200px) */}
+        {/* Menu Toggle Button */}
         <div className="xl:hidden ml-auto">
           <button onClick={toggleMenu} className="text-white">
-            <i className={`fas fa-bars text-xl`}></i> {/* Biểu tượng nút toggle menu */}
-            <i className={`fas fa-bars text-xl`}></i> {/* Biểu tượng nút toggle menu */}
+            <i className={`fas fa-bars text-xl`}></i>
           </button>
         </div>
 
-        {/* Menu chính (Ẩn khi màn hình nhỏ hơn 1200px) */}
+        {/* Menu chính */}
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center" style={{ marginBottom: '0px' }}>
             <li>
@@ -63,8 +81,6 @@ function Header() {
                 Trang Chủ
               </Link>
             </li>
-
-            {/* Dropdown cho "Pages" */}
             <li className="relative">
               <button
                 onClick={toggleSubMenu}
@@ -114,7 +130,7 @@ function Header() {
               </a>
             </li>
             <li>
-              <a href="#contact" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
+              <a href="/page/lienhe" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
                 Liên Hệ
               </a>
             </li>
@@ -135,45 +151,41 @@ function Header() {
         </div>
 
         {/* Mobile Search Icon */}
-        
         <div className="ml-8 relative lg:hidden">
           <button className="text-white">
             <i className="fas fa-search"></i>
           </button>
         </div>
 
-        {/* Login Button */}
+        {/* Tên người dùng hoặc nút đăng nhập */}
         <div className="ml-8">
-          <Link href="/page/login">
-            <button className="hidden sm:inline-block border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[117px] h-[30px] rounded hover:bg-[#F5CF49] hover:text-[#000000] hover:font-bold transition uppercase text-[14px]">
-              Đăng Nhập
-            </button>
-          </Link>
-
-          <Link href="/page/login">
-            <button className="sm:hidden">
-              <i className="fas fa-user text-[#FFFFFF] text-2xl"></i> {/* Icon người dùng */}
-            </button>
-          </Link>
-
-          <Link href="/page/login">
-            <button className="sm:hidden">
-              <i className="fas fa-user text-[#FFFFFF] text-2xl"></i> {/* Icon người dùng */}
-            </button>
-          </Link>
+          {username ? (
+            <span className="text-white">{username}</span> // Hiển thị tên người dùng
+          ) : (
+            <>
+              <Link href="/page/login">
+                <button className="hidden sm:inline-block border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[117px] h-[30px] rounded hover:bg-[#F5CF49] hover:text-[#000000] hover:font-bold transition uppercase text-[14px]">
+                  Đăng Nhập
+                </button>
+              </Link>
+              <Link href="/page/login">
+                <button className="sm:hidden">
+                  <i className="fas fa-user text-[#FFFFFF] text-2xl"></i> {/* Icon người dùng */}
+                </button>
+              </Link>
+            </>
+          )}
         </div>
 
-        {/* Dropdown Menu (Xuất hiện khi nhấn Toggle Button) */}
+        {/* Dropdown Menu */}
         {isMenuOpen && (
-          <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 w-[200px] bg-white z-50 xl:hidden" >
+          <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 w-[200px] bg-white z-50 xl:hidden">
             <ul className="flex flex-col items-center space-y-4 py-4">
               <li>
                 <Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Trang Chủ
                 </Link>
               </li>
-
-              {/* Dropdown cho "Pages" trong menu di động */}
               <li className="relative">
                 <button
                   onClick={toggleMobileSubMenu}
@@ -206,7 +218,6 @@ function Header() {
                   </ul>
                 )}
               </li>
-
               <li>
                 <Link href="/page/about" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Giới Thiệu
@@ -223,10 +234,10 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <a href="/page/lienhe" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                <Link href="/page/lienhe" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
                   Liên Hệ
-                </a>
-              </li> 
+                </Link>
+              </li>
             </ul>
           </div>
         )}
