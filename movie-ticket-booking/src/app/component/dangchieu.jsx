@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Slider = dynamic(() => import('react-slick'), { ssr: false });
 
-const PhimDangChieu = () => {
+const DangChieu = () => {
     const movies = [
         {
             id: 1,
@@ -146,7 +146,7 @@ const PhimDangChieu = () => {
     return (
         <section className="dang-chieu">
             <div className="dang-chieu__container mx-auto py-8">
-                <div className="sap-chieu max-w-full mx-auto py-8" style={{ backgroundImage: 'url(/images/image1.png)', maxWidth: '1410px' }}>
+                <div className="sap-chieu max-w-full mx-auto py-8" style={{ backgroundImage: 'url(/images/background.png)', maxWidth: '1410px' }}>
                 <h2 className="dang-chieu__title">Phim đang chiếu</h2>
                     <Slider {...settings}>
                         {movies.map((movie) => (
@@ -176,4 +176,4 @@ const PhimDangChieu = () => {
     );
 };
 
-export default PhimDangChieu;
+export default DangChieu;
