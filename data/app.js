@@ -13,11 +13,14 @@ var eventsRouter = require('./routes/events');
 var searchRouter = require('./routes/search');
 var sapchieuRouter = require('./routes/sapchieu');
 var employeesRouter = require('./routes/employees');
-
+var admin_sanphamRouter = require('./routes/admin_sanpham');
+var blogRouter = require('./routes/blog');
+var dangchieuRouter = require('./routes/dangchieu');
+var khachhangRouter = require('./routes/khachhang');
 var app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3001', // Cho phép truy cập từ địa chỉ này
+  origin: ['http://localhost:3001', 'http://localhost:3002'],// Cho phép truy cập từ địa chỉ này
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
   credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
@@ -40,6 +43,11 @@ app.use('/events', eventsRouter);
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
 app.use('/employees', employeesRouter);
+app.use('/sanpham', admin_sanphamRouter);
+app.use('/blog', blogRouter);
+app.use('/dangchieu', dangchieuRouter);
+app.use('/khachhang', khachhangRouter);
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
