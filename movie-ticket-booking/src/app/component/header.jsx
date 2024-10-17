@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -114,9 +115,10 @@ function Header() {
               )}
             </li>
 
+
             <li>
               <Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Giới Thiệu
+                Giới thiệu
               </Link>
             </li>
             <li>
@@ -130,9 +132,9 @@ function Header() {
               </a>
             </li>
             <li>
-              <a href="/page/lienhe" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Liên Hệ
-              </a>
+              <Link href="/page/lienhe" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
+                Liên hệ
+              </Link>
             </li>
           </ul>
         </nav>
@@ -151,6 +153,7 @@ function Header() {
         </div>
 
         {/* Mobile Search Icon */}
+        
         <div className="ml-8 relative lg:hidden">
           <button className="text-white">
             <i className="fas fa-search"></i>
@@ -230,6 +233,7 @@ function Header() {
               </li>
               <li>
                 <Link href="/page/event" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
+                  Sự kiện
                   Sự kiện
                 </Link>
               </li>

@@ -44,7 +44,7 @@ const Banner = () => {
             </div>
             <div className="imageBox flex justify-center mr-20">
               <img
-                src="/images/image.png"
+                src="/images/background.png"
                 alt="Image 1"
                 className="w-500 h-auto"
               />

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
+// KhachHang.js
 const KhachHang = () => {
   const [khachhang, setKhachhang] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -90,6 +90,10 @@ const KhachHang = () => {
     setAvatar(e.target.files[0]);
   };
 
+
+
+
+
   return (
     <main className="app-content">
       <Head>
@@ -97,6 +101,11 @@ const KhachHang = () => {
       </Head>
       <div className="app-title">
         <ul className="app-breadcrumb breadcrumb side">
+          <li className="breadcrumb-item active">
+            <a href="#">
+              <b>Danh sách khách hàng</b>
+            </a>
+          </li>
           <li className="breadcrumb-item active">
             <a href="#">
               <b>Danh sách khách hàng</b>
@@ -133,14 +142,14 @@ const KhachHang = () => {
                 </thead>
                 <tbody>
                   {khachhang.map((kh) => (
-                    <tr key={kh._id}>
+                      <tr key={kh._id}>
                       <td>{kh._id}</td>
                       <td>{kh.Ten}</td>
                       <td>
                         <img src={kh.Anh ? `/images/user/${kh.Anh}` : '/images/default_avatar.png'} alt={kh.Ten} style={{ height: "74px", width: "50px" }} />
                       </td>
                       <td>{kh.DiaChi}</td>
-                      <td>{kh.SDT}</td>
+                       <td>{kh.SDT}</td>
                       <td>{kh.NgaySinh}</td>
                       <td className="table-td-center">
                         <button className="btn btn-primary btn-sm trash" type="button" title="Xóa" onClick={() => handleDelete(kh._id)}>
@@ -159,6 +168,45 @@ const KhachHang = () => {
           </div>
         </div>
       </div>
+
+      {isEditing && (
+        <div className="edit-modal">
+          <h2>Chỉnh sửa khách hàng</h2>
+          <input
+            type="text"
+            name="Ten"
+            value={selectedCustomer.Ten || ''}
+            onChange={handleChange}
+            placeholder="Tên"
+          />
+          <input
+            type="text"
+            name="DiaChi"
+            value={selectedCustomer.DiaChi || ''}
+            onChange={handleChange}
+            placeholder="Địa chỉ"
+          />
+          <input
+            type="text"
+            name="SDT"
+            value={selectedCustomer.SDT || ''}
+            onChange={handleChange}
+            placeholder="Số điện thoại"
+          />
+          <input
+            type="date"
+            name="NgaySinh"
+            value={selectedCustomer.NgaySinh || ''}
+            onChange={handleChange}
+          />
+          <input
+            type="file"
+            onChange={handleAvatarChange}
+          />
+          <button onClick={handleUpdate}>Cập nhật</button>
+          <button onClick={() => setIsEditing(false)}>Hủy</button>
+        </div>
+      )}
 
       {isEditing && (
         <div className="edit-modal">

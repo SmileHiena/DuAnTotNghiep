@@ -4,7 +4,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import DangChieu from "../../../component/dangchieu.jsx";
 import "../../../../../public/styles/sapchieu.css";
 import TuongTu from "@/app/component/tuongtu.jsx";
-
+import Link from "next/link";
 const Detail = () => {
   // Example movie data
   const movies = [
@@ -159,12 +159,14 @@ const Detail = () => {
                     Xem trailer
                   </button>
                 </div>
-                <button
-                  className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300"
-                  style={{ width: "150px", height: "41px" }}
-                >
-                  Đặt vé
-                </button>
+                <Link href={`/page/datve/${movie.id}`}>
+                  <button
+                    className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300"
+                    style={{ width: "150px", height: "41px" }}
+                  >
+                    Đặt vé
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -254,6 +256,7 @@ const Detail = () => {
 
                   {/* Load More Button */}
                   <div className="flex justify-center">
+
                     <button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">
                       Xem thêm
                     </button>
