@@ -2865,6 +2865,7 @@ const data = {
       GioTinh:"Nữ",
       SDT:"0395427399",
       ChucVu:"Nhân viên",
+      Tinhtrang:"Đang làm",
     },
     {
       id: 2,
@@ -2878,6 +2879,7 @@ const data = {
       GioTinh:"Nữ",
       SDT:"0395427399",
       ChucVu:"Lao công",
+      Tinhtrang:"tạm nghỉ",
     },
   ],
 
