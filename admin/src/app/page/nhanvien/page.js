@@ -2,13 +2,15 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+
 const NhanVien = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentEmployee, setCurrentEmployee] = useState(null);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -40,37 +42,50 @@ const NhanVien = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentEmployee(null);
+    setFile(null);
   };
 
   const handleSave = async () => {
     if (currentEmployee) {
-      try {
-        // Chuyển đổi ngày sinh sang định dạng dd-mm-yyyy
-        const dateParts = currentEmployee.NgaySinh.split('-');
-        const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-        
-        const updatedEmployee = { ...currentEmployee, NgaySinh: formattedDate };
+        const formData = new FormData();
+        formData.append('HoTen', currentEmployee.HoTen);
+        formData.append('TenDangNhap', currentEmployee.TenDangNhap);
+        formData.append('MatKhau', currentEmployee.MatKhau); // Nếu cần thiết
+        formData.append('DiaChi', currentEmployee.DiaChi);
+        formData.append('NgaySinh', currentEmployee.NgaySinh);
+        formData.append('GioTinh', currentEmployee.GioTinh);
+        formData.append('SDT', currentEmployee.SDT);
+        formData.append('ChucVu', currentEmployee.ChucVu);
+        formData.append('Tinhtrang', currentEmployee.Tinhtrang);
+        if (file) {
+            formData.append('Anh', file); // Thêm ảnh mới vào formData
+        }
 
-        await fetch(`http://localhost:3000/employees/edit/${currentEmployee._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedEmployee),
-        });
-        setEmployees((prev) =>
-          prev.map((emp) => (emp._id === currentEmployee._id ? updatedEmployee : emp))
-        );
-        handleCloseModal();
-      } catch (error) {
-        console.error('Có lỗi xảy ra khi cập nhật nhân viên:', error);
-      }
+        try {
+            await fetch(`http://localhost:3000/employees/edit/${currentEmployee._id}`, {
+                method: 'PUT',
+                body: formData,
+            });
+
+            // Cập nhật danh sách nhân viên mà không cần tải lại trang
+            setEmployees((prev) =>
+                prev.map((emp) => (emp._id === currentEmployee._id ? { ...currentEmployee, Anh: file ? `/images/${file.name}` : emp.Anh } : emp))
+            );
+            handleCloseModal();
+        } catch (error) {
+            console.error('Có lỗi xảy ra khi cập nhật nhân viên:', error);
+        }
     }
-  };
+};
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCurrentEmployee((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleDelete = async (employeeId) => {
@@ -81,8 +96,7 @@ const NhanVien = () => {
         await fetch(`http://localhost:3000/employees/delete/${employeeId}`, {
           method: 'DELETE',
         });
-        
-        // Cập nhật danh sách nhân viên sau khi xóa
+
         setEmployees((prev) => prev.filter((emp) => emp._id !== employeeId));
       } catch (error) {
         console.error('Có lỗi xảy ra khi xóa nhân viên:', error);
@@ -110,12 +124,11 @@ const NhanVien = () => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
-                  <Link href="/page/themnhanvien" className="btn btn-add">
-            <i className="fas fa-plus"></i> Thêm nhân viên mới
-          </Link>
+                    <Link href="/page/themnhanvien" className="btn bg-[#F5CF49] font-bold">
+                      <FontAwesomeIcon icon={faPlus} /> Thêm mới
+                    </Link>
                   </div>
                 </div>
-
                 <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
                   <thead>
                     <tr>
@@ -128,6 +141,7 @@ const NhanVien = () => {
                       <th>Giới tính</th>
                       <th>SĐT</th>
                       <th>Chức vụ</th>
+                      <th>Tình trạng</th>
                       <th>Tính năng</th>
                     </tr>
                   </thead>
@@ -144,6 +158,7 @@ const NhanVien = () => {
                           <td>{employee.GioTinh}</td>
                           <td>{employee.SDT}</td>
                           <td>{employee.ChucVu}</td>
+                          <td>{employee.Tinhtrang}</td>
                           <td>
                             <button className="btn btn-primary btn-sm mr-3" type="button" onClick={() => handleEditClick(employee._id)}>
                               <FontAwesomeIcon icon={faPenToSquare} />
@@ -156,7 +171,7 @@ const NhanVien = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="9">Không có nhân viên nào được tìm thấy</td>
+                        <td colSpan="10">Không có nhân viên nào được tìm thấy</td>
                       </tr>
                     )}
                   </tbody>
@@ -192,7 +207,7 @@ const NhanVien = () => {
                 </div>
                 <div className="form-group col-md-6">
                   <label className="control-label">Số điện thoại</label>
-                  <input className="form-control" type="tel" name="SDT" value={currentEmployee?.SDT || ''} onChange={handleInputChange} required />
+                  <input className="form-control" type="text" name="SDT" value={currentEmployee?.SDT || ''} onChange={handleInputChange} required />
                 </div>
                 <div className="form-group col-md-6">
                   <label className="control-label">Địa chỉ</label>
@@ -224,6 +239,19 @@ const NhanVien = () => {
                     <option>Bảo vệ</option>
                     <option>Tạp vụ</option>
                   </select>
+                </div>
+                <div className="form-group col-md-6">
+                  <label className="control-label">Tình trạng</label>
+                  <select className="form-control" name="Tinhtrang" value={currentEmployee?.Tinhtrang || ''} onChange={handleInputChange}>
+                    <option value="">Chọn tình trạng</option>
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Nghỉ việc">Nghỉ việc</option>
+                    <option value="Tạm nghỉ">Tạm nghỉ</option>
+                  </select>
+                </div>
+                <div className="form-group col-md-6">
+                  <label className="control-label">Ảnh thẻ</label>
+                  <input className="form-control" type="file" onChange={handleFileChange} />
                 </div>
               </div>
               <button className="btn btn-save mr-3" type="button" onClick={handleSave}>Lưu lại</button>
