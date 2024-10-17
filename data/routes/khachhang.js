@@ -28,9 +28,7 @@ function checkFileUpLoad(req, file, cb) {
 }
 
 // Upload file
-let upload = multer({ storage: storage, fileFilter: checkFileUpLoad }).single(
-  "avatar"
-);
+let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 
 // Lấy tất cả khách hàng
 router.get("/", async (req, res) => {
@@ -67,81 +65,92 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
-// Thêm khách hàng mới
-router.post("/", async (req, res) => {
-  const { Ten, DiaChi, SDT, NgaySinh } = req.body;
-  const Anh = req.file ? req.file.filename : null; // Lấy tên file ảnh đã upload
-
-  const newCustomer = {
-    Ten,
+router.post('/', upload.single('Anh'), async (req, res, next) => {
+  try {
+    const {Ten, DiaChi, SDT, NgaySinh} = req.body;
+    const Anh = req.file ? req.file.filename : null;
+    const db = await connectDb();
+    const usersCollection = db.collection('khachhang');
+    const lastUser = await usersCollection.find().sort({ id: -1 }).limit(1).toArray();
+    const id = lastUser[0] ? lastUser[0].id + 1 : 1;
+    const newUser = {
+    id,
+    Ten, 
     DiaChi,
     SDT,
     NgaySinh,
-    Anh,
+    Anh
   };
-
-  try {
-    const db = await connectDb();
-    const khachhangCollection = db.collection("khachhang");
-    await khachhangCollection.insertOne(newCustomer);
-    res.status(201).json({ message: "Thêm khách hàng thành công" });
+    await usersCollection.insertOne(newUser);
+    res.status(200).json(newUser);
   } catch (error) {
-    console.error("Error adding customer:", error);
-    res.status(500).json({ message: "Failed to add customer" });
+    res.status(500).json({ message: error.message });
   }
 });
 
-router.put("/:id", async (req, res) => {
+//Thêm người dùng
+// router.post('/', upload.single('Anh'), async (req, res) => {
+//   try {
+//     const { Ten, DiaChi, SDT, NgaySinh } = req.body;
+//     const Anh = req.file ? req.file.filename : null; // Lấy tên file từ req.file
+
+//     const newCustomer = {
+//       Ten,
+//       DiaChi,
+//       SDT,
+//       NgaySinh,
+//       Anh,
+//     };
+
+//     // Lưu khách hàng vào database
+//     await usersCollection.insertOne(newCustomer);
+//     res.status(201).json(newCustomer); // Trả về khách hàng vừa thêm
+//   } catch (error) {
+//     console.error("Error adding customer:", error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+// Sửa thông tin khách hàng
+router.put('/:id', upload.single('image'), async (req, res) => { // Thêm middleware upload
   try {
-    const { id } = req.params;
-    const {
-      HoTen,
-      TenDangNhap,
-      MatKhau,
-      DiaChi,
-      NgaySinh,
-      GioTinh,
-      SDT,
-      ChucVu,
-    } = req.body;
+    const id = req.params.id;
+
+    // Kiểm tra định dạng ObjectId hợp lệ
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID không hợp lệ.' });
+    }
 
     const db = await connectDb();
-    const collection = db.collection("khachhang"); // Đảm bảo bạn đang truy cập đúng collection
+    const usersCollection = db.collection('khachhang');
 
-    const updatedCustomer = {
-      HoTen,
-      TenDangNhap,
-      MatKhau,
-      DiaChi,
-      NgaySinh,
-      GioTinh,
-      SDT,
-      ChucVu,
+    // Lấy thông tin từ request body
+    const updateData = {
+      Ten: req.body.Ten,
+      DiaChi: req.body.DiaChi,
+      SDT: req.body.SDT,
+      NgaySinh: req.body.NgaySinh,
+      Anh: req.file ? req.file.filename : undefined, // Nếu có ảnh mới thì cập nhật
     };
 
-    // Nếu có ảnh mới, cập nhật tên file ảnh
-    if (req.file) {
-      updatedCustomer.Anh = req.file.filename; // Lưu tên file ảnh mới
-    }
+    // Xóa các trường undefined
+    Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
 
-    const result = await collection.updateOne(
+    const result = await usersCollection.updateOne(
       { _id: new ObjectId(id) },
-      { $set: updatedCustomer }
+      { $set: updateData }
     );
 
-    if (result.modifiedCount === 0) {
-      return res.status(404).json({ message: "Không tìm thấy khách hàng để cập nhật" });
-    } else {
-      return res.json({ message: "Cập nhật thông tin khách hàng thành công" });
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: 'Không tìm thấy người dùng.' });
     }
 
+    res.status(200).json({ message: "Cập nhật thành công", updatedUser: updateData });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Có lỗi xảy ra", error: error.message });
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật thông tin người dùng.' });
   }
 });
-
 
 // Xóa khách hàng
 router.delete("/:id", async (req, res) => {
@@ -150,7 +159,12 @@ router.delete("/:id", async (req, res) => {
   try {
     const db = await connectDb();
     const khachhangCollection = db.collection("khachhang");
-    await khachhangCollection.deleteOne({ _id: ObjectId(id) });
+    const result = await khachhangCollection.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Khách hàng không tồn tại" });
+    }
+
     res.status(200).json({ message: "Xóa khách hàng thành công" });
   } catch (error) {
     console.error("Error deleting customer:", error);
