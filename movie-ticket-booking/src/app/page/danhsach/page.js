@@ -1,7 +1,8 @@
+
 import MovieList from "../../component/MovieList";
 
-const DanhSach = () => {
-  return <MovieList apiUrl="http://localhost:3000/sapchieu" title="Danh Sách Phim" />;
+const DanhSachPhim = () => {
+  return <MovieList apiUrl="http://localhost:3000/movies" title="Danh Sách Phim" />;
 };
 
-export default DanhSach;
+export default DanhSachPhim;

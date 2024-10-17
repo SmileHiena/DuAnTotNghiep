@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 const multer = require('multer');
 const connectDb = require('../models/db');
+const { ObjectId } = require('mongodb'); // Thêm ObjectId để sử dụng
 
-//Thiết lập nơi lưu trữ và tên file
+// Thiết lập nơi lưu trữ và tên file
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/'); // Thư mục lưu trữ ảnh
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
   }
 });
 
-//Kiểm tra file upload
+// Kiểm tra file upload
 function checkFileUpLoad(req, file, cb) {
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
     return cb(new Error('Bạn chỉ được upload file ảnh'));
@@ -21,29 +22,34 @@ function checkFileUpLoad(req, file, cb) {
   cb(null, true);
 }
 
-//Upload file
+// Upload file
 let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 
 //---------------------------Movies--------------------------------//
 
 // Lấy danh sách phim
 router.get('/', async (req, res) => {
-    try {
-      const db = await connectDb();
-      const moviesCollection = db.collection('phimsapchieu'); // Đảm bảo collection tên đúng
-      const movies = await moviesCollection.find().toArray();
-      res.status(200).json(movies);
-    } catch (error) {
-      console.error('Error fetching movies:', error);
-      res.status(500).json({ message: 'Failed to fetch movies' });
-    }
-  });
+  try {
+    const trangThai = req.query.trangThai; // Lấy trạng thái từ query
+    const db = await connectDb();
+    const moviesCollection = db.collection('phim'); // Đảm bảo collection tên đúng
+
+    // Nếu có trạng thái, lọc theo trạng thái
+    const query = trangThai ? { TrangThai: trangThai } : {};
+    const movies = await moviesCollection.find(query).toArray();
+
+    res.status(200).json(movies);
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+    res.status(500).json({ message: 'Failed to fetch movies' });
+  }
+});
 
 // Thêm phim mới
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const db = await connectDb();
-    const productCollection = db.collection('phimsapchieu');
+    const movieCollection = db.collection('phim');
     const newMovie = {
       Ten: req.body.Ten,
       TheLoai: JSON.parse(req.body.TheLoai), // Chuyển đổi chuỗi JSON thành object
@@ -54,7 +60,7 @@ router.post('/', upload.single('image'), async (req, res) => {
       ThongTinPhim: req.body.ThongTinPhim
     };
 
-    const result = await productCollection.insertOne(newMovie);
+    const result = await movieCollection.insertOne(newMovie);
     res.status(201).json({ message: 'Movie added successfully', movieId: result.insertedId });
   } catch (error) {
     res.status(500).json({ message: 'Error adding movie', error });
@@ -67,7 +73,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
 
   try {
     const db = await connectDb();
-    const productCollection = db.collection('phimsapchieu');
+    const movieCollection = db.collection('phim');
     
     const updateData = {
       Ten: req.body.Ten,
@@ -82,7 +88,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     // Xóa các trường undefined
     Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
 
-    const result = await productCollection.updateOne({ _id: new ObjectId(movieId) }, { $set: updateData });
+    const result = await movieCollection.updateOne({ _id: new ObjectId(movieId) }, { $set: updateData });
     
     if (result.modifiedCount > 0) {
       res.status(200).json({ message: 'Movie updated successfully' });
@@ -100,8 +106,8 @@ router.delete('/:id', async (req, res) => {
 
   try {
     const db = await connectDb();
-    const productCollection = db.collection('phimsapchieu');
-    const result = await productCollection.deleteOne({ _id: new ObjectId(movieId) });
+    const movieCollection = db.collection('phim');
+    const result = await movieCollection.deleteOne({ _id: new ObjectId(movieId) });
     
     if (result.deletedCount > 0) {
       res.status(200).json({ message: 'Movie deleted successfully' });

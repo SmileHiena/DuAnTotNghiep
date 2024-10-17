@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { useState, useEffect, useRef } from 'react';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
