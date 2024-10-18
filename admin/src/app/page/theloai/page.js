@@ -110,11 +110,7 @@ const TheLoai = () => {
                       <td>{item.id}</td>
                       <td>{item.Ten}</td>
                       <td>
-                        <img
-                          src={item.Anh}
-                          alt={item.Ten}
-                          style={{ height: "74px", width: "50px" }}
-                        />
+                        <img src={item.Anh.url || item.Anh} alt={item.Ten} style={{ width: "100px", height: "auto" }} />
                       </td>
                       <td className="table-td-center">
                         <button
