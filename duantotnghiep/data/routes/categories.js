@@ -58,5 +58,25 @@ router.delete('/delete/:id', async (req, res) => {
         res.status(404).json({ message: 'Không tìm thấy thể loại để xóa' });
     }
 });
+//lọc danh mục
+router.get('/category/:id', async (req, res, next) => {
+    try {
+      const db = await connectDb();
+      const productCollection = db.collection('phim');
+
+      const danhMucId = parseInt(req.params.id);
+
+      const phim = await productCollection.find({ IdDanhMuc: danhMucId }).toArray();
+  
+      if (phim.length > 0) {
+        res.status(200).json(phim);
+      } else {
+        res.status(404).json({ message: 'No movies found for this category' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 
 module.exports = router;

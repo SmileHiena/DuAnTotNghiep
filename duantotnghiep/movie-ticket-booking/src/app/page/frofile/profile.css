@@ -257,19 +257,8 @@
     
   }
 
-
-input[type="checkbox"]:checked ~ .order-box {
-  display: block;
-}
-
-.ooo{
-  height: 40px;
-width: 50px;
-background-color: #b34733;
-
-}
 .order-box {
-  background-color: #245d97;
+   background-color: #313131;
   border: 1px solid #dee2e6;
   padding: 20px;
   border-radius: 8px;
@@ -280,11 +269,20 @@ background-color: #b34733;
   left: 40%;
   z-index: 9999;
   top: 25%;
+  border: 1px solid #F5CF49;
 
 }
-input[type="checkbox"]:checked ~ .order-box {
-  display: none;
+.order-box p{
+  color: white;
 }
-input[type="checkbox"] {
-  display: none;
+.order-box p strong{
+  color: #F5CF49;
+}
+.order-box .infor-card{
+  text-align: center;
+  font-weight: bold;
+  color: #F5CF49;
+}
+.order-box h3{
+  color: #F5CF49;
 }

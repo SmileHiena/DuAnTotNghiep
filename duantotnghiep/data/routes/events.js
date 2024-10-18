@@ -3,6 +3,10 @@ var router = express.Router();
 const multer = require('multer');
 const { ObjectId } = require('mongodb');
 const connectDb = require('../models/db');
+const cors = require('cors');
+
+// Sử dụng CORS
+router.use(cors()); // Thêm middleware CORS
 
 // Thiết lập nơi lưu trữ và tên file
 const storage = multer.diskStorage({
@@ -100,6 +104,7 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
 
     res.status(201).json({ message: 'Thêm sự kiện thành công', newEvent });
   } catch (error) {
+    console.error('Lỗi khi thêm sự kiện:', error); // Ghi lại lỗi ra console
     res.status(500).json({ message: 'Lỗi server', error });
   }
 });
@@ -139,6 +144,7 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
       res.status(404).json({ message: 'Không tìm thấy sự kiện' });
     }
   } catch (error) {
+    console.error('Lỗi khi cập nhật sự kiện:', error); // Ghi lại lỗi ra console
     res.status(500).json({ message: 'Lỗi server', error });
   }
 });
@@ -164,6 +170,7 @@ router.delete('/delete/:id', async (req, res) => {
       res.status(404).json({ message: 'Không tìm thấy sự kiện' });
     }
   } catch (error) {
+    console.error('Lỗi khi xóa sự kiện:', error); // Ghi lại lỗi ra console
     res.status(500).json({ message: 'Lỗi server', error });
   }
 });
