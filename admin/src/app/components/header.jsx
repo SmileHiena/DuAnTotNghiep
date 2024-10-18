@@ -59,7 +59,7 @@ const Header = () => {
                     <li>
                         <Link className="app-menu__item" href="/page/sanpham">
                             <FontAwesomeIcon icon={faTags} className="app-menu__icon text-xl" />
-                            <span className="app-menu__label">Quản lý sản phẩm</span>
+                            <span className="app-menu__label">Quản lý phim</span>
                         </Link>
                     </li>
                     <li>

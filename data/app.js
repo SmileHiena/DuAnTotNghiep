@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var bcryptjs = require('bcryptjs');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,7 +18,8 @@ var employeesRouter = require('./routes/employees');
 var admin_sanphamRouter = require('./routes/admin_sanpham');
 var blogRouter = require('./routes/blog');
 var dangchieuRouter = require('./routes/dangchieu');
-var khachhangRouter = require('./routes/khachhang');
+var taikhoanRouter = require('./routes/taikhoan');
+var authRouter = require('./routes/auth');
 var app = express();
 
 app.use(cors({
@@ -46,7 +49,8 @@ app.use('/employees', employeesRouter);
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/blog', blogRouter);
 app.use('/dangchieu', dangchieuRouter);
-app.use('/khachhang', khachhangRouter);
+app.use('/taikhoan', taikhoanRouter);
+app.use('/auth', authRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
