@@ -42,7 +42,7 @@ router.get("/", async (req, res) => {
       res.status(404).json({ message: "Không có blog nào được tìm thấy" });
     }
   } catch (error) {
-    console.error("Lỗi khi lấy danh sách blog:", error);
+    console.error("Lỗi khi lấy danh sách bl og:", error);
     res.status(500).json({ message: "Lỗi server", error });
   }
 });

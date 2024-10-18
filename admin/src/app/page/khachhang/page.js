@@ -1,47 +1,92 @@
-'use client';
-import React, { useState } from 'react';
-import Head from 'next/head';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+// KhachHang.js
+"use client";
+import React, { useState, useEffect } from "react";
+import Head from "next/head";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 const KhachHang = () => {
-  const [khachhang, setKhachhang] = useState([
-    {
-      id: 1,
-      Ten: "Nguyễn Thái Sơn",
-      Anh: "nginhphong.jpg",
-      DiaChi: "Nhà xí",
-      SDT: "0123456789",
-      NgaySinh: "29/10/2004",
-    },
-    {
-      id: 2,
-      Ten: "Ngô Chí Toàn",
-      Anh: "toan.jpg",
-      DiaChi: "Thùng rác",
-      SDT: "0287529374",
-      NgaySinh: "01/01/2004",
-    },
-    {
-      id: 3,
-      Ten: "Trương Quang Hoài",
-      Anh: "hoai.jpg",
-      DiaChi: "Bụi Chuối",
-      SDT: "0523846955",
-      NgaySinh: "02/02/2004",
-    },
-    {
-      id: 4,
-      Ten: "Ngọc Thành",
-      Anh: "thanh.jpg",
-      DiaChi: "Bụi cỏ",
-      SDT: "0265308420",
-      NgaySinh: "03/03/2004",
-    },
-  ]);
+  const [khachhang, setKhachhang] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
 
-  const handleDelete = (id) => {
-    setKhachhang(khachhang.filter((kh) => kh.id !== id));
+  // Lấy danh sách khách hàng từ server
+  useEffect(() => {
+    const fetchKhachHang = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/khachhang");
+        setKhachhang(response.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách khách hàng:", error);
+      }
+    };
+
+    fetchKhachHang();
+  }, []);
+
+  // Xử lý xóa khách hàng
+  const handleDelete = async (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa khách hàng này không?")) {
+      try {
+        await axios.delete(`http://localhost:3000/khachhang/${id}`);
+        setKhachhang(khachhang.filter((kh) => kh._id !== id));
+      } catch (error) {
+        console.error("Lỗi khi xóa khách hàng:", error.response?.data || error.message);
+      }
+    }
+  };
+
+  // Chuyển sang chế độ chỉnh sửa
+  const handleEdit = (kh) => {
+    setSelectedCustomer(kh);
+    setIsEditing(true);
+    setAvatar(null);
+    setSuccessMessage(""); // Reset thông báo thành công khi chỉnh sửa
+  };
+
+  // Cập nhật khách hàng sau khi chỉnh sửa
+  const handleUpdate = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("Ten", selectedCustomer.Ten);
+      formData.append("DiaChi", selectedCustomer.DiaChi);
+      formData.append("SDT", selectedCustomer.SDT);
+      formData.append("NgaySinh", selectedCustomer.NgaySinh);
+      if (avatar) {
+        formData.append("avatar", avatar);
+      }
+
+      const response = await axios.put(`http://localhost:3000/khachhang/${selectedCustomer._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setKhachhang(khachhang.map((kh) => (kh._id === selectedCustomer._id ? response.data : kh)));
+      setIsEditing(false);
+      setSelectedCustomer(null);
+      setAvatar(null);
+      setSuccessMessage("Cập nhật khách hàng thành công!"); // Thông báo thành công
+    } catch (error) {
+      console.error("Lỗi khi cập nhật khách hàng:", error);
+      setSuccessMessage(""); // Reset thông báo thành công
+      alert("Cập nhật khách hàng không thành công. Vui lòng thử lại.");
+    }
+  };
+
+  // Xử lý thay đổi thông tin khi chỉnh sửa
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedCustomer((prev) => ({ ...prev, [name]: value || "" }));
+  };
+
+  // Xử lý thay đổi ảnh
+  const handleAvatarChange = (e) => {
+    setAvatar(e.target.files[0]);
   };
 
   return (
@@ -51,19 +96,26 @@ const KhachHang = () => {
       </Head>
       <div className="app-title">
         <ul className="app-breadcrumb breadcrumb side">
-          <li className="breadcrumb-item active"><a href="#"><b>Danh sách khách hàng</b></a></li>
+          <li className="breadcrumb-item active">
+            <a href="#">
+              <b>Danh sách khách hàng</b>
+            </a>
+          </li>
         </ul>
       </div>
-
       <div className="row">
         <div className="col-md-12">
           <div className="tile">
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <a className="btn btn-add btn-sm" href="/form-add-customer" title="Thêm">
+                  <button
+                    className="btn btn-add btn-sm"
+                    onClick={() => router.push("/page/themkhachhang")}
+                    title="Thêm"
+                  >
                     <i className="fas fa-plus"></i> Tạo mới khách hàng
-                  </a>
+                  </button>
                 </div>
               </div>
               <table className="table table-hover table-bordered" cellPadding="0" cellSpacing="0" border="0" id="sampleTable">
@@ -80,42 +132,71 @@ const KhachHang = () => {
                 </thead>
                 <tbody>
                   {khachhang.map((kh) => (
-                    <tr key={kh.id}>
-                      <td>{kh.id}</td>
+                    <tr key={kh._id}>
+                      <td>{kh._id}</td>
                       <td>{kh.Ten}</td>
                       <td>
-                        <img src={kh.Anh} alt={kh.Ten} style={{ height: '74px', width: '50px' }} />
+                        <img src={kh.Anh ? `/images/user/${kh.Anh}` : '/images/default_avatar.png'} alt={kh.Ten} style={{ height: "74px", width: "50px" }} />
                       </td>
                       <td>{kh.DiaChi}</td>
                       <td>{kh.SDT}</td>
                       <td>{kh.NgaySinh}</td>
                       <td className="table-td-center">
-                        <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(kh.id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} bounce style={{ color: "#de0400" }} />
+                        <button className="btn btn-primary btn-sm trash" type="button" title="Xóa" onClick={() => handleDelete(kh._id)}>
+                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
                         </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
-                          type="button"
-                          title="Sửa"
-                          data-toggle="modal"
-                          data-target="#ModalUP"
-                        >
-                          <FontAwesomeIcon icon={faPenToSquare} bounce style={{ color: "#f59d39" }} />
+                        <button className="btn btn-primary btn-sm edit" type="button" title="Chỉnh sửa" onClick={() => handleEdit(kh)}>
+                          <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#0081ff" }} />
                         </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Hiển thị thông báo thành công */}
             </div>
           </div>
         </div>
       </div>
+
+      {isEditing && (
+        <div className="edit-modal">
+          <h2>Chỉnh sửa khách hàng</h2>
+          <input
+            type="text"
+            name="Ten"
+            value={selectedCustomer.Ten || ''}
+            onChange={handleChange}
+            placeholder="Tên"
+          />
+          <input
+            type="text"
+            name="DiaChi"
+            value={selectedCustomer.DiaChi || ''}
+            onChange={handleChange}
+            placeholder="Địa chỉ"
+          />
+          <input
+            type="text"
+            name="SDT"
+            value={selectedCustomer.SDT || ''}
+            onChange={handleChange}
+            placeholder="Số điện thoại"
+          />
+          <input
+            type="date"
+            name="NgaySinh"
+            value={selectedCustomer.NgaySinh || ''}
+            onChange={handleChange}
+          />
+          <input
+            type="file"
+            onChange={handleAvatarChange}
+          />
+          <button onClick={handleUpdate}>Cập nhật</button>
+          <button onClick={() => setIsEditing(false)}>Hủy</button>
+        </div>
+      )}
     </main>
   );
 };

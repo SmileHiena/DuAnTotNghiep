@@ -32,11 +32,11 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpload });
 router.get("/", async (req, res) => {
   try {
     const db = await connectDb();
-    const phimCollection = db.collection("phim");
-    const phim = await phimCollection.find().toArray();
+    const theloaiCollection = db.collection("theloai");
+    const theloai = await theloaiCollection.find().toArray();
 
-    if (phim.length > 0) {
-      res.status(200).json(phim);
+    if (theloai.length > 0) {
+      res.status(200).json(theloai);
     } else {
       res.status(404).json({ message: "No products found" });
     }
@@ -59,8 +59,8 @@ router.post("/upload", upload.single("image"), (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const db = await connectDb();
-    const phimCollection = db.collection("phim");
-    const result = await phimCollection.deleteOne({ _id: ObjectId(req.params.id) });
+    const theloaiCollection = db.collection("theloai");
+    const result = await theloaiCollection.deleteOne({ _id: ObjectId(req.params.id) });
 
     if (result.deletedCount > 0) {
       res.status(200).json({ message: "Product deleted successfully" });

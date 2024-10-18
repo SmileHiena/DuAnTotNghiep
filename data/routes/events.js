@@ -42,7 +42,6 @@ router.get('/', async (req, res) => {
       res.status(404).json({ message: 'Không có sự kiện nào được tìm thấy' });
     }
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách sự kiện:', error);
     res.status(500).json({ message: 'Lỗi server', error });
   }
 });

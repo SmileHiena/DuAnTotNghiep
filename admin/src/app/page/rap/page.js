@@ -95,14 +95,14 @@ const Rap = () => {
                           title="Xóa"
                           onClick={() => handleDelete(product.id)}
                         >
-                          <FontAwesomeIcon icon={faTrash} bounce style={{ color: "#de0400" }} />
+                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
                         </button>
                         <button
                           className="btn btn-primary btn-sm edit"
                           type="button"
                           title="Sửa"
                         >
-                          <FontAwesomeIcon icon={faPenToSquare} bounce style={{ color: "#f59d39" }} />
+                          <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} />
                         </button>
                       </td>
                     </tr>

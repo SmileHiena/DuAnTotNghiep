@@ -32,7 +32,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sarabun: 'Roboto', sans-serif;
+  --font-family-sarabun:'Open Sans', sans-serif;
   --btn-fun: #4bac4d;
 }
 
@@ -71,7 +71,7 @@ section {
 
 body {
   margin: 0;
-  font-family: var(--font-family-sarabun);
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
@@ -6346,7 +6346,7 @@ button.close {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -6471,7 +6471,7 @@ button.close {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -14967,6 +14967,7 @@ be a descendant of the grid when it is being dragged.
   background: white;
   border-radius: .357rem;
   width: 70px;
+  height: 70px;
   border: 3px solid white;
   margin-bottom: 10px;
   margin: 0 auto;
@@ -16612,7 +16613,7 @@ font-weight: 500;
 }
 
 table {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   border-collapse: collapse;
   width: 100%;
 }

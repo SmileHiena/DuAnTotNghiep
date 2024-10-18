@@ -75,7 +75,7 @@ const KhuyenMai = () => {
                           title="Xóa"
                           onClick={() => handleDelete(km.id)}
                         >
-                          <FontAwesomeIcon icon={faTrash} bounce style={{ color: "#de0400" }} />
+                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
                         </button>
                         <button
                           className="btn btn-primary btn-sm edit"
@@ -84,7 +84,7 @@ const KhuyenMai = () => {
                           data-toggle="modal"
                           data-target="#ModalUP"
                         >
-                          <FontAwesomeIcon icon={faPenToSquare} bounce style={{ color: "#f59d39" }} />
+                          <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} />
                         </button>
                       </td>
                     </tr>

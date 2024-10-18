@@ -13,17 +13,16 @@ var eventsRouter = require('./routes/events');
 var searchRouter = require('./routes/search');
 var sapchieuRouter = require('./routes/sapchieu');
 var blogRouter = require('./routes/blog');
-
-// ----- ADMIN -----
-// Ensure this matches the correct filename
+// admin
 const admin_sanphamRouter = require('./routes/admin_sanpham');
+const admin_theloaiRouter = require('./routes/admin_theloai');
 
 var app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3001',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  origin: 'http://localhost:3001', // Cho phép truy cập từ địa chỉ này
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
+  credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
 
 // view engine setup
@@ -44,9 +43,9 @@ app.use('/events', eventsRouter);
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
 app.use('/blog', blogRouter);
-
-// Make sure to use the correct router here
+// admin
 app.use('/sanpham', admin_sanphamRouter);
+app.use('/theloai', admin_theloaiRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

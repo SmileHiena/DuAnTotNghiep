@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons"; // Import the required icons
+import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { Modal, Button } from "react-bootstrap"; // Import Bootstrap modal
 
 const SanPham = () => {
   const [sanpham, setSanPham] = useState([]);
-  
+  const [selectedPhim, setSelectedPhim] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   // Fetch sanpham data from the backend API
   useEffect(() => {
@@ -26,32 +28,48 @@ const SanPham = () => {
     fetchSanPham();
   }, []);
 
-  
-
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa phim này không?");
-    
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa phim này không?"
+    );
+
     if (!confirmDelete) {
-      return; 
+      return;
     }
-  
+
     try {
       const response = await fetch(`http://localhost:3000/sanpham/${id}`, {
         method: "DELETE",
       });
-  
+
       if (!response.ok) {
-        const errorText = await response.text(); // Đọc nội dung lỗi từ phản hồi
+        const errorText = await response.text();
         throw new Error(`Failed to delete product: ${errorText}`);
       }
-  
+
       setSanPham(sanpham.filter((product) => product.id !== id));
     } catch (error) {
       console.error("Delete failed:", error.message);
     }
   };
-  
-  
+
+  const handleShowMore = (phim) => {
+    setSelectedPhim(phim);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedPhim(null);
+  };
+
+  // Function to truncate ThongTinPhim
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  };
 
   return (
     <main className="app-content">
@@ -83,12 +101,7 @@ const SanPham = () => {
                   </a>
                 </div>
               </div>
-              <table
-                className="table table-hover table-bordered"
-                cellPadding="0"
-                cellSpacing="0"
-                border="0"
-              >
+              <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
                     <th>Mã phim</th>
@@ -96,8 +109,15 @@ const SanPham = () => {
                     <th>Ảnh phim</th>
                     <th>Tình trạng</th>
                     <th>Thể loại</th>
-                    {/* <th>Mô tả</th> */}
-                    <th width="100">Tính năng</th>
+                    <th>Thời lượng</th>
+                    <th>Quốc gia</th>
+                    <th>Ngôn ngữ</th>
+                    <th>Khuyến cáo</th>
+                    <th>Đạo diễn</th>
+                    <th>Diễn viên</th>
+                    <th>Ngày khởi chiếu</th>
+                    <th>Nội dung</th>
+                    <th>Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,20 +126,30 @@ const SanPham = () => {
                       <td>{product.id}</td>
                       <td>{product.Ten}</td>
                       <td>
-                        <img
-                          src={product.Anh}
-                          alt={product.Ten}
-                          style={{ height: "74px", width: "55px" }}
-                        />
+                        <img src={product.Anh} alt={product.Ten} />
                       </td>
-                      <td className="text-[#02790C] h-[100px] text-center flex items-center justify-center">
-                        <span className="w-[80px] h-[34px] bg-[#BFEFC4] flex items-center justify-center rounded-lg">
+                      <td>
+                        <span className="status-badge">
                           {product.TrangThai}
                         </span>
                       </td>
-
                       <td>{product.TheLoai.KieuPhim}</td>
-                      {/* <td>{product.ThongTinPhim}</td> */}
+                      <td>{product.TheLoai.ThoiLuong}</td>
+                      <td>{product.TheLoai.QuocGia}</td>
+                      <td>{product.TheLoai.NgonNgu}</td>
+                      <td>{product.TheLoai.KhuyenCao}</td>
+                      <td>{product.MoTa.DaoDien}</td>
+                      <td>{product.MoTa.DienVien}</td>
+                      <td>{product.MoTa.NgayKhoiChieu}</td>
+                      <td>
+                        {truncateText(product.ThongTinPhim, 100)}{" "}
+                        <button
+                          className="btn btn-link"
+                          onClick={() => handleShowMore(product)}
+                        >
+                          Xem thêm
+                        </button>
+                      </td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary btn-sm trash"
@@ -129,7 +159,6 @@ const SanPham = () => {
                         >
                           <FontAwesomeIcon
                             icon={faTrash}
-                            bounce
                             style={{ color: "#de0400" }}
                           />
                         </button>
@@ -142,7 +171,6 @@ const SanPham = () => {
                         >
                           <FontAwesomeIcon
                             icon={faPenToSquare}
-                            bounce
                             style={{ color: "#f59d39" }}
                           />
                         </button>
@@ -155,6 +183,19 @@ const SanPham = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal to show full ThongTinPhim */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedPhim?.Ten}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{selectedPhim?.ThongTinPhim}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </main>
   );
 };

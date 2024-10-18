@@ -6,27 +6,27 @@ const data = {
   
   // ----- Phim -----
   Phim: [
-    {
-      id: 1,
-      Ten: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
-      TheLoai: {
-        KieuPhim: "Hài, Hành Động",
-        ThoiLuong: "118'",
-        QuocGia: "Hàn quốc",
-        NgonNgu: "Phụ Đề",
-        KhuyenCao: "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+)",
+      {
+        id: 1,
+        Ten: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
+        TheLoai: {
+          KieuPhim: "Hài, Hành Động",
+          ThoiLuong: "118'",
+          QuocGia: "Hàn quốc",
+          NgonNgu: "Phụ Đề",
+          KhuyenCao: "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+)",
+        },
+        Anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
+        IdDanhMuc: 4,
+        TrangThai: "Đang Chiếu",
+        MoTa: {
+          DaoDien: "RYOO Seung-wan",
+          DienVien: "HWANG Jung-min, JUNG Hae-in",
+          NgayKhoiChieu: "Thứ Sáu, 27/09/2024",
+        },
+        ThongTinPhim:
+          "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
       },
-      Anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
-      IdDanhMuc: 4,
-      TrangThai: "Đang Chiếu",
-      MoTa: {
-        DaoDien: "RYOO Seung-wan",
-        DienVien: "HWANG Jung-min, JUNG Hae-in",
-        NgayKhoiChieu: "Thứ Sáu, 27/09/2024",
-      },
-      ThongTinPhim:
-        "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
-    },
 
     {
       id: 2,
@@ -122,32 +122,32 @@ const data = {
     {
       id: 1,
       Ten: "Tình Cảm",
-      Anh: "theloaitinhcam.jpg",
+      Anh: "/images/theloai/theloaitinhcam.jpg",
     },
     {
       id: 2,
       Ten: "Kinh Dị",
-      Anh: "theloaikinhdi.jpg",
+      Anh: "/images/theloai/theloaikinhdi.jpg",
     },
     {
       id: 3,
       Ten: "Hài Hước",
-      Anh: "theloaihaihuoc.jpg",
+      Anh: "/images/theloai/theloaihaihuoc.jpg",
     },
     {
       id: 4,
       Ten: "Trinh Thám",
-      Anh: "theloaitrinhtham.jpg",
+      Anh: "/images/theloai/theloaitrinhtham.jpg",
     },
     {
       id: 5,
       Ten: "Anime",
-      Anh: "theloaianime.jpg",
+      Anh: "/images/theloai/theloaianime.jpg",
     },
   ],
 
-  // ----- Blog -----
-  Blog: [
+   // ----- Blog -----
+   Blog: [
     {
       id: 1,
       TenBlog: "Top phim Địch Lệ Nhiệt Ba đã làm nên tên tuổi",
@@ -2672,7 +2672,6 @@ const data = {
     },
   ],
   
-
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
     {
@@ -2844,20 +2843,35 @@ const data = {
   Admin: [
     {
       id: 1,
-      Quyen: "QuanTri",
+      Quyen: "NhanVien",
+      HoTen:"Nguyễn Thái Sơn",
       TenDangNhap: "Sondev",
-      MatKhau: "12345678qt",
+      MatKhau: "12345678",
+      Anh: "/images/combo/combo4.jpg",
+      DiaChi: "Thùng Rác",
+      NgaySinh:"29-09-2999",
+      GioTinh:"Nữ",
+      SDT:"0395427399",
+      ChucVu:"Nhân viên",
+      Tinhtrang:"Đang làm",
     },
     {
       id: 2,
       Quyen: "NhanVien",
-      TenDangNhap: "Toandev",
-      MatKhau: "12345678nv",
+      HoTen:"Ngô Chí Toàn",
+      TenDangNhap: "ToanTran",
+      MatKhau: "12345678",
+      Anh: "/images/combo/combo4.jpg",
+      DiaChi: "Thùng Rác",
+      NgaySinh:"29-09-2999",
+      GioTinh:"Nữ",
+      SDT:"0395427399",
+      ChucVu:"Lao công",
+      Tinhtrang:"tạm nghỉ",
     },
   ],
 
-
-  // ----- Sự Kiện -----
+  // ------ Sukien ---- //
   Sukien: [
     {
       id: 1,
@@ -3058,7 +3072,6 @@ const data = {
       MaTaiKhoan: 1,
     },
   ],
-
 };
 
 async function main() {
@@ -3085,7 +3098,6 @@ async function main() {
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
       { name: "khachhang", data: data.KhachHang },
-      { name: "khuyenmai", data: data.KhuyenMai },
       { name: "ve", data: data.Ve },
     ];
 
