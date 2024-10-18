@@ -99,6 +99,12 @@ const Header = () => {
                         </Link>
                     </li>
                     <li>
+                        <Link className="app-menu__item" href="/page/blog">
+                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon text-xl" />
+                            <span className="app-menu__label">Quản lí Blog</span>
+                        </Link>
+                    </li>
+                    <li>
                         <Link className="app-menu__item" href="quan-ly-bao-cao.html">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon text-xl" />
                             <span className="app-menu__label">Báo cáo doanh thu</span>

@@ -46,8 +46,7 @@ app.use('/blog', blogRouter);
 // admin
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/theloai', admin_theloaiRouter);
-// Serve the uploads folder as static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 app.use(function (req, res, next) {
   next(createError(404));
