@@ -97,7 +97,6 @@ const BinhLuan = () => {
                         >
                           <FontAwesomeIcon
                             icon={faTrash}
-                            bounce
                             style={{ color: "#de0400" }}
                           />
                         </button>
@@ -109,8 +108,6 @@ const BinhLuan = () => {
                           data-target="#ModalUP"
                         >
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            bounce
                             style={{ color: "#f59d39" }}
                           />
                         </button>
