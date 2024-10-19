@@ -12,7 +12,7 @@ var categoriesRouter = require('./routes/categories');
 var eventsRouter = require('./routes/events');
 var searchRouter = require('./routes/search');
 var sapchieuRouter = require('./routes/sapchieu');
-var blogRouter = require('./routes/blog');
+const blogRouter = require('./routes/blog');
 // admin
 const admin_sanphamRouter = require('./routes/admin_sanpham');
 const admin_theloaiRouter = require('./routes/admin_theloai');
@@ -42,7 +42,7 @@ app.use('/categories', categoriesRouter);
 app.use('/events', eventsRouter);
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
-app.use('/blog', blogRouter);
+app.use('/blog', blogRouter); 
 // admin
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/theloai', admin_theloaiRouter);

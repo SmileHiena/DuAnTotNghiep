@@ -101,7 +101,7 @@ router.put("/edit/:id", upload.single('Anh'), async (req, res) => {
   const { id } = req.params;
 
   try {
-    const updatedPhim = JSON.parse(req.body.newPhim); // Parse the updated movie data
+    const updatedPhim = JSON.parse(req.body.newPhim);
     const updateData = {
       Ten: updatedPhim.Ten,
       TrangThai: updatedPhim.TrangThai,
@@ -144,23 +144,24 @@ router.put("/edit/:id", upload.single('Anh'), async (req, res) => {
 });
 
 
-// Route to delete a movie
-router.delete("/:id", async (req, res) => { 
-  const { id } = req.params;
+// Route để xóa một bài blog
+router.delete("/delete/:id", async (req, res) => { 
+  const { id } = req.params; // Lấy ID từ params
   try {
-    const db = await connectDb();
-    const phimCollection = db.collection("phim");
+    const db = await connectDb(); // Kết nối đến DB
+    const blogCollection = db.collection("blog"); // Lấy collection 'blog'
 
-    const result = await phimCollection.deleteOne({ _id: new ObjectId(id) });
+    // Xóa bài blog dựa trên ID
+    const result = await blogCollection.deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "Movie not found" });
+      return res.status(404).json({ message: "Blog not found" }); // Nếu không tìm thấy bài blog
     }
 
-    res.sendStatus(204);
+    res.sendStatus(204); // Trả về status 204 nếu xóa thành công
   } catch (error) {
-    console.error("Error deleting movie:", error);
-    res.status(500).json({ message: "Failed to delete movie", error: error.message });
+    console.error("Error deleting blog:", error); // Ghi log lỗi
+    res.status(500).json({ message: "Failed to delete blog", error: error.message }); // Trả về lỗi
   }
 });
 

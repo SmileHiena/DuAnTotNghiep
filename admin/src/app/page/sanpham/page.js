@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Use 'next/navigation' in App Router
+import { useRouter } from "next/navigation"; 
 
 const SanPham = () => {
   const router = useRouter(); // Initialize the router
@@ -15,7 +15,6 @@ const SanPham = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState({});
 
-  // Fetch the list of products on component mount
   useEffect(() => {
     const fetchSanPham = async () => {
       try {
@@ -64,20 +63,18 @@ const SanPham = () => {
   };
 
   const handleEditProduct = (product) => {
-    setEditedProduct(product); // Set the selected product to edit
-    setShowEditModal(true); // Show the edit modal
+    setEditedProduct(product); 
+    setShowEditModal(true); 
   };
 
   
   const handleSaveChanges = async () => {
     const formData = new FormData();
 
-    // Append the new image if it's a new file
     if (editedProduct.Anh instanceof File) {
       formData.append("Anh", editedProduct.Anh);
     }
 
-    // Append the edited product details
     const newPhim = {
       Ten: editedProduct.Ten,
       TrangThai: editedProduct.TrangThai,
