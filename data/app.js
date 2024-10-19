@@ -18,6 +18,7 @@ var searchRouter = require('./routes/search');
 var sapchieuRouter = require('./routes/sapchieu');
 var dangchieuRouter = require('./routes/dangchieu');
 var khachhangRouter = require('./routes/khachhang');
+var rapRouter = require('./routes/rap');
 
 
 var app = express();
@@ -50,6 +51,7 @@ app.use('/sapchieu', sapchieuRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/khachhang', khachhangRouter);
 app.use('/auth', authRoutes);
+app.use('/rap', rapRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

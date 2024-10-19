@@ -1,4 +1,4 @@
-
+"use client"; // Đảm bảo rằng đây là một component client
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Field, Form, ErrorMessage } from 'formik';

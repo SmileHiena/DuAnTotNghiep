@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./globals.css";
+import 'boxicons/css/boxicons.min.css';
 import Headers from "./components/header";
 
 // Định nghĩa metadata cho ứng dụng
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
     {
       rel: "stylesheet",
       href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    }
+    },
   ],
 };
 
