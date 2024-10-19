@@ -1,9 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios"; // Hoặc bạn có thể sử dụng fetch
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import {
+  registerSuccess,
+  registerFailure,
+  clearMessages,
+} from "../store/authSlice";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const { error, success } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     fullname: "",
     phone: "",
@@ -12,51 +20,76 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     agreeTerms: false,
+    image: null, // Thêm trường image
   });
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  useEffect(() => {
+    if (success) {
+      alert("Bạn đã đăng ký thành công!"); // Hiển thị thông báo thành công
+      dispatch(clearMessages());
+    }
+
+    if (error) {
+      alert(error); // Hiển thị thông báo lỗi
+      dispatch(clearMessages());
+    }
+  }, [success, error, dispatch]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] }); // Xử lý file ảnh
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const userData = {
-      fullname: formData.fullname,
-      phone: formData.phone,
-      email: formData.email,
-      username: formData.username,
-      password: formData.password,
-    };
+
+    // Tạo đối tượng FormData để chứa dữ liệu
+    const data = new FormData();
+    data.append("fullname", formData.fullname);
+    data.append("phone", formData.phone);
+    data.append("email", formData.email);
+    data.append("username", formData.username);
+    data.append("password", formData.password);
+    data.append("image", formData.image); // Đính kèm file ảnh
 
     try {
-      const response = await axios.post('http://localhost:3000/users/register', userData);
+      const response = await axios.post(
+        "http://localhost:3000/users/register",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Đảm bảo gửi dạng multipart
+          },
+        }
+      );
+
       if (response && response.data) {
-        setSuccess(response.data.message + ": " + JSON.stringify(response.data.user)); // Hiển thị thông tin người dùng đã đăng ký
-        setError(""); // Xóa thông báo lỗi
+        dispatch(registerSuccess(response.data.user));
       }
     } catch (error) {
-      setError(error.response?.data?.message || 'Có lỗi xảy ra trong quá trình đăng ký');
+      dispatch(
+        registerFailure(
+          error.response?.data?.message ||
+            "Có lỗi xảy ra trong quá trình đăng ký"
+        )
+      );
     }
-};
-
+  };
 
   return (
     <div className="flex justify-center items-center bg-cover bg-center w-full h-[950px] bg-[url('../../public/images/background.png')]">
       <form
         className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
-        onSubmit={handleRegister} // Thêm sự kiện submit
+        onSubmit={handleRegister}
       >
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl mb-4">
           Đăng ký
         </h1>
-
-        {/* Hiển thị thông báo lỗi hoặc thành công */}
-        {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-500">{success}</p>}
 
         <label
           htmlFor="fullname"
@@ -74,6 +107,21 @@ const Register = () => {
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
+        {/* Trường input để chọn hình ảnh */}
+        <label
+          htmlFor="image"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Chọn hình ảnh đại diện *
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] text-white"
+        />
+
         <label
           htmlFor="phone"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
@@ -86,22 +134,6 @@ const Register = () => {
           placeholder="Số điện thoại"
           required
           value={formData.phone}
-          onChange={handleChange}
-          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-        />
-
-        <label
-          htmlFor="username"
-          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
-        >
-          Tên đăng nhập *
-        </label>
-        <input
-          type="text"
-          id="username"
-          placeholder="Tên đăng nhập"
-          required
-          value={formData.username}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
@@ -123,6 +155,22 @@ const Register = () => {
         />
 
         <label
+          htmlFor="username"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Tên người dùng *
+        </label>
+        <input
+          type="text"
+          id="username"
+          placeholder="-leaning"
+          required
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
           htmlFor="password"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
@@ -139,7 +187,7 @@ const Register = () => {
         />
 
         <label
-          htmlFor="confirm-password"
+          htmlFor="confirmPassword"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Nhập lại mật khẩu *
@@ -154,20 +202,6 @@ const Register = () => {
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
-        <div className="flex items-center mb-3 text-xs sm:text-sm w-full md:w-[520px]">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              id="agreeTerms"
-              checked={formData.agreeTerms}
-              onChange={(e) =>
-                setFormData({ ...formData, agreeTerms: e.target.checked })
-              }
-            />
-            Tôi đồng ý các điều khoản
-          </label>
-        </div>
-
         <button
           type="submit"
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-[#F5CF49] rounded-full text-sm sm:text-lg font-bold hover:bg-yellow-300 cursor-pointer"
@@ -179,7 +213,7 @@ const Register = () => {
 
         <div className="flex justify-center items-center text-xs sm:text-sm">
           <p>Bạn đã có tài khoản?</p>
-          <Link href="./login" className="text-[#F5CF49] ml-1">
+          <Link href="/page/login" className="text-[#F5CF49] ml-1">
             Đăng nhập ngay!
           </Link>
         </div>

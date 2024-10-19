@@ -1,43 +1,68 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false);
-  const [username, setUsername] = useState(null);
+  const dispatch = useDispatch();
   const menuRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchFullName = async (userId) => {
-      try {
-          const response = await fetch(`http://localhost:3000/users/${userId}/fullname`);
-          if (!response.ok) {
-              throw new Error('Failed to fetch user fullname');
+    const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
+    const tokenValue = token?.split('=')[1];
+
+    if (tokenValue) {
+      setIsLoggedIn(true);
+      const getUser = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/users/detailuser', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${tokenValue}`, // Dùng tokenValue ở đây
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setUser(data);
+          } else {
+            console.error('Failed to fetch user data');
+            setIsLoggedIn(false);
+            alert('Vui lòng đăng nhập lại.');
           }
-          const data = await response.json();
-          return data.fullname; // Trả về tên người dùng
-      } catch (error) {
-          console.error(error);
-      }
-  };
-  
-
-
-  fetchFullName();
+        } catch (error) {
+          console.error('An error occurred while fetching user data:', error);
+          alert('Có lỗi xảy ra, vui lòng thử lại.');
+        }
+      };
+      getUser();
+    }
   }, []);
 
+  const handleLogout = () => {
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+    setIsLoggedIn(false);
+    router.push('/');
+  };
+
   const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
+    setIsMenuOpen(prev => !prev);
   };
 
   const toggleSubMenu = () => {
-    setIsSubMenuOpen((prev) => !prev);
+    setIsSubMenuOpen(prev => !prev);
   };
 
   const toggleMobileSubMenu = () => {
-    setIsMobileSubMenuOpen((prev) => !prev);
+    setIsMobileSubMenuOpen(prev => !prev);
   };
 
   useEffect(() => {
@@ -57,84 +82,35 @@ function Header() {
   return (
     <header className="bg-black relative z-10">
       <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
-        {/* Logo */}
         <div className="flex items-center h-[100px] mx-auto">
           <Link href="/">
-            <h3>
-              <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
-            </h3>
+            <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
           </Link>
         </div>
 
-        {/* Menu Toggle Button */}
         <div className="xl:hidden ml-auto">
           <button onClick={toggleMenu} className="text-white">
-            <i className={`fas fa-bars text-xl`}></i>
+            <i className="fas fa-bars text-xl"></i>
           </button>
         </div>
 
-        {/* Menu chính */}
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
-          <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center" style={{ marginBottom: '0px' }}>
-            <li>
-              <Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Trang Chủ
-              </Link>
-            </li>
+          <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center">
+            <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Trang Chủ</Link></li>
             <li className="relative">
-              <button
-                onClick={toggleSubMenu}
-                className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300"
-              >
-                Pages
-              </button>
+              <button onClick={toggleSubMenu} className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Pages</button>
               {isSubMenuOpen && (
                 <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-20">
-                  <li>
-                    <Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">
-                      Liên hệ
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">
-                      Danh sách phim
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
-                      Phim đang chiếu
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
-                      Phim sắp chiếu
-                    </Link>
-                  </li>
+                  <li><Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
+                  <li><Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
+                  <li><Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
+                  <li><Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
                 </ul>
               )}
             </li>
-
-
-            <li>
-              <Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Giới thiệu
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Xem vé
-              </Link>
-            </li>
-            <li>
-              <a href="/page/event" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Sự kiện
-              </a>
-            </li>
-            <li>
-              <Link href="/page/lienhe" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
-                Liên hệ
-              </Link>
-            </li>
+            <li><Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Giới thiệu</Link></li>
+            <li><Link href="#" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Xem vé</Link></li>
+            <li><Link href="/page/event" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link></li>
           </ul>
         </nav>
 
@@ -152,17 +128,18 @@ function Header() {
         </div>
 
         {/* Mobile Search Icon */}
-        
         <div className="ml-8 relative lg:hidden">
           <button className="text-white">
             <i className="fas fa-search"></i>
           </button>
         </div>
 
-        {/* Tên người dùng hoặc nút đăng nhập */}
+        {/* User Name or Login Button */}
         <div className="ml-8">
-          {username ? (
-            <span className="text-white">{username}</span> // Hiển thị tên người dùng
+          {isLoggedIn ? (
+            <span className="text-white cursor-pointer" onClick={handleLogout}>
+              {user.username} {/* Hoặc user.fullname */}
+            </span>
           ) : (
             <>
               <Link href="/page/login">
@@ -172,75 +149,31 @@ function Header() {
               </Link>
               <Link href="/page/login">
                 <button className="sm:hidden">
-                  <i className="fas fa-user text-[#FFFFFF] text-2xl"></i> {/* Icon người dùng */}
+                  <i className="fas fa-user text-[#FFFFFF] text-2xl"></i>
                 </button>
               </Link>
             </>
           )}
         </div>
 
-        {/* Dropdown Menu */}
         {isMenuOpen && (
           <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 w-[200px] bg-white z-50 xl:hidden">
             <ul className="flex flex-col items-center space-y-4 py-4">
-              <li>
-                <Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
-                  Trang Chủ
-                </Link>
-              </li>
+              <li><Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Trang Chủ</Link></li>
               <li className="relative">
-                <button
-                  onClick={toggleMobileSubMenu}
-                  className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300"
-                >
-                  Pages
-                </button>
+                <button onClick={toggleMobileSubMenu} className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Pages</button>
                 {isMobileSubMenuOpen && (
                   <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-50" ref={menuRef}>
-                    <li>
-                      <Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">
-                        Liên hệ
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">
-                        Danh sách phim
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
-                        Phim đang chiếu
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">
-                        Phim sắp chiếu
-                      </Link>
-                    </li>
+                    <li><Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
+                    <li><Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
+                    <li><Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
+                    <li><Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
                   </ul>
                 )}
               </li>
-              <li>
-                <Link href="/page/about" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
-                  Giới Thiệu
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
-                  Xem vé
-                </Link>
-              </li>
-              <li>
-                <Link href="/page/event" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
-                  Sự kiện
-                  Sự kiện
-                </Link>
-              </li>
-              <li>
-                <Link href="/page/lienhe" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">
-                  Liên Hệ
-                </Link>
-              </li>
+              <li><Link href="/page/about" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Giới thiệu</Link></li>
+              <li><Link href="#" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Xem vé</Link></li>
+              <li><Link href="/page/event" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Sự kiện</Link></li>
             </ul>
           </div>
         )}
