@@ -20,6 +20,7 @@ var blogRouter = require('./routes/blog');
 var dangchieuRouter = require('./routes/dangchieu');
 var taikhoanRouter = require('./routes/taikhoan');
 var authRouter = require('./routes/auth');
+var comboRouter = require('./routes/combo');
 var app = express();
 
 app.use(cors({
@@ -51,6 +52,7 @@ app.use('/blog', blogRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/taikhoan', taikhoanRouter);
 app.use('/auth', authRouter);
+app.use('/combo', comboRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
