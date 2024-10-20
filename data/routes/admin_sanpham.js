@@ -37,11 +37,11 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
     const newPhim = JSON.parse(req.body.newPhim);
     const Anh = req.file ? `/images/phim/${req.file.originalname}` : null;
 
-    const movieId = new ObjectId(); // Generate a unique _id
+    const movieId = new ObjectId(); 
 
     const newMovie = {
-      _id: movieId, // MongoDB's unique _id field
-      id: movieId.toString(), // Using _id as id for front-end
+      _id: movieId, 
+      id: movieId.toString(), 
       Ten: newPhim.Ten,
       Anh: Anh,
       TrangThai: newPhim.TrangThai,
@@ -153,6 +153,37 @@ router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to update movie", error: error.message });
+  }
+});
+
+// Route to lock/unlock a movie
+router.put("/lock/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const db = await connectDb();
+    const phimCollection = db.collection("phim");
+    const movie = await phimCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    const updatedLockedStatus = !movie.locked;
+
+    const result = await phimCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { locked: updatedLockedStatus } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(500).json({ message: "Failed to update lock status" });
+    }
+
+    res.status(200).json({ message: "Lock status updated successfully", locked: updatedLockedStatus });
+  } catch (error) {
+    console.error("Error locking/unlocking movie:", error);
+    res.status(500).json({ message: "Failed to update lock status", error: error.message });
   }
 });
 

@@ -35,7 +35,7 @@ const Blog = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/blog/${id}`, {
+      const response = await fetch(`http://localhost:3000/blog/delete/${id}`, {
         method: "DELETE",
       });
 

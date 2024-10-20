@@ -157,15 +157,6 @@ const DangChieu = () => {
                                         alt={movie.Ten}
                                         className="dang-chieu__image"
                                     />
-                                    {/* <div className="dang-chieu__overlay">
-                                    <h3 className="dang-chieu__card-title">{movie.Ten}</h3>
-                                    <ul className="dang-chieu__info">
-                                        <li>{movie.TheLoai.ThoiLuong}</li>
-                                        <li>{movie.TheLoai.KieuPhim}</li>
-                                        <li>{movie.TheLoai.QuocGia}</li>
-                                        <li>{movie.TheLoai.NgonNgu}</li>
-                                    </ul>
-                                </div> */}
                                 </Link>
                             </div>
                         ))}

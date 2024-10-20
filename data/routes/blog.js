@@ -1,4 +1,4 @@
-var express = require('express');
+  var express = require('express');
   var router = express.Router();
   const { ObjectId } = require('mongodb');
   const connectDb = require('../models/db');
@@ -13,7 +13,6 @@ var express = require('express');
       cb(null, (file.originalname));
     },
   });
-
 
   // Create multer instance
   const upload = multer({
@@ -64,20 +63,17 @@ var express = require('express');
   // API to add a new blog
   router.post("/add", upload.single('Anh'), async (req, res) => {
     try {
-
-      // Parse newBlog from req.body
       const newBlog = JSON.parse(req.body.newBlog);
-
-      let Anh = req.file ? `/images/${req.file.filename}` : ""; // Ensure correct path
+      let Anh = req.file ? `/images/blog/${req.file.filename}` : ""; 
+      
+      const blogId = new ObjectId(); 
 
       const blogData = {
-        _id: new ObjectId(),
+        _id: blogId, 
+        id: blogId.toString(), 
         TenBlog: newBlog.TenBlog,
         Anh: Anh,
         LuotXem: newBlog.LuotXem,
-        NoiDung: newBlog.NoiDung || "", // Default empty string if not provided
-        TacGia: newBlog.TacGia || "",   // Default empty string if not provided
-        NgayDang: newBlog.NgayDang || new Date(), // Default to current date if not provided
       };
 
       const db = await connectDb();

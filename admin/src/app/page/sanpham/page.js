@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 const SanPham = () => {
   const router = useRouter(); // Initialize the router
@@ -35,9 +35,12 @@ const SanPham = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/sanpham/delete/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:3000/sanpham/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to delete product.");
 
@@ -63,11 +66,10 @@ const SanPham = () => {
   };
 
   const handleEditProduct = (product) => {
-    setEditedProduct(product); 
-    setShowEditModal(true); 
+    setEditedProduct(product);
+    setShowEditModal(true);
   };
 
-  
   const handleSaveChanges = async () => {
     const formData = new FormData();
 
@@ -127,6 +129,29 @@ const SanPham = () => {
       : text;
   };
 
+  const toggleLockStatus = async (movieId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/sanpham/lock/${movieId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update lock status");
+      }
+
+      const data = await response.json();
+      alert(`Lock status updated: ${data.locked ? "Locked" : "Unlocked"}`);
+      // Optionally, update the state to reflect the changes in your UI
+      // For example, you might want to refresh the movie list or update the specific movie object
+    } catch (error) {
+      console.error("Error toggling lock status:", error);
+      alert("Error updating lock status. Please try again.");
+    }
+  };
+
   return (
     <main className="app-content">
       <Head>
@@ -170,6 +195,7 @@ const SanPham = () => {
                     <th>Ngày khởi chiếu</th>
                     <th>Tình trạng</th>
                     <th>Nội dung</th>
+                    <th>Khóa phim</th>
                     <th>Tính năng</th>
                   </tr>
                 </thead>
@@ -205,6 +231,11 @@ const SanPham = () => {
                           onClick={() => handleShowMore(product)}
                         >
                           Xem thêm
+                        </button>
+                      </td>
+                      <td>
+                        <button className="" onClick={() => toggleLockStatus(product._id)}>
+                          {product.locked ? "Unlock" : "Lock"} Khóa phim
                         </button>
                       </td>
                       <td className="table-td-center">

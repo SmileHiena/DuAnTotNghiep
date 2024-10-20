@@ -20,11 +20,11 @@ const admin_theloaiRouter = require('./routes/admin_theloai');
 var app = express();
 
 app.use(cors({
-  origin: ['http://localhost:3002','http://localhost:3001'], // Cho phép truy cập từ địa chỉ này
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
-  credentials: true // Cho phép cookie và các thông tin xác thực khác
-}));
-  
+  origin: ['http://localhost:3002','http://localhost:3001'], 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true
+}))
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +40,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
 app.use('/categories', categoriesRouter);
-app.use('/events', eventsRouter); 
+app.use('/event', eventsRouter); 
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
 app.use('/blog', blogRouter); 

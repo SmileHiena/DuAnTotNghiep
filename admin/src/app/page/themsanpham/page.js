@@ -21,7 +21,7 @@ const ThemSanPham = () => {
       DienVien: "",
       NgayKhoiChieu: "",
     },
-    ThongTinPhim: "", // Ensure this is at the root level
+    ThongTinPhim: "",
   });
 
   const router = useRouter();
@@ -59,7 +59,7 @@ const ThemSanPham = () => {
         TrangThai: newPhim.TrangThai,
         TheLoai: newPhim.TheLoai,
         MoTa: newPhim.MoTa,
-        ThongTinPhim: newPhim.ThongTinPhim, // Include this field
+        ThongTinPhim: newPhim.ThongTinPhim, 
       })
     );
 

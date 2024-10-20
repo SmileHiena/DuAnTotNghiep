@@ -9,7 +9,7 @@ async function connectDb() {
         await client.connect();
         console.log('Kết nối thành công đến server MongoDB');
         const db = client.db(dbName);
-        await db.createCollection("counters");
+        // await db.createCollection("counters");
         return db;
     } catch (err) {
         console.error('Không thể kết nối đến MongoDB', err);
