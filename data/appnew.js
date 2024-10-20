@@ -2964,63 +2964,63 @@ const data = {
   Combo: [
     {
       id: 1,
-      Anh: "combo1.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "COMBO PARYPARY",
       NoiDung: "2 Bắp Ngọt 60oz + 4 Coke 22oz",
       Gia: 209000,
     },
     {
       id: 2,
-      Anh: "combo2.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "COMBO SOLO",
       NoiDung: "1 Bắp Ngọt 60oz + 1 Coke 32oz",
       Gia: 94000,
     },
     {
       id: 3,
-      Anh: "combo3.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "COMBO COUPLE",
       NoiDung: "1 Bắp Ngọt 60oz + 2 Coke 32oz",
       Gia: 115000,
     },
     {
       id: 4,
-      Anh: "combo4.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "NƯỚC SUỐI DASANI",
       NoiDung: "500/510ML",
       Gia: 20000,
     },
     {
       id: 5,
-      Anh: "combo5.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "NƯỚC TRÁI CÂY NUTRIBOOST",
       NoiDung: "",
       Gia: 28000,
     },
     {
       id: 6,
-      Anh: "combo6.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "NƯỚC CAM TEPPY",
       NoiDung: "",
       Gia: 28000,
     },
     {
       id: 7,
-      Anh: "combo7.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "FANTA",
       NoiDung: "",
       Gia: 37000,
     },
     {
       id: 8,
-      Anh: "combo8.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "SPRITE",
       NoiDung: "",
       Gia: 37000,
     },
     {
       id: 9,
-      Anh: "combo9.jpg",
+      Anh: "/images/combo/combo4.jpg",
       TenCombo: "COCACOLA",
       NoiDung: "",
       Gia: 37000,
@@ -3044,20 +3044,7 @@ const data = {
       FullName: "Nguyen Thai Son",
       IsAdmin: true,
       DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
-      LichSuMuaVe: [
-        {
-          id: 1,
-          IdVe: 1,
-          NgayMua: "2024-09-28",
-          GiaVe: 500000,
-        },
-        {
-          id: 2,
-          IdVe: 1,
-          NgayMua: "2024-09-27",
-          GiaVe: 450000,
-        },
-      ],
+
     },
     {
       id: 2,
@@ -3073,14 +3060,7 @@ const data = {
       FullName: "Le Thi Minh Chau",
       IsAdmin: false,
       DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
-      LichSuMuaVe: [
-        {
-          id: 1,
-          IdVe: 2,
-          NgayMua: "2024-09-26",
-          GiaVe: 300000,
-        },
-      ],
+
     },
     {
       id: 3,
@@ -3096,14 +3076,6 @@ const data = {
       FullName: "Tran Van Binh",
       IsAdmin: false,
       DiaChi: "789 Đường DEF, Quận 2, TP. HCM",
-      LichSuMuaVe: [
-        {
-          id: 1,
-          IdVe: 3,
-          NgayMua: "2024-09-25",
-          GiaVe: 400000,
-        },
-      ],
     },
   ],
 
@@ -3367,7 +3339,7 @@ const data = {
     },
   ],
 
-  
+
   // ----- Vé -----
   Ve:
     [

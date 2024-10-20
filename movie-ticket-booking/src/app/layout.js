@@ -1,12 +1,16 @@
+"use client";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./component/header";
 import Footer from "./component/footer";
+import { Provider } from 'react-redux';
+import store from './page/store/store';
 
-export const metadata = {
-  title: "ScreenTime",
-  description: "Bán vé xem phim trực tuyến",
-};
+
+// export const metadata = {
+//   title: "ScreenTime",
+//   description: "Bán vé xem phim trực tuyến",
+// };
 
 export default function RootLayout({ children }) {
   return (
@@ -34,6 +38,7 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
       </head>
       <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }}>
+      <Provider store={store}>
         <Header />
         {children}
         <Footer />
@@ -42,7 +47,7 @@ export default function RootLayout({ children }) {
         <button id="back-to-top" style={{ display: 'none', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: '#000', color: '#fff', border: 'none', borderRadius: '50%', padding: '10px', cursor: 'pointer' }}>
           Back top
         </button>
-
+    </Provider>
       </body>
     </html>
   );
