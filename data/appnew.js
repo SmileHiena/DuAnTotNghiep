@@ -3044,20 +3044,7 @@ const data = {
       FullName: "Nguyen Thai Son",
       IsAdmin: true,
       DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
-      LichSuMuaVe: [
-        {
-          id: 1,
-          IdVe: 1,
-          NgayMua: "2024-09-28",
-          GiaVe: 500000,
-        },
-        {
-          id: 2,
-          IdVe: 1,
-          NgayMua: "2024-09-27",
-          GiaVe: 450000,
-        },
-      ],
+
     },
     {
       id: 2,
@@ -3073,14 +3060,7 @@ const data = {
       FullName: "Le Thi Minh Chau",
       IsAdmin: false,
       DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
-      LichSuMuaVe: [
-        {
-          id: 1,
-          IdVe: 2,
-          NgayMua: "2024-09-26",
-          GiaVe: 300000,
-        },
-      ],
+
     },
     {
       id: 3,
@@ -3096,14 +3076,6 @@ const data = {
       FullName: "Tran Van Binh",
       IsAdmin: false,
       DiaChi: "789 Đường DEF, Quận 2, TP. HCM",
-      LichSuMuaVe: [
-        {
-          id: 1,
-          IdVe: 3,
-          NgayMua: "2024-09-25",
-          GiaVe: 400000,
-        },
-      ],
     },
   ],
 
@@ -3367,7 +3339,7 @@ const data = {
     },
   ],
 
-  
+
   // ----- Vé -----
   Ve:
     [

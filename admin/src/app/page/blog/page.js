@@ -14,7 +14,7 @@ const Blog = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedBlog, setEditedBlog] = useState({});
-  const [selectedFile, setSelectedFile] = useState(null); // New state for file handling
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -22,7 +22,6 @@ const Blog = () => {
         const response = await fetch("http://localhost:3000/blog/");
         if (!response.ok) throw new Error("Failed to fetch blogs.");
         const data = await response.json();
-        
         setBlogList(data);
       } catch (error) {
         console.error("Fetch error:", error);
@@ -101,9 +100,7 @@ const Blog = () => {
     } catch (error) {
       console.error('Update error:', error);
     }
-  };
-
-  const handleNewBlogFileChange = (e) => {
+  }; const handleNewBlogFileChange = (e) => {
     setSelectedFile(e.target.files[0]); // Update the selected file
   };
 
@@ -184,8 +181,7 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* Modal to show more info about the selected blog */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      {/* Modal to show more info about the selected blog */}<Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedBlog?.TieuDe}</Modal.Title>
         </Modal.Header>

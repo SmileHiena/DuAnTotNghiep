@@ -7,10 +7,10 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../public/images/")); // Adjust path as necessary
+    cb(null, "./public/images/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, (file.originalname));
   },
 });
 
@@ -64,9 +64,6 @@ router.get('/:id', async (req, res) => {
 // API to add a new blog
 router.post("/add", upload.single('Anh'), async (req, res) => {
   try {
-    // Log the request to see the incoming data
-    console.log("Incoming request:", req.body);
-    console.log("Uploaded file:", req.file);
 
     // Parse newBlog from req.body
     const newBlog = JSON.parse(req.body.newBlog);
