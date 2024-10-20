@@ -14,7 +14,7 @@ const Blog = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedBlog, setEditedBlog] = useState({});
-  const [selectedFile, setSelectedFile] = useState(null); // New state for file handling
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -147,7 +147,7 @@ const Blog = () => {
                 <tbody>
                   {blogList.map((blog) => (
                     <tr key={blog._id}>
-                      <td>{blog._id}</td>
+                      <td>{blog.id}</td>
                       <td>{blog.TenBlog}</td>
                       <td>
                         <img
@@ -211,7 +211,7 @@ const Blog = () => {
           <div className="row">
             <div className="form-group col-md-6">
               <label className="control-label">Mã bài viết</label>
-              <input className="form-control" type="text" value={editedBlog._id || ""} readOnly />
+              <input className="form-control" type="text" value={editedBlog.id || ""} readOnly />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Ảnh</label>

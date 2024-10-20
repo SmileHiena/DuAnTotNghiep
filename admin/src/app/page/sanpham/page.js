@@ -35,7 +35,7 @@ const SanPham = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/sanpham/${id}`, {
+      const response = await fetch(`http://localhost:3000/sanpham/delete/${id}`, {
         method: "DELETE",
       });
 
@@ -160,7 +160,6 @@ const SanPham = () => {
                     <th>Mã phim</th>
                     <th>Tên phim</th>
                     <th>Ảnh phim</th>
-                    <th>Tình trạng</th>
                     <th>Thể loại</th>
                     <th>Thời lượng</th>
                     <th>Quốc gia</th>
@@ -169,6 +168,7 @@ const SanPham = () => {
                     <th>Đạo diễn</th>
                     <th>Diễn viên</th>
                     <th>Ngày khởi chiếu</th>
+                    <th>Tình trạng</th>
                     <th>Nội dung</th>
                     <th>Tính năng</th>
                   </tr>
@@ -185,11 +185,6 @@ const SanPham = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
-                      <td>
-                        <span className="status-badge">
-                          {product.TrangThai}
-                        </span>
-                      </td>
                       <td>{product.TheLoai.KieuPhim}</td>
                       <td>{product.TheLoai.ThoiLuong}</td>
                       <td>{product.TheLoai.QuocGia}</td>
@@ -198,6 +193,11 @@ const SanPham = () => {
                       <td>{product.MoTa.DaoDien}</td>
                       <td>{product.MoTa.DienVien}</td>
                       <td>{product.MoTa.NgayKhoiChieu}</td>
+                      <td>
+                        <span className="status-badge">
+                          {product.TrangThai}
+                        </span>
+                      </td>
                       <td>
                         {truncateText(product.ThongTinPhim, 100)}{" "}
                         <button
