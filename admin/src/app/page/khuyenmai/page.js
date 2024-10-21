@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EventList = () => {
   const router = useRouter();
@@ -49,8 +51,10 @@ const EventList = () => {
       if (!response.ok) throw new Error("Failed to delete event.");
 
       setEvents((prev) => prev.filter((event) => event._id !== id));
+      toast.success("Sự kiện đã được xóa thành công!"); // Show success notification
     } catch (error) {
       console.error("Delete error:", error);
+      toast.error("Có lỗi xảy ra khi xóa sự kiện."); // Show error notification
     }
   };
 
@@ -108,8 +112,10 @@ const EventList = () => {
       // Refresh the event list
       const updatedEvents = events.map((event) => event._id === result._id ? result : event);
       setEvents(updatedEvents);
+      toast.success("Sự kiện đã được cập nhật thành công!"); // Show success notification
     } catch (error) {
       console.error('Update error:', error);
+      toast.error("Có lỗi xảy ra khi cập nhật sự kiện."); // Show error notification
     }
   };
 
@@ -238,58 +244,54 @@ const EventList = () => {
                 onChange={handleNewEventFileChange}
               />
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-12">
               <label className="control-label">Tên sự kiện</label>
               <input
                 className="form-control"
                 type="text"
-                required
-                value={editedEvent.Ten || ""}
+                value={editedEvent.Ten}
                 onChange={(e) => setEditedEvent({ ...editedEvent, Ten: e.target.value })}
               />
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-12">
               <label className="control-label">Nội dung</label>
-              <input
+              <textarea
                 className="form-control"
-                type="text"
-                value={editedEvent.NoiDung || ""}
+                value={editedEvent.NoiDung}
                 onChange={(e) => setEditedEvent({ ...editedEvent, NoiDung: e.target.value })}
               />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Ngày bắt đầu</label>
               <input
-                className="form-control"
                 type="date"
-                value={editedEvent.NgayBatDau || ""}
+                className="form-control"
+                value={editedEvent.NgayBatDau}
                 onChange={(e) => setEditedEvent({ ...editedEvent, NgayBatDau: e.target.value })}
               />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Ngày kết thúc</label>
               <input
-                className="form-control"
                 type="date"
-                value={editedEvent.NgayKetThuc || ""}
+                className="form-control"
+                value={editedEvent.NgayKetThuc}
                 onChange={(e) => setEditedEvent({ ...editedEvent, NgayKetThuc: e.target.value })}
               />
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-12">
               <label className="control-label">Lưu ý</label>
-              <input
+              <textarea
                 className="form-control"
-                type="text"
-                value={editedEvent.Luuy || ""}
+                value={editedEvent.Luuy}
                 onChange={(e) => setEditedEvent({ ...editedEvent, Luuy: e.target.value })}
               />
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-12">
               <label className="control-label">Điều kiện</label>
-              <input
+              <textarea
                 className="form-control"
-                type="text"
-                value={editedEvent.DieuKien || ""}
+                value={editedEvent.DieuKien}
                 onChange={(e) => setEditedEvent({ ...editedEvent, DieuKien: e.target.value })}
               />
             </div>
@@ -297,13 +299,16 @@ const EventList = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Đóng
+            Hủy
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
             Lưu thay đổi
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable pauseOnFocusLoss />
     </main>
   );
 };
