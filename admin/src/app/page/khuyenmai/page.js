@@ -4,13 +4,23 @@ import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';
+import { useRouter } from "next/navigation";
 
 const EventList = () => {
+  const router = useRouter();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editedEvent, setEditedEvent] = useState({});
+  const [editedEvent, setEditedEvent] = useState({
+    Ten: "",
+    NoiDung: "",
+    Anh: null,
+    NgayBatDau: "",
+    NgayKetThuc: "",
+    Luuy: "",
+    DieuKien: ""
+  });
   const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
@@ -54,6 +64,10 @@ const EventList = () => {
     setSelectedEvent(null);
   };
 
+  const handleAddEvent = () => {
+    router.push("/page/themsukien");
+  };
+
   const handleEditEvent = (event) => {
     setEditedEvent(event);
     setSelectedFile(null); // Reset file selection when editing
@@ -63,13 +77,15 @@ const EventList = () => {
   const handleSaveChanges = async () => {
     const formData = new FormData();
 
-    const eventData = {
-      Ten: editedEvent.Ten,
-      NoiDung: editedEvent.NoiDung,
-      // Add other fields as necessary
-    };
-
-    formData.append('newEvent', JSON.stringify(eventData));
+    // Append all necessary fields to the FormData
+    formData.append('newEvent', JSON.stringify({
+      Ten: editedEvent.Ten || "",
+      NoiDung: editedEvent.NoiDung || "",
+      NgayBatDau: editedEvent.NgayBatDau || "",
+      NgayKetThuc: editedEvent.NgayKetThuc || "",
+      Luuy: editedEvent.Luuy || "",
+      DieuKien: editedEvent.DieuKien || "",
+    }));
 
     if (selectedFile) {
       formData.append('Anh', selectedFile);
@@ -88,6 +104,7 @@ const EventList = () => {
       const result = await response.json();
       console.log('Update result:', result);
       setShowEditModal(false); // Close the modal on success
+
       // Refresh the event list
       const updatedEvents = events.map((event) => event._id === result._id ? result : event);
       setEvents(updatedEvents);
@@ -117,12 +134,24 @@ const EventList = () => {
         <div className="col-md-12">
           <div className="tile">
             <div className="tile-body">
+              <div className="row element-button">
+                <div className="col-sm-2">
+                  <Button className="btn btn-add btn-sm" onClick={handleAddEvent}>
+                    <i className="fas fa-plus"></i> Tạo mới sự kiện
+                  </Button>
+                </div>
+              </div>
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
                     <th>Mã sự kiện</th>
                     <th>Tên sự kiện</th>
                     <th>Ảnh</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Nội dung</th>
+                    <th>Điều kiện</th>
+                    <th>Lưu ý</th>
                     <th>Tính năng</th>
                   </tr>
                 </thead>
@@ -138,6 +167,11 @@ const EventList = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
+                      <td>{event.NgayBatDau}</td>
+                      <td>{event.NgayKetThuc}</td>
+                      <td>{event.NoiDung}</td>
+                      <td>{event.DieuKien}</td>
+                      <td>{event.Luuy}</td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary btn-sm trash"
@@ -216,20 +250,57 @@ const EventList = () => {
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Nội dung</label>
-              <textarea
+              <input
                 className="form-control"
+                type="text"
                 value={editedEvent.NoiDung || ""}
                 onChange={(e) => setEditedEvent({ ...editedEvent, NoiDung: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label className="control-label">Ngày bắt đầu</label>
+              <input
+                className="form-control"
+                type="date"
+                value={editedEvent.NgayBatDau || ""}
+                onChange={(e) => setEditedEvent({ ...editedEvent, NgayBatDau: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label className="control-label">Ngày kết thúc</label>
+              <input
+                className="form-control"
+                type="date"
+                value={editedEvent.NgayKetThuc || ""}
+                onChange={(e) => setEditedEvent({ ...editedEvent, NgayKetThuc: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label className="control-label">Lưu ý</label>
+              <input
+                className="form-control"
+                type="text"
+                value={editedEvent.Luuy || ""}
+                onChange={(e) => setEditedEvent({ ...editedEvent, Luuy: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label className="control-label">Điều kiện</label>
+              <input
+                className="form-control"
+                type="text"
+                value={editedEvent.DieuKien || ""}
+                onChange={(e) => setEditedEvent({ ...editedEvent, DieuKien: e.target.value })}
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Hủy
+            Đóng
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu
+            Lưu thay đổi
           </Button>
         </Modal.Footer>
       </Modal>

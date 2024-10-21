@@ -61,89 +61,103 @@ const ThemSuKien = () => {
   };
 
   return (
-    <main className="app-content">
+    <>
       <Head>
         <title>Thêm Sự Kiện</title>
       </Head>
-      <div className="app-title">
-        <h1>Thêm sự kiện mới</h1>
-      </div>
-      <div className="tile-body">
-        <Form onSubmit={handleSubmitNewEvent} className="row">
-          <Form.Group className="col-md-4" controlId="formTen">
-            <Form.Label>Tên Sự Kiện</Form.Label>
-            <Form.Control
-              type="text"
-              name="Ten"
-              value={newEvent.Ten}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="col-md-4" controlId="formNoiDung">
-            <Form.Label>Nội Dung</Form.Label>
-            <Form.Control
-              type="text"
-              name="NoiDung"
-              value={newEvent.NoiDung}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="col-md-4" controlId="formAnh">
-            <Form.Label>Ảnh Sự Kiện</Form.Label>
-            <Form.Control
-              type="file"
-              name="Anh"
-              onChange={handleFileChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="col-md-4" controlId="formNgayBatDau">
-            <Form.Label>Ngày Bắt Đầu</Form.Label>
-            <Form.Control
-              type="date"
-              name="NgayBatDau"
-              value={newEvent.NgayBatDau}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="col-md-4" controlId="formNgayKetThuc">
-            <Form.Label>Ngày Kết Thúc</Form.Label>
-            <Form.Control
-              type="date"
-              name="NgayKetThuc"
-              value={newEvent.NgayKetThuc}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="col-md-4" controlId="formLuuy">
-            <Form.Label>Ghi Chú</Form.Label>
-            <Form.Control
-              type="text"
-              name="Luuy"
-              value={newEvent.Luuy}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group className="col-md-4" controlId="formDieuKien">
-            <Form.Label>Điều Kiện</Form.Label>
-            <Form.Control
-              type="text"
-              name="DieuKien"
-              value={newEvent.DieuKien}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
+      <main className="app-content">
+        <div className="app-title">
+          <h1>Thêm sự kiện mới</h1>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <div className="tile">
+              <h3 className="tile-title">Tạo mới sự kiện</h3>
+              <div className="tile-body">
+                <Form onSubmit={handleSubmitNewEvent} className="row">
+                  <Form.Group className="form-group col-md-4" controlId="formTen">
+                    <Form.Label>Tên Sự Kiện</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="Ten"
+                      value={newEvent.Ten}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formNoiDung">
+                    <Form.Label>Nội Dung</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="NoiDung"
+                      value={newEvent.NoiDung}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formAnh">
+                    <Form.Label>Ảnh Sự Kiện</Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="Anh"
+                      onChange={handleFileChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formNgayBatDau">
+                    <Form.Label>Ngày Bắt Đầu</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="NgayBatDau"
+                      value={newEvent.NgayBatDau}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formNgayKetThuc">
+                    <Form.Label>Ngày Kết Thúc</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="NgayKetThuc"
+                      value={newEvent.NgayKetThuc}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formLuuy">
+                    <Form.Label>Ghi Chú</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="Luuy"
+                      value={newEvent.Luuy}
+                      onChange={handleInputChange}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formDieuKien">
+                    <Form.Label>Điều Kiện</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="DieuKien"
+                      value={newEvent.DieuKien}
+                      onChange={handleInputChange}
+                    />
+                  </Form.Group>
 
-          <Button variant="primary" type="submit" className="col-md-12">
-            Thêm Sự Kiện
-          </Button>
-        </Form>
-      </div>
-    </main>
+                  <div className="form-group col-md-12">
+                    <Button variant="primary" type="submit" className="mr-3">
+                      Thêm Sự Kiện
+                    </Button>
+                    <Button variant="secondary" onClick={() => router.push("/page/khuyenmai")}>
+                      Hủy Bỏ
+                    </Button>
+                  </div>
+                </Form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

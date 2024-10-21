@@ -13,7 +13,7 @@ const Event = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:3000/events/");
+        const response = await fetch("http://localhost:3000/event/");
         if (!response.ok) {
           throw new Error("Failed to fetch events");
         }

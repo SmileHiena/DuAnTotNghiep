@@ -149,6 +149,11 @@ const data = {
       Ten: "Anime",
       Anh: "/images/theloai/theloaianime.jpg",
     },
+    {
+      id: 6,
+      Ten: "Hành động",
+      Anh: "/images/theloai/theloaihanhdong.jpg",
+    },
   ],
 
    // ----- Blog -----

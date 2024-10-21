@@ -123,10 +123,10 @@ router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
         NgayKhoiChieu: updatedPhim.MoTa.NgayKhoiChieu,
       },
       ThongTinPhim: updatedPhim.ThongTinPhim || "", 
-      ThoiLuong: updatedPhim.ThoiLuong || "", 
-      QuocGia: updatedPhim.QuocGia || "", 
-      NgonNgu: updatedPhim.NgonNgu || "", 
-      KhuyenCao: updatedPhim.KhuyenCao || "",
+      // ThoiLuong: updatedPhim.ThoiLuong || "", 
+      // QuocGia: updatedPhim.QuocGia || "", 
+      // NgonNgu: updatedPhim.NgonNgu || "", 
+      // KhuyenCao: updatedPhim.KhuyenCao || "",
     };
 
     if (req.file) {

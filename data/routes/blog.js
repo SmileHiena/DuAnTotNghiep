@@ -102,7 +102,7 @@
       };
 
       if (req.file) {
-        updateData.Anh = `/images/blogs/${req.file.filename}`;
+        updateData.Anh = `/images/blog/${req.file.filename}`;
       }
 
       const db = await connectDb();

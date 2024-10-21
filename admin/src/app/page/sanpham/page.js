@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const SanPham = () => {
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
   const [sanPhamList, setSanPhamList] = useState([]);
   const [selectedPhim, setSelectedPhim] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -30,7 +30,6 @@ const SanPham = () => {
     fetchSanPham();
   }, []);
 
-  // Handle delete product
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) return;
 
@@ -44,8 +43,7 @@ const SanPham = () => {
 
       if (!response.ok) throw new Error("Failed to delete product.");
 
-      // Filter out the deleted product from the state
-      setSanPhamList((prev) => prev.filter((product) => product._id !== id)); // Ensure you are using the correct property for ID
+      setSanPhamList((prev) => prev.filter((product) => product._id !== id));
     } catch (error) {
       console.error("Delete error:", error);
     }
@@ -108,10 +106,12 @@ const SanPham = () => {
 
       if (!response.ok) throw new Error("Failed to update product.");
 
-      const updatedProduct = await response.json();
-      setSanPhamList((prev) =>
-        prev.map((product) =>
-          product._id === updatedProduct._id ? updatedProduct : product
+      // Cập nhật trạng thái sản phẩm
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product._id === editedProduct._id
+            ? { ...product, ...editedProduct }
+            : product
         )
       );
 
@@ -131,12 +131,15 @@ const SanPham = () => {
 
   const toggleLockStatus = async (movieId) => {
     try {
-      const response = await fetch(`http://localhost:3000/sanpham/lock/${movieId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/sanpham/lock/${movieId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update lock status");
@@ -144,8 +147,6 @@ const SanPham = () => {
 
       const data = await response.json();
       alert(`Lock status updated: ${data.locked ? "Locked" : "Unlocked"}`);
-      // Optionally, update the state to reflect the changes in your UI
-      // For example, you might want to refresh the movie list or update the specific movie object
     } catch (error) {
       console.error("Error toggling lock status:", error);
       alert("Error updating lock status. Please try again.");
@@ -234,7 +235,10 @@ const SanPham = () => {
                         </button>
                       </td>
                       <td>
-                        <button className="" onClick={() => toggleLockStatus(product._id)}>
+                        <button
+                          className=""
+                          onClick={() => toggleLockStatus(product._id)}
+                        >
                           {product.locked ? "Unlock" : "Lock"} Khóa phim
                         </button>
                       </td>
@@ -357,7 +361,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.ThoiLuong || ""} // Update here
+                value={editedProduct.TheLoai?.ThoiLuong || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
@@ -375,7 +379,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.QuocGia || ""} // Update here
+                value={editedProduct.TheLoai?.QuocGia || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
@@ -393,7 +397,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.NgonNgu || ""} // Update here
+                value={editedProduct.TheLoai?.NgonNgu || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
@@ -411,7 +415,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.KhuyenCao || ""} // Update here
+                value={editedProduct.TheLoai?.KhuyenCao || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,

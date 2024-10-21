@@ -130,6 +130,7 @@ const TheLoai = () => {
                           title="Sửa"
                           data-toggle="modal"
                           data-target="#ModalUP"
+                          onClick={() => handleEdit(item.id, {/* updatedData here */})}
                         >
                           <FontAwesomeIcon
                             icon={faPenToSquare}

@@ -42,6 +42,10 @@ router.get("/", async (req, res) => {
   }
 });
 
+const handleAddBlog = () => {
+  router.push("/page/themblog");
+};
+
 // Fetch event by _ID
 router.get('/:id', async (req, res) => {
   try {

@@ -141,6 +141,7 @@ const Blog = () => {
                     <th>Mã bài viết</th>
                     <th>Tên blog</th>
                     <th>Ảnh</th>
+                    <th>Lượt xem</th>
                     <th>Tính năng</th>
                   </tr>
                 </thead>
@@ -156,6 +157,7 @@ const Blog = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
+                      <td>{blog.LuotXem}</td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary btn-sm trash"
@@ -230,6 +232,16 @@ const Blog = () => {
                 required
                 value={editedBlog.TenBlog || ""}
                 onChange={(e) => setEditedBlog({ ...editedBlog, TenBlog: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label className="control-label">Lượt xem</label>
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedBlog.LuotXem || ""}
+                onChange={(e) => setEditedBlog({ ...editedBlog, LuotXem: e.target.value })}
               />
             </div>
           </div>
