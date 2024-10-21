@@ -49,7 +49,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
 app.use('/categories', categoriesRouter);
-app.use('/events', eventsRouter);
+app.use('/event', eventsRouter);
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
 app.use('/employees', employeesRouter);

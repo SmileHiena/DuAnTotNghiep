@@ -9,7 +9,7 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/blog/"); 
+        const response = await fetch("http://localhost:3000/blog"); 
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }

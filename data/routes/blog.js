@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
   },
 });
 
-
 // Create multer instance
 const upload = multer({
   storage: storage,
@@ -64,20 +63,17 @@ router.get('/:id', async (req, res) => {
 // API to add a new blog
 router.post("/add", upload.single('Anh'), async (req, res) => {
   try {
-
-    // Parse newBlog from req.body
     const newBlog = JSON.parse(req.body.newBlog);
-
-    let Anh = req.file ? `/images/${req.file.filename}` : ""; // Ensure correct path
+    let Anh = req.file ? `/images/blog/${req.file.filename}` : ""; 
+    
+    const blogId = new ObjectId(); 
 
     const blogData = {
-      _id: new ObjectId(),
+      _id: blogId, 
+      id: blogId.toString(), 
       TenBlog: newBlog.TenBlog,
       Anh: Anh,
       LuotXem: newBlog.LuotXem,
-      NoiDung: newBlog.NoiDung || "", // Default empty string if not provided
-      TacGia: newBlog.TacGia || "",   // Default empty string if not provided
-      NgayDang: newBlog.NgayDang || new Date(), // Default to current date if not provided
     };
 
     const db = await connectDb();
@@ -106,7 +102,7 @@ router.put("/edit/:id", upload.single('Anh'), async (req, res) => {
     };
 
     if (req.file) {
-      updateData.Anh = `/images/blogs/${req.file.filename}`;
+      updateData.Anh = `/images/blog/${req.file.filename}`;
     }
 
     const db = await connectDb();
