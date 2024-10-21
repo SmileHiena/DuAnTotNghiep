@@ -19,7 +19,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/blog/");
+        const response = await fetch("http://localhost:3000/blog");
         if (!response.ok) throw new Error("Failed to fetch blogs.");
         const data = await response.json();
         setBlogList(data);
@@ -35,7 +35,7 @@ const Blog = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/blog/${id}`, {
+      const response = await fetch(`http://localhost:3000/blog/delete/${id}`, {
         method: "DELETE",
       });
 
@@ -100,7 +100,9 @@ const Blog = () => {
     } catch (error) {
       console.error('Update error:', error);
     }
-  }; const handleNewBlogFileChange = (e) => {
+  };
+
+  const handleNewBlogFileChange = (e) => {
     setSelectedFile(e.target.files[0]); // Update the selected file
   };
 
@@ -139,13 +141,14 @@ const Blog = () => {
                     <th>Mã bài viết</th>
                     <th>Tên blog</th>
                     <th>Ảnh</th>
+                    <th>Lượt xem</th>
                     <th>Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
                   {blogList.map((blog) => (
                     <tr key={blog._id}>
-                      <td>{blog._id}</td>
+                      <td>{blog.id}</td>
                       <td>{blog.TenBlog}</td>
                       <td>
                         <img
@@ -154,6 +157,7 @@ const Blog = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
+                      <td>{blog.LuotXem}</td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary btn-sm trash"
@@ -181,7 +185,8 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* Modal to show more info about the selected blog */}<Modal show={showModal} onHide={handleCloseModal}>
+      {/* Modal to show more info about the selected blog */}
+      <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedBlog?.TieuDe}</Modal.Title>
         </Modal.Header>
@@ -208,7 +213,7 @@ const Blog = () => {
           <div className="row">
             <div className="form-group col-md-6">
               <label className="control-label">Mã bài viết</label>
-              <input className="form-control" type="text" value={editedBlog._id || ""} readOnly />
+              <input className="form-control" type="text" value={editedBlog.id || ""} readOnly />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Ảnh</label>
@@ -227,6 +232,16 @@ const Blog = () => {
                 required
                 value={editedBlog.TenBlog || ""}
                 onChange={(e) => setEditedBlog({ ...editedBlog, TenBlog: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label className="control-label">Lượt xem</label>
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedBlog.LuotXem || ""}
+                onChange={(e) => setEditedBlog({ ...editedBlog, LuotXem: e.target.value })}
               />
             </div>
           </div>

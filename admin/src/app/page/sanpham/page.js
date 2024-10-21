@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 const SanPham = () => {
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
   const [sanPhamList, setSanPhamList] = useState([]);
   const [selectedPhim, setSelectedPhim] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -30,19 +30,20 @@ const SanPham = () => {
     fetchSanPham();
   }, []);
 
-  // Handle delete product
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/sanpham/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:3000/sanpham/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to delete product.");
 
-      // Filter out the deleted product from the state
-      setSanPhamList((prev) => prev.filter((product) => product._id !== id)); // Ensure you are using the correct property for ID
+      setSanPhamList((prev) => prev.filter((product) => product._id !== id));
     } catch (error) {
       console.error("Delete error:", error);
     }
@@ -63,11 +64,10 @@ const SanPham = () => {
   };
 
   const handleEditProduct = (product) => {
-    setEditedProduct(product); 
-    setShowEditModal(true); 
+    setEditedProduct(product);
+    setShowEditModal(true);
   };
 
-  
   const handleSaveChanges = async () => {
     const formData = new FormData();
 
@@ -106,10 +106,12 @@ const SanPham = () => {
 
       if (!response.ok) throw new Error("Failed to update product.");
 
-      const updatedProduct = await response.json();
-      setSanPhamList((prev) =>
-        prev.map((product) =>
-          product._id === updatedProduct._id ? updatedProduct : product
+      // Cập nhật trạng thái sản phẩm
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product._id === editedProduct._id
+            ? { ...product, ...editedProduct }
+            : product
         )
       );
 
@@ -125,6 +127,30 @@ const SanPham = () => {
     return text.length > maxLength
       ? `${text.substring(0, maxLength)}...`
       : text;
+  };
+
+  const toggleLockStatus = async (movieId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/sanpham/lock/${movieId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update lock status");
+      }
+
+      const data = await response.json();
+      alert(`Lock status updated: ${data.locked ? "Locked" : "Unlocked"}`);
+    } catch (error) {
+      console.error("Error toggling lock status:", error);
+      alert("Error updating lock status. Please try again.");
+    }
   };
 
   return (
@@ -160,7 +186,6 @@ const SanPham = () => {
                     <th>Mã phim</th>
                     <th>Tên phim</th>
                     <th>Ảnh phim</th>
-                    <th>Tình trạng</th>
                     <th>Thể loại</th>
                     <th>Thời lượng</th>
                     <th>Quốc gia</th>
@@ -169,7 +194,9 @@ const SanPham = () => {
                     <th>Đạo diễn</th>
                     <th>Diễn viên</th>
                     <th>Ngày khởi chiếu</th>
+                    <th>Tình trạng</th>
                     <th>Nội dung</th>
+                    <th>Khóa phim</th>
                     <th>Tính năng</th>
                   </tr>
                 </thead>
@@ -185,11 +212,6 @@ const SanPham = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
-                      <td>
-                        <span className="status-badge">
-                          {product.TrangThai}
-                        </span>
-                      </td>
                       <td>{product.TheLoai.KieuPhim}</td>
                       <td>{product.TheLoai.ThoiLuong}</td>
                       <td>{product.TheLoai.QuocGia}</td>
@@ -199,12 +221,25 @@ const SanPham = () => {
                       <td>{product.MoTa.DienVien}</td>
                       <td>{product.MoTa.NgayKhoiChieu}</td>
                       <td>
+                        <span className="status-badge">
+                          {product.TrangThai}
+                        </span>
+                      </td>
+                      <td>
                         {truncateText(product.ThongTinPhim, 100)}{" "}
                         <button
                           className="btn btn-link"
                           onClick={() => handleShowMore(product)}
                         >
                           Xem thêm
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className=""
+                          onClick={() => toggleLockStatus(product._id)}
+                        >
+                          {product.locked ? "Unlock" : "Lock"} Khóa phim
                         </button>
                       </td>
                       <td className="table-td-center">
@@ -326,7 +361,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.ThoiLuong || ""} // Update here
+                value={editedProduct.TheLoai?.ThoiLuong || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
@@ -344,7 +379,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.QuocGia || ""} // Update here
+                value={editedProduct.TheLoai?.QuocGia || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
@@ -362,7 +397,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.NgonNgu || ""} // Update here
+                value={editedProduct.TheLoai?.NgonNgu || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
@@ -380,7 +415,7 @@ const SanPham = () => {
                 className="form-control"
                 type="text"
                 required
-                value={editedProduct.TheLoai?.KhuyenCao || ""} // Update here
+                value={editedProduct.TheLoai?.KhuyenCao || ""}
                 onChange={(e) =>
                   setEditedProduct({
                     ...editedProduct,
