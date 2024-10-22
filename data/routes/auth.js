@@ -65,8 +65,6 @@ router.post('/login', async (req, res) => {
 
   
 
-<<<<<<< HEAD
+
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> master
+

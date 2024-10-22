@@ -38,10 +38,7 @@ const upload = multer({
       res.status(404).json({ message: "No blogs found" });
     }
   } catch (error) {
-<<<<<<< HEAD
-    console.error("Lỗi khi lấy danh sách bl og:", error);
-    res.status(500).json({ message: "Lỗi server", error });
-=======
+
     console.error("Error fetching blogs:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -179,7 +176,7 @@ router.delete("/delete/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting blog:", error);
     res.status(500).json({ message: "Server error" });
->>>>>>> master
+
   }
 });
 
