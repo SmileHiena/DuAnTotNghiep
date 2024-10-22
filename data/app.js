@@ -22,6 +22,8 @@ var taikhoanRouter = require('./routes/taikhoan');
 var authRouter = require('./routes/auth');
 var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
+var dangchieuRouter = require('./routes/dangchieu');
+var sapchieuRouter = require('./routes/sapchieu');
 
 var app = express();
 
@@ -61,9 +63,12 @@ app.use('/taikhoan', taikhoanRouter);
 app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
+app.use('/dangchieu', dangchieuRouter);
+app.use('/sapchieu', sapchieuRouter);
+
 
 app.use(function (req, res, next) {
-  next(createError(404));
+  next(createError(404));ccd
 });
 
 // error handler

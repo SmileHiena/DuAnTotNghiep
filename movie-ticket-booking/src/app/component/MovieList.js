@@ -142,7 +142,7 @@ const MovieList = ({ apiUrl, title }) => {
             currentMovies.map((movie, index) => (
               <div key={index} className="text-center">
                 <img
-                  src={`/images/phim/${movie.Anh}`}
+                  src={`${movie.Anh}`}
                   alt={`Poster of ${movie.Ten}`}
                   className="w-full h-auto max-w-[250px] max-h-[350px] mx-auto rounded"
                 />

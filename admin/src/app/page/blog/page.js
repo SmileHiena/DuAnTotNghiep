@@ -19,6 +19,7 @@ const Blog = () => {
   const [editedBlog, setEditedBlog] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
   const [editError, setEditError] = useState(""); 
+  const [file, setFile] = useState(null);
   const [error, setError] = useState("");
 
   const notify = () => {
@@ -133,6 +134,12 @@ const Blog = () => {
         method: 'PUT',
         body: formData,
       });
+
+       // Cập nhật danh sách Blog mà không cần tải lại trang
+       setBlogList((prev) =>
+        prev.map((blg) => (blg._id === editedBlog._id ? { ...editedBlog, Anh: file ? `/images/${file.name}` : blg.Anh } : blg))
+      );
+      handleCloseModal();
 
       if (!response.ok) {
         throw new Error('Failed to update blog.');

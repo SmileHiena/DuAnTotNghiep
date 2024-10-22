@@ -83,7 +83,7 @@ const TheLoai = () => {
                 <div className="col-sm-2">
                   <a
                     className="btn btn-add btn-sm"
-                    href="/form-add-category"
+                    href="/page/themtheloai"
                     title="Thêm"
                   >
                     <i className="fas fa-plus"></i> Tạo mới thể loại

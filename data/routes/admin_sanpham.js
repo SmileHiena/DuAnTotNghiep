@@ -20,7 +20,10 @@ let storage = multer.diskStorage({
 function checkFileUpLoad(req, file, cb) {
   const fileTypes = /\.(jpg|jpeg|png|gif)$/;
   if (!file.originalname.match(fileTypes)) {
-    return cb(new Error("Bạn chỉ được upload file ảnh (jpg, jpeg, png, gif)."), false);
+    return cb(
+      new Error("Bạn chỉ được upload file ảnh (jpg, jpeg, png, gif)."),
+      false
+    );
   }
   cb(null, true);
 }
@@ -37,11 +40,11 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
     const newPhim = JSON.parse(req.body.newPhim);
     const Anh = req.file ? `/images/phim/${req.file.originalname}` : null;
 
-    const movieId = new ObjectId(); 
+    const movieId = new ObjectId();
 
     const newMovie = {
-      _id: movieId, 
-      id: movieId.toString(), 
+      _id: movieId,
+      id: movieId.toString(),
       Ten: newPhim.Ten,
       Anh: Anh,
       TrangThai: newPhim.TrangThai,
@@ -54,7 +57,7 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
       ThongTinPhim: newPhim.ThongTinPhim || "",
     };
 
-    const db = await connectDb(); 
+    const db = await connectDb();
     const phimCollection = db.collection("phim");
     await phimCollection.insertOne(newMovie);
 
@@ -86,6 +89,52 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Ensure you have this part in your Express routes
+router.get("/dangchieu", async (req, res) => {
+  try {
+      const db = await connectDb();
+      const phimCollection = db.collection("phim");
+
+      // Find movies with the status "dangchieu"
+      const phim = await phimCollection.find({ TrangThai: "dangchieu" }).toArray();
+
+      console.log("Fetched movies:", phim); // Log the fetched movies
+
+      if (phim.length > 0) {
+          res.status(200).json(phim);
+      } else {
+          res.status(404).json({ message: "No movies found with the status 'dangchieu'" });
+      }
+  } catch (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Ensure you have this part in your Express routes
+router.get("/sapchieu", async (req, res) => {
+  try {
+      const db = await connectDb();
+      const limit = parseInt(req.query.limit) || 5;
+      const phimCollection = db.collection("phim");
+
+      // Find movies with the status "dangchieu"
+      const phim = await phimCollection.find({ TrangThai: "sapchieu" }).limit(limit).toArray();
+
+      console.log("Fetched movies:", phim); // Log the fetched movies
+
+      if (phim.length > 0) {
+          res.status(200).json(phim);
+      } else {
+          res.status(404).json({ message: "No movies found with the status 'dangchieu'" });
+      }
+  } catch (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
 // Get movie by ID
 router.get("/:id", async (req, res) => {
   try {
@@ -106,7 +155,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
 // Route to edit a movie
 router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
   const { id } = req.params;
@@ -122,11 +170,7 @@ router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
         DienVien: updatedPhim.MoTa.DienVien,
         NgayKhoiChieu: updatedPhim.MoTa.NgayKhoiChieu,
       },
-      ThongTinPhim: updatedPhim.ThongTinPhim || "", 
-      // ThoiLuong: updatedPhim.ThoiLuong || "", 
-      // QuocGia: updatedPhim.QuocGia || "", 
-      // NgonNgu: updatedPhim.NgonNgu || "", 
-      // KhuyenCao: updatedPhim.KhuyenCao || "",
+      ThongTinPhim: updatedPhim.ThongTinPhim || "",
     };
 
     if (req.file) {
@@ -180,10 +224,57 @@ router.put("/lock/:id", async (req, res) => {
       return res.status(500).json({ message: "Failed to update lock status" });
     }
 
-    res.status(200).json({ message: "Lock status updated successfully", locked: updatedLockedStatus });
+    res
+      .status(200)
+      .json({
+        message: "Lock status updated successfully",
+        locked: updatedLockedStatus,
+      });
   } catch (error) {
     console.error("Error locking/unlocking movie:", error);
-    res.status(500).json({ message: "Failed to update lock status", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to update lock status", error: error.message });
+  }
+});
+
+// Route to explicitly unlock a movie
+router.put("/unlock/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const db = await connectDb();
+    const phimCollection = db.collection("phim");
+    const movie = await phimCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    // If already unlocked, just return success
+    if (!movie.locked) {
+      return res
+        .status(200)
+        .json({ message: "Movie is already unlocked", locked: false });
+    }
+
+    const result = await phimCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { locked: false } } // Explicitly unlock
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(500).json({ message: "Failed to unlock movie" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Movie unlocked successfully", locked: false });
+  } catch (error) {
+    console.error("Error unlocking movie:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to unlock movie", error: error.message });
   }
 });
 
@@ -196,15 +287,15 @@ router.delete("/delete/:id", async (req, res) => {
     const result = await blogCollection.deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "Blog not found" }); 
+      return res.status(404).json({ message: "Blog not found" });
     }
 
-    res.sendStatus(204); 
+    res.sendStatus(204);
   } catch (error) {
-    console.error("Error deleting blog:", error); 
+    console.error("Error deleting blog:", error);
     res
       .status(500)
-      .json({ message: "Failed to delete blog", error: error.message }); 
+      .json({ message: "Failed to delete blog", error: error.message });
   }
 });
 
