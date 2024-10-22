@@ -76,10 +76,10 @@ const Event = () => {
   };
 
   return (
-    <section className="dang-chieu">
+    <section className="dang-chieu pb-5">
       <div className="dang-chieu__container mx-auto py-8">
-        <div className="sap-chieu max-w-full mx-auto py-8" style={{ backgroundImage: 'url(/images/background.png)', maxWidth: '1410px' }}>
-          <h2 className="dang-chieu__title">Sự kiện</h2>
+        <div className=" max-w-full mx-auto py-8">
+          <h2 className="dang-chieu__title pt-4">KHUYỄN MÃI</h2>
           <Slider {...settings}>
             {events.map((event) => (
               <div key={event.id} className="dang-chieu__card">
