@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation'; // Sử dụng next/navigation
+import { useRouter } from 'next/navigation';
 
 const ThemNhanVien = () => {
-  const router = useRouter(); // Khởi tạo router
+  const router = useRouter();
   const [formData, setFormData] = useState({
     HoTen: '',
     TenDangNhap: '',
@@ -14,8 +14,8 @@ const ThemNhanVien = () => {
     NgaySinh: '',
     GioTinh: '',
     SDT: '',
-    ChucVu: '', // Chức vụ
-    Tinhtrang: '', // Tình trạng
+    ChucVu: '',
+    Tinhtrang: '',
   });
 
   const [statusMessage, setStatusMessage] = useState('');
@@ -29,57 +29,119 @@ const ThemNhanVien = () => {
     }));
   };
 
+  const validateUserName = (username) => {
+    const usernameRegex = /^[a-zA-Z0-9]{6,}$/; // Tên đăng nhập ít nhất 6 ký tự, không có ký tự đặc biệt
+    return usernameRegex.test(username);
+  };
+
+  const validatePhoneNumber = (phone) => {
+    return phone.length === 10 && /^[0-9]+$/.test(phone); // Kiểm tra số điện thoại 10 chữ số
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/; // Kiểm tra mật khẩu
+    return passwordRegex.test(password);
+  };
+
+  const checkUserExists = async () => {
+    const response = await fetch('http://localhost:3000/employees/check-username', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        TenDangNhap: formData.TenDangNhap,
+        SDT: formData.SDT,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorResult = await response.json();
+      return errorResult.message; // Trả về thông báo lỗi từ server
+    }
+
+    return null; // Không có lỗi
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Kiểm tra tên đăng nhập
+    if (!validateUserName(formData.TenDangNhap)) {
+        setStatusMessage('Tên đăng nhập phải ít nhất 6 ký tự và không có ký tự đặc biệt.');
+        return;
+    }
+
+    // Kiểm tra số điện thoại
+    if (!validatePhoneNumber(formData.SDT)) {
+        setStatusMessage('Số điện thoại phải có đúng 10 chữ số.');
+        return;
+    }
+
+    // Kiểm tra mật khẩu
+    if (!validatePassword(formData.MatKhau)) {
+        setStatusMessage('Mật khẩu phải ít nhất 6 ký tự, bắt đầu bằng chữ hoa, có số, chữ và ít nhất 1 ký tự đặc biệt.');
+        return;
+    }
+
+    // Kiểm tra tên đăng nhập và số điện thoại đã tồn tại
+    const existsMessage = await checkUserExists();
+    if (existsMessage) {
+        setStatusMessage(existsMessage);
+        return;
+    }
+
     const formDataToSend = new FormData();
+    formDataToSend.append('MatKhau', formData.MatKhau);
 
     for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
+        if (key !== 'MatKhau') {
+            formDataToSend.append(key, formData[key]);
+        }
     }
 
     setIsSubmitting(true);
     setStatusMessage('Đang gửi...');
 
     try {
-      const response = await fetch('http://localhost:3000/employees/add', {
-        method: 'POST',
-        body: formDataToSend,
-      });
+        const response = await fetch('http://localhost:3000/employees/add', {
+            method: 'POST',
+            body: formDataToSend,
+        });
 
-      if (!response.ok) {
-        const errorResult = await response.json();
-        console.error('Lỗi từ server:', errorResult);
-        setStatusMessage(`Có lỗi xảy ra: ${errorResult.message}`);
-        return;
-      }
+        if (!response.ok) {
+            const errorResult = await response.json();
+            console.error('Lỗi từ server:', errorResult);
+            setStatusMessage(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`);
+            return;
+        }
 
-      const result = await response.json();
-      setStatusMessage(result.message);
+        const result = await response.json();
+        setStatusMessage(result.message);
 
-      // Chuyển hướng về trang danh sách nhân viên sau khi lưu thành công
-      router.push('/page/nhanvien');
+        // Chuyển hướng về trang danh sách nhân viên sau khi lưu thành công
+        router.push('/page/nhanvien');
 
-      // Reset form sau khi thành công
-      setFormData({
-        HoTen: '',
-        TenDangNhap: '',
-        MatKhau: '',
-        Anh: null,
-        DiaChi: '',
-        NgaySinh: '',
-        GioTinh: '',
-        SDT: '',
-        ChucVu: '', // Reset trường Chức vụ
-        Tinhtrang: '', // Reset trường Tình trạng
-      });
+        // Reset form sau khi thành công
+        setFormData({
+            HoTen: '',
+            TenDangNhap: '',
+            MatKhau: '',
+            Anh: null,
+            DiaChi: '',
+            NgaySinh: '',
+            GioTinh: '',
+            SDT: '',
+            ChucVu: '',
+            Tinhtrang: '',
+        });
     } catch (error) {
-      console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
-      setStatusMessage('Có lỗi xảy ra khi gửi yêu cầu');
+        console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
+        setStatusMessage('Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.');
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
-  };
-
+};
   return (
     <>
       <Head>
@@ -133,13 +195,10 @@ const ThemNhanVien = () => {
                       <option value="">-- Chọn chức vụ --</option>
                       <option value="Bán hàng">Bán hàng</option>
                       <option value="Tư vấn">Tư vấn</option>
-                      <option value="Dịch vụ">Dịch vụ</option>
                       <option value="Thu Ngân">Thu Ngân</option>
                       <option value="Quản kho">Quản kho</option>
-                      <option value="Bảo trì">Bảo trì</option>
                       <option value="Kiểm hàng">Kiểm hàng</option>
                       <option value="Bảo vệ">Bảo vệ</option>
-                      <option value="Tạp vụ">Tạp vụ</option>
                     </select>
                   </div>
                   <div className="form-group col-md-4">

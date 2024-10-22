@@ -1,13 +1,18 @@
 "use client";
 
 import Head from "next/head";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon, faPlus } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faPenToSquare,
+  faLock,
+  faUnlock,
+} from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SanPham = () => {
   const router = useRouter();
@@ -18,10 +23,11 @@ const SanPham = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState({});
   const [editError, setEditError] = useState("");
+  const [file, setFile] = useState(null);
   const [error, setError] = useState("");
 
   const notify = () => {
-    toast.success('Xóa phim thành công!', {
+    toast.success("Xóa phim thành công!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -35,7 +41,35 @@ const SanPham = () => {
   };
 
   const notifyEditSuccess = () => {
-    toast.success('Sửa phim thành công!', {
+    toast.success("Sửa phim thành công!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
+  const notifyLocktSuccess = () => {
+    toast.success("Khóa phim thành công!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
+  const notifyUnLocktSuccess = () => {
+    toast.success("Mở khóa phim thành công!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -164,6 +198,16 @@ const SanPham = () => {
         }
       );
 
+      // Cập nhật danh sách tài khoản mà không cần tải lại trang
+      setSanPhamList((prev) =>
+        prev.map((pro) =>
+          pro._id === editedProduct._id
+            ? { ...editedProduct, Anh: file ? `/images/${file.name}` : pro.Anh }
+            : pro
+        )
+      );
+      handleCloseModal();
+
       if (!response.ok) throw new Error("Failed to update product.");
 
       // Optionally refresh the product list here or handle UI updates
@@ -203,29 +247,54 @@ const SanPham = () => {
       : text;
   };
 
-  const toggleLockStatus = async (movieId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/sanpham/lock/${movieId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
+  const toggleLockStatus = async (productId, isLocked) => {
+    const confirmMessage = isLocked
+        ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
+        : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
+
+    const confirmLock = window.confirm(confirmMessage);
+
+    if (confirmLock) {
+        try {
+            const url = isLocked
+                ? `http://localhost:3000/sanpham/unlock/${productId}` // Unlock API
+                : `http://localhost:3000/sanpham/lock/${productId}`; // Lock API
+
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update lock status");
+            }
+
+            const data = await response.json();
+
+            // Update the product list dynamically
+            setSanPhamList((prevProducts) =>
+                prevProducts.map((product) =>
+                    product._id === productId
+                        ? { ...product, locked: !isLocked }
+                        : product
+                )
+            );
+
+            // Trigger the correct toast notification based on the lock/unlock status
+            if (isLocked) {
+                notifyUnLocktSuccess(); // Show unlock success toast
+            } else {
+                notifyLocktSuccess(); // Show lock success toast
+            }
+        } catch (error) {
+            console.error("Error toggling lock status:", error);
+            alert("Error updating lock status. Please try again.");
         }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update lock status");
-      }
-
-      const data = await response.json();
-      alert(`Lock status updated: ${data.locked ? "Locked" : "Unlocked"}`);
-    } catch (error) {
-      console.error("Error toggling lock status:", error);
-      alert("Error updating lock status. Please try again.");
     }
-  };
+};
+
 
   return (
     <main className="app-content">
@@ -247,10 +316,10 @@ const SanPham = () => {
               <div className="row element-button">
                 <div className="col-sm-2">
                   <Button
-                    className="btn btn-add btn-sm"
+                    className="btn bg-[#F5CF49] font-bold"
                     onClick={handleAddPhim}
                   >
-                    <i className="fas fa-plus"></i> Tạo mới sản phẩm
+                    <FontAwesomeIcon icon={faPlus} /> Tạo mới sản phẩm
                   </Button>
                 </div>
               </div>
@@ -270,7 +339,6 @@ const SanPham = () => {
                     <th>Ngày khởi chiếu</th>
                     <th>Tình trạng</th>
                     <th>Nội dung</th>
-                    <th>Khóa phim</th>
                     <th>Tính năng</th>
                   </tr>
                 </thead>
@@ -308,14 +376,6 @@ const SanPham = () => {
                           Xem thêm
                         </button>
                       </td>
-                      <td>
-                        <button
-                          className=""
-                          onClick={() => toggleLockStatus(product._id)}
-                        >
-                          {product.locked ? "Unlock" : "Lock"} Khóa phim
-                        </button>
-                      </td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary btn-sm trash"
@@ -339,6 +399,21 @@ const SanPham = () => {
                             style={{ color: "#f59d39" }}
                           />
                         </button>
+                        <Button
+                          className={
+                            product.locked
+                              ? "btn btn-warning btn-sm"
+                              : "btn btn-success btn-sm"
+                          }
+                          onClick={() =>
+                            toggleLockStatus(product._id, product.locked)
+                          } // Pass locked status to toggle
+                        >
+                          <FontAwesomeIcon
+                            icon={product.locked ? faLock : faUnlock }
+                          />{" "}
+                          {product.locked ? "" : ""}
+                        </Button>
                       </td>
                     </tr>
                   ))}

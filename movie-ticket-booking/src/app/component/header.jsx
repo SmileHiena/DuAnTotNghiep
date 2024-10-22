@@ -114,7 +114,7 @@ function Header() {
               </a>
             </li>
             <li>
-              <Link href="/page/lienhe" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
+              <Link href="/page/nhanvien" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">
                 Liên hệ
               </Link>
             </li>

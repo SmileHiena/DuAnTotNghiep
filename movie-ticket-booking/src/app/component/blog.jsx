@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from 'next/link';
@@ -60,7 +61,7 @@ const BlogSection = () => {
       </div>
       <div className="text-center mb-[20px]">
         <button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">
-          <Link href="/page/sukien">Xem thêm</Link>
+          Xem thêm
         </button>
       </div>
     </section>
