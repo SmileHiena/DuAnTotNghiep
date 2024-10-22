@@ -4,6 +4,8 @@ import Head from "next/head";
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
 
 const ThemSuKien = () => {
   const [newEvent, setNewEvent] = useState({
@@ -52,8 +54,20 @@ const ThemSuKien = () => {
       if (!response.ok) throw new Error("Failed to add event.");
 
       const data = await response.json();
-      alert("Thêm sự kiện thành công!");
-      router.push("/page/khuyenmai");
+      toast.success("Thêm sự kiện thành công!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        router.push("/page/khuyenmai");
+      }, 2000);
     } catch (error) {
       console.error("Lỗi khi thêm sự kiện:", error);
       alert("Có lỗi xảy ra! Vui lòng thử lại.");
@@ -152,6 +166,7 @@ const ThemSuKien = () => {
                     </Button>
                   </div>
                 </Form>
+                <ToastContainer /> {/* Include the ToastContainer here */}
               </div>
             </div>
           </div>

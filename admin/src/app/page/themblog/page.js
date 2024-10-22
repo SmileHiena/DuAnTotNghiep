@@ -4,16 +4,32 @@ import Head from "next/head";
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ThemBlog = () => {
   const [newBlog, setNewBlog] = useState({
     TenBlog: "",
     Anh: null,
-    LuotXem: "0 lượt xem",
+    LuotXem: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false); 
-  const [statusMessage, setStatusMessage] = useState(""); 
+  const notifySuccess = () => {
+    toast.success("Thêm blog thành công!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
 
   const router = useRouter();
 
@@ -23,23 +39,34 @@ const ThemBlog = () => {
       ...prev,
       [name]: value,
     }));
+    if (name === "LuotXem");
+    if (value && isNaN(value)) {
+      setError("Chỉ được nhập số lượt xem.");
+    } else {
+      setError(""); // Xóa lỗi nếu giá trị là số
+    }
   };
 
   const handleFileChange = (e) => {
     setNewBlog((prev) => ({
       ...prev,
-      Anh: e.target.files[0], 
+      Anh: e.target.files[0],
     }));
   };
 
   const handleSubmitNewBlog = async (e) => {
     e.preventDefault();
 
+    if (isNaN(newBlog.LuotXem)) {
+      setError("Chỉ được nhập số lượt xem.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("newBlog", JSON.stringify(newBlog));
 
     if (newBlog.Anh) {
-      formData.append("Anh", newBlog.Anh); 
+      formData.append("Anh", newBlog.Anh);
     }
 
     setIsSubmitting(true);
@@ -53,8 +80,11 @@ const ThemBlog = () => {
       if (!response.ok) throw new Error("Failed to add blog.");
 
       const data = await response.json();
-      alert("Thêm blog thành công!");
-      router.push("/page/blog");
+      notifySuccess();
+      // Delay navigation for 2 seconds
+      setTimeout(() => {
+        router.push("/page/blog");
+      }, 2000); 
     } catch (error) {
       console.error("Lỗi khi thêm blog:", error);
       alert("Có lỗi xảy ra! Vui lòng thử lại.");
@@ -78,7 +108,10 @@ const ThemBlog = () => {
               <h3 className="tile-title">Tạo Mới Blog</h3>
               <div className="tile-body">
                 <Form onSubmit={handleSubmitNewBlog} className="row">
-                  <Form.Group className="form-group col-md-4" controlId="formTenBlog">
+                  <Form.Group
+                    className="form-group col-md-4"
+                    controlId="formTenBlog"
+                  >
                     <Form.Label>Tên Blog</Form.Label>
                     <Form.Control
                       type="text"
@@ -89,7 +122,10 @@ const ThemBlog = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group className="form-group col-md-4" controlId="formAnh">
+                  <Form.Group
+                    className="form-group col-md-4"
+                    controlId="formAnh"
+                  >
                     <Form.Label>Ảnh Blog</Form.Label>
                     <Form.Control
                       type="file"
@@ -99,15 +135,21 @@ const ThemBlog = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group className="form-group col-md-4 mb-5" controlId="formTLuotXem">
+                  <Form.Group
+                    className="form-group col-md-4 mb-5"
+                    controlId="formTLuotXem"
+                  >
                     <Form.Label>Lượt Xem</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="number"
                       name="LuotXem"
                       value={newBlog.LuotXem}
                       onChange={handleInputChange}
+                      min="0" // Đảm bảo giá trị nhỏ nhất là 0
                       required
+                      placeholder="0 Lượt xem"
                     />
+                    {error && <div className="text-danger">{error}</div>}
                   </Form.Group>
 
                   <div className="form-group col-md-12">
@@ -123,11 +165,14 @@ const ThemBlog = () => {
                     </a>
                   </div>
                 </Form>
-                {statusMessage && <div className="status-message">{statusMessage}</div>}
+                {statusMessage && (
+                  <div className="status-message">{statusMessage}</div>
+                )}
               </div>
             </div>
           </div>
         </div>
+      <ToastContainer />
       </main>
     </>
   );

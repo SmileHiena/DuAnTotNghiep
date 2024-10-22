@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Mark this file as a client component
 
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,6 +6,9 @@ import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+// Toast
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Blog = () => {
   const router = useRouter();
@@ -15,6 +18,36 @@ const Blog = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedBlog, setEditedBlog] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
+  const [editError, setEditError] = useState(""); 
+  const [error, setError] = useState("");
+
+  const notify = () => {
+    toast.success('Xóa blog thành công!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
+  const notifyEditSuccess = () => {
+    toast.success('Sửa bài viết thành công!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -41,7 +74,10 @@ const Blog = () => {
 
       if (!response.ok) throw new Error("Failed to delete blog.");
 
+      // Update the blog list by filtering out the deleted blog
       setBlogList((prev) => prev.filter((blog) => blog._id !== id));
+
+      notify();
     } catch (error) {
       console.error("Delete error:", error);
     }
@@ -65,14 +101,25 @@ const Blog = () => {
     setEditedBlog(blog);
     setSelectedFile(null); // Reset file selection when editing
     setShowEditModal(true);
+    setEditError(""); // Reset edit error when opening the edit modal
   };
 
   const handleSaveChanges = async () => {
+    const { LuotXem } = editedBlog;
+
+    // Validate "Lượt xem"
+    if (LuotXem && isNaN(LuotXem)) {
+      setEditError("Chỉ được nhập số lượt xem.");
+      return;
+    } else {
+      setEditError(""); // Clear error if valid
+    }
+
     const formData = new FormData();
 
     const blogData = {
       TenBlog: editedBlog.TenBlog,
-      LuotXem: editedBlog.LuotXem || '0 lượt xem',
+      LuotXem: LuotXem || '0 lượt xem',
     };
 
     formData.append('newBlog', JSON.stringify(blogData));
@@ -93,6 +140,7 @@ const Blog = () => {
 
       const result = await response.json();
       console.log('Update result:', result);
+      notifyEditSuccess(); // Notify on successful edit
       setShowEditModal(false); // Close the modal on success
       // Refresh the blog list
       const updatedBlogs = blogList.map((blog) => blog._id === result._id ? result : blog);
@@ -157,7 +205,7 @@ const Blog = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
-                      <td>{blog.LuotXem}</td>
+                      <td>{blog.LuotXem} Lượt xem</td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary btn-sm trash"
@@ -212,24 +260,10 @@ const Blog = () => {
         <Modal.Body>
           <div className="row">
             <div className="form-group col-md-6">
-              <label className="control-label">Mã bài viết</label>
-              <input className="form-control" type="text" value={editedBlog.id || ""} readOnly />
-            </div>
-            <div className="form-group col-md-6">
-              <label className="control-label">Ảnh</label>
-              <input
-                type="file"
-                className="form-control"
-                accept="image/*"
-                onChange={handleNewBlogFileChange}
-              />
-            </div>
-            <div className="form-group col-md-6">
               <label className="control-label">Tên blog</label>
               <input
                 className="form-control"
                 type="text"
-                required
                 value={editedBlog.TenBlog || ""}
                 onChange={(e) => setEditedBlog({ ...editedBlog, TenBlog: e.target.value })}
               />
@@ -239,22 +273,33 @@ const Blog = () => {
               <input
                 className="form-control"
                 type="text"
-                required
                 value={editedBlog.LuotXem || ""}
                 onChange={(e) => setEditedBlog({ ...editedBlog, LuotXem: e.target.value })}
+              />
+              {editError && <p style={{ color: 'red' }}>{editError}</p>}
+            </div>
+            <div className="form-group col-md-12">
+              <label className="control-label">Chọn ảnh</label>
+              <input
+                type="file"
+                onChange={handleNewBlogFileChange}
+                accept="image/*"
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Hủy
+            Đóng
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu
+            Lưu thay đổi
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Toast container for notifications */}
+      <ToastContainer />
     </main>
   );
 };

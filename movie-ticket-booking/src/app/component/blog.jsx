@@ -1,5 +1,8 @@
+
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from 'next/link';
+
 
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
@@ -9,7 +12,7 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/blog"); 
+        const response = await fetch("http://localhost:3000/blog/limit/?limit=10"); 
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
@@ -21,10 +24,10 @@ const BlogSection = () => {
         setLoading(false);
       }
     };
-
+  
     fetchBlogs();
   }, []);
-
+  
   if (loading) {
     return <p className="text-center">Loading blogs...</p>;
   }
@@ -58,7 +61,7 @@ const BlogSection = () => {
       </div>
       <div className="text-center mb-[20px]">
         <button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">
-          Xem thêm
+          <Link className="text-white no-underline" href="/page/sukien">Xem thêm</Link>
         </button>
       </div>
     </section>

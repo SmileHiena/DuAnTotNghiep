@@ -6,14 +6,47 @@ import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SanPham = () => {
   const router = useRouter();
+  const [theloai, setTheloai] = useState([]);
   const [sanPhamList, setSanPhamList] = useState([]);
   const [selectedPhim, setSelectedPhim] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState({});
+  const [editError, setEditError] = useState("");
+  const [error, setError] = useState("");
+
+  const notify = () => {
+    toast.success('Xóa phim thành công!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
+  const notifyEditSuccess = () => {
+    toast.success('Sửa phim thành công!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
 
   useEffect(() => {
     const fetchSanPham = async () => {
@@ -30,6 +63,24 @@ const SanPham = () => {
     fetchSanPham();
   }, []);
 
+  // Fetch theloai data from the backend API
+  useEffect(() => {
+    const fetchTheLoai = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/theloai/");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setTheloai(data);
+      } catch (error) {
+        console.error("Lỗi khi lấy thể loại:", error);
+      }
+    };
+
+    fetchTheLoai();
+  }, []);
+
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) return;
 
@@ -44,6 +95,7 @@ const SanPham = () => {
       if (!response.ok) throw new Error("Failed to delete product.");
 
       setSanPhamList((prev) => prev.filter((product) => product._id !== id));
+      notify();
     } catch (error) {
       console.error("Delete error:", error);
     }
@@ -70,9 +122,17 @@ const SanPham = () => {
 
   const handleSaveChanges = async () => {
     const formData = new FormData();
+    const { ThoiLuong } = editedProduct;
 
     if (editedProduct.Anh instanceof File) {
       formData.append("Anh", editedProduct.Anh);
+    }
+
+    if (ThoiLuong && isNaN(ThoiLuong)) {
+      setEditError("Chỉ được nhập thời lượng là số.");
+      return;
+    } else {
+      setEditError(""); // Clear error if valid
     }
 
     const newPhim = {
@@ -106,14 +166,28 @@ const SanPham = () => {
 
       if (!response.ok) throw new Error("Failed to update product.");
 
-      // Cập nhật trạng thái sản phẩm
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product._id === editedProduct._id
-            ? { ...product, ...editedProduct }
-            : product
-        )
-      );
+      // Optionally refresh the product list here or handle UI updates
+      setShowEditModal(false);
+      setEditedProduct({
+        _id: "", // Resetting to initial state
+        Ten: "",
+        TrangThai: "",
+        TheLoai: {
+          KieuPhim: "",
+          ThoiLuong: "",
+          QuocGia: "",
+          NgonNgu: "",
+          KhuyenCao: "",
+        },
+        MoTa: {
+          DaoDien: "",
+          DienVien: "",
+          NgayKhoiChieu: "",
+        },
+        ThongTinPhim: "",
+      });
+
+      notifyEditSuccess();
 
       setShowEditModal(false);
       setEditedProduct({});
@@ -322,11 +396,11 @@ const SanPham = () => {
                 }
               />
             </div>
+
             <div className="form-group col-md-6">
               <label className="control-label">Trạng thái</label>
-              <input
+              <select
                 className="form-control"
-                type="text"
                 required
                 value={editedProduct.TrangThai || ""}
                 onChange={(e) =>
@@ -335,49 +409,84 @@ const SanPham = () => {
                     TrangThai: e.target.value,
                   })
                 }
-              />
+              >
+                <option value="">Chọn trạng thái</option>
+                <option value="Đang chiếu">Đang chiếu</option>
+                <option value="Sắp chiếu">Sắp chiếu</option>
+                <option value="Ngừng chiếu">Ngừng chiếu</option>
+              </select>
             </div>
+
             <div className="form-group col-md-6">
-              <label className="control-label">Thể loại</label>
-              <input
+              <label className="control-label">Kiểu phim</label>
+              <select
                 className="form-control"
-                type="text"
                 required
                 value={editedProduct.TheLoai?.KieuPhim || ""}
-                onChange={(e) =>
-                  setEditedProduct({
-                    ...editedProduct,
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  setEditedProduct((prev) => ({
+                    ...prev,
                     TheLoai: {
-                      ...editedProduct.TheLoai,
-                      KieuPhim: e.target.value,
+                      ...prev.TheLoai,
+                      KieuPhim: selectedValue, // Ensure you update KieuPhim
                     },
-                  })
-                }
-              />
+                  }));
+                }}
+              >
+                {theloai.map((item) => (
+                  <option key={item.id} value={item.Ten}>
+                    {item.Ten}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="form-group col-md-6">
               <label className="control-label">Thời lượng</label>
               <input
                 className="form-control"
-                type="text"
+                type="number"
                 required
+                min="0" // Ensure non-negative input
                 value={editedProduct.TheLoai?.ThoiLuong || ""}
-                onChange={(e) =>
-                  setEditedProduct({
-                    ...editedProduct,
-                    TheLoai: {
-                      ...editedProduct.TheLoai,
-                      ThoiLuong: e.target.value,
-                    },
-                  })
-                }
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  // Check if the value is empty
+                  if (value === "") {
+                    setEditedProduct({
+                      ...editedProduct,
+                      TheLoai: {
+                        ...editedProduct.TheLoai,
+                        ThoiLuong: "", // Allow empty input
+                      },
+                    });
+                    setEditError(""); // Clear error for empty input
+                  }
+                  // Check if the value is a valid number and non-negative
+                  else if (!isNaN(value) && Number(value) >= 0) {
+                    setEditedProduct({
+                      ...editedProduct,
+                      TheLoai: {
+                        ...editedProduct.TheLoai,
+                        ThoiLuong: value,
+                      },
+                    });
+                    setEditError(""); // Clear error if valid
+                  } else {
+                    setEditError("Chỉ được nhập thời lượng là số dương."); // Error message for invalid input
+                  }
+                }}
               />
+              {editError && <small className="text-danger">{editError}</small>}{" "}
+              {/* Display error message */}
             </div>
+
             <div className="form-group col-md-6">
-              <label className="control-label">Quốc gia</label>
-              <input
+              <label className="control-label">Quốc Gia</label>
+              <select
                 className="form-control"
-                type="text"
                 required
                 value={editedProduct.TheLoai?.QuocGia || ""}
                 onChange={(e) =>
@@ -389,13 +498,21 @@ const SanPham = () => {
                     },
                   })
                 }
-              />
+              >
+                <option value="">Chọn quốc gia</option>
+                <option value="Việt Nam">Việt Nam</option>
+                <option value="Mỹ">Mỹ</option>
+                <option value="Nhật Bản">Nhật Bản</option>
+                <option value="Hàn Quốc">Hàn Quốc</option>
+                <option value="Pháp">Pháp</option>
+                <option value="Trung Quốc">Trung Quốc</option>
+              </select>
             </div>
+
             <div className="form-group col-md-6">
               <label className="control-label">Ngôn ngữ</label>
-              <input
+              <select
                 className="form-control"
-                type="text"
                 required
                 value={editedProduct.TheLoai?.NgonNgu || ""}
                 onChange={(e) =>
@@ -407,13 +524,19 @@ const SanPham = () => {
                     },
                   })
                 }
-              />
+              >
+                <option value="">Chọn ngôn ngữ</option>
+                <option value="Tiếng Việt">Tiếng Việt</option>
+                <option value="Tiếng Anh">Tiếng Anh</option>
+                <option value="Tiếng Hàn">Tiếng Hàn</option>
+                <option value="Tiếng Nhật">Tiếng Nhật</option>
+              </select>
             </div>
+
             <div className="form-group col-md-6">
               <label className="control-label">Khuyến cáo</label>
-              <input
+              <select
                 className="form-control"
-                type="text"
                 required
                 value={editedProduct.TheLoai?.KhuyenCao || ""}
                 onChange={(e) =>
@@ -425,8 +548,20 @@ const SanPham = () => {
                     },
                   })
                 }
-              />
+              >
+                <option value="">Chọn khuyến cáo</option>
+                <option value="T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)">
+                  T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)
+                </option>
+                <option value="T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)">
+                  T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)
+                </option>
+                <option value="T13: Phim dành cho khán giả từ đủ 16 tuổi trở lên (13+)">
+                  T13: Phim dành cho khán giả từ đủ 16 tuổi trở lên (13+)
+                </option>
+              </select>
             </div>
+
             <div className="form-group col-md-6">
               <label className="control-label">Đạo diễn</label>
               <input
@@ -457,6 +592,7 @@ const SanPham = () => {
                 }
               />
             </div>
+
             <div className="form-group col-md-6">
               <label className="control-label">Ngày khởi chiếu</label>
               <input
@@ -475,6 +611,7 @@ const SanPham = () => {
                 }
               />
             </div>
+
             <div className="form-group col-md-12">
               <label className="control-label">Nội dung</label>
               <textarea
@@ -501,6 +638,7 @@ const SanPham = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer />
     </main>
   );
 };
