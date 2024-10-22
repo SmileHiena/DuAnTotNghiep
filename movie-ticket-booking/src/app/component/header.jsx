@@ -101,10 +101,10 @@ function Header() {
               <button onClick={toggleSubMenu} className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Pages</button>
               {isSubMenuOpen && (
                 <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-20">
-                  <li><Link href="/page/lienhe" className="block px-4 py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
-                  <li><Link href="/page/danhsachphim" className="block px-4 py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
-                  <li><Link href="/page/dangchieu" className="block px-4 py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
-                  <li><Link href="/page/sapchieu" className="block px-4 py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
+                  <li><Link href="/page/lienhe" className="block no-underline py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
+                  <li><Link href="/page/danhsachphim" className="block no-underline py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
+                  <li><Link href="/page/dangchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
+                  <li><Link href="/page/sapchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
                 </ul>
               )}
             </li>
@@ -137,9 +137,16 @@ function Header() {
         {/* User Name or Login Button */}
         <div className="ml-8">
           {isLoggedIn ? (
-            <span className="text-white cursor-pointer" onClick={handleLogout}>
-              {user.username} {/* Hoặc user.fullname */}
-            </span>
+            <>
+            <div className='flex gap-4 items-center'>
+              <div className='text-center "border-2 border-white border-solid'>
+                <Link className='no-underline text-white uppercase' href="/page/profile">
+                    {user.username} {/* Hoặc user.fullname */}
+                </Link>
+              </div>
+              <button onClick={handleLogout} className="button-hover w-[117px] h-[30px]">Đăng xuất</button>
+            </div>
+            </>
           ) : (
             <>
               <Link href="/page/login">

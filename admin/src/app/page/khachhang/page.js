@@ -29,17 +29,6 @@ const TaiKhoan = () => {
     fetchAccounts();
   }, []);
 
-<<<<<<< HEAD
-  // Xử lý xóa khách hàng
-  const handleDelete = async (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa khách hàng này không?")) {
-      try {
-        await axios.delete(`http://localhost:3000/khachhang/${id}`);
-        setKhachhang(khachhang.filter((kh) => kh._id !== id));
-      } catch (error) {
-        console.error("Lỗi khi xóa khách hàng:", error.response?.data || error.message);
-        alert("Đã xảy ra lỗi khi xóa khách hàng. Vui lòng thử lại.");
-=======
   if (loading) {
     return <p>Đang tải dữ liệu...</p>;
   }
@@ -70,7 +59,6 @@ const TaiKhoan = () => {
       if (!validatePhoneNumber(currentAccount.SDT)) {
         setErrorMessage('Số điện thoại phải có 10 chữ số.');
         return; // Ngừng thực hiện nếu số điện thoại không hợp lệ
->>>>>>> master
       }
 
       // Chỉ kiểm tra sự tồn tại của số điện thoại nếu nó đã được thay đổi
@@ -90,33 +78,6 @@ const TaiKhoan = () => {
       }
 
       const formData = new FormData();
-<<<<<<< HEAD
-      // Sử dụng các trường dữ liệu từ selectedCustomer
-      formData.append("Ten", selectedCustomer.Ten);
-      formData.append("DiaChi", selectedCustomer.DiaChi);
-      formData.append("SDT", selectedCustomer.SDT);
-      formData.append("NgaySinh", selectedCustomer.NgaySinh);
-      if (avatar) {
-        formData.append("Anh", avatar); // Đổi thành image
-      }
-  
-      const response = await axios.put(`http://localhost:3000/khachhang/${selectedCustomer._id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-  
-      // Cập nhật danh sách khách hàng với thông tin mới
-      setKhachhang(khachhang.map((kh) => (kh._id === selectedCustomer._id ? response.data : kh)));
-      setIsEditing(false);
-      setSelectedCustomer(null);
-      setAvatar(null);
-      setSuccessMessage("Cập nhật khách hàng thành công!"); // Thông báo thành công
-    } catch (error) {
-      console.error("Lỗi khi cập nhật khách hàng:", error);
-      setSuccessMessage(""); // Reset thông báo thành công
-      alert("Cập nhật khách hàng không thành công. Vui lòng thử lại.");
-=======
       formData.append('Ten', currentAccount.Ten);
       formData.append('TenDangNhap', currentAccount.TenDangNhap);
       formData.append('MatKhau', currentAccount.MatKhau); // Nếu cần thiết
@@ -143,7 +104,6 @@ const TaiKhoan = () => {
       } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật tài khoản:', error);
       }
->>>>>>> master
     }
   };
 
@@ -212,76 +172,6 @@ const TaiKhoan = () => {
 
 
   return (
-<<<<<<< HEAD
-    <main className="app-content">
-      <Head>
-        <title>Danh sách khách hàng</title>
-      </Head>
-      <div className="app-title">
-        <ul className="app-breadcrumb breadcrumb side">
-          <li className="breadcrumb-item active">
-            <a href="#">
-              <b>Danh sách khách hàng</b>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="tile">
-            <div className="tile-body">
-              <div className="row element-button">
-                <div className="col-sm-2">
-                  <button
-                    className="btn btn-add btn-sm"
-                    onClick={() => router.push("/page/addCustomer")}
-                    title="Thêm"
-                  >
-                    <i className="fas fa-plus"></i> Tạo mới khách hàng
-                  </button>
-                </div>
-              </div>
-              <table className="table table-hover table-bordered" cellPadding="0" cellSpacing="0" border="0" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>Mã khách hàng</th>
-                    <th>Tên</th>
-                    <th>Ảnh</th>
-                    <th>Địa chỉ</th>
-                    <th>Số điện thoại</th>
-                    <th>Ngày sinh</th>
-                    <th width="100">Tính năng</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {khachhang.map((kh) => (
-                    <tr key={kh._id}>
-                      <td>{kh._id}</td>
-                      <td>{kh.Ten}</td>
-                      <td>
-                        <img 
-                          src={`http://localhost:3000/${kh.Anh}`} 
-                          alt={kh.Ten} 
-                          style={{ height: "74px", width: "50px" }} 
-                        />
-                      </td>
-                      <td>{kh.DiaChi}</td>
-                      <td>{kh.SDT}</td>
-                      <td>{kh.NgaySinh}</td>
-                      <td className="table-td-center">
-                        <button className="btn btn-primary btn-sm trash" type="button" title="Xóa" onClick={() => handleDelete(kh._id)}>
-                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
-                        </button>
-                        <button className="btn btn-primary btn-sm edit" type="button" title="Chỉnh sửa" onClick={() => handleEdit(kh)}>
-                          <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#0081ff" }} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Hiển thị thông báo thành công */}
-=======
     <>
       <main className="app-content">
         <Head>
@@ -427,7 +317,6 @@ const TaiKhoan = () => {
                   <button className="btn btn-cancel" onClick={handleCloseModal}>Hủy</button>
                 </div>
               </div>
->>>>>>> master
             </div>
           </div>
         </div>
@@ -436,8 +325,4 @@ const TaiKhoan = () => {
   );
 };
 
-<<<<<<< HEAD
-export default KhachHang;
-=======
 export default TaiKhoan;
->>>>>>> master

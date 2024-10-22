@@ -122,8 +122,8 @@ const SapChieu = () => {
                                     className="sap-chieu__image"
                                 />
                                 </Link>
-                                <div className="sap-chieu__overlay">
                                 <Link href={`/page/details/${post.id}`}>
+                                <div className="sap-chieu__overlay">
                                     <p className="sap-chieu__card-title">{post.Ten}</p>
                                     <ul className="sap-chieu__info">
                                         <li>
@@ -151,8 +151,8 @@ const SapChieu = () => {
                                             &nbsp; {post.TheLoai.NgonNgu}
                                         </li>
                                     </ul>
-                                    </Link>
                                 </div>
+                                    </Link>
                                 {/* Thêm tên phim dưới ảnh, cố định vị trí */}
                                 <h6 className="SapChieu-name">{post.Ten}</h6>
                             </div>
