@@ -68,7 +68,7 @@ app.use('/sapchieu', sapchieuRouter);
 
 
 app.use(function (req, res, next) {
-  next(createError(404));ccd
+  next(createError(404));
 });
 
 // error handler
