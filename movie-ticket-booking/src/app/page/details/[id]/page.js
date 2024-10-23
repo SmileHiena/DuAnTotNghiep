@@ -1,83 +1,44 @@
+"use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faReply } from "@fortawesome/free-solid-svg-icons";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faReply, faPlay } from "@fortawesome/free-solid-svg-icons";
 import DangChieu from "../../../component/dangchieu.jsx";
 import "../../../../../public/styles/sapchieu.css";
 import TuongTu from "@/app/component/tuongtu.jsx";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+
 const Detail = () => {
-  // Example movie data
-  const movies = [
-    {
-      id: "1",
-      title: "CÁM(T18)",
-      daodien: "Trần Hữu Tấn",
-      dienvien: "Quốc Cường, Thúy Diễm, Rima Thanh Vy, Lâm Thanh Mỹ, Hải Nam",
-      theloai: "Kinh dị",
-      ngaykhoichieu: "Thứ Sáu, 20/09/2024",
-      description:
-        "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
-      thoigian: "122 phút",
-      quocgia: "Việt Nam",
-      image: "/images/phim/cong-tu-bac-lieu.jpg",
-    },
-  ];
+  const router = useRouter();
+  const { id } = router.query; // Get the ID from the URL
+  const [movie, setMovie] = useState(null);
+  const [comments, setComments] = useState([]);
 
-  const lienquan = [
-    {
-      id: 1,
-      title: "Công tử bạc liêu",
-      image: "/images/phim/cong-tu-bac-lieu.jpg",
-    },
-    {
-      id: 2,
-      title: "Transformers: Một",
-      image: "/images/phim/transformers-one.jpg",
-    },
-    {
-      id: 3,
-      title: "Làm giàu với ma",
-      image: "/images/phim/lam-giau-voi-ma.jpg",
-    },
-    { id: 4, title: "Cám", image: "/images/phim/cam.jpg" },
-    {
-      id: 5,
-      title: "Đố anh cồng được tôi",
-      image: "/images/phim/Do-anh-cong-duoc-toi.jpg",
-    },
-  ];
+  // Fetch movie data and comments from API
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      if (!id) return; // Exit if ID is not yet available
+      try {
+        const movieResponse = await fetch(`http://localhost:3000/${id}`); // Use your API endpoint
+        if (!movieResponse.ok) throw new Error('Failed to fetch movie data');
+        const movieData = await movieResponse.json();
+        setMovie(movieData);
 
-  // Sample comments
-  const comments = [
-    {
-      id: 1,
-      name: "Nguyễn Văn A",
-      content: "Phim hay quá! Tôi rất thích.",
-      avt: "./images/logo.png",
-      timestamp: "2 hours ago", // Add timestamp
-      likes: 12, // Add likes
-    },
-    {
-      id: 2,
-      name: "Trần Thị B",
-      content:
-        "Nội dung hấp dẫn và diễn xuất tuyệt vờiahahahaaaaaaaddnpmdddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaa!",
-      avt: "./images/logo.png",
-      timestamp: "1 hour ago", // Add timestamp
-      likes: 5, // Add likes
-    },
-    {
-      id: 3,
-      name: "Nguyễn Thái Sơn",
-      content: "Web đẹp vậy trờiii!",
-      avt: "./images/logo.png",
-      timestamp: "10 minutes ago", // Add timestamp
-      likes: 7, // Add likes
-    },
-  ];
+        const commentsResponse = await fetch(`/api/comments?movieId=${id}`); // Fetch comments based on the movie ID
+        if (!commentsResponse.ok) throw new Error('Failed to fetch comments');
+        const commentsData = await commentsResponse.json();
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Failed to fetch movie data", error);
+      }
+    };
 
-  // For demonstration, using the first movie in the array
-  const movie = movies[0];
+    fetchMovieData();
+  }, [id]); // Dependency on ID
+
+  if (!movie) {
+    return <div>Loading...</div>; // Loading state
+  }
 
   return (
     <div className="justify-centercontainer mx-auto text-white">
@@ -100,7 +61,7 @@ const Detail = () => {
 
               {/* Director */}
               <p className="text-[18px] mt-7 mb-2">
-                <span className=" font-semibold">Đạo diễn:</span>{" "}
+                <span className="font-semibold">Đạo diễn:</span>{" "}
                 {movie.daodien}
               </p>
 
@@ -184,7 +145,7 @@ const Detail = () => {
                     <div className="relative w-full mb-4">
                       <textarea
                         placeholder="Mời bạn thảo luận, vui lòng không spam, share link kiếm tiền, thiếu lành mạnh,... để tránh bị khóa tài khoản"
-                        className="text-[16px] p-2 border w-full pr-10 text-black bg-white resize-none" // Thêm resize-none để không thể thay đổi kích thước
+                        className="text-[16px] p-2 border w-full pr-10 text-black bg-white resize-none"
                         rows="2"
                       />
                       <button
@@ -202,7 +163,6 @@ const Detail = () => {
                       key={comment.id}
                       className="mb-4 p-4 bg-[#423E3E] rounded w-full flex items-start gap-4 border border-white"
                     >
-                      {/* Avatar */}
                       {comment.avt && (
                         <img
                           src={comment.avt}
@@ -210,26 +170,20 @@ const Detail = () => {
                           className="w-12 h-12 rounded-full"
                         />
                       )}
-                      {/* Comment Content */}
                       <div className="flex flex-col flex-1">
-                        {/* Tên bình luận với gạch ngang */}
                         <div className="flex flex-col">
                           <p className="font-semibold text-[28px] text-white mb-1">
                             {comment.name}
                           </p>
-                          <div className="border-b border-white w-full"></div>{" "}
-                          {/* Gạch ngang */}
+                          <div className="border-b border-white w-full"></div>
                         </div>
                         <p className="ml-2 text-sm text-gray-300">
                           {comment.content}
                         </p>
-                        {/* Timestamp */}
                         <p className="text-xs text-gray-500 mt-1">
                           {comment.timestamp}
                         </p>
-                        {/* Actions (Like, Reply) */}
                         <div className="flex items-center gap-4 text-gray-400 mt-2">
-                          {/* Like Button */}
                           <button className="flex items-center gap-1 hover:text-yellow-500">
                             <span
                               className="text-xs"
@@ -239,7 +193,6 @@ const Detail = () => {
                               {comment.likes || 0}
                             </span>
                           </button>
-                          {/* Reply Button */}
                           <button className="flex items-center gap-1 hover:text-yellow-500">
                             <FontAwesomeIcon icon={faReply} />
                             <span
@@ -256,8 +209,7 @@ const Detail = () => {
 
                   {/* Load More Button */}
                   <div className="flex justify-center">
-
-                    <button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">
+                    <button className="border-2 border-[#F5CF49] rounded px-4 py-2 text-[#F5CF49] hover:bg-[#F5CF49] hover:text-black">
                       Xem thêm
                     </button>
                   </div>
@@ -265,14 +217,11 @@ const Detail = () => {
               </div>
             </div>
           </div>
+          <DangChieu />
+          {/* Related Movies Section */}
+          <TuongTu />
         </div>
       </div>
-
-      {/* conponent phim đang chieu */}
-      <DangChieu />
-
-      {/* conponent the loai phim tuong tu */}
-      <TuongTu />
     </div>
   );
 };

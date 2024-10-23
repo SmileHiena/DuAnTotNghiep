@@ -1,107 +1,171 @@
+"use client";
+
 import React from 'react';
-import '../../../../public/styles/editprofile.css'; // Assuming you have a Profile.css for the styles
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faPhone, faEnvelope, faArrowLeft, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+
 const EditProfile = () => {
+  const accountInfo = {
+    id: 1,
+    Ten: "Nguyen Thai Son",
+    SDT: "0987654321",
+    NgaySinh: "1990-10-10",
+    GioiTinh: "Nam",
+    Anh: "/images/phim/cong-tu-bac-lieu.jpg",
+    TenDangNhap: "NguyenThaiSon",
+    MatKhau: "12345678",
+    Email: "nguyenthaison@example.com",
+    FullName: "Nguyen Thai Son",
+    IsAdmin: true,
+    DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
+  };
+
   return (
-    <div className="profile-container">
-      <div className="frofile-coutumer">
-
-      <div className="cover-photo">
-      </div>
-        <div className="profile-pictur">
-           <div className="img">
-            <form>
-                <img src="images/frofile/ava.jpg" alt="Profile" />
-                <div className="editimg-button">
-          <label htmlFor="file-input" className="edit-label">
-               Sửa
-          </label>
-          <input id="file-input" type="file" accept="image" className='input-file'/>
+    <section className="flex justify-center items-center w-full">
+      <div className="w-[1410px]">
+        <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }}>
         </div>
-            </form>
-            </div>
-          <h2 className="profile-name"> Phạm Ngọc Trân</h2>
-        </div>
-        <div className="profile-content">
-            <div className="customer-info">
-            <div className="info-coutumer">
-            <h2>THÔNG TIN KHÁCH HÀNG</h2>
-            <div className="info-item">
-                <span className="icon">👤</span>
-                <p>Họ tên: Phạm Ngọc Trân</p>
-            </div>
-            <div className="info-item">
-                <span className="icon">📞</span>
-                <p>Số ĐT: 0336870210</p>
-            </div>
-            <div className="info-item">
-                <span className="icon">👤</span>
-                <p>Email: <span>toan2211@gmail.com</span></p>
-            </div>
-            <div className="info-item">
-                <span className="icon">📍</span>
-                <p>Địa chỉ: Phường 12 TP Hồ Chí Minh</p>
-            </div>
-            <div className="pro-btn">
-                <button className="back-button">quay lại</button>
-                <button className="logout-button">Đăng xuất</button>
-            </div>
-            </div>
-            </div>
-            <div className="editprofile-content">
-            <h1>THÔNG TIN KHÁCH HÀNG</h1>
 
-            {/* Thông tin cá nhân */}
-            <div className="personal-info">
-            <h2>Thông tin cá nhân</h2>
-            <form>
-                <div className="colunm-form">
-                    <div className="form-group">
-                    <label>Họ và tên</label>
-                    <input type="text" value="Phạm Ngọc Trân" className='input-info' />
-                    </div>
-                    <div className="form-group">
-                    <label>Ngày sinh</label>
-                    <input type="date" value="2004-06-26" className='input-info' />
-                    </div>
-                </div>
-                <div className="colunm-form">
-                    <div className="form-group">
-                    <label>Số điện thoại</label>
-                    <input type="text" value="033554654" className='input-info' />
-                    </div>
-                    <div className="form-group">
-                    <label>Email</label>
-                    <input type="email" value="tranpham04@gmail.com" className='input-info'/>
-                    </div>
-                </div>
-                <button className="save-button">Lưu</button>
-            </form>
+        <div className="relative -mt-20 flex flex-col items-center">
+          <img src={accountInfo.Anh} alt="Profile" className="rounded-full w-36 h-36 border-5 border-white object-cover" />
+          <h2 className="text-3xl font-semibold mt-2 text-white">{accountInfo.FullName}</h2>
+        </div>
+
+        <div className="flex justify-between mt-5 mb-8 gap-4">
+          <div className="w-1/3 h-[250px] p-6 bg-gray-700">
+            <h2 className="text-2xl text-center text-white font-semibold">THÔNG TIN KHÁCH HÀNG</h2>
+            <div className="flex items-center mt-2">
+              <FontAwesomeIcon icon={faUser} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
+              <p className="text-white">{accountInfo.Ten}</p>
             </div>
+            <div className="flex items-center mt-2">
+              <FontAwesomeIcon icon={faPhone} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
+              <p className="text-white">{accountInfo.SDT}</p>
+            </div>
+            <div className="flex items-center mt-2">
+              <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
+              <p className="text-white">{accountInfo.Email}</p>
+            </div>
+            <div className="flex justify-between mt-4">
+              <Link href="/page/profile">
+                <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">
+                  <FontAwesomeIcon icon={faArrowLeft} className="mr-1" style={{ width: '20px', height: '20px' }} /> Quay lại
+                </button>
+              </Link>
+              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">
+                <FontAwesomeIcon icon={faSignOutAlt} className="mr-1" style={{ width: '20px', height: '20px' }} /> Đăng xuất
+              </button>
+            </div>
+          </div>
+
+          <div className="w-2/3">
+            <h2 className="text-2xl mb-2 text-white font-semibold">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
+            <form>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Họ và tên */}
+                <div className="form-group">
+                  <label className="text-white">Họ và tên</label>
+                  <input
+                    type="text"
+                    defaultValue={accountInfo.FullName}
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập họ và tên"
+                  />
+                </div>
+                {/* Ngày sinh */}
+                <div className="form-group">
+                  <label className="text-white">Ngày sinh</label>
+                  <input
+                    type="date"
+                    defaultValue={accountInfo.NgaySinh}
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập ngày sinh"
+                  />
+                </div>
+                {/* Số điện thoại */}
+                <div className="form-group">
+                  <label className="text-white">Số điện thoại</label>
+                  <input
+                    type="text"
+                    defaultValue={accountInfo.SDT}
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập số điện thoại"
+                  />
+                </div>
+                {/* Email */}
+                <div className="form-group">
+                  <label className="text-white">Email</label>
+                  <input
+                    type="email"
+                    defaultValue={accountInfo.Email}
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập email"
+                  />
+                </div>
+                {/* Địa chỉ */}
+                <div className="form-group">
+                  <label className="text-white">Địa chỉ</label>
+                  <input
+                    type="text"
+                    defaultValue={accountInfo.DiaChi}
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập địa chỉ"
+                  />
+                </div>
+                {/* Tên đăng nhập - không cho phép chỉnh sửa */}
+                <div className="form-group">
+                  <label className="text-white">Tên đăng nhập</label>
+                  <input
+                    type="text"
+                    defaultValue={accountInfo.TenDangNhap}
+                    readOnly // Thêm thuộc tính này để không cho phép chỉnh sửa
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập tên đăng nhập"
+                  />
+                </div>
+              </div>
+              <button className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">Lưu lại</button>
+            </form>
 
             {/* Đổi mật khẩu */}
-            <div className="password-change">
-            <h2>Đổi mật khẩu</h2>
-            <form>
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold text-white">ĐỔI MẬT KHẨU</h2>
+              <form>
+                {/* Mật khẩu cũ */}
                 <div className="form-group">
-                <label>Mật khẩu cũ</label>
-                <input type="password" />
+                  <label className="text-white">Mật khẩu cũ</label>
+                  <input
+                    type="password"
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập mật khẩu cũ"
+                  />
                 </div>
+                {/* Mật khẩu mới */}
                 <div className="form-group">
-                <label>Mật khẩu mới</label>
-                <input type="password" />
+                  <label className="text-white">Mật khẩu mới</label>
+                  <input
+                    type="password"
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Nhập mật khẩu mới"
+                  />
                 </div>
+                {/* Xác thực mật khẩu */}
                 <div className="form-group">
-                <label>Xác thực mật khẩu</label>
-                <input type="password" />
+                  <label className="text-white">Xác thực mật khẩu</label>
+                  <input
+                    type="password"
+                    className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                    placeholder="Xác thực mật khẩu"
+                  />
                 </div>
-                <button className="save-button">Lưu</button>
-            </form>
+                <button className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">Lưu lại</button>
+              </form>
             </div>
-            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
