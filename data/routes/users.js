@@ -32,8 +32,8 @@ const connectDb = require("../models/db");
 
 router.post("/register", upload.single("image"), async (req, res, next) => {
   const db = await connectDb();
-  const userCollection = db.collection("khachhang");
-  const { email, password, phone, username, fullname } = req.body;
+  const userCollection = db.collection("taikhoan");
+  const { email, password, phone, username, fullname, birthday, address, gender } = req.body;
   const image = req.file ? req.file.path : null;
 
   // Kiểm tra xem email đã tồn tại chưa
@@ -46,6 +46,9 @@ router.post("/register", upload.single("image"), async (req, res, next) => {
   const hashPassword = await bcrypt.hash(password, 10);
   const newUser = {
     email,
+    birthday,
+    address,
+    gender,
     password: hashPassword,
     phone,
     username,
@@ -73,7 +76,7 @@ router.post("/login", async (req, res, next) => {
 
   try {
     const db = await connectDb();
-    const userCollection = db.collection("khachhang");
+    const userCollection = db.collection("taikhoan");
 
     // Tìm người dùng bằng username hoặc email
     const user = await userCollection.findOne({
@@ -124,7 +127,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/users", async (req, res, next) => {
   const db = await connectDb();
-  const userCollection = db.collection("khachhang");
+  const userCollection = db.collection("taikhoan");
   const users = await userCollection.find().toArray();
   if (users) {
     res.status(200).json(users);
@@ -135,7 +138,7 @@ router.get("/users", async (req, res, next) => {
 
 router.get("/users/:id", async (req, res, next) => {
   const db = await connectDb();
-  const usersCollection = db.collection("khachhang");
+  const usersCollection = db.collection("taikhoan");
   let id = req.params.id;
   
   // Sử dụng ObjectId nếu id là ObjectId trong MongoDB
@@ -150,7 +153,7 @@ router.get("/users/:id", async (req, res, next) => {
 // Thêm API để lấy tên người dùng theo ID
 router.get("/users/:id/fullname", async (req, res, next) => {
   const db = await connectDb();
-  const userCollection = db.collection("khachhang");
+  const userCollection = db.collection("taikhoan");
   let id = req.params.id;
 
   try {
@@ -183,7 +186,7 @@ router.get('/detailuser', async (req, res, next) => {
             return res.status(401).json({ message: "Token không hợp lệ" });
         }
         const db = await connectDb();
-        const userCollection = db.collection('khachhang');
+        const userCollection = db.collection('taikhoan');
         const userInfo = await userCollection.findOne({ email: user.email });
         if (userInfo) {
             res.status(200).json(userInfo);
