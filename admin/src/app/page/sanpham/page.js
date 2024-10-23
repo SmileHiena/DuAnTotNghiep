@@ -51,7 +51,7 @@ const SanPham = () => {
   useEffect(() => {
     const fetchSanPham = async () => {
       try {
-        const response = await fetch("http://localhost:3000/sanpham/");
+        const response = await fetch("http://localhost:3000/sanpham");
         if (!response.ok) throw new Error("Failed to fetch products.");
         const data = await response.json();
         setSanPhamList(data);
@@ -67,7 +67,7 @@ const SanPham = () => {
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
-        const response = await fetch("http://localhost:3000/theloai/");
+        const response = await fetch("http://localhost:3000/theloai");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -257,7 +257,7 @@ const SanPham = () => {
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>Mã phim</th>
+                    <th>ID</th>
                     <th>Tên phim</th>
                     <th>Ảnh phim</th>
                     <th>Thể loại</th>
@@ -317,28 +317,29 @@ const SanPham = () => {
                         </button>
                       </td>
                       <td className="table-td-center">
-                        <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(product._id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            style={{ color: "#de0400" }}
-                          />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                      <button
+                          className="btn btn-primary edit mr-3"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditProduct(product)} // Open edit modal
                         >
                           <FontAwesomeIcon
                             icon={faPenToSquare}
-                            style={{ color: "#f59d39" }}
+                          
                           />
                         </button>
+                        <button
+                          className="btn btn-primary trash"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(product._id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                           
+                          />
+                        </button>
+                       
                       </td>
                     </tr>
                   ))}

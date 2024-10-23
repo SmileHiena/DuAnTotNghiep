@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faPlus, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify'; // Thêm import cho ToastContainer và toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS cho Toast
 
 const TaiKhoan = () => {
   const [accounts, setAccounts] = useState([]);
@@ -100,9 +101,12 @@ const TaiKhoan = () => {
         setAccounts((prev) =>
           prev.map((acc) => (acc._id === currentAccount._id ? { ...currentAccount, Anh: file ? `/images/${file.name}` : acc.Anh } : acc))
         );
+
+        toast.success('Cập nhật tài khoản thành công!'); // Hiển thị thông báo thành công
         handleCloseModal();
       } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật tài khoản:', error);
+        toast.error('Có lỗi xảy ra khi cập nhật tài khoản.'); // Hiển thị thông báo lỗi
       }
     }
   };
@@ -126,8 +130,10 @@ const TaiKhoan = () => {
         });
 
         setAccounts((prev) => prev.filter((acc) => acc._id !== accountId));
+        toast.success('Xóa tài khoản thành công!'); // Hiển thị thông báo thành công
       } catch (error) {
         console.error('Có lỗi xảy ra khi xóa tài khoản:', error);
+        toast.error('Có lỗi xảy ra khi xóa tài khoản.'); // Hiển thị thông báo lỗi
       }
     }
   };
@@ -145,8 +151,11 @@ const TaiKhoan = () => {
         setAccounts((prev) =>
           prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: false } : acc)) // Cập nhật trạng thái
         );
+
+        toast.success('Khóa tài khoản thành công!'); // Hiển thị thông báo thành công
       } catch (error) {
         console.error('Có lỗi xảy ra khi khóa tài khoản:', error);
+        toast.error('Có lỗi xảy ra khi khóa tài khoản.'); // Hiển thị thông báo lỗi
       }
     }
   };
@@ -164,12 +173,14 @@ const TaiKhoan = () => {
         setAccounts((prev) =>
           prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: true } : acc)) // Cập nhật trạng thái
         );
+
+        toast.success('Mở khóa tài khoản thành công!'); // Hiển thị thông báo thành công
       } catch (error) {
         console.error('Có lỗi xảy ra khi mở khóa tài khoản:', error);
+        toast.error('Có lỗi xảy ra khi mở khóa tài khoản.'); // Hiển thị thông báo lỗi
       }
     }
   };
-
 
   return (
     <>
@@ -191,9 +202,9 @@ const TaiKhoan = () => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
-                    <Link href="#" className="btn bg-[#F5CF49] font-bold">
+                    {/* <Link href="#" className="btn bg-[#F5CF49] font-bold">
                       <FontAwesomeIcon icon={faPlus} /> Thêm mới
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
                 <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
@@ -225,18 +236,18 @@ const TaiKhoan = () => {
                           <td>{account.SDT}</td>
                           <td>{account.Email}</td>
                           <td>
-                            <button className="btn btn-primary btn-sm mr-3" type="button" onClick={() => handleEditClick(account._id)}>
+                            <button className="btn btn-primary mr-3" type="button" onClick={() => handleEditClick(account._id)}>
                               <FontAwesomeIcon icon={faPenToSquare} />
                             </button>
-                            <button className="btn btn-danger btn-sm mr-3" type="button" onClick={() => handleDelete(account._id)}>
+                            <button className="btn btn-danger mr-3" type="button" onClick={() => handleDelete(account._id)}>
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
                             {account.IsAdmin ? (
-                              <button className="btn btn-warning btn-sm" type="button" onClick={() => handleLock(account._id)}>
+                              <button className="btn btn-warning" type="button" onClick={() => handleLock(account._id)}>
                                 <FontAwesomeIcon icon={faLock} />
                               </button>
                             ) : (
-                              <button className="btn btn-success btn-sm" type="button" onClick={() => handleUnlock(account._id)}>
+                              <button className="btn btn-success" type="button" onClick={() => handleUnlock(account._id)}>
                                 <FontAwesomeIcon icon={faUnlock} />
                               </button>
                             )}
@@ -321,6 +332,8 @@ const TaiKhoan = () => {
           </div>
         </div>
       </div>
+
+      <ToastContainer /> {/* Thêm ToastContainer vào cuối để hiển thị thông báo */}
     </>
   );
 };

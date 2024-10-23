@@ -27,7 +27,7 @@ const RapChieu = () => {
 
     fetchRaps();
   }, []);
-  
+
   const handleDelete = async (rapId) => {
     const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa rạp này không?");
 
@@ -57,15 +57,15 @@ const RapChieu = () => {
         },
         body: JSON.stringify(currentRap),
       });
-  
+
       if (response.ok) {
         const updatedRap = await response.json();
-  
+
         // Cập nhật danh sách rạp mà không cần tải lại trang
         setRaps((prev) =>
           prev.map((rap) => (rap._id === currentRap._id ? { ...rap, ...currentRap } : rap))
         );
-  
+
         // Hiển thị thông điệp thành công
         alert(updatedRap.message); // Hiển thị thông điệp từ server
         setCurrentRap(null);
@@ -110,7 +110,7 @@ const RapChieu = () => {
                       className="btn btn-add"
                       onClick={() => router.push("/page/themrap")}
                     >
-                      <FontAwesomeIcon icon={faPlus} /> Thêm rạp chiếu mới
+                      <FontAwesomeIcon icon={faPlus} /> Thêm mới
                     </button>
                   </div>
                 </div>
@@ -118,7 +118,7 @@ const RapChieu = () => {
                 <table className="table table-hover table-bordered js-copytextarea">
                   <thead>
                     <tr>
-                      <th>Mã rạp</th>
+                      <th>ID</th>
                       <th>Tên Rạp</th>
                       <th>Vị Trí</th>
                       <th>Số Phòng Chiếu</th> {/* Thêm cột Số Phòng Chiếu */}
@@ -129,14 +129,14 @@ const RapChieu = () => {
                     {raps.length > 0 ? (
                       raps.map((rap) => (
                         <tr key={rap._id}>
-                          <td>{rap._id}</td>
+                          <td>{rap.id}</td>
                           <td>{rap.TenRap}</td>
                           <td>{rap.ViTri}</td>
                           <td>{rap.PhongChieu && Array.isArray(rap.PhongChieu) ? rap.PhongChieu.length : 0}</td> {/* Hiển thị số lượng phòng chiếu */}
 
                           <td>
                             <button
-                              className="btn btn-primary btn-sm mr-3"
+                              className="btn btn-primary mr-3"
                               type="button"
                               onClick={() => {
                                 setCurrentRap({ ...rap }); // Tạo một bản sao để không thay đổi trực tiếp đối tượng rạp
@@ -146,7 +146,7 @@ const RapChieu = () => {
                               <FontAwesomeIcon icon={faPenToSquare} />
                             </button>
                             <button
-                              className="btn btn-danger btn-sm"
+                              className="btn btn-danger"
                               type="button"
                               onClick={() => handleDelete(rap._id)}
                             >
