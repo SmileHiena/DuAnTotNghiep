@@ -22,8 +22,8 @@ const EditProfile = () => {
   };
 
   return (
-    <section className="flex justify-center items-center w-full">
-      <div className="w-[1410px]">
+    <section className="flex justify-center items-center w-full px-4">
+      <div className="w-full max-w-[1410px]">
         <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }}>
         </div>
 
@@ -32,8 +32,8 @@ const EditProfile = () => {
           <h2 className="text-3xl font-semibold mt-2 text-white">{accountInfo.FullName}</h2>
         </div>
 
-        <div className="flex justify-between mt-5 mb-8 gap-4">
-          <div className="w-1/3 h-[250px] p-6 bg-gray-700">
+        <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
+          <div className="w-full md:w-1/3 h-auto p-6 bg-gray-700">
             <h2 className="text-2xl text-center text-white font-semibold">THÔNG TIN KHÁCH HÀNG</h2>
             <div className="flex items-center mt-2">
               <FontAwesomeIcon icon={faUser} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
@@ -47,22 +47,22 @@ const EditProfile = () => {
               <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
               <p className="text-white">{accountInfo.Email}</p>
             </div>
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-between mt-4 flex-col md:flex-row">
               <Link href="/page/profile">
-                <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">
+                <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
                   <FontAwesomeIcon icon={faArrowLeft} className="mr-1" style={{ width: '20px', height: '20px' }} /> Quay lại
                 </button>
               </Link>
-              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">
+              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg w-full md:w-auto">
                 <FontAwesomeIcon icon={faSignOutAlt} className="mr-1" style={{ width: '20px', height: '20px' }} /> Đăng xuất
               </button>
             </div>
           </div>
 
-          <div className="w-2/3">
+          <div className="w-full md:w-2/3">
             <h2 className="text-2xl mb-2 text-white font-semibold">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
             <form>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Họ và tên */}
                 <div className="form-group">
                   <label className="text-white">Họ và tên</label>
@@ -125,7 +125,7 @@ const EditProfile = () => {
                   />
                 </div>
               </div>
-              <button className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">Lưu lại</button>
+              <button className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg w-full">Lưu lại</button>
             </form>
 
             {/* Đổi mật khẩu */}
@@ -159,7 +159,7 @@ const EditProfile = () => {
                     placeholder="Xác thực mật khẩu"
                   />
                 </div>
-                <button className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg">Lưu lại</button>
+                <button className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg w-full">Lưu lại</button>
               </form>
             </div>
           </div>
