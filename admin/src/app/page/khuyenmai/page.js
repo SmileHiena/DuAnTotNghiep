@@ -313,4 +313,4 @@ const EventList = () => {
   );
 };
 
-export default KhuyenMai;
+export default EventList;

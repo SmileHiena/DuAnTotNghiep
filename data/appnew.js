@@ -624,7 +624,7 @@ const data = {
          // Phòng chiếu 2
          {
           id: "screenId2",
-          TenPhongChieu: "Phòng chiếu 1",
+          TenPhongChieu: "Phòng chiếu 2",
           SoLuongGhe: 10, // Total seats
           Ghe: [
             // Hàng A
@@ -694,7 +694,7 @@ const data = {
       id: 2,
       ThoiGian: "Thứ Sáu",
       NgayChieu: "27/09",
-      MaPhim: 1,
+      // MaPhim: 1,
       IdPhong: 1,
     },
 
@@ -702,8 +702,8 @@ const data = {
       id: 3,
       ThoiGian: "Thứ Bảy",
       NgayChieu: "28/09",
-      MaPhim: 1,
-      IdPhong: 1,
+      // MaPhim: 1,
+      IdPhong: 2,
     },
   ],
 
@@ -1134,7 +1134,7 @@ async function main() {
       { name: "combo", data: data.Combo },
       { name: "taikhoan", data: data.TaiKhoan },
       { name: "binhluan", data: data.BinhLuan },
-      { name: "chitiethoadon", data: data.ChoTietHoaDon },
+      { name: "chitiethoadon", data: data.ChiTietHoaDon },
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
       { name: "ve", data: data.Ve },

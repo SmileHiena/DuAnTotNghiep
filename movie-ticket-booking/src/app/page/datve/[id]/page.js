@@ -1,69 +1,132 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 
 const DatVe = () => {
-  // Inside the component
+  const { id } = useParams();
+  const [movie, setMovie] = useState({});
+  const [suatchieu, setSuatchieu] = useState([]);
+  const [raps, setRaps] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [Loaive, setLoaive] = useState([]);
+  const [quantities, setQuantities] = useState({});
+  const [Combo, setCombo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [comments, setComments] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const movies = [
-    {
-      id: "1",
-      title: "CÁM(T18)",
-      daodien: "Trần Hữu Tấn",
-      dienvien: "Quốc Cường, Thúy Diễm, Rima Thanh Vy, Lâm Thanh Mỹ, Hải Nam",
-      theloai: "Kinh dị",
-      ngaykhoichieu: "Thứ Sáu, 20/09/2024",
-      description:
-        "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
-      thoigian: "122 phút",
-      quocgia: "Việt Nam",
-      image: "/images/phim/cam.jpg",
-    },
-  ];
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      if (!id) {
+        console.error("Movie ID is missing");
+        return;
+      }
+
+      // Log the ID to ensure it's being passed correctly
+      console.log(`Fetching data for movie ID: ${id}`);
+
+      try {
+        // Fetch movie data
+        const movieResponse = await fetch(
+          `http://localhost:3000/sanpham/${id}`
+        );
+        if (!movieResponse.ok) {
+          throw new Error(
+            `Failed to fetch movie data: ${movieResponse.statusText} (Status Code: ${movieResponse.status})`
+          );
+        }
+        const movieData = await movieResponse.json();
+        setMovie(movieData);
+
+        // Fetch comments
+        const commentsResponse = await fetch(`/api/comments?movieId=${id}`);
+        if (!commentsResponse.ok) {
+          throw new Error(
+            `Failed to fetch comments: ${commentsResponse.statusText} (Status Code: ${commentsResponse.status})`
+          );
+        }
+        const commentsData = await commentsResponse.json();
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Error fetching movie data or comments:", error);
+      }
+    };
+
+    fetchMovieData();
+  }, [id]);
+
+  if (!movie) {
+    return <div>Loading...</div>;
+  }
 
   // ----- Suất Chiếu -----
-  SuatChieu: [
-    {
-      id: 1,
-      ThoiGian: "Thứ Năm",
-      NgayChieu: "26/09",
-      MaPhim: 1,
-      IdPhong: 1,
-    },
+  useEffect(() => {
+    const fetchSuatchieu = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/suatchieu"); // Địa chỉ API
+        if (!response.ok) {
+          throw new Error("Failed to fetch suatchieu");
+        }
+        const data = await response.json();
+        setSuatchieu(data);
+      } catch (error) {
+        console.error("Error fetching suatchieu:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    {
-      id: 2,
-      ThoiGian: "Thứ Sáu",
-      NgayChieu: "27/09",
-      MaPhim: 1,
-      IdPhong: 1,
-    },
+    fetchSuatchieu();
+  }, []);
 
-    {
-      id: 3,
-      ThoiGian: "Thứ Bảy",
-      NgayChieu: "28/09",
-      MaPhim: 1,
-      IdPhong: 1,
-    },
-  ];
+  // ----- Rạp -----
+  useEffect(() => {
+    const fetchRaps = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/rap/`); // Địa chỉ API
+        if (!response.ok) {
+          throw new Error("Failed to fetch raps");
+        }
+        const data = await response.json();
+        setRaps(data);
+      } catch (error) {
+        console.error("Error fetching raps:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const Loaive = [
-    {
-      id: 1,
-      TenVe: "Người Lớn - Đơn",
-      GiaVe: 75000,
-    },
-    {
-      id: 2,
-      TenVe: "HSSV-Người Cao Tuổi",
-      GiaVe: 45000,
-    },
-    {
-      id: 3,
-      TenVe: "Người Lớn - Đôi",
-      GiaVe: 155000,
-    },
-  ];
+    fetchRaps();
+  }, []);
+
+  // ----- Loại vé -----
+  useEffect(() => {
+    const fetchLoaive = async () => {
+      setLoading(true); // Set loading to true before fetching
+      try {
+        const response = await fetch(`http://localhost:3000/loaive/`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch loaive");
+        }
+        const data = await response.json();
+        console.log("Fetched data:", data); // Log fetched data
+        setLoaive(data);
+      } catch (error) {
+        console.error("Error fetching loaive:", error);
+        setError("Error fetching ticket types. Please try again.");
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchLoaive(); // Call fetchLoaive on component mount
+  }, []);
+  const handleQuantityChange = (id, change) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max((prev[id] || 1) + change, 1), // Ensure quantity is at least 1
+    }));
+  };
 
   const seats = [
     {
@@ -143,73 +206,33 @@ const DatVe = () => {
     },
   ];
 
-  const combo = [
-    {
-      id: 1,
-      Anh: "combo1.jpg",
-      TenCombo: "COMBO PARYPARY",
-      NoiDung: "2 Bắp Ngọt 60oz + 4 Coke 22oz",
-      Gia: 209000,
-    },
-    {
-      id: 2,
-      Anh: "combo2.jpg",
-      TenCombo: "COMBO SOLO",
-      NoiDung: "1 Bắp Ngọt 60oz + 1 Coke 32oz",
-      Gia: 94000,
-    },
-    {
-      id: 3,
-      Anh: "combo3.jpg",
-      TenCombo: "COMBO COUPLE",
-      NoiDung: "1 Bắp Ngọt 60oz + 2 Coke 32oz",
-      Gia: 115000,
-    },
-    {
-      id: 4,
-      Anh: "combo4.jpg",
-      TenCombo: "NƯỚC SUỐI DASANI",
-      NoiDung: "500/510ML",
-      Gia: 20000,
-    },
-    {
-      id: 5,
-      Anh: "combo5.jpg",
-      TenCombo: "NƯỚC TRÁI CÂY NUTRIBOOST",
-      NoiDung: "",
-      Gia: 28000,
-    },
-    {
-      id: 6,
-      Anh: "combo6.jpg",
-      TenCombo: "NƯỚC CAM TEPPY",
-      NoiDung: "",
-      Gia: 28000,
-    },
-    {
-      id: 7,
-      Anh: "combo7.jpg",
-      TenCombo: "FANTA",
-      NoiDung: "",
-      Gia: 37000,
-    },
-    {
-      id: 8,
-      Anh: "combo8.jpg",
-      TenCombo: "SPRITE",
-      NoiDung: "",
-      Gia: 37000,
-    },
-    {
-      id: 9,
-      Anh: "combo9.jpg",
-      TenCombo: "COCACOLA",
-      NoiDung: "",
-      Gia: 37000,
-    },
-  ];
+ // ----- Combo ----- 
+ useEffect(() => {
+  const fetchCombo = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/combo");
+      if (!response.ok) throw new Error("Failed to fetch Combo");
+      const data = await response.json();
+      setCombo(data);
+    } catch (error) {
+      console.error("Error fetching Combo:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const movie = movies[0];
+  fetchCombo();
+}, []);
+
+const toggleSeatSelection = (row, number) => {
+  const seatId = `${row}-${number}`;
+  setSelectedSeats((prev) =>
+    prev.includes(seatId) ? prev.filter((s) => s !== seatId) : [...prev, seatId]
+  );
+};
+
+if (loading) return <div>Loading...</div>;
+if (error) return <div>{error}</div>;
 
   return (
     <div className="justify-center mx-auto text-white bg-[rgba(0,0,0,0.6)] shadow-lg w-full max-w-[1410px] mx-auto">
@@ -220,7 +243,7 @@ const DatVe = () => {
               {/* left box image */}
               <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
                 <img
-                  src={movie.image}
+                  src={movie.Anh}
                   alt={movie.title}
                   className="object-cover"
                   style={{ height: "650px", width: "auto" }}
@@ -229,27 +252,26 @@ const DatVe = () => {
 
               {/* right box info */}
               <div className="pt-20 md:w-1/2 flex flex-col space-y-6">
-                <h1 className="text-[30px] font-semibold mb-4">
-                  {movie.title}
-                </h1>
+                <h1 className="text-[30px] font-semibold mb-4">{movie.Ten}</h1>
 
                 {/* Description */}
                 <h1 className="pt-20 text-[20px] font-bold">Nội Dung</h1>
-                <p className="text-[18px] mb-4">{movie.description}</p>
+                <p className="text-[18px] mb-4">{movie.ThongTinPhim}</p>
 
                 {/* Additional movie information */}
                 <div className="pt-20 flex flex-wrap justify-between mb-6">
                   <p className="text-[18px]">
                     <span className="font-semibold">Thể loại:</span>{" "}
-                    {movie.theloai}
+                    {movie.TheLoai ? movie.TheLoai.KieuPhim : "N/A"}
                   </p>
+
                   <p className="text-[18px]">
                     <span className="font-semibold">Thời gian:</span>{" "}
-                    {movie.thoigian}
+                    {movie.TheLoai ? movie.TheLoai.ThoiLuong : "N/A"}
                   </p>
                   <p className="text-[18px]">
                     <span className="font-semibold">Quốc gia:</span>{" "}
-                    {movie.quocgia}
+                    {movie.TheLoai ? movie.TheLoai.QuocGia : "N/A"}
                   </p>
                 </div>
               </div>
@@ -260,32 +282,21 @@ const DatVe = () => {
 
       {/* Suất Chiếu Section */}
       <section className="w-1410 mx-auto">
-  <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
-    Suất Chiếu
-  </h1>
-  <div className="flex justify-center gap-6 mt-6 flex-wrap">
-    {["21h20", "22/09", "22/09", "22/09"].map((showtime, index) => (
-      <div
-        key={index}
-        className="h-[150px] w-[150px] border-4 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded-lg transition duration-300 group hover:bg-[#F5CF49] shadow-lg hover:shadow-2xl"
-      >
-        <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white text-[24px]">
-          {showtime}
-        </h2>
-        <p className="font-semibold text-[20px] text-[#F5CF49] transition duration-300 group-hover:text-black">
-          {index === 0
-            ? "Thứ Bảy"
-            : index === 1
-            ? "Chủ Nhật"
-            : index === 2
-            ? "Thứ Hai"
-            : "Thứ Ba"}
-        </p>
-      </div>
-    ))}
-  </div>
-</section>
-
+        <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
+          Suất Chiếu
+        </h1>
+        <div className="flex justify-center gap-6 mt-6 flex-wrap">
+          {suatchieu.map((showtime) => (
+            <div
+              key={showtime.id}
+              className="h-[150px] w-[150px] border-4 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded-lg transition duration-300 group hover:bg-[#F5CF49] shadow-lg"
+            >
+              <p className="text-2xl font-semibold">{showtime.ThoiGian}</p>
+              <p className="text-lg font-semibold">{showtime.NgayChieu}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Danh Sách Rạp Section */}
       <section className="mt-10">
@@ -293,32 +304,74 @@ const DatVe = () => {
           Danh Sách Rạp
         </h2>
         <div className="flex flex-col items-center">
-          {/* Example theater list */}
-          {["TICKER QUẬN 12", "TICKER QUẬN 1"].map((theater, index) => (
-            <div
-              key={index}
-              className="bg-[rgba(0,0,0,0.3)] w-full max-w-[1035px] h-[241px] p-4 mb-4 rounded"
-            >
-              <div className="flex justify-between">
-                <h3 className="text-[28px] text-[#F5CF49] font-semibold">
-                  {theater}
-                </h3>
-                <p>^</p>
-              </div>
-              <p className="text-[16px] font-light mt-4 ml-7">
-                Quận 1, Thành phố Hồ Chí Minh
-              </p>
-              <div className="flex space-x-4 mt-4 ml-7">
-                <div className="w-[120px] h-[40px] bg-[#F5CF49] text-center flex flex-col justify-center items-center rounded">
-                  <p className="text-[14px] text-black">8:00</p>
+          {raps.length > 0 ? (
+            raps.map((theater) => (
+              <div
+                key={theater.id} // Make sure the ID is unique
+                className="bg-[rgba(0,0,0,0.3)] w-full max-w-[1035px] p-4 mb-4 rounded"
+              >
+                <div className="flex justify-between">
+                  <h3 className="text-[28px] text-[#F5CF49] font-semibold">
+                    {theater.TenRap}
+                  </h3>
+                  <p>^</p>
                 </div>
-
-                <div className="w-[120px] h-[40px] bg-[#F5CF49] text-center flex flex-col justify-center items-center rounded">
-                  <p className="text-[14px] text-black">11:00</p>
+                <p className="text-[16px] font-light mt-4 ml-7">
+                  {theater.ViTri}
+                </p>
+                <div className="flex flex-wrap mt-4 ml-7">
+                  {theater.PhongChieu.map((room) => (
+                    <div
+                      key={room.id}
+                      className="bg-[#F5CF49] items-center text-center flex flex-col justify-center items-center rounded p-2 mb-2 mx-2 cursor-pointer w-[200px]"
+                      onClick={() => setSelectedRoom(room)}
+                    >
+                      <p className="text-[16px]">{room.TenPhongChieu}</p>
+                    </div>
+                  ))}
+                </div>
+                {/* Long box for showtimes */}
+                <div className="mt-4 w-full bg-[rgba(0,0,0,0.5)] p-4 rounded">
+                  {selectedRoom && (
+                    <>
+                      <h4 className="text-[18px] font-semibold">Lịch Chiếu:</h4>
+                      {selectedRoom.LichChieu.map((schedule) => (
+                        <div key={schedule.IdSuatChieu} className="mt-2">
+                          {schedule.GioChieu.map((showtime) => (
+                            <div
+                              key={showtime.id}
+                              className={`flex justify-between items-center bg-[rgba(255, 255, 255, 0.2)] p-2 rounded mb-2 cursor-pointer`}
+                              onClick={() => handleShowtimeClick(showtime)} // Add your click handler here
+                            >
+                              <p
+                                className={`text-[16px] ${
+                                  showtime.TrangThai === "dadat"
+                                    ? "text-red-500"
+                                    : "text-green-500"
+                                }`}
+                              >
+                                {showtime.Gio} -{" "}
+                                {showtime.TrangThai === "dadat"
+                                  ? "Đã Đặt"
+                                  : "Chưa Đặt"}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  {!selectedRoom && (
+                    <p className="text-gray-500">
+                      Vui lòng chọn phòng để xem lịch chiếu.
+                    </p>
+                  )}
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div>No theaters available.</div> // Handling no theaters
+          )}
         </div>
       </section>
 
@@ -327,26 +380,45 @@ const DatVe = () => {
         <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
           CHỌN LOẠI VÉ
         </h2>
-        <div className="flex justify-center gap-4">
-          {Loaive.map((ticketType) => (
-            <div
-              key={ticketType.id}
-              className="w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded"
-            >
-              <h3 className="text-lg text-[18px] font-bold">
-                {ticketType.TenVe}
-              </h3>
-              <p className="text-[14px] text-gray-400">
-                Giá: {ticketType.GiaVe.toLocaleString()} VND
-              </p>
-              <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded ml-[150px]">
-                <button className="text-black p-1">-</button>
-                <span className="text-black p-1">1</span>
-                <button className="text-black p-1">+</button>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <div className="flex justify-center gap-4">
+            {console.log("Loaive data:", Loaive)} {/* Log the Loaive data */}
+            {Loaive.map((ticketType) => (
+              <div
+                key={ticketType.id}
+                className="w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded"
+              >
+                <h3 className="text-lg text-[18px] font-bold">
+                  {ticketType.TenVe}
+                </h3>
+                <p className="text-[14px] text-gray-400">
+                  Giá: {ticketType.GiaVe.toLocaleString()} VND
+                </p>
+                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded ml-[150px]">
+                  <button
+                    onClick={() => handleQuantityChange(ticketType.id, -1)}
+                    className="text-black p-1"
+                  >
+                    -
+                  </button>
+                  <span className="text-black p-1">
+                    {quantities[ticketType.id] || 1}
+                  </span>
+                  <button
+                    onClick={() => handleQuantityChange(ticketType.id, 1)}
+                    className="text-black p-1"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Seat Selection Section */}
@@ -405,20 +477,22 @@ const DatVe = () => {
       </section>
 
       {/* Combo Section */}
+      <div>
+      {/* Combo Section */}
       <section className="mt-10">
         <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
           CHỌN COMBO
         </h2>
         <div className="flex flex-wrap justify-center gap-4">
-          {combo.map((item) => (
+          {Combo.map((item) => (
             <div
               key={item.id}
-              className="w-[350px] p-4 flex items-center gap-4" // Tạo layout cho 3 cột
+              className="w-[350px] p-4 flex items-center gap-4"
             >
               {/* Left: Combo Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={`/images/combo/${item.Anh}`}
+                  src={`${item.Anh}`} // Ensure this path is correct
                   alt={item.TenCombo}
                   className="h-[130px] w-[130px] object-cover rounded"
                 />
@@ -432,15 +506,28 @@ const DatVe = () => {
                   Giá: {item.Gia.toLocaleString()} VND
                 </p>
                 <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded">
-                  <button className="text-black p-1">-</button>
-                  <span className="text-black p-1">1</span>
-                  <button className="text-black p-1">+</button>
+                  <button
+                    className="text-black p-1"
+                    onClick={() => handleQuantityChange(item.id, -1)}
+                  >
+                    -
+                  </button>
+                  <span className="text-black p-1">
+                    {quantities[item.id] || 1}
+                  </span>
+                  <button
+                    className="text-black p-1"
+                    onClick={() => handleQuantityChange(item.id, 1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </section>
+    </div>
 
       {/* Tổng tiền */}
       <section className="mt-10">

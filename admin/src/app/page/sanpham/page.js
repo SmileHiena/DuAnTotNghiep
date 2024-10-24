@@ -486,9 +486,9 @@ const SanPham = () => {
                 }
               >
                 <option value="">Chọn trạng thái</option>
-                <option value="Đang chiếu">Đang chiếu</option>
-                <option value="Sắp chiếu">Sắp chiếu</option>
-                <option value="Ngừng chiếu">Ngừng chiếu</option>
+                <option value="dangchieu">dangchieu</option>
+                <option value="sapchieu">sapchieu</option>
+                <option value="ngungchieu">ngungchieu</option>
               </select>
             </div>
 

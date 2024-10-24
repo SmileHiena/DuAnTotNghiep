@@ -9,11 +9,15 @@
     font-weight: bold; /* Chữ đậm */
     margin-top: 10px; /* Khoảng cách với ảnh */
     color: white; /* Màu chữ trắng */
+    text-decoration : none;
 }
+
+.no-underline {
+    text-decoration: none; /* Removes the underline */
+  }  
 
 .sap-chieu__title {
     font-weight: bold;
-
     color: #f5cf49; /* Màu vàng */
     text-align: center;
     margin-bottom: 2rem; /* Khoảng cách dưới tiêu đề */
@@ -71,6 +75,11 @@
 .sap-chieu__card:hover {
     transform: scale(1.05);
 }
+
+.no-underline {
+    text-decoration: none;
+  }
+  
 
 .sap-chieu__card:hover .sap-chieu__image {
     transform: scale(1.1);

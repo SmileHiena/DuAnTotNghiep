@@ -40,11 +40,15 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
     const newPhim = JSON.parse(req.body.newPhim);
     const Anh = req.file ? `/images/phim/${req.file.originalname}` : null;
 
-    const movieId = new ObjectId();
+    // Get the last movie's id
+    const db = await connectDb();
+    const phimCollection = db.collection("phim");
+    const lastMovie = await phimCollection.find().sort({ id: -1 }).limit(1).toArray();
+    const newId = lastMovie.length > 0 ? lastMovie[0].id + 1 : 1; // Start from 1 if no movies exist
 
     const newMovie = {
-      _id: movieId,
-      id: movieId.toString(),
+      _id: new ObjectId(),
+      id: newId, // Set the new id
       Ten: newPhim.Ten,
       Anh: Anh,
       TrangThai: newPhim.TrangThai,
@@ -57,8 +61,6 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
       ThongTinPhim: newPhim.ThongTinPhim || "",
     };
 
-    const db = await connectDb();
-    const phimCollection = db.collection("phim");
     await phimCollection.insertOne(newMovie);
 
     res.status(201).json(newMovie);
@@ -70,6 +72,8 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
     });
   }
 });
+
+
 
 //Get phim data
 router.get("/", async (req, res) => {

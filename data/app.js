@@ -24,6 +24,8 @@ var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
 var dangchieuRouter = require('./routes/dangchieu');
 var sapchieuRouter = require('./routes/sapchieu');
+var suatchieuRouter = require('./routes/suatchieu');
+var loaiveRouter = require('./routes/loaive');
 
 var app = express();
 
@@ -65,6 +67,8 @@ app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/sapchieu', sapchieuRouter);
+app.use('/suatchieu', suatchieuRouter);
+app.use('/loaive', loaiveRouter);
 
 
 app.use(function (req, res, next) {
