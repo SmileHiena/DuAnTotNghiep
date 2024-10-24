@@ -38,16 +38,16 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
       </head>
       <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }}>
-      <Provider store={store}>
-        <Header />
-        {children}
-        <Footer />
+        <Provider store={store}>
+          <Header />
+          {children}
+          <Footer />
 
-        {/* Back to Top Button */}
-        <button id="back-to-top" style={{ display: 'none', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: '#000', color: '#fff', border: 'none', borderRadius: '50%', padding: '10px', cursor: 'pointer' }}>
-          Back top
-        </button>
-    </Provider>
+          {/* Back to Top Button */}
+          <button id="back-to-top" style={{ display: 'none', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: '#000', color: '#fff', border: 'none', borderRadius: '50%', padding: '10px', cursor: 'pointer' }}>
+            Back top
+          </button>
+        </Provider>
       </body>
     </html>
   );

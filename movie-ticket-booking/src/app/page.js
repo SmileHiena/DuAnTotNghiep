@@ -16,7 +16,7 @@ export default function Home() {
       <SapChieu />
       <Event />
       <BlogSection />
-      <QA />
+      <QA/>
     </div>
   );
 }

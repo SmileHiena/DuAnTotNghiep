@@ -252,9 +252,9 @@ const Detail = () => {
               </div>
             </div>
           </div>
-          {/*  */}
+
+          {/* Related Movies Section */}
           <TuongTu />
-          {/*  */}
           <DangChieu />
         </div>
       </div>
