@@ -3,7 +3,6 @@ const url = "mongodb://localhost:27017";
 const dbName = "Ticker_Movie";
 
 const data = {
-
   // ----- Phim -----
   Phim: [
     {
@@ -27,6 +26,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 2,
       Ten: "CÁM(T18)",
@@ -48,6 +48,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 3,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -69,6 +70,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 4,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -90,6 +92,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 5,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -132,6 +135,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 7,
       Ten: "CÁM(T18)",
@@ -153,6 +157,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 8,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -174,6 +179,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 9,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -195,6 +201,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 10,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -237,6 +244,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 12,
       Ten: "CÁM(T18)",
@@ -258,6 +266,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 13,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -279,6 +288,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 14,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -300,6 +310,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 15,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -342,6 +353,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 17,
       Ten: "CÁM(T18)",
@@ -363,6 +375,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 18,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -384,6 +397,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 19,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -405,6 +419,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 20,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -478,7 +493,6 @@ const data = {
     },
   ],
 
-
   // ----- Blog -----
   Blog: [
     {
@@ -544,7 +558,6 @@ const data = {
     },
   ],
 
-
   // ----- Rạp -----
   Rap: [
     {
@@ -552,370 +565,33 @@ const data = {
       TenRap: "Rạp ScreenTime Quận 12",
       ViTri: "Vincom Center, Quận 12, TP.HCM",
       PhongChieu: [
-        //Phòng 1
+        // Phòng chiếu 1
         {
           id: "screenId1",
           TenPhongChieu: "Phòng chiếu 1",
-          SoLuongGhe: 50,
+          SoLuongGhe: 10, // Total seats
           Ghe: [
             // Hàng A
             {
-              id: 1,
               Hang: "A",
-              SoGhe: "A01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
+              Ghe: [
+                {id: 1,SoGhe: "A01",LoaiGhe: "thuong",TrangThai: "controng",},
+                {id: 2,SoGhe: "A02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 3, SoGhe: "A03", LoaiGhe: "thuong", TrangThai: "dadat" },
+                {id: 4,SoGhe: "A04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 5, SoGhe: "A05", LoaiGhe: "thuong", TrangThai: "dadat" },
+              ],
             },
-            {
-              id: 2,
-              Hang: "A",
-              SoGhe: "A02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 3,
-              Hang: "A",
-              SoGhe: "A03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 4,
-              Hang: "A",
-              SoGhe: "A04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 5,
-              Hang: "A",
-              SoGhe: "A05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 6,
-              Hang: "A",
-              SoGhe: "A06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 7,
-              Hang: "A",
-              SoGhe: "A07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 8,
-              Hang: "A",
-              SoGhe: "A08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 9,
-              Hang: "A",
-              SoGhe: "A09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 10,
-              Hang: "A",
-              SoGhe: "A10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
             // Hàng B
             {
-              id: 11,
               Hang: "B",
-              SoGhe: "B01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 12,
-              Hang: "B",
-              SoGhe: "B02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 13,
-              Hang: "B",
-              SoGhe: "B03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 14,
-              Hang: "B",
-              SoGhe: "B04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 15,
-              Hang: "B",
-              SoGhe: "B05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 16,
-              Hang: "B",
-              SoGhe: "B06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 17,
-              Hang: "B",
-              SoGhe: "B07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 18,
-              Hang: "B",
-              SoGhe: "B08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 19,
-              Hang: "B",
-              SoGhe: "B09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 20,
-              Hang: "B",
-              SoGhe: "B10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng C
-            {
-              id: 21,
-              Hang: "C",
-              SoGhe: "C01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 22,
-              Hang: "C",
-              SoGhe: "C02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 23,
-              Hang: "C",
-              SoGhe: "C03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 24,
-              Hang: "C",
-              SoGhe: "C04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 25,
-              Hang: "C",
-              SoGhe: "C05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 26,
-              Hang: "C",
-              SoGhe: "C06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 27,
-              Hang: "C",
-              SoGhe: "C07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 28,
-              Hang: "C",
-              SoGhe: "C08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 29,
-              Hang: "C",
-              SoGhe: "C09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 30,
-              Hang: "C",
-              SoGhe: "C10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng D
-            {
-              id: 31,
-              Hang: "D",
-              SoGhe: "D01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 32,
-              Hang: "D",
-              SoGhe: "D02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 33,
-              Hang: "D",
-              SoGhe: "D03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 34,
-              Hang: "D",
-              SoGhe: "D04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 35,
-              Hang: "D",
-              SoGhe: "D05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 36,
-              Hang: "D",
-              SoGhe: "D06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 37,
-              Hang: "D",
-              SoGhe: "D07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 38,
-              Hang: "D",
-              SoGhe: "D08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 39,
-              Hang: "D",
-              SoGhe: "D09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 40,
-              Hang: "D",
-              SoGhe: "D10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng E
-            {
-              id: 41,
-              Hang: "E",
-              SoGhe: "E01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 42,
-              Hang: "E",
-              SoGhe: "E02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 43,
-              Hang: "E",
-              SoGhe: "E03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 44,
-              Hang: "E",
-              SoGhe: "E04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 45,
-              Hang: "E",
-              SoGhe: "E05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 46,
-              Hang: "E",
-              SoGhe: "E06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 47,
-              Hang: "E",
-              SoGhe: "E07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 48,
-              Hang: "E",
-              SoGhe: "E08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 49,
-              Hang: "E",
-              SoGhe: "E09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 50,
-              Hang: "E",
-              SoGhe: "E10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
+              Ghe: [
+                {id: 1,SoGhe: "B01",LoaiGhe: "thuong",TrangThai: "controng",},
+                {id: 2,SoGhe: "B02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 3, SoGhe: "B03", LoaiGhe: "thuong", TrangThai: "dadat" },
+                {id: 4,SoGhe: "B04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 5, SoGhe: "B05", LoaiGhe: "thuong", TrangThai: "dadat" },
+              ],
             },
           ],
           LichChieu: [
@@ -926,389 +602,52 @@ const data = {
                   id: "showtimeId1",
                   Gio: "18:00",
                   MaPhim: 1,
-                  TrangThai: "Đã đặt",
+                  TrangThai: "dadat",
                 },
                 {
                   id: "showtimeId2",
                   Gio: "20:00",
                   MaPhim: 2,
-                  TrangThai: "Chưa đặt",
+                  TrangThai: "chuadat",
                 },
                 {
                   id: "showtimeId3",
                   Gio: "22:00",
                   MaPhim: 3,
-                  TrangThai: "Chưa đặt",
+                  TrangThai: "chuadat",
                 },
               ],
             },
           ],
         },
 
-        //Phòng 2
-        {
+         // Phòng chiếu 2
+         {
           id: "screenId2",
-          TenPhongChieu: "Phòng chiếu 2",
-          SoLuongGhe: 50,
+          TenPhongChieu: "Phòng chiếu 1",
+          SoLuongGhe: 10, // Total seats
           Ghe: [
             // Hàng A
             {
-              id: 1,
               Hang: "A",
-              SoGhe: "A01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
+              Ghe: [
+                {id: 1,SoGhe: "A01",LoaiGhe: "thuong",TrangThai: "controng",},
+                {id: 2,SoGhe: "A02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 3, SoGhe: "A03", LoaiGhe: "thuong", TrangThai: "dadat" },
+                {id: 4,SoGhe: "A04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 5, SoGhe: "A05", LoaiGhe: "thuong", TrangThai: "dadat" },
+              ],
             },
-            {
-              id: 2,
-              Hang: "A",
-              SoGhe: "A02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 3,
-              Hang: "A",
-              SoGhe: "A03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 4,
-              Hang: "A",
-              SoGhe: "A04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 5,
-              Hang: "A",
-              SoGhe: "A05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 6,
-              Hang: "A",
-              SoGhe: "A06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 7,
-              Hang: "A",
-              SoGhe: "A07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 8,
-              Hang: "A",
-              SoGhe: "A08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 9,
-              Hang: "A",
-              SoGhe: "A09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 10,
-              Hang: "A",
-              SoGhe: "A10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
             // Hàng B
             {
-              id: 11,
               Hang: "B",
-              SoGhe: "B01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 12,
-              Hang: "B",
-              SoGhe: "B02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 13,
-              Hang: "B",
-              SoGhe: "B03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 14,
-              Hang: "B",
-              SoGhe: "B04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 15,
-              Hang: "B",
-              SoGhe: "B05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 16,
-              Hang: "B",
-              SoGhe: "B06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 17,
-              Hang: "B",
-              SoGhe: "B07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 18,
-              Hang: "B",
-              SoGhe: "B08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 19,
-              Hang: "B",
-              SoGhe: "B09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 20,
-              Hang: "B",
-              SoGhe: "B10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng C
-            {
-              id: 21,
-              Hang: "C",
-              SoGhe: "C01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 22,
-              Hang: "C",
-              SoGhe: "C02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 23,
-              Hang: "C",
-              SoGhe: "C03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 24,
-              Hang: "C",
-              SoGhe: "C04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 25,
-              Hang: "C",
-              SoGhe: "C05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 26,
-              Hang: "C",
-              SoGhe: "C06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 27,
-              Hang: "C",
-              SoGhe: "C07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 28,
-              Hang: "C",
-              SoGhe: "C08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 29,
-              Hang: "C",
-              SoGhe: "C09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 30,
-              Hang: "C",
-              SoGhe: "C10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng D
-            {
-              id: 31,
-              Hang: "D",
-              SoGhe: "D01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 32,
-              Hang: "D",
-              SoGhe: "D02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 33,
-              Hang: "D",
-              SoGhe: "D03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 34,
-              Hang: "D",
-              SoGhe: "D04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 35,
-              Hang: "D",
-              SoGhe: "D05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 36,
-              Hang: "D",
-              SoGhe: "D06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 37,
-              Hang: "D",
-              SoGhe: "D07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 38,
-              Hang: "D",
-              SoGhe: "D08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 39,
-              Hang: "D",
-              SoGhe: "D09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 40,
-              Hang: "D",
-              SoGhe: "D10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng E
-            {
-              id: 41,
-              Hang: "E",
-              SoGhe: "E01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 42,
-              Hang: "E",
-              SoGhe: "E02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 43,
-              Hang: "E",
-              SoGhe: "E03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 44,
-              Hang: "E",
-              SoGhe: "E04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 45,
-              Hang: "E",
-              SoGhe: "E05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 46,
-              Hang: "E",
-              SoGhe: "E06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 47,
-              Hang: "E",
-              SoGhe: "E07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 48,
-              Hang: "E",
-              SoGhe: "E08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 49,
-              Hang: "E",
-              SoGhe: "E09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 50,
-              Hang: "E",
-              SoGhe: "E10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
+              Ghe: [
+                {id: 1,SoGhe: "B01",LoaiGhe: "thuong",TrangThai: "controng",},
+                {id: 2,SoGhe: "B02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 3, SoGhe: "B03", LoaiGhe: "thuong", TrangThai: "dadat" },
+                {id: 4,SoGhe: "B04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 5, SoGhe: "B05", LoaiGhe: "thuong", TrangThai: "dadat" },
+              ],
             },
           ],
           LichChieu: [
@@ -1319,1198 +658,19 @@ const data = {
                   id: "showtimeId1",
                   Gio: "18:00",
                   MaPhim: 1,
-                  TrangThai: "Đã đặt",
+                  TrangThai: "dadat",
                 },
                 {
                   id: "showtimeId2",
                   Gio: "20:00",
                   MaPhim: 2,
-                  TrangThai: "Chưa đặt",
+                  TrangThai: "chuadat",
                 },
                 {
                   id: "showtimeId3",
                   Gio: "22:00",
                   MaPhim: 3,
-                  TrangThai: "Chưa đặt",
-                },
-              ],
-            },
-          ],
-        },
-
-        //Phòng 3
-        {
-          id: "screenId3",
-          TenPhongChieu: "Phòng chiếu 3",
-          SoLuongGhe: 50,
-          Ghe: [
-            // Hàng A
-            {
-              id: 1,
-              Hang: "A",
-              SoGhe: "A01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 2,
-              Hang: "A",
-              SoGhe: "A02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 3,
-              Hang: "A",
-              SoGhe: "A03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 4,
-              Hang: "A",
-              SoGhe: "A04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 5,
-              Hang: "A",
-              SoGhe: "A05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 6,
-              Hang: "A",
-              SoGhe: "A06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 7,
-              Hang: "A",
-              SoGhe: "A07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 8,
-              Hang: "A",
-              SoGhe: "A08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 9,
-              Hang: "A",
-              SoGhe: "A09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 10,
-              Hang: "A",
-              SoGhe: "A10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng B
-            {
-              id: 11,
-              Hang: "B",
-              SoGhe: "B01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 12,
-              Hang: "B",
-              SoGhe: "B02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 13,
-              Hang: "B",
-              SoGhe: "B03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 14,
-              Hang: "B",
-              SoGhe: "B04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 15,
-              Hang: "B",
-              SoGhe: "B05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 16,
-              Hang: "B",
-              SoGhe: "B06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 17,
-              Hang: "B",
-              SoGhe: "B07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 18,
-              Hang: "B",
-              SoGhe: "B08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 19,
-              Hang: "B",
-              SoGhe: "B09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 20,
-              Hang: "B",
-              SoGhe: "B10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng C
-            {
-              id: 21,
-              Hang: "C",
-              SoGhe: "C01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 22,
-              Hang: "C",
-              SoGhe: "C02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 23,
-              Hang: "C",
-              SoGhe: "C03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 24,
-              Hang: "C",
-              SoGhe: "C04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 25,
-              Hang: "C",
-              SoGhe: "C05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 26,
-              Hang: "C",
-              SoGhe: "C06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 27,
-              Hang: "C",
-              SoGhe: "C07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 28,
-              Hang: "C",
-              SoGhe: "C08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 29,
-              Hang: "C",
-              SoGhe: "C09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 30,
-              Hang: "C",
-              SoGhe: "C10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng D
-            {
-              id: 31,
-              Hang: "D",
-              SoGhe: "D01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 32,
-              Hang: "D",
-              SoGhe: "D02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 33,
-              Hang: "D",
-              SoGhe: "D03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 34,
-              Hang: "D",
-              SoGhe: "D04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 35,
-              Hang: "D",
-              SoGhe: "D05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 36,
-              Hang: "D",
-              SoGhe: "D06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 37,
-              Hang: "D",
-              SoGhe: "D07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 38,
-              Hang: "D",
-              SoGhe: "D08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 39,
-              Hang: "D",
-              SoGhe: "D09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 40,
-              Hang: "D",
-              SoGhe: "D10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng E
-            {
-              id: 41,
-              Hang: "E",
-              SoGhe: "E01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 42,
-              Hang: "E",
-              SoGhe: "E02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 43,
-              Hang: "E",
-              SoGhe: "E03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 44,
-              Hang: "E",
-              SoGhe: "E04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 45,
-              Hang: "E",
-              SoGhe: "E05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 46,
-              Hang: "E",
-              SoGhe: "E06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 47,
-              Hang: "E",
-              SoGhe: "E07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 48,
-              Hang: "E",
-              SoGhe: "E08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 49,
-              Hang: "E",
-              SoGhe: "E09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 50,
-              Hang: "E",
-              SoGhe: "E10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-          ],
-          LichChieu: [
-            {
-              IdSuatChieu: 2,
-              GioChieu: [
-                {
-                  id: "showtimeId1",
-                  Gio: "18:00",
-                  MaPhim: 1,
-                  TrangThai: "Chưa đặt",
-                },
-                {
-                  id: "showtimeId2",
-                  Gio: "20:00",
-                  MaPhim: 2,
-                  TrangThai: "Chưa đặt",
-                },
-                {
-                  id: "showtimeId3",
-                  Gio: "22:00",
-                  MaPhim: 3,
-                  TrangThai: "Chưa đặt",
-                },
-              ],
-            },
-          ],
-        },
-
-        //Phòng 4
-        {
-          id: "screenId4",
-          TenPhongChieu: "Phòng chiếu 4",
-          SoLuongGhe: 50,
-          Ghe: [
-            // Hàng A
-            {
-              id: 1,
-              Hang: "A",
-              SoGhe: "A01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 2,
-              Hang: "A",
-              SoGhe: "A02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 3,
-              Hang: "A",
-              SoGhe: "A03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 4,
-              Hang: "A",
-              SoGhe: "A04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 5,
-              Hang: "A",
-              SoGhe: "A05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 6,
-              Hang: "A",
-              SoGhe: "A06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 7,
-              Hang: "A",
-              SoGhe: "A07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 8,
-              Hang: "A",
-              SoGhe: "A08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 9,
-              Hang: "A",
-              SoGhe: "A09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 10,
-              Hang: "A",
-              SoGhe: "A10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng B
-            {
-              id: 11,
-              Hang: "B",
-              SoGhe: "B01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 12,
-              Hang: "B",
-              SoGhe: "B02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 13,
-              Hang: "B",
-              SoGhe: "B03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 14,
-              Hang: "B",
-              SoGhe: "B04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 15,
-              Hang: "B",
-              SoGhe: "B05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 16,
-              Hang: "B",
-              SoGhe: "B06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 17,
-              Hang: "B",
-              SoGhe: "B07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 18,
-              Hang: "B",
-              SoGhe: "B08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 19,
-              Hang: "B",
-              SoGhe: "B09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 20,
-              Hang: "B",
-              SoGhe: "B10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng C
-            {
-              id: 21,
-              Hang: "C",
-              SoGhe: "C01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 22,
-              Hang: "C",
-              SoGhe: "C02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 23,
-              Hang: "C",
-              SoGhe: "C03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 24,
-              Hang: "C",
-              SoGhe: "C04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 25,
-              Hang: "C",
-              SoGhe: "C05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 26,
-              Hang: "C",
-              SoGhe: "C06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 27,
-              Hang: "C",
-              SoGhe: "C07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 28,
-              Hang: "C",
-              SoGhe: "C08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 29,
-              Hang: "C",
-              SoGhe: "C09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 30,
-              Hang: "C",
-              SoGhe: "C10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng D
-            {
-              id: 31,
-              Hang: "D",
-              SoGhe: "D01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 32,
-              Hang: "D",
-              SoGhe: "D02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 33,
-              Hang: "D",
-              SoGhe: "D03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 34,
-              Hang: "D",
-              SoGhe: "D04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 35,
-              Hang: "D",
-              SoGhe: "D05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 36,
-              Hang: "D",
-              SoGhe: "D06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 37,
-              Hang: "D",
-              SoGhe: "D07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 38,
-              Hang: "D",
-              SoGhe: "D08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 39,
-              Hang: "D",
-              SoGhe: "D09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 40,
-              Hang: "D",
-              SoGhe: "D10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng E
-            {
-              id: 41,
-              Hang: "E",
-              SoGhe: "E01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 42,
-              Hang: "E",
-              SoGhe: "E02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 43,
-              Hang: "E",
-              SoGhe: "E03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 44,
-              Hang: "E",
-              SoGhe: "E04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 45,
-              Hang: "E",
-              SoGhe: "E05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 46,
-              Hang: "E",
-              SoGhe: "E06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 47,
-              Hang: "E",
-              SoGhe: "E07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 48,
-              Hang: "E",
-              SoGhe: "E08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 49,
-              Hang: "E",
-              SoGhe: "E09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 50,
-              Hang: "E",
-              SoGhe: "E10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-          ],
-          LichChieu: [
-            {
-              IdSuatChieu: 2,
-              GioChieu: [
-                {
-                  id: "showtimeId1",
-                  Gio: "18:00",
-                  MaPhim: 1,
-                  TrangThai: "Chưa đặt",
-                },
-                {
-                  id: "showtimeId2",
-                  Gio: "20:00",
-                  MaPhim: 2,
-                  TrangThai: "Chưa đặt",
-                },
-                {
-                  id: "showtimeId3",
-                  Gio: "22:00",
-                  MaPhim: 3,
-                  TrangThai: "Chưa đặt",
-                },
-              ],
-            },
-          ],
-        },
-
-        //Phòng 5
-        {
-          id: "screenId5",
-          TenPhongChieu: "Phòng chiếu 5",
-          SoLuongGhe: 50,
-          Ghe: [
-            // Hàng A
-            {
-              id: 1,
-              Hang: "A",
-              SoGhe: "A01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 2,
-              Hang: "A",
-              SoGhe: "A02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 3,
-              Hang: "A",
-              SoGhe: "A03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 4,
-              Hang: "A",
-              SoGhe: "A04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 5,
-              Hang: "A",
-              SoGhe: "A05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 6,
-              Hang: "A",
-              SoGhe: "A06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 7,
-              Hang: "A",
-              SoGhe: "A07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 8,
-              Hang: "A",
-              SoGhe: "A08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 9,
-              Hang: "A",
-              SoGhe: "A09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 10,
-              Hang: "A",
-              SoGhe: "A10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng B
-            {
-              id: 11,
-              Hang: "B",
-              SoGhe: "B01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 12,
-              Hang: "B",
-              SoGhe: "B02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 13,
-              Hang: "B",
-              SoGhe: "B03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 14,
-              Hang: "B",
-              SoGhe: "B04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 15,
-              Hang: "B",
-              SoGhe: "B05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 16,
-              Hang: "B",
-              SoGhe: "B06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 17,
-              Hang: "B",
-              SoGhe: "B07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 18,
-              Hang: "B",
-              SoGhe: "B08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 19,
-              Hang: "B",
-              SoGhe: "B09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 20,
-              Hang: "B",
-              SoGhe: "B10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng C
-            {
-              id: 21,
-              Hang: "C",
-              SoGhe: "C01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 22,
-              Hang: "C",
-              SoGhe: "C02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 23,
-              Hang: "C",
-              SoGhe: "C03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 24,
-              Hang: "C",
-              SoGhe: "C04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 25,
-              Hang: "C",
-              SoGhe: "C05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 26,
-              Hang: "C",
-              SoGhe: "C06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 27,
-              Hang: "C",
-              SoGhe: "C07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 28,
-              Hang: "C",
-              SoGhe: "C08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 29,
-              Hang: "C",
-              SoGhe: "C09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 30,
-              Hang: "C",
-              SoGhe: "C10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng D
-            {
-              id: 31,
-              Hang: "D",
-              SoGhe: "D01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 32,
-              Hang: "D",
-              SoGhe: "D02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 33,
-              Hang: "D",
-              SoGhe: "D03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 34,
-              Hang: "D",
-              SoGhe: "D04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 35,
-              Hang: "D",
-              SoGhe: "D05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 36,
-              Hang: "D",
-              SoGhe: "D06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 37,
-              Hang: "D",
-              SoGhe: "D07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 38,
-              Hang: "D",
-              SoGhe: "D08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 39,
-              Hang: "D",
-              SoGhe: "D09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 40,
-              Hang: "D",
-              SoGhe: "D10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-
-            // Hàng E
-            {
-              id: 41,
-              Hang: "E",
-              SoGhe: "E01",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 42,
-              Hang: "E",
-              SoGhe: "E02",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 43,
-              Hang: "E",
-              SoGhe: "E03",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 44,
-              Hang: "E",
-              SoGhe: "E04",
-              LoaiGhe: "VIP",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 45,
-              Hang: "E",
-              SoGhe: "E05",
-              LoaiGhe: "Thường",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 46,
-              Hang: "E",
-              SoGhe: "E06",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 47,
-              Hang: "E",
-              SoGhe: "E07",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 48,
-              Hang: "E",
-              SoGhe: "E08",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-            {
-              id: 49,
-              Hang: "E",
-              SoGhe: "E09",
-              LoaiGhe: "VIP",
-              TrangThai: "Đã Đặt",
-            },
-            {
-              id: 50,
-              Hang: "E",
-              SoGhe: "E10",
-              LoaiGhe: "Thường",
-              TrangThai: "Còn Trống",
-            },
-          ],
-          LichChieu: [
-            {
-              IdSuatChieu: 3,
-              GioChieu: [
-                {
-                  id: "showtimeId1",
-                  Gio: "18:00",
-                  MaPhim: 1,
-                  TrangThai: "Chưa đặt",
-                },
-                {
-                  id: "showtimeId2",
-                  Gio: "20:00",
-                  MaPhim: 2,
-                  TrangThai: "Chưa đặt",
-                },
-                {
-                  id: "showtimeId3",
-                  Gio: "22:00",
-                  MaPhim: 3,
-                  TrangThai: "Chưa đặt",
+                  TrangThai: "chuadat",
                 },
               ],
             },
@@ -2520,34 +680,32 @@ const data = {
     },
   ],
 
-
   // ----- Suất Chiếu -----
   SuatChieu: [
     {
       id: 1,
       ThoiGian: "Thứ Năm",
       NgayChieu: "26/09",
-      idPhim: 1,  
-      idRap: 1, 
+      MaPhim: 1,
+      IdPhong: 1,
     },
 
     {
       id: 2,
       ThoiGian: "Thứ Sáu",
       NgayChieu: "27/09",
-      idPhim: 1,  
-      idRap: 2, 
+      MaPhim: 1,
+      IdPhong: 1,
     },
 
     {
       id: 3,
       ThoiGian: "Thứ Bảy",
       NgayChieu: "28/09",
-      idPhim: 1,  
-      idRap: 3, 
+      MaPhim: 1,
+      IdPhong: 1,
     },
   ],
-
 
   // ----- Loại Vé -----
   LoaiVe: [
@@ -2567,382 +725,6 @@ const data = {
       GiaVe: 155000,
     },
   ],
-
-
-  // ----- GHẾ -----
-  Ghe: [
-    // Hàng A
-    {
-      id: 1,
-      Hang: "A",
-      SoGhe: "A01",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 2,
-      Hang: "A",
-      SoGhe: "A02",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 3,
-      Hang: "A",
-      SoGhe: "A03",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 4,
-      Hang: "A",
-      SoGhe: "A04",
-      LoaiGhe: "VIP",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 5,
-      Hang: "A",
-      SoGhe: "A05",
-      LoaiGhe: "Thường",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 6,
-      Hang: "A",
-      SoGhe: "A06",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 7,
-      Hang: "A",
-      SoGhe: "A07",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 8,
-      Hang: "A",
-      SoGhe: "A08",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 9,
-      Hang: "A",
-      SoGhe: "A09",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 10,
-      Hang: "A",
-      SoGhe: "A10",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-
-    // Hàng B
-    {
-      id: 11,
-      Hang: "B",
-      SoGhe: "B01",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 12,
-      Hang: "B",
-      SoGhe: "B02",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 13,
-      Hang: "B",
-      SoGhe: "B03",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 14,
-      Hang: "B",
-      SoGhe: "B04",
-      LoaiGhe: "VIP",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 15,
-      Hang: "B",
-      SoGhe: "B05",
-      LoaiGhe: "Thường",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 16,
-      Hang: "B",
-      SoGhe: "B06",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 17,
-      Hang: "B",
-      SoGhe: "B07",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 18,
-      Hang: "B",
-      SoGhe: "B08",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 19,
-      Hang: "B",
-      SoGhe: "B09",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 20,
-      Hang: "B",
-      SoGhe: "B10",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-
-    // Hàng C
-    {
-      id: 21,
-      Hang: "C",
-      SoGhe: "C01",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 22,
-      Hang: "C",
-      SoGhe: "C02",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 23,
-      Hang: "C",
-      SoGhe: "C03",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 24,
-      Hang: "C",
-      SoGhe: "C04",
-      LoaiGhe: "VIP",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 25,
-      Hang: "C",
-      SoGhe: "C05",
-      LoaiGhe: "Thường",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 26,
-      Hang: "C",
-      SoGhe: "C06",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 27,
-      Hang: "C",
-      SoGhe: "C07",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 28,
-      Hang: "C",
-      SoGhe: "C08",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 29,
-      Hang: "C",
-      SoGhe: "C09",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 30,
-      Hang: "C",
-      SoGhe: "C10",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-
-    // Hàng D
-    {
-      id: 31,
-      Hang: "D",
-      SoGhe: "D01",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 32,
-      Hang: "D",
-      SoGhe: "D02",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 33,
-      Hang: "D",
-      SoGhe: "D03",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 34,
-      Hang: "D",
-      SoGhe: "D04",
-      LoaiGhe: "VIP",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 35,
-      Hang: "D",
-      SoGhe: "D05",
-      LoaiGhe: "Thường",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 36,
-      Hang: "D",
-      SoGhe: "D06",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 37,
-      Hang: "D",
-      SoGhe: "D07",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 38,
-      Hang: "D",
-      SoGhe: "D08",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 39,
-      Hang: "D",
-      SoGhe: "D09",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 40,
-      Hang: "D",
-      SoGhe: "D10",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-
-    // Hàng E
-    {
-      id: 41,
-      Hang: "E",
-      SoGhe: "E01",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 42,
-      Hang: "E",
-      SoGhe: "E02",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 43,
-      Hang: "E",
-      SoGhe: "E03",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 44,
-      Hang: "E",
-      SoGhe: "E04",
-      LoaiGhe: "VIP",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 45,
-      Hang: "E",
-      SoGhe: "E05",
-      LoaiGhe: "Thường",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 46,
-      Hang: "E",
-      SoGhe: "E06",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 47,
-      Hang: "E",
-      SoGhe: "E07",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 48,
-      Hang: "E",
-      SoGhe: "E08",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-    {
-      id: 49,
-      Hang: "E",
-      SoGhe: "E09",
-      LoaiGhe: "VIP",
-      TrangThai: "Đã Đặt",
-    },
-    {
-      id: 50,
-      Hang: "E",
-      SoGhe: "E10",
-      LoaiGhe: "Thường",
-      TrangThai: "Còn Trống",
-    },
-  ],
-
-
-  // ----- HÓA ĐƠN -----
-  HoaDon: [
-    {
-      id: 1,
-      NgayXuatHoaDon: "28/09/2004",
-      SoLuong: 1,
-      IdLoaiVe: 1,
-    },
-  ],
-
 
   // ----- Combo -----
   Combo: [
@@ -3011,7 +793,6 @@ const data = {
     },
   ],
 
-
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
     {
@@ -3024,11 +805,8 @@ const data = {
       TenDangNhap: "NguyenThaiSon",
       MatKhau: "12345678",
       Email: "nguyenthaison@example.com",
-      PassWord: "12345678",
-      FullName: "Nguyen Thai Son",
       IsAdmin: true,
       DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
-
     },
     {
       id: 2,
@@ -3040,11 +818,8 @@ const data = {
       TenDangNhap: "LeThiMinhChau",
       MatKhau: "987654321",
       Email: "lethiminhchau@example.com",
-      PassWord: "987654321",
-      FullName: "Le Thi Minh Chau",
       IsAdmin: false,
       DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
-
     },
     {
       id: 3,
@@ -3056,14 +831,10 @@ const data = {
       TenDangNhap: "TranVanBinh",
       MatKhau: "654321789",
       Email: "tranvanbinh@example.com",
-      PassWord: "654321789",
-      FullName: "Tran Van Binh",
       IsAdmin: false,
       DiaChi: "789 Đường DEF, Quận 2, TP. HCM",
     },
   ],
-
-
 
   // ----- BÌNH_LUẬN -----
   BinhLuan: [
@@ -3104,11 +875,11 @@ const data = {
     },
   ],
 
-
   // ----- Chi Tiết Hóa Đơn -----
-  ChoTietHoaDon: [
+  ChiTietHoaDon: [
     {
       id: 1,
+      IdTaiKhoan: 1,
       IdHoaDon: 1,
       NgayXuatHoaDon: "30/09/2024",
       IdXuatChieu: 1,
@@ -3118,6 +889,7 @@ const data = {
     },
     {
       id: 2,
+      IdTaiKhoan: 2,
       IdHoaDon: 2,
       NgayXuatHoaDon: "01/10/2024",
       IdXuatChieu: 2,
@@ -3127,6 +899,7 @@ const data = {
     },
     {
       id: 3,
+      IdTaiKhoan: 1,
       IdHoaDon: 3,
       NgayXuatHoaDon: "02/10/2024",
       IdXuatChieu: 3,
@@ -3136,6 +909,7 @@ const data = {
     },
     {
       id: 4,
+      IdTaiKhoan: 3,
       IdHoaDon: 4,
       NgayXuatHoaDon: "02/10/2024",
       IdXuatChieu: 4,
@@ -3145,6 +919,7 @@ const data = {
     },
     {
       id: 5,
+      IdTaiKhoan: 1,
       IdHoaDon: 5,
       NgayXuatHoaDon: "03/10/2024",
       IdXuatChieu: 5,
@@ -3154,6 +929,21 @@ const data = {
     },
   ],
 
+  // ----- Hóa_Đơn -----
+  HoaDon: [
+    {
+      id: 1,
+      NgaySuatChieu: "29/10 - T6",
+      GheNgoi: "A01",
+      TenPhong: 1,
+      GiaVe: 200000,
+      SoLuongVe: 1,
+      TrangThai: "Đã thanh toán",
+      IdSuatChieu: 1,
+      IdTaiKhoan: 1,
+      IdCombo: 1,
+    },
+  ],
 
   // ----- ADMIN -----
   Admin: [
@@ -3186,7 +976,6 @@ const data = {
       Tinhtrang: "Tạm nghỉ",
     },
   ],
-
 
   Sukien: [
     {
@@ -3323,21 +1112,7 @@ const data = {
     },
   ],
 
-
-  // ----- Vé -----
-  Ve:
-    [
-      {
-        id: 1,
-        NgayXuatChieu: "29/10/2024",
-        GheNgoi: "A01",
-        SoPhong: 1,
-        GiaVe: 200000,
-        TrangThai: "Đã thanh toán",
-        MaXuatChieu: 1,
-        MaTaiKhoan: 1,
-      },
-    ],
+  
 };
 
 async function main() {
@@ -3345,7 +1120,7 @@ async function main() {
 
   try {
     await client.connect();
-    console.log('Kết nối thành công đến server MongoDB');
+    console.log("Kết nối thành công đến server MongoDB");
     const db = client.db(dbName);
 
     const collections = [
@@ -3355,7 +1130,6 @@ async function main() {
       { name: "rap", data: data.Rap },
       { name: "suatchieu", data: data.SuatChieu },
       { name: "loaive", data: data.LoaiVe },
-      { name: "ghe", data: data.Ghe },
       { name: "hoadon", data: data.HoaDon },
       { name: "combo", data: data.Combo },
       { name: "taikhoan", data: data.TaiKhoan },
@@ -3370,12 +1144,12 @@ async function main() {
       await insertData(db, name, data);
     }
 
-    console.log('Dữ liệu đã được nhập thành công.');
+    console.log("Dữ liệu đã được nhập thành công.");
   } catch (error) {
-    console.error('Lỗi khi kết nối hoặc thao tác với MongoDB:', error);
+    console.error("Lỗi khi kết nối hoặc thao tác với MongoDB:", error);
   } finally {
     await client.close();
-    console.log('Đã ngắt kết nối khỏi MongoDB.');
+    console.log("Đã ngắt kết nối khỏi MongoDB.");
   }
 }
 
@@ -3387,7 +1161,10 @@ async function insertData(db, collectionName, data) {
     await collection.drop();
     console.log(`Đã xóa collection: ${collectionName}`);
   } catch (error) {
-    console.log(`Không thể xóa collection ${collectionName} (có thể không tồn tại):`, error.message);
+    console.log(
+      `Không thể xóa collection ${collectionName} (có thể không tồn tại):`,
+      error.message
+    );
   }
 
   if (data && data.length) {

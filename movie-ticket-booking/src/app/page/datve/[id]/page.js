@@ -20,13 +20,14 @@ const DatVe = () => {
     },
   ];
 
-  const SuatChieu = [
+  // ----- Suất Chiếu -----
+  SuatChieu: [
     {
       id: 1,
       ThoiGian: "Thứ Năm",
       NgayChieu: "26/09",
       MaPhim: 1,
-      IdVe: 1,
+      IdPhong: 1,
     },
 
     {
@@ -34,7 +35,7 @@ const DatVe = () => {
       ThoiGian: "Thứ Sáu",
       NgayChieu: "27/09",
       MaPhim: 1,
-      IdVe: 1,
+      IdPhong: 1,
     },
 
     {
@@ -42,7 +43,7 @@ const DatVe = () => {
       ThoiGian: "Thứ Bảy",
       NgayChieu: "28/09",
       MaPhim: 1,
-      IdVe: 1,
+      IdPhong: 1,
     },
   ];
 
@@ -258,32 +259,33 @@ const DatVe = () => {
       </section>
 
       {/* Suất Chiếu Section */}
-      <section>
-        <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
-          Lịch Chiếu
-        </h1>
-        <div className="flex justify-center gap-4 mt-6">
-          {["21h20", "22/09", "22/09", "22/09"].map((showtime, index) => (
-            <div
-              key={index}
-              className="h-[93px] w-[103px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group hover:bg-[#F5CF49]"
-            >
-              <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white">
-                {showtime}
-              </h2>
-              <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black">
-                {index === 0
-                  ? "Thứ Bảy"
-                  : index === 1
-                  ? "Chủ Nhật"
-                  : index === 2
-                  ? "Thứ Hai"
-                  : "Thứ Ba"}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <section className="w-1410 mx-auto">
+  <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
+    Suất Chiếu
+  </h1>
+  <div className="flex justify-center gap-6 mt-6 flex-wrap">
+    {["21h20", "22/09", "22/09", "22/09"].map((showtime, index) => (
+      <div
+        key={index}
+        className="h-[150px] w-[150px] border-4 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded-lg transition duration-300 group hover:bg-[#F5CF49] shadow-lg hover:shadow-2xl"
+      >
+        <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white text-[24px]">
+          {showtime}
+        </h2>
+        <p className="font-semibold text-[20px] text-[#F5CF49] transition duration-300 group-hover:text-black">
+          {index === 0
+            ? "Thứ Bảy"
+            : index === 1
+            ? "Chủ Nhật"
+            : index === 2
+            ? "Thứ Hai"
+            : "Thứ Ba"}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
+
 
       {/* Danh Sách Rạp Section */}
       <section className="mt-10">
@@ -348,57 +350,59 @@ const DatVe = () => {
       </section>
 
       {/* Seat Selection Section */}
-<section className="rounded-lg shadow-lg p-4 mt-4 mx-4">
-  <h1 className="text-3xl font-bold text-center">CHỌN GHẾ - RẠP 03</h1>
-  <div className="bg-white text-black text-center py-2 rounded mt-4">
-    Màn hình
-  </div>
+      <section className="rounded-lg shadow-lg p-4 mt-4 mx-4">
+        <h1 className="text-3xl font-bold text-center">CHỌN GHẾ - RẠP 03</h1>
+        <div className="bg-white text-black text-center py-2 rounded mt-4">
+          Màn hình
+        </div>
 
-  <div className="flex flex-col items-center mt-20">
-    {/* Ghế từng hàng */}
-    {seats.map(({ row, seats }) => (
-      <div key={row} className="flex items-center mb-4">
-        <div className="w-8 text-center font-bold">{row}</div>
-        {/* Hiển thị ghế trong hàng */}
-        <div className="flex space-x-2">
-          {seats.map(({ number, booked }) => (
-            <div key={`${row}${number}`} className="seat">
-              <button
-                className={`w-12 h-12 border-2 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                  booked
-                    ? 'bg-gray-300 cursor-not-allowed' // Ghế đã đặt
-                    : 'bg-gray-800 text-white hover:bg-[#F5CF49] hover:text-black'
-                }`}
-                onClick={() => !booked && handleSeatClick(`${row}${number}`)}
-                disabled={booked} // Vô hiệu hóa nút nếu ghế đã đặt
-              >
-                {`${row}${number}`}
-              </button>
+        <div className="flex flex-col items-center mt-20">
+          {/* Ghế từng hàng */}
+          {seats.map(({ row, seats }) => (
+            <div key={row} className="flex items-center mb-4">
+              <div className="w-8 text-center font-bold">{row}</div>
+              {/* Hiển thị ghế trong hàng */}
+              <div className="flex space-x-2">
+                {seats.map(({ number, booked }) => (
+                  <div key={`${row}${number}`} className="seat">
+                    <button
+                      className={`w-12 h-12 border-2 rounded-lg flex items-center justify-center transition-all duration-200 ${
+                        booked
+                          ? "bg-gray-300 cursor-not-allowed" // Ghế đã đặt
+                          : "bg-gray-800 text-white hover:bg-[#F5CF49] hover:text-black"
+                      }`}
+                      onClick={() =>
+                        !booked && handleSeatClick(`${row}${number}`)
+                      }
+                      disabled={booked} // Vô hiệu hóa nút nếu ghế đã đặt
+                    >
+                      {`${row}${number}`}
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
-      </div>
-    ))}
-  </div>
 
-  {/* Legends */}
-  <div className="legends flex justify-center mt-4">
-    <div className="legend flex items-center mr-4">
-      <div className="legend-box w-4 h-4 bg-blue-500 mr-2"></div> Ghế Đơn
-    </div>
-    <div className="legend flex items-center mr-4">
-      <div className="legend-box w-4 h-4 bg-green-500 mr-2"></div> Ghế Đôi
-    </div>
-    <div className="legend flex items-center mr-4">
-      <div className="legend-box w-4 h-4 bg-gray-300 mr-2"></div> Ghế Thường
-    </div>
-    <div className="legend flex items-center">
-      <div className="legend-box w-4 h-4 bg-yellow-300 mr-2"></div> Ghế Chọn
-    </div>
-  </div>
-</section>
-
-
+        {/* Legends */}
+        <div className="legends flex justify-center mt-4">
+          <div className="legend flex items-center mr-4">
+            <div className="legend-box w-4 h-4 bg-blue-500 mr-2"></div> Ghế Đơn
+          </div>
+          <div className="legend flex items-center mr-4">
+            <div className="legend-box w-4 h-4 bg-green-500 mr-2"></div> Ghế Đôi
+          </div>
+          <div className="legend flex items-center mr-4">
+            <div className="legend-box w-4 h-4 bg-gray-300 mr-2"></div> Ghế
+            Thường
+          </div>
+          <div className="legend flex items-center">
+            <div className="legend-box w-4 h-4 bg-yellow-300 mr-2"></div> Ghế
+            Chọn
+          </div>
+        </div>
+      </section>
 
       {/* Combo Section */}
       <section className="mt-10">
