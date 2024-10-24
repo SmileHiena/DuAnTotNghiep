@@ -27,6 +27,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 2,
       Ten: "CÁM(T18)",
@@ -48,6 +49,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 3,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -69,6 +71,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 4,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -90,6 +93,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 5,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -132,6 +136,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 7,
       Ten: "CÁM(T18)",
@@ -153,6 +158,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 8,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -174,6 +180,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 9,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -195,6 +202,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 10,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -237,6 +245,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 12,
       Ten: "CÁM(T18)",
@@ -258,6 +267,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 13,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -279,6 +289,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 14,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -300,6 +311,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 15,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -342,6 +354,7 @@ const data = {
       ThongTinPhim:
         "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm, đặt cược cả cuộc sống cá nhân của họ. Nhận một vụ án sát hại một giáo sư, đội thanh tra nhận ra những mối liên hệ với các vụ án trong quá khứ và nảy sinh những nghi ngờ về một kẻ giết người hàng loạt. Điều này đã khiến cả nước rơi vào tình trạng hỗn loạn. Khi đội thanh tra đi sâu vào cuộc điều tra, kẻ sát nhân đã chế nhạo họ bằng cách công khai tung ra một đoạn giới thiệu trực tuyến, chỉ ra nạn nhân tiếp theo và làm gia tăng sự hỗn loạn. Để giải quyết mối đe dọa ngày càng leo thang, nhóm đã kết nạp một sĩ quan tân binh trẻ Park Sun-woo (JUNG Hae-in), dẫn đến những khúc mắc và đầy rẫy bất ngờ trong vụ án.",
     },
+
     {
       id: 17,
       Ten: "CÁM(T18)",
@@ -363,6 +376,7 @@ const data = {
       ThongTinPhim:
         "Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.",
     },
+
     {
       id: 18,
       Ten: "LÀM GIÀU VỚI MA (T16)",
@@ -384,6 +398,7 @@ const data = {
       ThongTinPhim:
         "Làm Giàu Với Ma kể về Lanh (Tuấn Trần) - con trai của ông Đạo làm nghề mai táng (Hoài Linh), lâm vào đường cùng vì cờ bạc. Trong cơn túng quẫn, “duyên tình” đẩy đưa anh gặp một ma nữ (Diệp Bảo Ngọc) và cùng nhau thực hiện những “kèo thơm” để phục vụ mục đích của cả hai.",
     },
+
     {
       id: 19,
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
@@ -405,6 +420,7 @@ const data = {
       ThongTinPhim:
         "Fujino tự tin thái quá, trong khi Kyomoto lại sống khép kín, cả hai dường như không thể khác biệt hơn, nhưng tình yêu mãnh liệt dành cho manga đã trở thành sợi dây duy nhất kết nối họ. Thế nhưng, một ngày nọ, một biến cố đã xảy ra, khiến thế giới của họ hoàn toàn thay đổi… “Look Back - Liệu ta có dám nhìn lại” là một câu chuyện trưởng thành đầy xúc động và day dứt.",
     },
+
     {
       id: 20,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
@@ -2527,24 +2543,24 @@ const data = {
       id: 1,
       ThoiGian: "Thứ Năm",
       NgayChieu: "26/09",
-      idPhim: 1,  
-      idRap: 1, 
+      MaPhim: 1,
+      IdVe: 1,
     },
 
     {
       id: 2,
       ThoiGian: "Thứ Sáu",
       NgayChieu: "27/09",
-      idPhim: 1,  
-      idRap: 2, 
+      MaPhim: 1,
+      IdVe: 1,
     },
 
     {
       id: 3,
       ThoiGian: "Thứ Bảy",
       NgayChieu: "28/09",
-      idPhim: 1,  
-      idRap: 3, 
+      MaPhim: 1,
+      IdVe: 1,
     },
   ],
 
@@ -3024,8 +3040,6 @@ const data = {
       TenDangNhap: "NguyenThaiSon",
       MatKhau: "12345678",
       Email: "nguyenthaison@example.com",
-      PassWord: "12345678",
-      FullName: "Nguyen Thai Son",
       IsAdmin: true,
       DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
 
@@ -3040,8 +3054,6 @@ const data = {
       TenDangNhap: "LeThiMinhChau",
       MatKhau: "987654321",
       Email: "lethiminhchau@example.com",
-      PassWord: "987654321",
-      FullName: "Le Thi Minh Chau",
       IsAdmin: false,
       DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
 
@@ -3056,8 +3068,6 @@ const data = {
       TenDangNhap: "TranVanBinh",
       MatKhau: "654321789",
       Email: "tranvanbinh@example.com",
-      PassWord: "654321789",
-      FullName: "Tran Van Binh",
       IsAdmin: false,
       DiaChi: "789 Đường DEF, Quận 2, TP. HCM",
     },

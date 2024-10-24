@@ -26,10 +26,14 @@ const EditProfile = () => {
       <div className="w-full max-w-[1410px]">
         <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }}>
         </div>
-
-        <div className="relative -mt-20 flex flex-col items-center">
-          <img src={accountInfo.Anh} alt="Profile" className="rounded-full w-36 h-36 border-5 border-white object-cover" />
-          <h2 className="text-3xl font-semibold mt-2 text-white">{accountInfo.FullName}</h2>
+        
+        <div className="relative -mt-20 flex ml-20">
+          <div className="flex flex-col items-center">
+            <img src={accountInfo.Anh} alt="Profile" className="rounded-full w-36 h-36 border-5 border-white object-cover" />
+            <div className="flex justify-center mt-2">
+              <h2 className="text-3xl font-semibold text-center whitespace-nowrap">{accountInfo.FullName}</h2>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
