@@ -134,26 +134,22 @@ router.get("/sapchieu", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res, next) => {
+  const db = await connectDb();
+  const phimCollection = db.collection("phim");
+  const id = req.params.id;
 
-// Get movie by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const db = await connectDb();
-    const collection = db.collection("phim");
-    const movie = await collection.findOne({ _id: new ObjectId(id) });
-
-    if (!movie) {
-      return res.status(404).json({ message: "Movie not found" });
-    }
-    res.json(movie);
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ message: "An error occurred", error: error.message });
+  console.log("Requesting movie with ID:", id);
+  console.log("Request parameters:", req.params); 
+  const movie = await phimCollection.findOne({ id: parseInt(id) }); 
+  if (movie) {
+    res.status(200).json(movie);
+  } else {
+    res.status(404).json({ message: "Movie not found" });
   }
 });
+
+
 
 // Route to edit a movie
 router.put("/edit/:id", upload.single("Anh"), async (req, res) => {

@@ -102,7 +102,7 @@ function Header() {
               {isSubMenuOpen && (
                 <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-20">
                   <li><Link href="/page/lienhe" className="block no-underline py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
-                  <li><Link href="/page/danhsachphim" className="block no-underline py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
+                  <li><Link href="/page/danhsach" className="block no-underline py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
                   <li><Link href="/page/dangchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
                   <li><Link href="/page/sapchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
                 </ul>
