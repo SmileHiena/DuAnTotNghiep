@@ -13,6 +13,9 @@ module.exports = {
         'xl': '1280px', // Kích thước màn hình rất lớn
         '2xl': '1536px', // Kích thước màn hình lớn hơn (2xl)
       },
+      images: {
+        domains: ['localhost'], // Thêm 'localhost' vào đây
+      },
     },
   },
   plugins: [],

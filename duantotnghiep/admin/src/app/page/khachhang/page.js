@@ -228,7 +228,7 @@ const TaiKhoan = () => {
                             <button className="btn btn-primary btn-sm mr-3" type="button" onClick={() => handleEditClick(account._id)}>
                               <FontAwesomeIcon icon={faPenToSquare} />
                             </button>
-                            <button className="btn btn-danger btn-sm" type="button" onClick={() => handleDelete(account._id)}>
+                            <button className="btn btn-danger btn-sm mr-3" type="button" onClick={() => handleDelete(account._id)}>
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
                             {account.IsAdmin ? (

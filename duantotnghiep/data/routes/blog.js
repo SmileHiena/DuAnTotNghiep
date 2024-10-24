@@ -1,36 +1,32 @@
 var express = require("express");
 var router = express.Router();
-const multer = require("multer");
 const { ObjectId } = require("mongodb");
 const connectDb = require("../models/db");
-const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 
-// Sử dụng CORS
-router.use(cors()); // Thêm middleware CORS
-
-// Thiết lập nơi lưu trữ và tên file
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/"); // Thư mục lưu trữ ảnh
+  destination: (req, file, cb) => {
+    cb(null, "./public/images/");
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Tên file độc nhất
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
   },
 });
 
-// Kiểm tra file upload (chỉ chấp nhận ảnh)
-function checkFileUpload(req, file, cb) {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return cb(new Error("Bạn chỉ được upload file ảnh"));
-  }
-  cb(null, true);
-}
+// Create multer instance
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb(new Error("Bạn chỉ được upload file ảnh"));
+    }
+    cb(null, true);
+  },
+});
 
-// Upload file với kiểm tra ảnh
-let upload = multer({ storage: storage, fileFilter: checkFileUpload });
-
-// API lấy danh sách blog
-router.get("/", async (req, res) => {
+ // Fetch all blogs
+ router.get("/", async (req, res) => {
   try {
     const db = await connectDb();
     const blogCollection = db.collection("blog");
@@ -39,11 +35,146 @@ router.get("/", async (req, res) => {
     if (blogs.length > 0) {
       res.status(200).json(blogs);
     } else {
-      res.status(404).json({ message: "Không có blog nào được tìm thấy" });
+      res.status(404).json({ message: "No blogs found" });
     }
   } catch (error) {
-    console.error("Lỗi khi lấy danh sách bl og:", error);
-    res.status(500).json({ message: "Lỗi server", error });
+    console.error("Error fetching blogs:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Fetch blogs limit 10
+router.get("/limit", async (req, res) => {
+  const limit = parseInt(req.query.limit) || 10; // Mặc định giới hạn là 10 blog
+
+  try { 
+    const db = await connectDb();
+    if (!db) {
+      console.error("Database connection failed");
+      return res.status(500).json({ message: "Database connection failed" });
+    }
+
+    const blogCollection = db.collection("blog");
+
+    const blogs = await blogCollection
+      .find()
+      .limit(limit) // Giới hạn số lượng blog trả về
+      .toArray();
+
+    if (blogs.length > 0) {
+      res.status(200).json(blogs);
+    } else {
+      res.status(404).json({ message: "No blogs found" });
+    }
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Fetch blog by _ID
+router.get("/:id", async (req, res) => {
+  try {
+    const db = await connectDb();
+    const blog = await db
+      .collection("blog")
+      .findOne({ _id: ObjectId(req.params.id) });
+
+    if (blog) {
+      res.status(200).json(blog);
+    } else {
+      res.status(404).json({ message: "Blog not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// API to add a new blog
+router.post("/add", upload.single("Anh"), async (req, res) => {
+  try {
+    const newBlog = JSON.parse(req.body.newBlog);
+    let Anh = req.file ? `/images/blog/${req.file.filename}` : "";
+
+    const blogId = new ObjectId();
+
+    const blogData = {
+      _id: blogId,
+      id: blogId.toString(),
+      TenBlog: newBlog.TenBlog,
+      Anh: Anh,
+      LuotXem: newBlog.LuotXem,
+    };
+
+    const db = await connectDb();
+    const blogCollection = db.collection("blog");
+    await blogCollection.insertOne(blogData);
+
+    res.status(201).json(blogData);
+  } catch (error) {
+    console.error("Error adding blog:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to add blog", error: error.message });
+  }
+});
+
+// API to edit a blog
+router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    console.log("Incoming newBlog data:", req.body.newBlog);
+    const updatedBlog = JSON.parse(req.body.newBlog); // Make sure this is correct
+
+    const updateData = {
+      TenBlog: updatedBlog.TenBlog,
+      LuotXem: updatedBlog.LuotXem,
+    };
+
+    if (req.file) {
+      updateData.Anh = `/images/blog/${req.file.filename}`;
+    }
+
+    const db = await connectDb();
+    const blogCollection = db.collection("blog");
+    const result = await blogCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateData }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Blog updated successfully", updatedBlog: updateData });
+  } catch (error) {
+    console.error("Error updating blog:", error);
+    res.status(500).json({ message: "Failed to update blog", error: error });
+  }
+});
+
+// Delete blog by ID
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const db = await connectDb();
+    const { id } = req.params;
+
+    const result = await db
+      .collection("blog")
+      .deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    res.status(200).json({ message: "Blog deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

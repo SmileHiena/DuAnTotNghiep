@@ -58,6 +58,7 @@ router.delete('/delete/:id', async (req, res) => {
         res.status(404).json({ message: 'Không tìm thấy thể loại để xóa' });
     }
 });
+
 //lọc danh mục
 router.get('/category/:id', async (req, res, next) => {
     try {

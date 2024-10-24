@@ -1,111 +1,345 @@
-import React from "react";
-import Link from 'next/link';
+"use client";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import {
+  registerSuccess,
+  registerFailure,
+  clearMessages,
+} from "../store/authSlice";
+// import { image } from "html2canvas/dist/types/css/types/image";
 
 const Register = () => {
-    return (
-        <div className="flex justify-center items-center bg-cover bg-center w-full h-[950px] bg-[url('../../public/images/background.png')]">
-            <form
-                className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto"
-                style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
-            >
-                <h1 className="text-center text-2xl sm:text-3xl md:text-4xl mb-4">Đăng ký</h1>
+  const dispatch = useDispatch();
+  const { error, success } = useSelector((state) => state.auth);
+  const [formData, setFormData] = useState({
+    FullName: "",
+    SDT: "",
+    NgaySinh: "",
+    DiaChi: "",
+    Email: "",
+    GioiTinh: "",
+    MatKhau: "",
+    TenDangNhap: "",
+    confirmPassword: "",
+  image: null,
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
 
-                {/* Label căn trái */}
-                <label htmlFor="fullname" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-                    Họ và tên *
-                </label>
-                <input
-                    type="text"
-                    id="fullname"
-                    placeholder="Họ và tên"
-                    required
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-                />
+  useEffect(() => {
+    if (success) {
+      alert("Bạn đã đăng ký thành công!");
+      window.location.href = "/page/login";
+      dispatch(clearMessages());
+    }
 
-                {/* Label căn trái */}
-                <label htmlFor="phone" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-                    Số điện thoại *
-                </label>
-                <input
-                    type="text"
-                    id="phone"
-                    placeholder="Số điện thoại"
-                    required
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-                />
+    if (error) {
+      alert(error);
+      dispatch(clearMessages());
+    }
+  }, [success, error, dispatch]);
 
-                {/* Label căn trái */}
-                <label htmlFor="username" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-                    Tên đăng nhập *
-                </label>
-                <input
-                    type="text"
-                    id="username"
-                    placeholder="Tên đăng nhập"
-                    required
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-                />
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
 
-                {/* Label căn trái */}
-                <label htmlFor="email" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-                    Email *
-                </label>
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Email"
-                    required
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-                />
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
 
-                {/* Label căn trái */}
-                <label htmlFor="password" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-                    Mật khẩu *
-                </label>
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Mật khẩu"
-                    required
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-                />
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
-                {/* Label căn trái */}
-                <label htmlFor="confirm-password" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-                    Nhập lại mật khẩu *
-                </label>
-                <input
-                    type="password"
-                    id="confirm-password"
-                    placeholder="Nhập lại mật khẩu"
-                    required
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
-                />
+    if (!agreeTerms) {
+      return dispatch(registerFailure("Bạn cần đồng ý với điều khoản."));
+    }
+    // Password validation
+    if (formData.MatKhau.length < 6) {
+      return dispatch(registerFailure("Mật khẩu phải có ít nhất 6 ký tự."));
+    }
 
-                <div className="flex items-center mb-3 text-xs sm:text-sm w-full md:w-[520px]">
-            
-                    <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        Tôi đồng ý các điều khoản
-                    </label>
-                </div>
+    const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/;
+    if (!passwordRegex.test(formData.MatKhau)) {
+      return dispatch(
+        registerFailure(
+          "Mật khẩu phải chứa ít nhất một ký tự số, một ký tự chữ hoa và một ký tự đặc biệt."
+        )
+      );
+    }
 
-                <button
-                    type="submit"
-                    className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-[#F5CF49] rounded-full text-sm sm:text-lg font-bold hover:bg-yellow-300 cursor-pointer"
-                >
-                    Đăng ký
-                </button>
+    if (formData.MatKhau !== formData.confirmPassword) {
+      return dispatch(
+        registerFailure("Mật khẩu và xác nhận mật khẩu không khớp!")
+      );
+    }
 
-                <hr className="my-5 w-full" />
+    const data = new FormData();
+    data.append("FullName", formData.FullName);
+    data.append("SDT", formData.SDT);
+    data.append("NgaySinh", formData.NgaySinh);
+    data.append("DiaChi", formData.DiaChi);
+    data.append("GioiTinh", formData.GioiTinh);
+    data.append("Email", formData.Email);
+    data.append("TenDangNhap", formData.TenDangNhap);
+    data.append("MatKhau", formData.MatKhau);
+    data.append("image", formData.image);
 
-                <div className="flex justify-center items-center text-xs sm:text-sm">
-                    <p>Bạn đã có tài khoản?</p>
-                    <Link href="./login" className="text-[#F5CF49] ml-1">Đăng nhập ngay!</Link>
-                </div>
-            </form>
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/users/register",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response && response.data) {
+        dispatch(registerSuccess(response.data.user));
+      }
+    } catch (error) {
+      dispatch(
+        registerFailure(
+          error.response?.data?.message ||
+            "Có lỗi xảy ra trong quá trình đăng ký"
+        )
+      );
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center bg-cover bg-center w-full h-full bg-[url('../../public/images/background.png')]">
+      <form
+        className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+        onSubmit={handleRegister}
+      >
+        <h1 className="text-center text-2xl sm:text-3xl md:text-4xl mb-4">
+          Đăng ký
+        </h1>
+
+        <label
+          htmlFor="FullName"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Họ và tên *
+        </label>
+        <input
+          type="text"
+          id="FullName"
+          placeholder="Họ và tên"
+          required
+          value={formData.FullName}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
+          htmlFor="image"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Chọn hình ảnh đại diện *
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] text-white"
+        />
+
+        <label
+          htmlFor="SDT"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Số điện thoại *
+        </label>
+        <input
+          type="text"
+          id="SDT"
+          placeholder="Số điện thoại"
+          required
+          value={formData.SDT}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
+          htmlFor="Email"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Email *
+        </label>
+        <input
+          type="email"
+          id="Email"
+          placeholder="email"
+          required
+          value={formData.Email}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
+          htmlFor="TenDangNhap"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Tên người dùng *
+        </label>
+        <input
+          type="text"
+          id="TenDangNhap"
+          placeholder="-leaning"
+          required
+          value={formData.TenDangNhap}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
+          htmlFor="NgaySinh"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Ngày sinh *
+        </label>
+        <input
+          type="date"
+          id="NgaySinh"
+          placeholder="Ngày sinh"
+          required
+          value={formData.NgaySinh}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
+          htmlFor="DiaChi"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Địa chỉ *
+        </label>
+        <input
+          type="text"
+          id="DiaChi"
+          placeholder="Địa chỉ"
+          required
+          value={formData.DiaChi}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        />
+
+        <label
+          htmlFor="GioiTinh"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
+        >
+          Giới tính *
+        </label>
+        <select
+          id="GioiTinh"
+          required
+          value={formData.GioiTinh}
+          onChange={handleChange}
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
+        >
+          <option value="">Giới tính</option>
+          <option value="Nam">Nam</option>
+          <option value="Nu">Nữ</option>
+        </select>
+
+        <label
+          htmlFor="MatKhau"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative"
+        >
+          Mật khẩu *
+        </label>
+        <div className="relative w-full md:w-[520px]">
+          <input
+            type={showPassword ? "text" : "password"}
+            id="MatKhau"
+            placeholder="Mật khẩu"
+            required
+            value={formData.MatKhau}
+            onChange={handleChange}
+            className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50 pr-10"
+          />
+          <span
+            className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            <i
+              className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+              aria-hidden="true"
+            ></i>
+          </span>
         </div>
-    );
+
+        <label
+          htmlFor="confirmPassword"
+          className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative"
+        >
+          Nhập lại mật khẩu *
+        </label>
+        <div className="relative w-full md:w-[520px]">
+          <input
+            type={showConfirmPassword ? "text" : "PassWord"}
+            id="confirmPassword"
+            placeholder="Nhập lại mật khẩu"
+            required
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50 pr-10"
+          />
+          <span
+            className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            <i
+              className={`fa ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}
+              aria-hidden="true"
+            ></i>
+          </span>
+        </div>
+
+          {/* Checkbox đồng ý điều khoản */}
+          <div className="flex items-center mb-4 w-full md:w-[520px]">
+          <input
+            type="checkbox"
+            id="agreeTerms"
+            checked={agreeTerms}
+            onChange={(e) => setAgreeTerms(e.target.checked)}
+            className="mr-2"
+          />
+          <label htmlFor="agreeTerms" className="text-base sm:text-lg">
+            Tôi đồng ý với{" "}
+            <Link href="/terms" className="text-blue-500 hover:underline">
+              điều khoản sử dụng
+            </Link>
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-[#F5CF49] rounded-full text-sm sm:text-lg font-bold hover:bg-yellow-300 cursor-pointer"
+        >
+          Đăng ký
+        </button>
+
+        <div className="mt-4">
+          <span className="text-sm">
+            Bạn đã có tài khoản?{" "}
+            <Link href="/page/login" className="text-blue-500 hover:underline">
+              Đăng nhập
+            </Link>
+          </span>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default Register;

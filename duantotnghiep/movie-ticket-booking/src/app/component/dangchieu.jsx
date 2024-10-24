@@ -1,5 +1,5 @@
 "use client";
-import "../../../public/styles/dangchieu.css";
+// import "../../../public/styles/dangchieu.css";
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -151,21 +151,12 @@ const DangChieu = () => {
                     <Slider {...settings}>
                         {movies.map((movie) => (
                             <div key={movie.id} className="dang-chieu__card">
-                                <Link href={`/page/details/${movie.id}`}>
+                                <Link href={`page/details/${movie.id}`}>
                                     <img
                                         src={`/images/phim/${movie.Anh}`}
                                         alt={movie.Ten}
                                         className="dang-chieu__image"
                                     />
-                                    {/* <div className="dang-chieu__overlay">
-                                    <h3 className="dang-chieu__card-title">{movie.Ten}</h3>
-                                    <ul className="dang-chieu__info">
-                                        <li>{movie.TheLoai.ThoiLuong}</li>
-                                        <li>{movie.TheLoai.KieuPhim}</li>
-                                        <li>{movie.TheLoai.QuocGia}</li>
-                                        <li>{movie.TheLoai.NgonNgu}</li>
-                                    </ul>
-                                </div> */}
                                 </Link>
                             </div>
                         ))}
