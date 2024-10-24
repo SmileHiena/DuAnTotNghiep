@@ -22,6 +22,7 @@ var taikhoanRouter = require('./routes/taikhoan');
 var authRouter = require('./routes/auth');
 var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
+var veRouter = require('./routes/ve');
 
 var app = express();
 
@@ -61,6 +62,7 @@ app.use('/taikhoan', taikhoanRouter);
 app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
+app.use('/ve', veRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

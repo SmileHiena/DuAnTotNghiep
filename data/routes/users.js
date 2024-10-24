@@ -30,57 +30,68 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 // Import model
 const connectDb = require("../models/db");
 
-router.post("/register", upload.single("image"), async (req, res, next) => {
-  const db = await connectDb();
-  const userCollection = db.collection("taikhoan");
-  const { email, password, phone, username, fullname, birthday, address, gender } = req.body;
-  const image = req.file ? req.file.path : null;
-
-  // Kiểm tra xem email đã tồn tại chưa
-  const user = await userCollection.findOne({ email });
-  if (user) {
-    return res.status(400).json({ message: "Email đã tồn tại" });
-  }
-
-  // Mã hóa mật khẩu
-  const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = {
-    email,
-    birthday,
-    address,
-    gender,
-    password: hashPassword,
-    phone,
-    username,
-    fullname,
-    image: req.file ? req.file.filename : null, // Lưu tên file ảnh nếu có
-    isAdmin: 0, // Gán role mặc định là 'user'
-  };
-
+router.post("/register", upload.single("image"), async (req, res) => {
   try {
+    const db = await connectDb();
+    const userCollection = db.collection("taikhoan");
+    const { Email, MatKhau, SDT, TenDangNhap, FullName, NgaySinh, DiaChi, GioiTinh } = req.body;
+    const imagePath = req.file ? req.file.path : null;
+    // const newId = (await collection.countDocuments()) + 1;
+    // const { v4: uuidv4 } = require('uuid');
+    // Check if the email already exists
+    const existingUser = await userCollection.findOne({ Email });
+    const User = await userCollection.findOne({ TenDangNhap });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email đã tồn tại" });
+
+    // Hash the password
+    }
+    if ( User) {
+      return res.status(400).json({ message: "Tên đăng nhập đã tồn tại" });
+
+    // Hash the password
+    }
+    const hashPassword = await bcrypt.hash(MatKhau, 10);
+
+    // Create new user object
+    const newUser = {
+      // id: uuidv4(),
+      Email,
+      NgaySinh,
+      DiaChi,
+      GioiTinh,
+      MatKhau: hashPassword,
+      SDT,
+      TenDangNhap,
+      FullName,
+      image: imagePath ? req.file.filename : null,
+      isAdmin: false,
+    };
+
+    // Insert the new user into the collection
     const result = await userCollection.insertOne(newUser);
     if (result.insertedId) {
-      res.status(200).json({ message: "Đăng ký thành công" });
+      return res.status(200).json({ message: "Đăng ký thành công" });
     } else {
-      res.status(500).json({ message: "Đăng ký thất bại" });
+      return res.status(500).json({ message: "Đăng ký thất bại" });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+    console.error("Registration error:", error);
+    return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
   }
 });
 
 // Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
-  const { usernameOrEmail, password } = req.body;
-
+  const { usernameOrEmail, MatKhau } = req.body;
+     console.log(req.body)
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
 
     // Tìm người dùng bằng username hoặc email
     const user = await userCollection.findOne({
-      $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+      $or: [{ TenDangNhap: usernameOrEmail }, { Email: usernameOrEmail }],
     });
 
     if (!user) {
@@ -92,7 +103,7 @@ router.post("/login", async (req, res, next) => {
     }
 
     // So sánh mật khẩu không đồng bộ
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(MatKhau, user.MatKhau);
     if (!isPasswordCorrect) {
       return res.status(403).json({ message: "Mật khẩu không chính xác." });
     }
@@ -100,10 +111,10 @@ router.post("/login", async (req, res, next) => {
     // Tạo token JWT
     const token = jwt.sign(
       {
-        username: user.username,
-        email: user.email,
-        phone: user.phone,
-        fullname: user.fullname,
+        TenDangNhap: user.TenDangNhap,
+        Email: user.Email,
+        SDT: user.SDT,
+        FullName: user.FullName,
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || "secretkey",
@@ -113,10 +124,10 @@ router.post("/login", async (req, res, next) => {
     // Trả về thông tin người dùng và token
     res.status(200).json({
       token: token,
-      username: user.username,
-      email: user.email,
-      phone: user.phone,
-      fullname: user.fullname,
+      TenDangNhap: user.TenDangNhap,
+      Email: user.Email,
+      SDT: user.SDT,
+      FullName: user.FullName,
       isAdmin: user.isAdmin,
     });
   } catch (error) {
@@ -187,7 +198,7 @@ router.get('/detailuser', async (req, res, next) => {
         }
         const db = await connectDb();
         const userCollection = db.collection('taikhoan');
-        const userInfo = await userCollection.findOne({ email: user.email });
+        const userInfo = await userCollection.findOne({ Email: user.Email });
         if (userInfo) {
             res.status(200).json(userInfo);
         } else {

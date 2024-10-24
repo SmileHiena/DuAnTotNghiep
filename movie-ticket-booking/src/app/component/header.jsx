@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -100,9 +101,9 @@ function Header() {
             <li className="relative">
               <button onClick={toggleSubMenu} className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Pages</button>
               {isSubMenuOpen && (
-                <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg w-[200px] z-20">
+                <ul className="absolute left-0 mt-2 bg-white pl-4 rounded shadow-lg w-[200px] z-20">
                   <li><Link href="/page/lienhe" className="block no-underline py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
-                  <li><Link href="/page/danhsachphim" className="block no-underline py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
+                  <li><Link href="/page/danhsach" className="block no-underline py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
                   <li><Link href="/page/dangchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
                   <li><Link href="/page/sapchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
                 </ul>
@@ -141,7 +142,8 @@ function Header() {
             <div className='flex gap-4 items-center'>
               <div className='text-center "border-2 border-white border-solid'>
                 <Link className='no-underline text-white uppercase' href="/page/profile">
-                    {user.username} {/* Hoặc user.fullname */}
+                   <Image  src={`http://localhost:3000/images/${user.image}`} width={30} height={30} />
+                    {/*Hoặc user.fullname {user.Anh}  */}
                 </Link>
               </div>
               <button onClick={handleLogout} className="button-hover w-[117px] h-[30px]">Đăng xuất</button>

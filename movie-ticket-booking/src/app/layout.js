@@ -1,6 +1,5 @@
 "use client";
 import "./globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./component/header";
 import Footer from "./component/footer";
 import { Provider } from 'react-redux';

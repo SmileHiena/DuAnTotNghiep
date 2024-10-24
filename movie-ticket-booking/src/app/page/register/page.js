@@ -8,21 +8,22 @@ import {
   registerFailure,
   clearMessages,
 } from "../store/authSlice";
+// import { image } from "html2canvas/dist/types/css/types/image";
 
 const Register = () => {
   const dispatch = useDispatch();
   const { error, success } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
-    fullname: "",
-    phone: "",
-    birthday: "",
-    address: "",
-    email: "",
-    gender: "",
-    password: "",
-    username: "",
+    FullName: "",
+    SDT: "",
+    NgaySinh: "",
+    DiaChi: "",
+    Email: "",
+    GioiTinh: "",
+    MatKhau: "",
+    TenDangNhap: "",
     confirmPassword: "",
-    image: null,
+  image: null,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -57,12 +58,12 @@ const Register = () => {
       return dispatch(registerFailure("Bạn cần đồng ý với điều khoản."));
     }
     // Password validation
-    if (formData.password.length < 6) {
+    if (formData.MatKhau.length < 6) {
       return dispatch(registerFailure("Mật khẩu phải có ít nhất 6 ký tự."));
     }
 
     const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/;
-    if (!passwordRegex.test(formData.password)) {
+    if (!passwordRegex.test(formData.MatKhau)) {
       return dispatch(
         registerFailure(
           "Mật khẩu phải chứa ít nhất một ký tự số, một ký tự chữ hoa và một ký tự đặc biệt."
@@ -70,21 +71,21 @@ const Register = () => {
       );
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.MatKhau !== formData.confirmPassword) {
       return dispatch(
         registerFailure("Mật khẩu và xác nhận mật khẩu không khớp!")
       );
     }
 
     const data = new FormData();
-    data.append("fullname", formData.fullname);
-    data.append("phone", formData.phone);
-    data.append("birthday", formData.birthday);
-    data.append("address", formData.address);
-    data.append("gender", formData.gender);
-    data.append("email", formData.email);
-    data.append("username", formData.username);
-    data.append("password", formData.password);
+    data.append("FullName", formData.FullName);
+    data.append("SDT", formData.SDT);
+    data.append("NgaySinh", formData.NgaySinh);
+    data.append("DiaChi", formData.DiaChi);
+    data.append("GioiTinh", formData.GioiTinh);
+    data.append("Email", formData.Email);
+    data.append("TenDangNhap", formData.TenDangNhap);
+    data.append("MatKhau", formData.MatKhau);
     data.append("image", formData.image);
 
     try {
@@ -123,17 +124,17 @@ const Register = () => {
         </h1>
 
         <label
-          htmlFor="fullname"
+          htmlFor="FullName"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Họ và tên *
         </label>
         <input
           type="text"
-          id="fullname"
+          id="FullName"
           placeholder="Họ và tên"
           required
-          value={formData.fullname}
+          value={formData.FullName}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
@@ -153,95 +154,95 @@ const Register = () => {
         />
 
         <label
-          htmlFor="phone"
+          htmlFor="SDT"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Số điện thoại *
         </label>
         <input
           type="text"
-          id="phone"
+          id="SDT"
           placeholder="Số điện thoại"
           required
-          value={formData.phone}
+          value={formData.SDT}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
         <label
-          htmlFor="email"
+          htmlFor="Email"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Email *
         </label>
         <input
           type="email"
-          id="email"
-          placeholder="Email"
+          id="Email"
+          placeholder="email"
           required
-          value={formData.email}
+          value={formData.Email}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
         <label
-          htmlFor="username"
+          htmlFor="TenDangNhap"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Tên người dùng *
         </label>
         <input
           type="text"
-          id="username"
+          id="TenDangNhap"
           placeholder="-leaning"
           required
-          value={formData.username}
+          value={formData.TenDangNhap}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
         <label
-          htmlFor="birthday"
+          htmlFor="NgaySinh"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Ngày sinh *
         </label>
         <input
           type="date"
-          id="birthday"
+          id="NgaySinh"
           placeholder="Ngày sinh"
           required
-          value={formData.birthday}
+          value={formData.NgaySinh}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
         <label
-          htmlFor="address"
+          htmlFor="DiaChi"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Địa chỉ *
         </label>
         <input
           type="text"
-          id="address"
+          id="DiaChi"
           placeholder="Địa chỉ"
           required
-          value={formData.address}
+          value={formData.DiaChi}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
         <label
-          htmlFor="gender"
+          htmlFor="GioiTinh"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Giới tính *
         </label>
         <select
-          id="gender"
+          id="GioiTinh"
           required
-          value={formData.gender}
+          value={formData.GioiTinh}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         >
@@ -251,7 +252,7 @@ const Register = () => {
         </select>
 
         <label
-          htmlFor="password"
+          htmlFor="MatKhau"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative"
         >
           Mật khẩu *
@@ -259,10 +260,10 @@ const Register = () => {
         <div className="relative w-full md:w-[520px]">
           <input
             type={showPassword ? "text" : "password"}
-            id="password"
+            id="MatKhau"
             placeholder="Mật khẩu"
             required
-            value={formData.password}
+            value={formData.MatKhau}
             onChange={handleChange}
             className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50 pr-10"
           />
@@ -285,7 +286,7 @@ const Register = () => {
         </label>
         <div className="relative w-full md:w-[520px]">
           <input
-            type={showConfirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? "text" : "PassWord"}
             id="confirmPassword"
             placeholder="Nhập lại mật khẩu"
             required

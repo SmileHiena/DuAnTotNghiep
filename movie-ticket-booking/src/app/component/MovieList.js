@@ -1,6 +1,6 @@
-// components/MovieList.js
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation'; // Import useRouter từ Next.js
 
 const MovieList = ({ apiUrl, title }) => {
   const [movies, setMovies] = useState([]);
@@ -9,20 +9,17 @@ const MovieList = ({ apiUrl, title }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage, setMoviesPerPage] = useState(15);
 
-  // Trạng thái cho các tiêu chí lọc
-  const [selectedGenre, setSelectedGenre] = useState("all"); // Lọc theo thể loại
-  const [selectedRating, setSelectedRating] = useState("all"); // Lọc theo đánh giá
+  const [selectedGenre, setSelectedGenre] = useState("all");
+  const [selectedRating, setSelectedRating] = useState("all");
+
+  const router = useRouter(); // Sử dụng useRouter để điều hướng
 
   const fetchMovies = async () => {
     try {
-      const res = await fetch(apiUrl, {
-        cache: "no-store",
-      });
-
+      const res = await fetch(apiUrl, { cache: "no-store" });
       if (!res.ok) {
         throw new Error("Failed to fetch");
       }
-
       const newData = await res.json();
       setMovies(newData);
       setLoading(false);
@@ -36,25 +33,19 @@ const MovieList = ({ apiUrl, title }) => {
     fetchMovies();
   }, [apiUrl]);
 
-  // Xác định số phim trên mỗi trang dựa vào màn hình
   useEffect(() => {
     const updateMoviesPerPage = () => {
       const screenWidth = window.innerWidth;
-      if (screenWidth >= 1280) setMoviesPerPage(15); // Desktop
-      else if (screenWidth >= 1024) setMoviesPerPage(12); // Tablet lớn
-      else if (screenWidth >= 768) setMoviesPerPage(8); // Tablet nhỏ
-      else setMoviesPerPage(4); // Mobile
+      if (screenWidth >= 1280) setMoviesPerPage(15);
+      else if (screenWidth >= 1024) setMoviesPerPage(12);
+      else if (screenWidth >= 768) setMoviesPerPage(8);
+      else setMoviesPerPage(4);
     };
-
     updateMoviesPerPage();
     window.addEventListener("resize", updateMoviesPerPage);
-
-    return () => {
-      window.removeEventListener("resize", updateMoviesPerPage);
-    };
+    return () => window.removeEventListener("resize", updateMoviesPerPage);
   }, []);
 
-  // Lọc phim dựa trên tiêu chí đã chọn
   const filteredMovies = movies.filter((movie) => {
     const matchesGenre =
       selectedGenre === "all" ||
@@ -91,10 +82,12 @@ const MovieList = ({ apiUrl, title }) => {
       startPage = Math.max(1, endPage - maxPageNumbersToShow + 1);
     }
 
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  };
+
+  // Khi click vào ảnh phim, điều hướng đến trang chi tiết phim
+  const handleMovieClick = (movieId) => {
+    router.push(`/page/details/${movieId}`); // Điều hướng đến trang chi tiết phim
   };
 
   if (loading) return <div className="text-center text-white">Đang tải phim...</div>;
@@ -117,7 +110,6 @@ const MovieList = ({ apiUrl, title }) => {
               <option value="Hài">Hài</option>
               <option value="Hành Động">Hành Động</option>
               <option value="Kinh Dị">Kinh Dị</option>
-              {/* Thêm các thể loại khác nếu cần */}
             </select>
           </div>
           <div className="flex items-center">
@@ -131,16 +123,18 @@ const MovieList = ({ apiUrl, title }) => {
               <option value="T13">T13</option>
               <option value="T16">T16</option>
               <option value="T18">T18</option>
-              {/* Thêm các độ tuổi khác nếu cần */}
             </select>
           </div>
         </div>
 
-        {/* Danh sách phim */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {currentMovies.length > 0 ? (
             currentMovies.map((movie, index) => (
-              <div key={index} className="text-center">
+              <div
+                key={index}
+                className="text-center cursor-pointer"
+                onClick={() => handleMovieClick(movie._id)} // Thêm sự kiện click
+              >
                 <img
                   src={`/images/phim/${movie.Anh}`}
                   alt={`Poster of ${movie.Ten}`}
@@ -154,7 +148,6 @@ const MovieList = ({ apiUrl, title }) => {
           )}
         </div>
 
-        {/* Phân trang với mũi tên trái/phải */}
         <div className="flex justify-center items-center mt-4">
           <button
             onClick={handlePrevPage}
@@ -171,8 +164,7 @@ const MovieList = ({ apiUrl, title }) => {
               <button
                 key={pageNumber}
                 style={{
-                  backgroundColor:
-                    currentPage === pageNumber ? "#F5CF49" : "white",
+                  backgroundColor: currentPage === pageNumber ? "#F5CF49" : "white",
                   color: currentPage === pageNumber ? "white" : "black",
                 }}
                 className="rounded-full w-8 h-8 mx-1"

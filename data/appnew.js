@@ -3341,19 +3341,25 @@ const data = {
 
 
   // ----- Vé -----
-  Ve:
-    [
-      {
-        id: 1,
-        NgayXuatChieu: "29/10/2024",
-        GheNgoi: "A01",
-        SoPhong: 1,
-        GiaVe: 200000,
-        TrangThai: "Đã thanh toán",
-        MaXuatChieu: 1,
-        MaTaiKhoan: 1,
-      },
-    ],
+  Ve: [
+    {
+      "id": 1,
+      "NgayXuatChieu": "29/10/2024",
+      "GheNgoi": "A01",
+      "SoPhong": 1,
+      "GiaVe": 200000,
+      "TrangThai": "Đã thanh toán",
+      "MaXuatChieu": 1,
+      "MaTaiKhoan": 1,
+      "KhachHang": {
+        "id": 1,
+        "HoTen": "Nguyễn Thái Sơn",
+        "Email": "nguyenthai@gmail.com",
+        "SoDienThoai": "0123456789"
+      }
+    },
+  ],
+
 };
 
 async function main() {
