@@ -41,9 +41,9 @@ const Header = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/">
-                            <FontAwesomeIcon icon={faTachometerAlt} className="app-menu__icon w-6 h-6" />
-                            <span className="app-menu__label">Bảng điều khiển</span>
+                        <Link className="app-menu__item" href="/page/suatchieu">
+                            <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-6 h-6" />
+                            <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
                     </li>
                     <li>

@@ -83,7 +83,7 @@ function Header() {
   return (
     <header className="bg-black relative z-10">
       <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
-        <div className="flex items-center h-[100px] mx-auto">
+        <div className="flex items-center h-[100px] ">
           <Link href="/">
             <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
           </Link>
