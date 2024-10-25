@@ -1,11 +1,30 @@
-// routes/rap.js
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const { ObjectId } = require("mongodb");
+const { ObjectId } = require('mongodb');
 const connectDb = require('../models/db');
+const multer = require('multer');
 
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/images/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, (file.originalname));
+  },
+});
 
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb(new Error("Bạn chỉ được upload file ảnh"));
+    }
+    cb(null, true);
+  }
+});
 
+//Get id rap
 router.get('/:id', async (req, res) => {
     try {
         const db = await connectDb();

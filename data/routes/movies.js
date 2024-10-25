@@ -33,6 +33,27 @@ function generateToken() {
   return crypto.randomBytes(20).toString('hex');
 }
 
+
+router.get('/:id', async (req, res) => {
+  try {
+    const movieId = req.params.id; // Lấy ID từ URL
+    const db = await connectDb();
+    const moviesCollection = db.collection('phim'); // Tên collection là 'phim'
+
+    // Tìm phim theo _id (Lưu ý sử dụng ObjectId cho trường _id)
+    const movie = await moviesCollection.findOne({ _id: new ObjectId(movieId) });
+
+    if (movie) {
+      res.status(200).json(movie);
+    } else {
+      res.status(404).json({ message: 'Phim không tồn tại' });
+    }
+  } catch (error) {
+    console.error('Error fetching movie by ID:', error);
+    res.status(500).json({ message: 'Lỗi khi tìm phim theo ID' });
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const trangThai = req.query.trangThai; // Lấy trạng thái từ query
