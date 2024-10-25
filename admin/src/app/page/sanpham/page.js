@@ -249,51 +249,51 @@ const SanPham = () => {
 
   const toggleLockStatus = async (productId, isLocked) => {
     const confirmMessage = isLocked
-      ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
-      : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
+        ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
+        : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
 
     const confirmLock = window.confirm(confirmMessage);
 
     if (confirmLock) {
-      try {
-        const url = isLocked
-          ? `http://localhost:3000/sanpham/unlock/${productId}` // Unlock API
-          : `http://localhost:3000/sanpham/lock/${productId}`; // Lock API
+        try {
+            const url = isLocked
+                ? `http://localhost:3000/sanpham/unlock/${productId}` // Unlock API
+                : `http://localhost:3000/sanpham/lock/${productId}`; // Lock API
 
-        const response = await fetch(url, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-        if (!response.ok) {
-          throw new Error("Failed to update lock status");
+            if (!response.ok) {
+                throw new Error("Failed to update lock status");
+            }
+
+            const data = await response.json();
+
+            // Update the product list dynamically
+            setSanPhamList((prevProducts) =>
+                prevProducts.map((product) =>
+                    product._id === productId
+                        ? { ...product, locked: !isLocked }
+                        : product
+                )
+            );
+
+            // Trigger the correct toast notification based on the lock/unlock status
+            if (isLocked) {
+                notifyUnLocktSuccess(); // Show unlock success toast
+            } else {
+                notifyLocktSuccess(); // Show lock success toast
+            }
+        } catch (error) {
+            console.error("Error toggling lock status:", error);
+            alert("Error updating lock status. Please try again.");
         }
-
-        const data = await response.json();
-
-        // Update the product list dynamically
-        setSanPhamList((prevProducts) =>
-          prevProducts.map((product) =>
-            product._id === productId
-              ? { ...product, locked: !isLocked }
-              : product
-          )
-        );
-
-        // Trigger the correct toast notification based on the lock/unlock status
-        if (isLocked) {
-          notifyUnLocktSuccess(); // Show unlock success toast
-        } else {
-          notifyLocktSuccess(); // Show lock success toast
-        }
-      } catch (error) {
-        console.error("Error toggling lock status:", error);
-        alert("Error updating lock status. Please try again.");
-      }
     }
-  };
+};
 
 
   return (
@@ -410,7 +410,7 @@ const SanPham = () => {
                           } // Pass locked status to toggle
                         >
                           <FontAwesomeIcon
-                            icon={product.locked ? faLock : faUnlock}
+                            icon={product.locked ? faLock : faUnlock }
                           />{" "}
                           {product.locked ? "" : ""}
                         </Button>
@@ -486,9 +486,9 @@ const SanPham = () => {
                 }
               >
                 <option value="">Chọn trạng thái</option>
-                <option value="Đang chiếu">Đang chiếu</option>
-                <option value="Sắp chiếu">Sắp chiếu</option>
-                <option value="Ngừng chiếu">Ngừng chiếu</option>
+                <option value="dangchieu">dangchieu</option>
+                <option value="sapchieu">sapchieu</option>
+                <option value="ngungchieu">ngungchieu</option>
               </select>
             </div>
 

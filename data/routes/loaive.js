@@ -24,11 +24,12 @@ const upload = multer({
   }
 });
 
+
 // Fetch all suatchieu
 router.get("/", async (req, res) => {
     try {
       const db = await connectDb();
-      const suatchieuCollection = db.collection("suatchieu");
+      const suatchieuCollection = db.collection("loaive");
       const suatchieu = await suatchieuCollection.find().toArray();
   
       if (suatchieu.length > 0) {

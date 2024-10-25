@@ -30,57 +30,69 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 // Import model
 const connectDb = require("../models/db");
 
-router.post("/register", upload.single("image"), async (req, res, next) => {
-  const db = await connectDb();
-  const userCollection = db.collection("taikhoan");
-  const { email, password, phone, username, fullname, birthday, address, gender } = req.body;
-  const image = req.file ? req.file.path : null;
-
-  // Kiểm tra xem email đã tồn tại chưa
-  const user = await userCollection.findOne({ email });
-  if (user) {
-    return res.status(400).json({ message: "Email đã tồn tại" });
-  }
-
-  // Mã hóa mật khẩu
-  const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = {
-    email,
-    birthday,
-    address,
-    gender,
-    password: hashPassword,
-    phone,
-    username,
-    fullname,
-    image: req.file ? req.file.filename : null, // Lưu tên file ảnh nếu có
-    isAdmin: 0, // Gán role mặc định là 'user'
-  };
-
+router.post("/register", upload.single("Anh"), async (req, res) => { // Thay "image" thành "Anh"
   try {
+    const db = await connectDb();
+    const userCollection = db.collection("taikhoan");
+    const { Email, MatKhau, SDT, TenDangNhap, Ten, NgaySinh, DiaChi, GioiTinh } = req.body; // Thay "FullName" thành "Ten"
+    const imagePath = req.file ? req.file.path : null;
+    
+    // Tạo ID mới bằng cách đếm số lượng tài liệu
+    const newId = (await userCollection.countDocuments()) + 1;
+
+    // Kiểm tra xem email đã tồn tại chưa
+    const existingUser = await userCollection.findOne({ Email });
+    const User = await userCollection.findOne({ TenDangNhap });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email đã tồn tại" });
+    }
+    
+    if (User) {
+      return res.status(400).json({ message: "Tên đăng nhập đã tồn tại" });
+    }
+
+    // Mã hóa mật khẩu
+    const hashPassword = await bcrypt.hash(MatKhau, 10);
+
+    // Tạo đối tượng người dùng mới
+    const newUser = {
+      id: newId,  // Sử dụng ID tự động
+      Email,
+      NgaySinh,
+      DiaChi,
+      GioiTinh,
+      MatKhau: hashPassword,
+      SDT,
+      TenDangNhap,
+      Ten, // Thay "FullName" thành "Ten"
+      Anh: imagePath ? req.file.filename : null, // Thay "image" thành "Anh"
+      isAdmin: false,
+    };
+
+    // Thêm người dùng mới vào bộ sưu tập
     const result = await userCollection.insertOne(newUser);
     if (result.insertedId) {
-      res.status(200).json({ message: "Đăng ký thành công" });
+      return res.status(200).json({ message: "Đăng ký thành công" });
     } else {
-      res.status(500).json({ message: "Đăng ký thất bại" });
+      return res.status(500).json({ message: "Đăng ký thất bại" });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+    console.error("Registration error:", error);
+    return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
   }
 });
 
 // Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
-  const { usernameOrEmail, password } = req.body;
-
+  const { usernameOrEmail, MatKhau } = req.body;
+  console.log(req.body)
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
 
     // Tìm người dùng bằng username hoặc email
     const user = await userCollection.findOne({
-      $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+      $or: [{ TenDangNhap: usernameOrEmail }, { Email: usernameOrEmail }],
     });
 
     if (!user) {
@@ -92,7 +104,7 @@ router.post("/login", async (req, res, next) => {
     }
 
     // So sánh mật khẩu không đồng bộ
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(MatKhau, user.MatKhau);
     if (!isPasswordCorrect) {
       return res.status(403).json({ message: "Mật khẩu không chính xác." });
     }
@@ -100,10 +112,10 @@ router.post("/login", async (req, res, next) => {
     // Tạo token JWT
     const token = jwt.sign(
       {
-        username: user.username,
-        email: user.email,
-        phone: user.phone,
-        fullname: user.fullname,
+        TenDangNhap: user.TenDangNhap,
+        Email: user.Email,
+        SDT: user.SDT,
+        Ten: user.Ten, // Thay "FullName" thành "Ten"
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || "secretkey",
@@ -113,10 +125,10 @@ router.post("/login", async (req, res, next) => {
     // Trả về thông tin người dùng và token
     res.status(200).json({
       token: token,
-      username: user.username,
-      email: user.email,
-      phone: user.phone,
-      fullname: user.fullname,
+      TenDangNhap: user.TenDangNhap,
+      Email: user.Email,
+      SDT: user.SDT,
+      Ten: user.Ten, // Thay "FullName" thành "Ten"
       isAdmin: user.isAdmin,
     });
   } catch (error) {
@@ -151,7 +163,7 @@ router.get("/users/:id", async (req, res, next) => {
 });
 
 // Thêm API để lấy tên người dùng theo ID
-router.get("/users/:id/fullname", async (req, res, next) => {
+router.get("/users/:id/ten", async (req, res, next) => { // Thay "/fullname" thành "/ten"
   const db = await connectDb();
   const userCollection = db.collection("taikhoan");
   let id = req.params.id;
@@ -159,10 +171,10 @@ router.get("/users/:id/fullname", async (req, res, next) => {
   try {
     const user = await userCollection.findOne(
       { _id: ObjectId(id) }, // Sử dụng ObjectId
-      { projection: { fullname: 1 } } // Chỉ lấy trường fullname
+      { projection: { Ten: 1 } } // Thay "fullname" thành "Ten"
     ); 
     if (user) {
-      res.status(200).json({ fullname: user.fullname });
+      res.status(200).json({ Ten: user.Ten }); // Thay "fullname" thành "Ten"
     } else {
       res.status(404).json({ message: "Không tìm thấy người dùng" });
     }
@@ -187,7 +199,7 @@ router.get('/detailuser', async (req, res, next) => {
         }
         const db = await connectDb();
         const userCollection = db.collection('taikhoan');
-        const userInfo = await userCollection.findOne({ email: user.email });
+        const userInfo = await userCollection.findOne({ Email: user.Email });
         if (userInfo) {
             res.status(200).json(userInfo);
         } else {
@@ -195,6 +207,5 @@ router.get('/detailuser', async (req, res, next) => {
         }
     });
 });
-
 
 module.exports = router;

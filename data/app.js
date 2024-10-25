@@ -23,6 +23,8 @@ var authRouter = require('./routes/auth');
 var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
 var suatchieuRouter = require('./routes/suatchieu');
+var loaiveRouter = require('./routes/loaive');
+var veRouter = require('./routes/ve');
 
 var app = express();
 
@@ -63,6 +65,8 @@ app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/suatchieu', suatchieuRouter);
+app.use('loaive', loaiveRouter);
+app.use('ve', veRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

@@ -575,10 +575,10 @@ const data = {
             {
               Hang: "A",
               Ghe: [
-                {id: 1,SoGhe: "A01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "A02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 1, SoGhe: "A01", LoaiGhe: "thuong", TrangThai: "controng", },
+                { id: 2, SoGhe: "A02", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 3, SoGhe: "A03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "A04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 4, SoGhe: "A04", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 5, SoGhe: "A05", LoaiGhe: "thuong", TrangThai: "dadat" },
               ],
             },
@@ -586,10 +586,10 @@ const data = {
             {
               Hang: "B",
               Ghe: [
-                {id: 1,SoGhe: "B01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "B02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 1, SoGhe: "B01", LoaiGhe: "thuong", TrangThai: "controng", },
+                { id: 2, SoGhe: "B02", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 3, SoGhe: "B03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "B04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 4, SoGhe: "B04", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 5, SoGhe: "B05", LoaiGhe: "thuong", TrangThai: "dadat" },
               ],
             },
@@ -621,8 +621,8 @@ const data = {
           ],
         },
 
-         // Phòng chiếu 2
-         {
+        // Phòng chiếu 2
+        {
           id: "screenId2",
           TenPhongChieu: "Phòng chiếu 1",
           SoLuongGhe: 10, // Total seats
@@ -631,10 +631,10 @@ const data = {
             {
               Hang: "A",
               Ghe: [
-                {id: 1,SoGhe: "A01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "A02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 1, SoGhe: "A01", LoaiGhe: "thuong", TrangThai: "controng", },
+                { id: 2, SoGhe: "A02", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 3, SoGhe: "A03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "A04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 4, SoGhe: "A04", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 5, SoGhe: "A05", LoaiGhe: "thuong", TrangThai: "dadat" },
               ],
             },
@@ -642,10 +642,10 @@ const data = {
             {
               Hang: "B",
               Ghe: [
-                {id: 1,SoGhe: "B01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "B02",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 1, SoGhe: "B01", LoaiGhe: "thuong", TrangThai: "controng", },
+                { id: 2, SoGhe: "B02", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 3, SoGhe: "B03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "B04",LoaiGhe: "thuong",TrangThai: "controng",},
+                { id: 4, SoGhe: "B04", LoaiGhe: "thuong", TrangThai: "controng", },
                 { id: 5, SoGhe: "B05", LoaiGhe: "thuong", TrangThai: "dadat" },
               ],
             },
@@ -1111,8 +1111,6 @@ const data = {
       DieuKien: "Áp dụng cho khách hàng dưới 12 tuổi.",
     },
   ],
-
-  
 };
 
 async function main() {
@@ -1137,7 +1135,6 @@ async function main() {
       { name: "chitiethoadon", data: data.ChoTietHoaDon },
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
-      { name: "ve", data: data.Ve },
     ];
 
     for (const { name, data } of collections) {

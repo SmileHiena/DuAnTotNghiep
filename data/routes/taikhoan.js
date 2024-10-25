@@ -118,7 +118,6 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
       GioiTinh,
       SDT,
       Email,
-      FullName: Ten,
       IsAdmin: false, // Mặc định là false, có thể thay đổi
       LichSuMuaVe: []
     };

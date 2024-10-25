@@ -8,12 +8,12 @@ import Link from 'next/link';
 const Login = () => {
     const formik = useFormik({
         initialValues: {
-            usernameOrEmail: '', // Thay đổi từ email sang usernameOrEmail
-            password: '',
+            usernameOrEmail: '', // Tên đăng nhập hoặc email
+            Matkhau: '', // Mật khẩu
         },
         validationSchema: Yup.object({
-            usernameOrEmail: Yup.string().required('Bắt buộc'), // Chỉ yêu cầu trường này
-            password: Yup.string().required('Bắt buộc'),
+            usernameOrEmail: Yup.string().required('Bắt buộc'), // Yêu cầu trường này
+            Matkhau: Yup.string().required('Bắt buộc'), // Yêu cầu trường mật khẩu
         }),
         onSubmit: async (values, { setSubmitting, setFieldError }) => {
             try {
@@ -22,26 +22,31 @@ const Login = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ usernameOrEmail: values.usernameOrEmail, password: values.password }), // Gửi username hoặc email
+                    body: JSON.stringify({
+                        usernameOrEmail: values.usernameOrEmail, // Gửi username hoặc email
+                        MatKhau: values.Matkhau // Gửi mật khẩu
+                    }),
                 });
 
                 if (!res.ok) {
                     const errorData = await res.json();
                     throw new Error(errorData.message || 'Đăng nhập thất bại');
                 }
+
                 // Lưu token vào cookie
                 const data = await res.json();
                 document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
-                // Chuyển trang theo role
+
+                // Chuyển trang theo vai trò
                 const token = data.token;
                 const payload = JSON.parse(atob(token.split('.')[1]));
-                if (payload.role === 'admin') {
-                    window.location.href = 'http://localhost:3002';
+                if (payload.isAdmin) { // Kiểm tra vai trò admin
+                    window.location.href = 'http://localhost:3002'; // Chuyển đến trang admin
                 } else {
-                    window.location.href = 'http://localhost:3001';
+                    window.location.href = 'http://localhost:3001'; // Chuyển đến trang người dùng
                 }
             } catch (error) {
-                setFieldError('general', error.message);
+                setFieldError('general', error.message); // Hiển thị lỗi chung
             } finally {
                 setSubmitting(false);
             }
@@ -75,21 +80,21 @@ const Login = () => {
                 />
                 {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail && <p className="text-red-500">{formik.errors.usernameOrEmail}</p>}
 
-                <label htmlFor="password" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+                <label htmlFor="MatKhau" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
                     Mật khẩu*
                 </label>
                 <input
                     type="password"
-                    id="password"
-                    name="password"
+                    id="MatKhau"
+                    name="Matkhau"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.password}
+                    value={formik.values.Matkhau}
                     placeholder="Mật khẩu"
                     required
-                    className={`w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 rounded-md text-sm sm:text-base ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-white'} bg-[#212529] placeholder-white placeholder-opacity-50`}
+                    className={`w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 rounded-md text-sm sm:text-base ${formik.touched.Matkhau && formik.errors.Matkhau ? 'border-red-500' : 'border-white'} bg-[#212529] placeholder-white placeholder-opacity-50`}
                 />
-                {formik.touched.password && formik.errors.password && <p className="text-red-500">{formik.errors.password}</p>}
+                {formik.touched.MatKhau && formik.errors.Matkhau && <p className="text-red-500">{formik.errors.Matkhau}</p>}
 
                 <div className="flex justify-between mb-3 text-xs sm:text-sm w-full md:w-[520px]">
                     <label className="flex items-center">

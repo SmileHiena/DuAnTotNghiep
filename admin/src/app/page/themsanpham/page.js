@@ -4,6 +4,8 @@ import Head from "next/head";
 import { Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ThemSanPham = () => {
   const [theloai, setTheloai] = useState([]);
@@ -25,6 +27,20 @@ const ThemSanPham = () => {
     },
     ThongTinPhim: "",
   });
+
+  const notify = () => {
+    toast.success("Xóa phim thành công!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
 
   const router = useRouter();
 
@@ -90,7 +106,7 @@ const ThemSanPham = () => {
       if (!response.ok) throw new Error("Failed to add product.");
 
       const data = await response.json();
-      alert("Thêm sản phẩm thành công!");
+      notify();
       router.push("/page/sanpham");
     } catch (error) {
       console.error("Lỗi khi thêm sản phẩm:", error);
@@ -178,8 +194,8 @@ const ThemSanPham = () => {
                       required
                     >
                       <option value="">-- Chọn Tình Trạng --</option>
-                      <option>Đang chiếu</option>
-                      <option>Sắp chiếu</option>
+                      <option>dangchieu</option>
+                      <option>sapchieu</option>
                     </Form.Control>
                   </Form.Group>
 
@@ -347,6 +363,7 @@ const ThemSanPham = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </main>
     </>
   );

@@ -10,7 +10,7 @@ const SapChieu = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch("http://localhost:3000/sanpham/sapchieu/");
+        const response = await fetch("http://localhost:3000/sanpham/sapchieu");
         console.log("Response status:", response.status); 
         if (!response.ok) throw new Error("Failed to fetch movies.");
 
@@ -32,7 +32,7 @@ const SapChieu = () => {
         <div className="sap-chieu__container">
           <div className="sap-chieu__row">
             {movies.map((movie) => ( 
-              <Link key={movie.id} href={`/page/details/${movie.id}`} passHref>
+              <Link key={movie.id} href={`/page/details/${movie.id}`} passHref className="no-underline"> {/* Added class here */}
                 <div className="sap-chieu__card cursor-pointer">
                   <img
                     src={movie.Anh}
