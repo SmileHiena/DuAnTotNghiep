@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const { ObjectId } = require('mongodb'); // Import ObjectId để tìm kiếm theo ID
-
+const path = require('path');
 // Thiết lập nơi lưu trữ và tên file
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -30,11 +30,11 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 // Import model
 const connectDb = require("../models/db");
 
-router.post("/register", upload.single("image"), async (req, res) => {
+router.post("/register", upload.single("Anh"), async (req, res) => {
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
-    const { Email, MatKhau, SDT, TenDangNhap, FullName, NgaySinh, DiaChi, GioiTinh } = req.body;
+    const { Email, MatKhau, SDT, TenDangNhap, Ten, NgaySinh, DiaChi, GioiTinh } = req.body;
     const imagePath = req.file ? req.file.path : null;
     // const newId = (await collection.countDocuments()) + 1;
     const { v4: uuidv4 } = require('uuid');
@@ -63,8 +63,8 @@ router.post("/register", upload.single("image"), async (req, res) => {
       MatKhau: hashPassword,
       SDT,
       TenDangNhap,
-      FullName,
-      image: imagePath ? req.file.filename : null,
+      Ten,
+      Anh: imagePath ? req.file.filename : null,
       isAdmin: false,
     };
 
@@ -80,6 +80,121 @@ router.post("/register", upload.single("image"), async (req, res) => {
     return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
   }
 });
+
+// Route cập nhật thông tin người dùng
+router.put("/updateUser/:id", async (req, res) => {
+  try {
+    const db = await connectDb();
+    const userCollection = db.collection("taikhoan");
+    const userId = req.params.id; // lấy id trực tiếp dưới dạng chuỗi
+
+    // Lấy thông tin cần cập nhật từ req.body
+    const { Ten, Email, DiaChi, SDT, NgaySinh } = req.body;
+
+    // Kiểm tra xem email mới có trùng với email của người dùng khác hay không
+    const existingUser = await userCollection.findOne({ Email, id: { $ne: userId } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email đã tồn tại" });
+    }
+
+    // Thực hiện cập nhật thông tin người dùng
+    const updateUser = await userCollection.updateOne(
+      { id: userId },
+      {
+        $set: {
+          Ten,
+          Email,
+          DiaChi,
+          SDT,
+          NgaySinh,
+        },
+      }
+    );
+
+    if (updateUser.modifiedCount > 0) {
+      return res.status(200).json({ message: "Cập nhật thành công" });
+    } else {
+      return res.status(400).json({ message: "Không có thay đổi nào" });
+    }
+  } catch (error) {
+    console.error("Update error:", error);
+    return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+  }
+});
+
+
+router.put('/updateprofilepicture/:id', upload.single("Anh"), async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const fileName = req.file ? req.file.filename : null; // Lấy tên file thay vì đường dẫn
+
+    const db = await connectDb(); // Đảm bảo kết nối đến MongoDB
+    const userCollection = db.collection('taikhoan');
+
+    // Kiểm tra nếu fileName là null
+    if (!fileName) {
+      return res.status(400).json({ message: 'Không có ảnh nào được tải lên.' });
+    }
+
+    // Cập nhật tên file trong cơ sở dữ liệu
+    await userCollection.updateOne(
+      { id: userId },
+      { $set: { Anh: fileName } } // Cập nhật trường 'Anh' với tên file
+    );
+
+    return res.status(200).json({ message: 'Cập nhật ảnh thành công!', image: fileName });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Đã xảy ra lỗi!' });
+  }
+});
+
+
+router.put("/updatepassword/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { oldPassword, newPassword } = req.body;
+
+    // Kết nối tới MongoDB và chọn collection 'taikhoan'
+    const db = await connectDb();
+    const userCollection = db.collection("taikhoan");
+
+    // Tìm người dùng theo ID
+    const user = await userCollection.findOne({ id: userId });
+    if (!user) {
+      return res.status(404).json({ message: 'Người dùng không tồn tại.' });
+    }
+
+    // Kiểm tra nếu user.MatKhau không hợp lệ
+    if (!user.MatKhau) {
+      return res.status(400).json({ message: 'Mật khẩu không hợp lệ.' });
+    }
+
+    console.log('Old Password:', oldPassword); // Kiểm tra giá trị oldPassword
+    console.log('User Password Hash:', user.MatKhau); // Kiểm tra giá trị mật khẩu hash trong DB
+
+    // Kiểm tra mật khẩu cũ
+    const isMatch = await bcrypt.compare(oldPassword, user.MatKhau);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Mật khẩu cũ không đúng.' });
+    }
+
+    // Mã hóa mật khẩu mới
+    const hashedPassword = await bcrypt.hash(newPassword, 10); // Sử dụng newPassword
+
+    // Cập nhật mật khẩu mới trong cơ sở dữ liệu
+    await userCollection.updateOne(
+      { id: userId },
+      { $set: { MatKhau: hashedPassword } } // Đảm bảo tên biến đồng nhất
+    );
+
+    return res.status(200).json({ message: 'Đổi mật khẩu thành công.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Đã xảy ra lỗi trong quá trình đổi mật khẩu.' });
+  }
+});
+
 
 // Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
@@ -114,7 +229,7 @@ router.post("/login", async (req, res, next) => {
         TenDangNhap: user.TenDangNhap,
         Email: user.Email,
         SDT: user.SDT,
-        FullName: user.FullName,
+        Ten: user.Ten,
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || "secretkey",
@@ -127,7 +242,7 @@ router.post("/login", async (req, res, next) => {
       TenDangNhap: user.TenDangNhap,
       Email: user.Email,
       SDT: user.SDT,
-      FullName: user.FullName,
+      Ten: user.Ten,
       isAdmin: user.isAdmin,
     });
   } catch (error) {
@@ -162,7 +277,7 @@ router.get("/users/:id", async (req, res, next) => {
 });
 
 // Thêm API để lấy tên người dùng theo ID
-router.get("/users/:id/fullname", async (req, res, next) => {
+router.get("/users/:id/Ten", async (req, res, next) => {
   const db = await connectDb();
   const userCollection = db.collection("taikhoan");
   let id = req.params.id;
@@ -170,10 +285,10 @@ router.get("/users/:id/fullname", async (req, res, next) => {
   try {
     const user = await userCollection.findOne(
       { _id: ObjectId(id) }, // Sử dụng ObjectId
-      { projection: { fullname: 1 } } // Chỉ lấy trường fullname
+      { projection: { Ten: 1 } } // Chỉ lấy trường Ten
     ); 
     if (user) {
-      res.status(200).json({ fullname: user.fullname });
+      res.status(200).json({ Ten: user.Ten });
     } else {
       res.status(404).json({ message: "Không tìm thấy người dùng" });
     }

@@ -52,12 +52,12 @@ const Profile = () => {
         <div className="relative -mt-20 flex ml-20">
         <div className="flex flex-col items-center ml-12" style={{ marginTop: '-20px' }}>
     <img 
-      src={`http://localhost:3000/images/${accountInfo.image}`} // Đường dẫn tới hình ảnh
+      src={`http://localhost:3000/images/${accountInfo.Anh}`} // Đường dẫn tới hình ảnh
       alt="Profile" 
       className="rounded-full w-36 h-36 border-5 border-white object-cover " 
     />
     <div className="flex justify-center mt-1">
-    <h2 className="text-3xl font-semibold text-white">{accountInfo.FullName}</h2> {/* Đặt màu chữ thành trắng */}
+    <h2 className="text-3xl font-semibold text-white">{accountInfo.Ten}</h2> {/* Đặt màu chữ thành trắng */}
 
     </div>
   </div>
@@ -68,7 +68,7 @@ const Profile = () => {
             <h2 className="text-2xl text-center text-white font-semibold">THÔNG TIN KHÁCH HÀNG</h2>
             <div className="flex items-center ">
               <FontAwesomeIcon icon={faUser} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}><strong>Họ và Tên:</strong> {accountInfo.FullName}</p>
+              <p className="text-white" style={{ marginTop: '20px' }}><strong>Họ và Tên:</strong> {accountInfo.Ten}</p>
             </div>
             <div className="flex items-center ">
               <FontAwesomeIcon icon={faPhone} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
