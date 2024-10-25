@@ -559,126 +559,138 @@ const data = {
   ],
 
   // ----- Rạp -----
-  Rap: [
-    {
-      id: 1,
-      TenRap: "Rạp ScreenTime Quận 12",
-      ViTri: "Vincom Center, Quận 12, TP.HCM",
-      PhongChieu: [
-        // Phòng chiếu 1
+      Rap: [
         {
-          id: "screenId1",
-          TenPhongChieu: "Phòng chiếu 1",
-          SoLuongGhe: 10, // Total seats
-          Ghe: [
-            // Hàng A
+          id: 1,
+          TenRap: "Rạp ScreenTime Quận 12",
+          ViTri: "Vincom Center, Quận 12, TP.HCM",
+          PhongChieu: [
+            // Phòng chiếu 1
             {
-              Hang: "A",
+              id: "screenId1",
+              TenPhongChieu: "Phòng chiếu 1",
+              SoLuongGhe: 10, // Total seats
               Ghe: [
-                {id: 1,SoGhe: "A01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "A02",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 3, SoGhe: "A03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "A04",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 5, SoGhe: "A05", LoaiGhe: "thuong", TrangThai: "dadat" },
-              ],
-            },
-            // Hàng B
-            {
-              Hang: "B",
-              Ghe: [
-                {id: 1,SoGhe: "B01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "B02",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 3, SoGhe: "B03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "B04",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 5, SoGhe: "B05", LoaiGhe: "thuong", TrangThai: "dadat" },
-              ],
-            },
-          ],
-          LichChieu: [
-            {
-              IdSuatChieu: 1,
-              GioChieu: [
+                // Hàng A
                 {
-                  id: "showtimeId1",
-                  Gio: "18:00",
-                  MaPhim: 1,
-                  TrangThai: "dadat",
+                  Hang: "A",
+                  Ghe: [
+                    {id: 1,SoGhe: "A01", TrangThai: "controng",},
+                    {id: 2,SoGhe: "A02", TrangThai: "controng",},
+                    { id: 3, SoGhe: "A03", LTrangThai: "dadat" },
+                    {id: 4,SoGhe: "A04", TrangThai: "controng",},
+                    { id: 5, SoGhe: "A05", TrangThai: "dadat" },
+                  ],
                 },
+                // Hàng B
                 {
-                  id: "showtimeId2",
-                  Gio: "20:00",
-                  MaPhim: 2,
-                  TrangThai: "chuadat",
-                },
-                {
-                  id: "showtimeId3",
-                  Gio: "22:00",
-                  MaPhim: 3,
-                  TrangThai: "chuadat",
+                  Hang: "B",
+                  Ghe: [
+                    {id: 1,SoGhe: "B01", TrangThai: "controng",},
+                    {id: 2,SoGhe: "B02", TrangThai: "controng",},
+                    { id: 3, SoGhe: "B03", TrangThai: "dadat" },
+                    {id: 4,SoGhe: "B04", TrangThai: "controng",},
+                    { id: 5, SoGhe: "B05", TrangThai: "dadat" },
+                  ],
                 },
               ],
+              LichChieu: [
+                {
+                  IdSuatChieu: 1,
+                  GioChieu: [
+                    {
+                      id: "showtimeId1",
+                      Gio: "18:00",
+                      MaPhim: 1,
+                      TrangThai: "hetcho",
+                    },
+                    {
+                      id: "showtimeId2",
+                      Gio: "20:00",
+                      MaPhim: 2,
+                      TrangThai: "controng",
+                    },
+                    {
+                      id: "showtimeId3",
+                      Gio: "22:00",
+                      MaPhim: 3,
+                      TrangThai: "controng",
+                    },
+                  ],
+                },
+              ],
             },
-          ],
-        },
 
-         // Phòng chiếu 2
-         {
-          id: "screenId2",
-          TenPhongChieu: "Phòng chiếu 2",
-          SoLuongGhe: 10, // Total seats
-          Ghe: [
-            // Hàng A
+            // Phòng chiếu 2
             {
-              Hang: "A",
+              id: "screenId2",
+              TenPhongChieu: "Phòng chiếu 2",
+              SoLuongGhe: 10, // Total seats
               Ghe: [
-                {id: 1,SoGhe: "A01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "A02",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 3, SoGhe: "A03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "A04",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 5, SoGhe: "A05", LoaiGhe: "thuong", TrangThai: "dadat" },
-              ],
-            },
-            // Hàng B
-            {
-              Hang: "B",
-              Ghe: [
-                {id: 1,SoGhe: "B01",LoaiGhe: "thuong",TrangThai: "controng",},
-                {id: 2,SoGhe: "B02",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 3, SoGhe: "B03", LoaiGhe: "thuong", TrangThai: "dadat" },
-                {id: 4,SoGhe: "B04",LoaiGhe: "thuong",TrangThai: "controng",},
-                { id: 5, SoGhe: "B05", LoaiGhe: "thuong", TrangThai: "dadat" },
-              ],
-            },
-          ],
-          LichChieu: [
-            {
-              IdSuatChieu: 1,
-              GioChieu: [
+                // Hàng A
                 {
-                  id: "showtimeId1",
-                  Gio: "18:00",
-                  MaPhim: 1,
-                  TrangThai: "dadat",
+                  Hang: "A",
+                  Ghe: [
+                    {id: 1,SoGhe: "A01", TrangThai: "controng",},
+                    {id: 2,SoGhe: "A02", TrangThai: "controng",},
+                    { id: 3, SoGhe: "A03", TrangThai: "dadat" },
+                    {id: 4,SoGhe: "A04", TrangThai: "controng",},
+                    { id: 5, SoGhe: "A05", TrangThai: "dadat" },
+                  ],
                 },
+                // Hàng B
                 {
-                  id: "showtimeId2",
-                  Gio: "20:00",
-                  MaPhim: 2,
-                  TrangThai: "chuadat",
+                  Hang: "B",
+                  Ghe: [
+                    {id: 1,SoGhe: "B01", TrangThai: "controng",},
+                    {id: 2,SoGhe: "B02", TrangThai: "controng",},
+                    { id: 3, SoGhe: "B03", TrangThai: "dadat" },
+                    {id: 4,SoGhe: "B04", TrangThai: "controng",},
+                    { id: 5, SoGhe: "B05", TrangThai: "dadat" },
+                  ],
                 },
+                // Hàng C
                 {
-                  id: "showtimeId3",
-                  Gio: "22:00",
-                  MaPhim: 3,
-                  TrangThai: "chuadat",
+                  Hang: "C",
+                  Ghe: [
+                    {id: 1,SoGhe: "B01",TrangThai: "controng",},
+                    {id: 2,SoGhe: "B02", TrangThai: "controng",},
+                    { id: 3, SoGhe: "B03", TrangThai: "dadat" },
+                    {id: 4,SoGhe: "B04", TrangThai: "controng",},
+                    { id: 5, SoGhe: "B05", TrangThai: "dadat" },
+                    { id: 6, SoGhe: "B06", TrangThai: "dadat" },
+                  ],
+                },
+              ],
+              LichChieu: [
+                {
+                  IdSuatChieu: 1,
+                  GioChieu: [
+                    {
+                      id: "showtimeId1",
+                      Gio: "18:00",
+                      MaPhim: 1,
+                      TrangThai: "hetcho",
+                    },
+                    {
+                      id: "showtimeId2",
+                      Gio: "20:00",
+                      MaPhim: 2,
+                      TrangThai: "controng",
+                    },
+                    {
+                      id: "showtimeId3",
+                      Gio: "22:00",
+                      MaPhim: 3,
+                      TrangThai: "controng",
+                    },
+                  ],
                 },
               ],
             },
           ],
         },
       ],
-    },
-  ],
 
   // ----- Suất Chiếu -----
   SuatChieu: [

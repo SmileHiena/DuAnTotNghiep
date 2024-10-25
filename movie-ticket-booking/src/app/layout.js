@@ -6,6 +6,7 @@ import Header from "./component/header";
 import Footer from "./component/footer";
 import { Provider } from 'react-redux';
 import store from './page/store/store';
+// import DatVe from "./components/DatVe"; // hoặc đường dẫn tới component
 
 
 // export const metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({ children }) {
       <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }}>
       <Provider store={store}>
         <Header />
+        {/* <DatVe /> */}
         {children}
         <Footer />
 
