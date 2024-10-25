@@ -71,7 +71,7 @@ const Combo = () => {
         });
 
         setCombos((prev) =>
-          prev.map((cmb) => (cmb._id === currentCombo._id ? { ...currentCombo, Anh: file ? `/images/${file.name}` : cmb.Anh } : cmb))
+          prev.map((cmb) => (cmb._id === currentCombo._id ? { ...currentCombo, Anh: file ? `/images/combo/${file.name}` : cmb.Anh } : cmb))
         );
         handleCloseModal();
       } catch (error) {

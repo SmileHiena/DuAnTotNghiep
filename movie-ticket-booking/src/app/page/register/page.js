@@ -8,13 +8,12 @@ import {
   registerFailure,
   clearMessages,
 } from "../store/authSlice";
-// import { image } from "html2canvas/dist/types/css/types/image";
 
 const Register = () => {
   const dispatch = useDispatch();
   const { error, success } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
-    FullName: "",
+    Ten: "",
     SDT: "",
     NgaySinh: "",
     DiaChi: "",
@@ -23,7 +22,7 @@ const Register = () => {
     MatKhau: "",
     TenDangNhap: "",
     confirmPassword: "",
-  image: null,
+    Anh: null,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -48,7 +47,7 @@ const Register = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+    setFormData({ ...formData, Anh: e.target.files[0] });
   };
 
   const handleRegister = async (e) => {
@@ -57,7 +56,7 @@ const Register = () => {
     if (!agreeTerms) {
       return dispatch(registerFailure("Bạn cần đồng ý với điều khoản."));
     }
-    // Password validation
+
     if (formData.MatKhau.length < 6) {
       return dispatch(registerFailure("Mật khẩu phải có ít nhất 6 ký tự."));
     }
@@ -78,7 +77,7 @@ const Register = () => {
     }
 
     const data = new FormData();
-    data.append("FullName", formData.FullName);
+    data.append("Ten", formData.Ten);
     data.append("SDT", formData.SDT);
     data.append("NgaySinh", formData.NgaySinh);
     data.append("DiaChi", formData.DiaChi);
@@ -86,7 +85,7 @@ const Register = () => {
     data.append("Email", formData.Email);
     data.append("TenDangNhap", formData.TenDangNhap);
     data.append("MatKhau", formData.MatKhau);
-    data.append("image", formData.image);
+    data.append("Anh", formData.Anh);
 
     try {
       const response = await axios.post(
@@ -124,30 +123,30 @@ const Register = () => {
         </h1>
 
         <label
-          htmlFor="FullName"
+          htmlFor="Ten"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Họ và tên *
         </label>
         <input
           type="text"
-          id="FullName"
+          id="Ten"
           placeholder="Họ và tên"
           required
-          value={formData.FullName}
+          value={formData.Ten}
           onChange={handleChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
         <label
-          htmlFor="image"
+          htmlFor="Anh"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
           Chọn hình ảnh đại diện *
         </label>
         <input
           type="file"
-          id="image"
+          id="Anh"
           accept="image/*"
           onChange={handleFileChange}
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] text-white"
@@ -169,7 +168,8 @@ const Register = () => {
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
-        <label
+      
+<label
           htmlFor="Email"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
@@ -316,11 +316,12 @@ const Register = () => {
           />
           <label htmlFor="agreeTerms" className="text-base sm:text-lg">
             Tôi đồng ý với{" "}
-            <Link href="/terms" className="text-blue-500 hover:underline">
+            <Link href="/terms" className="text-[#F5CF49]">
               điều khoản sử dụng
             </Link>
           </label>
         </div>
+
 
         <button
           type="submit"
@@ -332,7 +333,7 @@ const Register = () => {
         <div className="mt-4">
           <span className="text-sm">
             Bạn đã có tài khoản?{" "}
-            <Link href="/page/login" className="text-blue-500 hover:underline">
+            <Link href="/page/login" className="text-[#F5CF49] ml-1">
               Đăng nhập
             </Link>
           </span>

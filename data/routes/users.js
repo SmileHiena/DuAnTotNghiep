@@ -30,32 +30,33 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 // Import model
 const connectDb = require("../models/db");
 
-router.post("/register", upload.single("image"), async (req, res) => {
+router.post("/register", upload.single("Anh"), async (req, res) => { // Thay "image" thành "Anh"
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
-    const { Email, MatKhau, SDT, TenDangNhap, FullName, NgaySinh, DiaChi, GioiTinh } = req.body;
+    const { Email, MatKhau, SDT, TenDangNhap, Ten, NgaySinh, DiaChi, GioiTinh } = req.body; // Thay "FullName" thành "Ten"
     const imagePath = req.file ? req.file.path : null;
-    // const newId = (await collection.countDocuments()) + 1;
-    // const { v4: uuidv4 } = require('uuid');
-    // Check if the email already exists
+    
+    // Tạo ID mới bằng cách đếm số lượng tài liệu
+    const newId = (await userCollection.countDocuments()) + 1;
+
+    // Kiểm tra xem email đã tồn tại chưa
     const existingUser = await userCollection.findOne({ Email });
     const User = await userCollection.findOne({ TenDangNhap });
     if (existingUser) {
       return res.status(400).json({ message: "Email đã tồn tại" });
-
-    // Hash the password
     }
-    if ( User) {
+    
+    if (User) {
       return res.status(400).json({ message: "Tên đăng nhập đã tồn tại" });
-
-    // Hash the password
     }
+
+    // Mã hóa mật khẩu
     const hashPassword = await bcrypt.hash(MatKhau, 10);
 
-    // Create new user object
+    // Tạo đối tượng người dùng mới
     const newUser = {
-      // id: uuidv4(),
+      userId: newId,  // Sử dụng ID tự động
       Email,
       NgaySinh,
       DiaChi,
@@ -63,12 +64,12 @@ router.post("/register", upload.single("image"), async (req, res) => {
       MatKhau: hashPassword,
       SDT,
       TenDangNhap,
-      FullName,
-      image: imagePath ? req.file.filename : null,
+      Ten, // Thay "FullName" thành "Ten"
+      Anh: imagePath ? req.file.filename : null, // Thay "image" thành "Anh"
       isAdmin: false,
     };
 
-    // Insert the new user into the collection
+    // Thêm người dùng mới vào bộ sưu tập
     const result = await userCollection.insertOne(newUser);
     if (result.insertedId) {
       return res.status(200).json({ message: "Đăng ký thành công" });
@@ -84,7 +85,7 @@ router.post("/register", upload.single("image"), async (req, res) => {
 // Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
   const { usernameOrEmail, MatKhau } = req.body;
-     console.log(req.body)
+  console.log(req.body)
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
@@ -114,7 +115,7 @@ router.post("/login", async (req, res, next) => {
         TenDangNhap: user.TenDangNhap,
         Email: user.Email,
         SDT: user.SDT,
-        FullName: user.FullName,
+        Ten: user.Ten, // Thay "FullName" thành "Ten"
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || "secretkey",
@@ -127,7 +128,7 @@ router.post("/login", async (req, res, next) => {
       TenDangNhap: user.TenDangNhap,
       Email: user.Email,
       SDT: user.SDT,
-      FullName: user.FullName,
+      Ten: user.Ten, // Thay "FullName" thành "Ten"
       isAdmin: user.isAdmin,
     });
   } catch (error) {
@@ -162,7 +163,7 @@ router.get("/users/:id", async (req, res, next) => {
 });
 
 // Thêm API để lấy tên người dùng theo ID
-router.get("/users/:id/fullname", async (req, res, next) => {
+router.get("/users/:id/ten", async (req, res, next) => { // Thay "/fullname" thành "/ten"
   const db = await connectDb();
   const userCollection = db.collection("taikhoan");
   let id = req.params.id;
@@ -170,10 +171,10 @@ router.get("/users/:id/fullname", async (req, res, next) => {
   try {
     const user = await userCollection.findOne(
       { _id: ObjectId(id) }, // Sử dụng ObjectId
-      { projection: { fullname: 1 } } // Chỉ lấy trường fullname
+      { projection: { Ten: 1 } } // Thay "fullname" thành "Ten"
     ); 
     if (user) {
-      res.status(200).json({ fullname: user.fullname });
+      res.status(200).json({ Ten: user.Ten }); // Thay "fullname" thành "Ten"
     } else {
       res.status(404).json({ message: "Không tìm thấy người dùng" });
     }
@@ -206,6 +207,5 @@ router.get('/detailuser', async (req, res, next) => {
         }
     });
 });
-
 
 module.exports = router;

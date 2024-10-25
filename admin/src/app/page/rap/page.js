@@ -27,10 +27,9 @@ const RapChieu = () => {
 
     fetchRaps();
   }, []);
-  
+
   const handleDelete = async (rapId) => {
     const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa rạp này không?");
-
     if (confirmDelete) {
       try {
         await fetch(`http://localhost:3000/rap/${rapId}`, {
@@ -57,22 +56,16 @@ const RapChieu = () => {
         },
         body: JSON.stringify(currentRap),
       });
-  
+
       if (response.ok) {
         const updatedRap = await response.json();
-  
-        // Cập nhật danh sách rạp mà không cần tải lại trang
         setRaps((prev) =>
-          prev.map((rap) => (rap._id === currentRap._id ? { ...rap, ...currentRap } : rap))
+          prev.map((rap) => (rap._id === currentRap._id ? updatedRap : rap))
         );
-  
-        // Hiển thị thông điệp thành công
-        alert(updatedRap.message); // Hiển thị thông điệp từ server
-        setCurrentRap(null);
+        alert("Cập nhật rạp thành công!");
         setIsEditModalOpen(false);
       } else {
         const errorData = await response.json();
-        console.error('Lỗi cập nhật rạp:', errorData);
         alert(errorData.message || "Có lỗi xảy ra khi cập nhật rạp!");
       }
     } catch (error) {
@@ -80,6 +73,12 @@ const RapChieu = () => {
     }
   };
 
+  const handleManagePhongChieu = (rap) => {
+    setCurrentRap(rap);
+    // Sử dụng chuỗi URL thay vì đối tượng
+    router.push(`/page/PhongChieu/${rap._id}`); // Cập nhật đường dẫn tương ứng
+  };
+  
   if (loading) {
     return <p>Đang tải dữ liệu...</p>;
   }
@@ -121,7 +120,7 @@ const RapChieu = () => {
                       <th>Mã rạp</th>
                       <th>Tên Rạp</th>
                       <th>Vị Trí</th>
-                      <th>Số Phòng Chiếu</th> {/* Thêm cột Số Phòng Chiếu */}
+                      <th>Số Phòng Chiếu</th>
                       <th>Tính năng</th>
                     </tr>
                   </thead>
@@ -132,14 +131,13 @@ const RapChieu = () => {
                           <td>{rap._id}</td>
                           <td>{rap.TenRap}</td>
                           <td>{rap.ViTri}</td>
-                          <td>{rap.PhongChieu && Array.isArray(rap.PhongChieu) ? rap.PhongChieu.length : 0}</td> {/* Hiển thị số lượng phòng chiếu */}
-
+                          <td>{rap.PhongChieu.length}</td>
                           <td>
                             <button
                               className="btn btn-primary btn-sm mr-3"
                               type="button"
                               onClick={() => {
-                                setCurrentRap({ ...rap }); // Tạo một bản sao để không thay đổi trực tiếp đối tượng rạp
+                                setCurrentRap({ ...rap });
                                 setIsEditModalOpen(true);
                               }}
                             >
@@ -152,12 +150,19 @@ const RapChieu = () => {
                             >
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
+                            <button
+                              className="btn btn-info btn-sm"
+                              type="button"
+                              onClick={() => handleManagePhongChieu(rap)} // Gọi hàm quản lý phòng chiếu
+                            >
+                              <FontAwesomeIcon icon={faPenToSquare} /> Quản lý phòng chiếu
+                            </button>
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5">Không có rạp nào được tìm thấy</td> {/* Cập nhật số cột */}
+                        <td colSpan="5">Không có rạp nào được tìm thấy</td>
                       </tr>
                     )}
                   </tbody>
@@ -169,16 +174,7 @@ const RapChieu = () => {
       </main>
 
       {/* Modal Sửa Rạp Chiếu */}
-      <div
-        className={`modal fade ${isEditModalOpen ? "show" : ""}`}
-        id="ModalEditRap"
-        tabIndex="-1"
-        role="dialog"
-        aria-hidden={!isEditModalOpen}
-        data-backdrop="static"
-        data-keyboard="false"
-        style={{ display: isEditModalOpen ? "block" : "none" }}
-      >
+      <div className={`modal fade ${isEditModalOpen ? "show" : ""}`} id="ModalEditRap" tabIndex="-1" role="dialog" aria-hidden={!isEditModalOpen} data-backdrop="static" data-keyboard="false" style={{ display: isEditModalOpen ? "block" : "none" }}>
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-body">
@@ -193,7 +189,6 @@ const RapChieu = () => {
                       name="TenRap"
                       value={currentRap.TenRap}
                       onChange={handleEditInputChange}
-                      required
                     />
                   </div>
                   <div className="form-group col-md-6">
@@ -204,25 +199,17 @@ const RapChieu = () => {
                       name="ViTri"
                       value={currentRap.ViTri}
                       onChange={handleEditInputChange}
-                      required
                     />
                   </div>
                 </div>
               )}
-
-              <button
-                className="btn btn-save mr-3"
-                type="button"
-                onClick={handleEditSubmit}
-              >
-                Cập nhật
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-primary" onClick={handleEditSubmit}>
+                Lưu
               </button>
-              <button
-                className="btn btn-cancel"
-                type="button"
-                onClick={() => setIsEditModalOpen(false)}
-              >
-                Hủy bỏ
+              <button className="btn btn-danger" onClick={() => setIsEditModalOpen(false)}>
+                Đóng
               </button>
             </div>
           </div>
