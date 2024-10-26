@@ -8,6 +8,7 @@ import {
   registerFailure,
   clearMessages,
 } from "../store/authSlice";
+// import { image } from "html2canvas/dist/types/css/types/image";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Register = () => {
     MatKhau: "",
     TenDangNhap: "",
     confirmPassword: "",
-    Anh: null,
+  Anh: null,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -56,7 +57,7 @@ const Register = () => {
     if (!agreeTerms) {
       return dispatch(registerFailure("Bạn cần đồng ý với điều khoản."));
     }
-
+    // Password validation
     if (formData.MatKhau.length < 6) {
       return dispatch(registerFailure("Mật khẩu phải có ít nhất 6 ký tự."));
     }
@@ -168,8 +169,7 @@ const Register = () => {
           className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50"
         />
 
-      
-<label
+        <label
           htmlFor="Email"
           className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"
         >
@@ -316,12 +316,11 @@ const Register = () => {
           />
           <label htmlFor="agreeTerms" className="text-base sm:text-lg">
             Tôi đồng ý với{" "}
-            <Link href="/terms" className="text-[#F5CF49]">
+            <Link href="/terms" className="text-blue-500 hover:underline">
               điều khoản sử dụng
             </Link>
           </label>
         </div>
-
 
         <button
           type="submit"
@@ -333,7 +332,7 @@ const Register = () => {
         <div className="mt-4">
           <span className="text-sm">
             Bạn đã có tài khoản?{" "}
-            <Link href="/page/login" className="text-[#F5CF49] ml-1">
+            <Link href="/page/login" className="text-blue-500 hover:underline">
               Đăng nhập
             </Link>
           </span>
