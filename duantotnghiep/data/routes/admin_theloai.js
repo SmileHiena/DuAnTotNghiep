@@ -1,32 +1,28 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const multer = require("multer");
-const { ObjectId } = require("mongodb");
-const connectDb = require("../models/db");
-const cors = require("cors");
+const { ObjectId } = require('mongodb');
+const connectDb = require('../models/db');
+const multer = require('multer');
 
-router.use(cors());
-
-// Set storage and filename
+// Set up multer for file uploads
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/"); // Destination folder for uploads
+  destination: (req, file, cb) => {
+    cb(null, "./public/images/");
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Unique file name
+  filename: (req, file, cb) => {
+    cb(null, (file.originalname));
   },
 });
 
-// Check uploaded file (accept only images)
-function checkFileUpload(req, file, cb) {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return cb(new Error("You can only upload image files"));
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb(new Error("Bạn chỉ được upload file ảnh"));
+    }
+    cb(null, true);
   }
-  cb(null, true);
-}
-
-// Upload file with image check
-let upload = multer({ storage: storage, fileFilter: checkFileUpload });
+});
 
 // API to get the list of products
 router.get("/", async (req, res) => {
@@ -46,16 +42,33 @@ router.get("/", async (req, res) => {
   }
 });
 
-// API to upload an image
-router.post("/upload", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "No file uploaded" });
+// API to add a new event
+router.post("/add", upload.single('Anh'), async (req, res) => {
+  try {
+    
+    const eventId = new ObjectId(); 
+
+    const newCategory = {
+      _id: eventId,
+      Ten: req.body.Ten, // Accessing the 'Ten' property directly
+      Anh: req.file ? `/images/theloai/${req.file.filename}` : "", // Use the correct path
+    };
+
+   
+
+    const db = await connectDb();
+    const categoryCollection = db.collection("theloai"); // Assuming your collection is named "theloai"
+    await categoryCollection.insertOne(newCategory);
+
+    res.status(201).json(newCategory);
+  } catch (error) {
+    console.error("Error adding category:", error);
+    res.status(500).json({ message: "Failed to add category", error: error.message });
   }
-  res.status(200).json({ message: "File uploaded successfully", file: req.file });
 });
 
 
-// API để xóa sản phẩm
+// API để xóa thể loại
 router.delete("/:id", async (req, res) => {
   try {
     const db = await connectDb();

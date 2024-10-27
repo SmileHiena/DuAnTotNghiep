@@ -62,7 +62,7 @@ const Footer = () => {
         <div>
           <p>© 2024 Tickerman. All rights reserved.</p>
         </div>
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 no-underline text-white">
           <a href="#">Chính sách bảo mật</a>
           <a href="#">Tin điện ảnh</a>
           <a href="#">Hỏi và đáp</a>

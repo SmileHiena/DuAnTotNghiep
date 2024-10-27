@@ -142,7 +142,7 @@ const MovieList = ({ apiUrl, title }) => {
             currentMovies.map((movie, index) => (
               <div key={index} className="text-center">
                 <img
-                  src={`/images/phim/${movie.Anh}`}
+                  src={`${movie.Anh}`}
                   alt={`Poster of ${movie.Ten}`}
                   className="w-full h-auto max-w-[250px] max-h-[350px] mx-auto rounded"
                 />
@@ -159,9 +159,8 @@ const MovieList = ({ apiUrl, title }) => {
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${
-              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
           >
             &larr;
           </button>
@@ -186,9 +185,8 @@ const MovieList = ({ apiUrl, title }) => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${
-              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+              }`}
           >
             &rarr;
           </button>

@@ -13,7 +13,7 @@ const TheLoai = () => {
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
-        const response = await fetch("http://localhost:3000/theloai/");
+        const response = await fetch("http://localhost:3000/theloai");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -86,7 +86,7 @@ const TheLoai = () => {
                     href="/form-add-category"
                     title="Thêm"
                   >
-                    <i className="fas fa-plus"></i> Tạo mới thể loại
+                    <i className="fas fa-plus"></i> Thêm mới
                   </a>
                 </div>
               </div>
@@ -101,7 +101,7 @@ const TheLoai = () => {
                     <th>Mã thể loại</th>
                     <th>Tên thể loại</th>
                     <th>Ảnh thể loại</th>
-                    <th width="100">Tính năng</th>
+                    <th width="120">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -114,7 +114,7 @@ const TheLoai = () => {
                       </td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash"
+                          className="btn btn-primary btn-sm trash mr-3"
                           type="button"
                           title="Xóa"
                           onClick={() => handleDelete(item.id)}

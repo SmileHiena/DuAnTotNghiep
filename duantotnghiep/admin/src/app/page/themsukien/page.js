@@ -158,13 +158,19 @@ const ThemSuKien = () => {
                   </Form.Group>
 
                   <div className="form-group col-md-12">
-                    <Button variant="primary" type="submit" className="mr-3">
-                      Thêm Sự Kiện
-                    </Button>
-                    <Button variant="secondary" onClick={() => router.push("/page/khuyenmai")}>
+                    <Button
+                      type="submit"
+                      className="btn-save mr-3"
+                    >
+                      Lưu lại    </Button>
+                    <Button
+                      onClick={() => router.push("/page/khuyenmai")}
+                      className="btn-cancel "
+                    >
                       Hủy Bỏ
                     </Button>
                   </div>
+
                 </Form>
                 <ToastContainer /> {/* Include the ToastContainer here */}
               </div>

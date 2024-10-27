@@ -139,16 +139,16 @@ function Header() {
         <div className="ml-8">
           {isLoggedIn ? (
             <>
-            <div className='flex gap-4 items-center'>
-              <div className='text-center "border-2 border-white border-solid'>
-              <Link className='no-underline text-white uppercase' href="/page/profile">
-    <Image  src={`http://localhost:3000/images/${user.Anh}`} width={50} height={50} />
-    {/* Hoặc user.fullname */}
-</Link>
+              <div className='flex gap-4 items-center'>
+                <div className='text-center "border-2 border-white border-solid'>
+                  <Link className='no-underline text-white uppercase' href="/page/profile">
+                    <Image src={`http://localhost:3000/images/${user.Anh}`} className="rounded-full"width={50} height={50} />
+                    {/* Hoặc user.fullname */}
+                  </Link>
 
+                </div>
+                <button onClick={handleLogout} className="button-hover w-[117px] h-[30px]">Đăng xuất</button>
               </div>
-              <button onClick={handleLogout} className="button-hover w-[117px] h-[30px]">Đăng xuất</button>
-            </div>
             </>
           ) : (
             <>

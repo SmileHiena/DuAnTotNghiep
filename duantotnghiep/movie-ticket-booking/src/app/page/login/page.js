@@ -41,9 +41,9 @@ const Login = () => {
                 const token = data.token;
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 if (payload.isAdmin) { // Kiểm tra vai trò admin
-                    window.location.href = 'http://localhost:3001'; // Chuyển đến trang admin
+                    window.location.href = 'http://localhost:3002'; // Chuyển đến trang admin
                 } else {
-                    window.location.href = 'http://localhost:3002'; // Chuyển đến trang người dùng
+                    window.location.href = 'http://localhost:3001'; // Chuyển đến trang người dùng
                 }
             } catch (error) {
                 setFieldError('general', error.message); // Hiển thị lỗi chung
