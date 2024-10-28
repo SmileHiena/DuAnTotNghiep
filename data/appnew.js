@@ -47,6 +47,20 @@ const data = {
     },
   ],
 
+  Blogditals:[
+    {
+      id:1,
+      MaBlog:7,
+      NoiDung1:"Trảm Thần: Phàm Trần Thần Vực",
+      NoiDung2:"hể loại: Anime bộ, Fantasy, Adventure, Action",
+      NoiDung3:"Quốc gia: Trung Quốc",
+      NoiDung4:"Ngôn ngữ: VietSub",
+      NoiDung6:"Năm sản xuất: 2024",
+      NoiDung5:"Câu chuyện lấy bối cảnh thời kỳ mạt thế, nơi nguy hiểm luôn rình rập. Bộ phim xoay quanh Lâm Thất Dạ, một thiếu niên được chọn làm đại diện của thần minh. Thông qua sự nỗ lực và giác ngộ của bản thân, Lâm Thất Dạ dần trở thành người gác đêm cho đô thị, với nhiệm vụ bảo vệ quê hương và đất nước khỏi những hiểm nguy. Phim không chỉ mang đến những trận chiến kịch tính mà còn khắc họa hành trình trưởng thành của một người anh hùng giữa thời đại đầy biến động.",
+      Anh:"https://homepage.momocdn.net/blogscontents/momo-amazone-s3-api-240918160932-638622725722888616.jpg" 
+    },
+  ],
+
   // ----- Rạp -----
   Rap: [
     {
@@ -225,6 +239,7 @@ async function main() {
       { name: "chitiethoadon", data: data.ChiTietHoaDon },
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
+      { name: "blogdetial", data: data.Blogditals },
     ];
 
     for (const { name, data } of collections) {

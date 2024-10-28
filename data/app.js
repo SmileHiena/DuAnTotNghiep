@@ -25,6 +25,7 @@ var rapRouter = require('./routes/rap');
 var suatchieuRouter = require('./routes/suatchieu');
 var loaiveRouter = require('./routes/loaive');
 var doanhthuRouter = require('./routes/doanhthu');
+var commentRouter = require('./routes/comments');
 
 var app = express();
 
@@ -67,6 +68,7 @@ app.use('/rap', rapRouter);
 app.use('/suatchieu', suatchieuRouter);
 app.use('/loaive', loaiveRouter);
 app.use('/doanhthu', doanhthuRouter);
+app.use('/comments', commentRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
