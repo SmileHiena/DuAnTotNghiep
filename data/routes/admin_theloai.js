@@ -45,19 +45,22 @@ router.get("/", async (req, res) => {
 // API to add a new event
 router.post("/add", upload.single('Anh'), async (req, res) => {
   try {
-    
-    const eventId = new ObjectId(); 
+    const db = await connectDb();
+    const categoryCollection = db.collection("theloai");
 
+    // Retrieve the last inserted document to get the highest ID
+    const lastCategory = await categoryCollection.find().sort({ id: -1 }).limit(1).toArray();
+    const newId = lastCategory.length > 0 ? lastCategory[0].id + 1 : 1; // Start from 1 if no entries exist
+
+    // Create new event object
     const newCategory = {
-      _id: eventId,
-      Ten: req.body.Ten, // Accessing the 'Ten' property directly
-      Anh: req.file ? `/images/theloai/${req.file.filename}` : "", // Use the correct path
+      _id: new ObjectId(), // New ObjectId for MongoDB
+      id: newId,
+      Ten: req.body.Ten,
+      Anh: req.file ? `/images/theloai/${req.file.filename}` : "", // Save file path if file is uploaded
     };
 
-   
-
-    const db = await connectDb();
-    const categoryCollection = db.collection("theloai"); // Assuming your collection is named "theloai"
+    // Insert new event
     await categoryCollection.insertOne(newCategory);
 
     res.status(201).json(newCategory);
@@ -68,24 +71,26 @@ router.post("/add", upload.single('Anh'), async (req, res) => {
 });
 
 
-// API để xóa thể loại
-router.delete("/:id", async (req, res) => {
+// Route để xóa một bài blog
+router.delete("/theloai/:id", async (req, res) => {
   try {
     const db = await connectDb();
-    const theloaiCollection = db.collection("theloai");
-    const result = await theloaiCollection.deleteOne({ _id: ObjectId(req.params.id) });
+    const categoryCollection = db.collection("theloai");
 
-    if (result.deletedCount > 0) {
-      res.status(200).json({ message: "Product deleted successfully" });
+    // Convert id to an integer if it is a number
+    const id = parseInt(req.params.id, 10);
+
+    const result = await categoryCollection.deleteOne({ id: id });
+    if (result.deletedCount === 1) {
+      res.status(200).json({ message: "Category deleted successfully." });
     } else {
-      res.status(404).json({ message: "Product not found" });
+      res.status(404).json({ message: "Category not found." });
     }
   } catch (error) {
-    console.error("Error deleting product:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Error deleting category:", error);
+    res.status(500).json({ message: "Failed to delete category", error: error.message });
   }
 });
-
 
 
 module.exports = router;

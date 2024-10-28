@@ -173,11 +173,11 @@ const EditProfile = () => {
         <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }}>
         </div>
         <div className="flex ml-12" style={{ marginTop: '-100px', marginLeft: '150px' }}>
-          <form className="relative" onSubmit={handleSubmit}>
+          <form className="relative " onSubmit={handleSubmit}>
             <img
               src={`http://localhost:3000/images/${accountInfo.Anh}`}
               alt="Profile"
-              className="rounded-full w-36 h-36 border-5 border-white object-cover ml-3"
+              className="rounded-full w-36 h-36 border-5 border-white object-cover"
               style={{ zIndex: '99999', filter: 'blur(3px)' }}
             />
             <label
@@ -193,7 +193,7 @@ const EditProfile = () => {
               className="hidden"
               onChange={handleFileChange}
             />
-            <button type="submit" className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-5 rounded-lg" style={{ zIndex: '99999' }}>
+            <button type="submit" className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-5 rounded-lg ml-5" style={{ zIndex: '99999' }}>
               Lưu ảnh
             </button>
 
@@ -231,16 +231,13 @@ const EditProfile = () => {
                   <FontAwesomeIcon icon={faArrowLeft} className="mr-1" style={{ width: '20px', height: '20px' }} /> Quay lại
                 </button>
               </Link>
-              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg w-full md:w-auto">
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-1" style={{ width: '20px', height: '20px' }} /> Đăng xuất
-              </button>
             </div>
           </div>
 
           <div className="w-full md:w-2/3">
             <h2 className="text-2xl mb-2 text-white font-semibold">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
             <form onSubmit={handleSave}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                 <div className="form-group">
                   <label className="text-white" htmlFor="Ten">Họ và Tên:</label>
                   <input
@@ -249,7 +246,7 @@ const EditProfile = () => {
                     id="Ten"
                     value={updatedInfo.Ten || ''}
                     onChange={handleChange}
-                    className="w-full p-2 rounded-md"
+                   className="w-full p-2 rounded-md bg-[#212925] border border-white"
                     required
                   />
                 </div>
@@ -261,7 +258,7 @@ const EditProfile = () => {
                     id="sdt"
                     value={updatedInfo.SDT || ''}
                     onChange={handleChange}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
@@ -273,7 +270,7 @@ const EditProfile = () => {
                     id="email"
                     value={updatedInfo.Email || ''}
                     onChange={handleChange}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
@@ -285,7 +282,7 @@ const EditProfile = () => {
                     id="ngaysinh"
                     value={updatedInfo.NgaySinh ? new Date(updatedInfo.NgaySinh).toISOString().slice(0, 10) : ''}
                     onChange={handleChange}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
@@ -297,12 +294,12 @@ const EditProfile = () => {
                     id="diachi"
                     value={updatedInfo.DiaChi || ''}
                     onChange={handleChange}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
               </div>
-              <button type="submit" className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mt-4 w-full">
+              <button type="submit" className="bg-[#F5CF49] w-[150px] text-[#000000] py-2 px-4 rounded-lg mt-4 ">
                 Cập nhật
               </button>
             </form>
@@ -317,7 +314,7 @@ const EditProfile = () => {
                     id="oldPassword"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
@@ -328,7 +325,7 @@ const EditProfile = () => {
                     id="newPassword"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
@@ -339,12 +336,12 @@ const EditProfile = () => {
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full p-2 rounded-md"
+                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
                     required
                   />
                 </div>
               </div>
-              <button type="submit" className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mt-4 w-full">
+              <button type="submit" className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mt-4 w-[150px]">
                 Đổi mật khẩu
               </button>
             </form>

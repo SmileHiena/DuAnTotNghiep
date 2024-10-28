@@ -23,7 +23,7 @@ const Header = () => {
             {/* Sidebar menu */}
             <div className="app-sidebar__overlay" data-toggle="sidebar"></div>
             <aside className="app-sidebar">
-                <Link  href="/">
+                <Link href="/">
                     <div className="app-sidebar__user mb-2">
                         <img className="app-sidebar__user-avatar mb-2" src="/images/user/hoai.jpg" alt="User Image" />
                         <div>
@@ -42,7 +42,7 @@ const Header = () => {
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/suatchieu">
-                            <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-6 h-6" />
                             <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
                     </li>
@@ -106,7 +106,6 @@ const Header = () => {
                             <span className="app-menu__label">Quản lí Blog</span>
                         </Link>
                     </li>
-                    
                     <li>
                         <Link className="app-menu__item" href="#">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-6 h-6" />

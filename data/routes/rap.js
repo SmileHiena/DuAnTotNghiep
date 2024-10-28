@@ -61,6 +61,46 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Route to get seats for a specific screening room (PhongChieu)
+router.get('/:rapId/phongchieu/:phongChieuId/ghe', async (req, res) => {
+    const { rapId, phongChieuId } = req.params;
+
+    try {
+        const db = await connectDb();
+        const rapCollection = db.collection('rap');
+
+        // Find the specific room based on `rapId` and `phongChieuId`
+        const rap = await rapCollection.findOne(
+            { id: parseInt(rapId) },
+            {
+                projection: {
+                    PhongChieu: {
+                        $filter: {
+                            input: "$PhongChieu",
+                            as: "phong",
+                            cond: { $eq: ["$$phong.id", phongChieuId] }
+                        }
+                    }
+                }
+            }
+        );
+
+        if (!rap || !rap.PhongChieu.length) {
+            return res.status(404).json({ message: 'Room not found' });
+        }
+
+        // Retrieve seats (`Ghe`) from the specified room
+        const seats = rap.PhongChieu[0].Ghe;
+        res.status(200).json(seats);
+
+    } catch (error) {
+        console.error('Error fetching seats:', error);
+        res.status(500).json({ message: 'Failed to fetch seats' });
+    }
+});
+
+
+
 // Tạo mới rạp
 router.post('/', async (req, res) => {
     const { TenRap, ViTri, PhongChieu } = req.body; // Nhận thêm PhongChieu từ request body

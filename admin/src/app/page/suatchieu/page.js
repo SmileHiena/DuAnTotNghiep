@@ -71,32 +71,50 @@ const Suatchieu = () => {
     };
 
     const handleSave = async () => {
-        if (currentShowtime) {
-            try {
-                const response = await fetch(`http://localhost:3000/suatchieu/edit/${currentShowtime._id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(currentShowtime),
-                });
+        if (!currentShowtime) return;
 
-                if (!response.ok) {
-                    throw new Error('Có lỗi xảy ra khi cập nhật suất chiếu.');
-                }
+        // Kiểm tra tính hợp lệ của các trường dữ liệu
+        if (!currentShowtime.NgayChieu || !currentShowtime.IdPhim || !currentShowtime.IdPhong || !currentShowtime.GioChieu || !currentShowtime.TrangThai) {
+            setErrorMessage('Vui lòng điền đủ thông tin.');
+            return;
+        }
 
-                setShowtimes((prev) =>
-                    prev.map((s) => (s._id === currentShowtime._id ? currentShowtime : s))
-                );
+        // Lấy suất chiếu hiện tại từ danh sách suất chiếu
+        const originalShowtime = showtimes.find(s => s._id === currentShowtime._id);
+        if (JSON.stringify(originalShowtime) === JSON.stringify(currentShowtime)) {
+            toast.success('Cập nhật suất chiếu thành công!', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            handleCloseModal(); // Đóng modal khi không có thay đổi
+            return; // Không gửi yêu cầu cập nhật nếu không có thay đổi
+        }
 
-                toast.success('Cập nhật suất chiếu thành công!', {
-                    position: 'top-right',
-                    autoClose: 3000,
-                });
-                handleCloseModal();
-            } catch (error) {
-                setErrorMessage(error.message);
+        try {
+            const response = await fetch(`http://localhost:3000/suatchieu/edit/${currentShowtime._id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentShowtime),
+            });
+
+            if (!response.ok) {
+                throw new Error('Có lỗi xảy ra khi cập nhật suất chiếu.');
             }
+
+            setShowtimes((prev) =>
+                prev.map((s) => (s._id === currentShowtime._id ? currentShowtime : s))
+            );
+
+            toast.success('Cập nhật suất chiếu thành công!', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            handleCloseModal();
+        } catch (error) {
+            setErrorMessage(error.message);
         }
     };
+
 
     const handleDelete = async (showtimeId) => {
         const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa suất chiếu này không?');
@@ -121,30 +139,22 @@ const Suatchieu = () => {
     const handleMovieChange = (e) => {
         const selectedMovie = movies.find(movie => movie.id.toString() === e.target.value);
         if (selectedMovie) {
-            const updatedShowtime = {
-                ...currentShowtime,
+            setCurrentShowtime((prev) => ({
+                ...prev,
                 IdPhim: selectedMovie.id,
                 Ten: selectedMovie.Ten,
-            };
-            setCurrentShowtime(updatedShowtime);
-            setShowtimes((prev) =>
-                prev.map((s) => (s._id === updatedShowtime._id ? updatedShowtime : s))
-            );
+            }));
         }
     };
 
     const handleRoomChange = (e) => {
         const selectedRoom = rooms.find(room => room.id.toString() === e.target.value);
         if (selectedRoom) {
-            const updatedShowtime = {
-                ...currentShowtime,
+            setCurrentShowtime((prev) => ({
+                ...prev,
                 IdPhong: selectedRoom.id,
                 TenPhongChieu: selectedRoom.TenPhongChieu,
-            };
-            setCurrentShowtime(updatedShowtime);
-            setShowtimes((prev) =>
-                prev.map((s) => (s._id === updatedShowtime._id ? updatedShowtime : s))
-            );
+            }));
         }
     };
 
@@ -175,46 +185,52 @@ const Suatchieu = () => {
                                 </div>
                                 <table className="table table-hover table-bordered">
                                     <thead>
-                                        <tr>
+                                        <tr >
                                             <th>ID</th>
-                                            <th>Thời gian</th>
+                                            <th>Thứ</th>
                                             <th>Ngày chiếu</th>
-                                            <th>ID Phim</th>
+                                            <th>Giờ chiếu</th>
                                             <th>Tên phim</th>
-                                            <th>ID Phòng</th>
                                             <th>Tên phòng</th>
+                                            <th>Trạng thái</th>
                                             <th>Tính năng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {showtimes.length > 0 ? (
-                                            showtimes.map((showtime) => (
-                                                <tr key={showtime._id}>
-                                                    <td>{showtime.id}</td>
-                                                    <td>{showtime.ThoiGian}</td>
-                                                    <td>{showtime.NgayChieu}</td>
-                                                    <td>{showtime.IdPhim}</td>
-                                                    <td>{showtime.Ten || 'Không xác định'}</td>
-                                                    <td>{showtime.IdPhong}</td>
-                                                    <td>{showtime.TenPhongChieu || 'Không xác định'}</td>
-                                                    <td>
-                                                        <button className="btn btn-primary mr-3" type="button" onClick={() => handleEditClick(showtime._id)}>
-                                                            <FontAwesomeIcon icon={faPenToSquare} />
-                                                        </button>
-                                                        <button className="btn btn-danger" type="button" onClick={() => handleDelete(showtime._id)}>
-                                                            <FontAwesomeIcon icon={faTrash} />
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))
+                                            showtimes.map((showtime) => {
+                                                const [day, month, year] = showtime.NgayChieu.split('/');
+                                                const date = new Date(`${year}-${month}-${day}`);
+                                                const daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+                                                const thuTrongTuan = daysOfWeek[date.getDay()];
+
+                                                return (
+                                                    <tr key={showtime._id}>
+                                                        <td>{showtime._id}</td>
+                                                        <td>{thuTrongTuan}</td>
+                                                        <td>{showtime.NgayChieu}</td>
+                                                        <td>{showtime.GioChieu}</td>
+                                                        <td>{showtime.Ten || 'Không xác định'}</td>
+                                                        <td>{showtime.TenPhongChieu || 'Không xác định'}</td>
+                                                        <td>{showtime.TrangThai}</td>
+                                                        <td>
+                                                            <button className="btn btn-primary mr-3" type="button" onClick={() => handleEditClick(showtime._id)}>
+                                                                <FontAwesomeIcon icon={faPenToSquare} />
+                                                            </button>
+                                                            <button className="btn btn-danger" type="button" onClick={() => handleDelete(showtime._id)}>
+                                                                <FontAwesomeIcon icon={faTrash} />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
                                         ) : (
                                             <tr>
-                                                <td colSpan="8">Không có suất chiếu nào được tìm thấy</td>
+                                                <td colSpan="10">Không có suất chiếu nào được tìm thấy</td>
                                             </tr>
                                         )}
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
@@ -228,8 +244,8 @@ const Suatchieu = () => {
                         <div className="modal-body">
                             <div className="row">
                                 <div className="form-group col-md-12">
-                                    <h5>Chỉnh sửa thông tin nhân viên</h5>
-                                    {errorMessage && <p className="text-danger">{errorMessage}</p>} {/* Hiển thị thông báo lỗi */}
+                                    <h5>Chỉnh sửa thông tin suất chiếu</h5>
+                                    {errorMessage && <p className="text-danger">{errorMessage}</p>}
                                 </div>
                             </div>
                             <div className="row">
@@ -238,27 +254,29 @@ const Suatchieu = () => {
                                     <input className="form-control" type="text" value={currentShowtime?._id || ''} disabled />
                                 </div>
                                 <div className="form-group col-md-6">
-                                    <label className="control-label">Thời gian</label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        name="ThoiGian"
-                                        value={currentShowtime?.ThoiGian || ''}
-                                        onChange={(e) => setCurrentShowtime({ ...currentShowtime, ThoiGian: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-md-6">
                                     <label className="control-label">Ngày chiếu</label>
                                     <input
                                         className="form-control"
-                                        type="text"
+                                        type="date"
                                         name="NgayChieu"
-                                        value={currentShowtime?.NgayChieu || ''}
-                                        onChange={(e) => setCurrentShowtime({ ...currentShowtime, NgayChieu: e.target.value })}
+                                        value={currentShowtime ? currentShowtime.NgayChieu.split('/').reverse().join('-') : ''}
+                                        onChange={(e) => setCurrentShowtime({ ...currentShowtime, NgayChieu: e.target.value.split('-').reverse().join('/') })}
                                         required
                                     />
                                 </div>
+
+                                <div className="form-group col-md-6">
+                                    <label className="control-label">Giờ chiếu</label>
+                                    <input
+                                        className="form-control"
+                                        type="time"
+                                        name="GioChieu"
+                                        value={currentShowtime ? currentShowtime.GioChieu : ''}
+                                        onChange={(e) => setCurrentShowtime({ ...currentShowtime, GioChieu: e.target.value })}
+                                        required
+                                    />
+                                </div>
+
                                 <div className="form-group col-md-6">
                                     <label className="control-label">ID Phim</label>
                                     <select
@@ -291,9 +309,19 @@ const Suatchieu = () => {
                                         ))}
                                     </select>
                                 </div>
-                                {errorMessage && (
-                                    <div className="alert alert-danger">{errorMessage}</div>
-                                )}
+                                <div className="form-group col-md-6">
+                                    <label className="control-label">Trạng thái</label>
+                                    <select
+                                        className="form-control"
+                                        value={currentShowtime?.TrangThai || ''}
+                                        onChange={(e) => setCurrentShowtime({ ...currentShowtime, TrangThai: e.target.value })}
+                                        required
+                                    >
+                                        <option value="">Chọn trạng thái</option>
+                                        <option value="DangChieu">Đang chiếu</option>
+                                        <option value="NgungChieu">Ngừng chiếu</option>
+                                    </select>
+                                </div>
                                 <div className="form-group col-md-12">
                                     <button className="btn btn-save mr-3" type="button" onClick={handleSave}>
                                         Lưu lại
