@@ -6,21 +6,21 @@ const { ObjectId } = require('mongodb');
 // Lấy danh sách phòng chiếu của rạp
 router.get('/phongchieu', async (req, res) => {
   try {
-      const db = await connectDb();
-      const rapCollection = db.collection('rap');
+    const db = await connectDb();
+    const rapCollection = db.collection('rap');
 
-      // Lấy rạp đầu tiên (chỉ có một rạp)
-      const rap = await rapCollection.findOne({});
+    // Lấy rạp đầu tiên (chỉ có một rạp)
+    const rap = await rapCollection.findOne({});
 
-      if (!rap) {
-          return res.status(404).json({ message: 'Không tìm thấy rạp' });
-      }
+    if (!rap) {
+      return res.status(404).json({ message: 'Không tìm thấy rạp' });
+    }
 
-      // Trả về danh sách phòng chiếu
-      res.status(200).json(rap.PhongChieu);
+    // Trả về danh sách phòng chiếu
+    res.status(200).json(rap.PhongChieu);
   } catch (error) {
-      console.error('Lỗi khi lấy phòng chiếu:', error);
-      res.status(500).json({ message: 'Lỗi khi lấy phòng chiếu', error });
+    console.error('Lỗi khi lấy phòng chiếu:', error);
+    res.status(500).json({ message: 'Lỗi khi lấy phòng chiếu', error });
   }
 });
 
@@ -36,7 +36,11 @@ router.get('/', async (req, res) => {
     const movies = await movieCollection.find({}).toArray();
     const movieMap = {};
     movies.forEach(movie => {
-      movieMap[movie.id.toString()] = movie.Ten; // Giả định bạn có thuộc tính Ten trong bảng phim
+      movieMap[movie.id.toString()] = {
+        Ten: movie.Ten,
+        Anh: movie.Anh,
+        KieuPhim: movie.TheLoai.KieuPhim, // Lấy KieuPhim từ TheLoai
+      };
     });
 
     // Lấy danh sách rạp để ánh xạ IdPhong với tên phòng
@@ -46,6 +50,51 @@ router.get('/', async (req, res) => {
     theaters.forEach(theater => {
       theater.PhongChieu.forEach(room => {
         theaterMap[room.id] = room.TenPhongChieu; // Giả định bạn có thuộc tính TenPhongChieu trong bảng rạp
+      });
+    });
+
+    // Thêm tên phim, ảnh và thể loại vào danh sách suất chiếu
+    const showtimesWithDetails = showtimes.map(showtime => ({
+      ...showtime,
+      Anh: movieMap[showtime.IdPhim.toString()]?.Anh || 'Không xác định',
+      Ten: movieMap[showtime.IdPhim.toString()]?.Ten || 'Không xác định',
+      KieuPhim: movieMap[showtime.IdPhim.toString()]?.KieuPhim || 'Không xác định', // Lấy KieuPhim
+      TenPhongChieu: theaterMap[showtime.IdPhong] || 'Không xác định' // Gán tên phòng
+    }));
+
+    res.json(showtimesWithDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
+  }
+});
+
+
+
+// Lấy danh sách suất chiếu
+router.get('/dangchieu', async (req, res) => {
+  try {
+    const db = await connectDb();
+    const collection = db.collection('suatchieu');
+
+    // Chỉ lấy những suất chiếu có trạng thái là "DangChieu"
+    const showtimes = await collection.find({ TrangThai: "DangChieu" }).toArray();
+
+    // Lấy danh sách phim để ánh xạ IdPhim với tên phim
+    const movieCollection = db.collection('phim');
+    const movies = await movieCollection.find({}).toArray();
+    const movieMap = {};
+    movies.forEach(movie => {
+      movieMap[movie.id.toString()] = movie.Ten; // Giả định bạn có thuộc tính Ten trong bảng phim
+    });
+
+    // Lấy danh sách rạp để ánh xạ IdPhong với tên phòng
+    const theaterCollection = db.collection('rap');
+    const theaters = await theaterCollection.find({}).toArray();
+    const theaterMap = {};
+    theaters.forEach(theater => {
+      theater.PhongChieu.forEach(room => {
+        theaterMap[room.id] = room.TenPhongChieu; 
       });
     });
 
@@ -84,7 +133,7 @@ router.get('/:id', async (req, res) => {
 // Thêm suất chiếu
 router.post('/add', async (req, res) => {
   try {
-    const { ThoiGian, NgayChieu, IdPhim, IdPhong } = req.body;
+    const { NgayChieu, GioChieu, IdPhim, IdPhong, TrangThai } = req.body;
 
     const db = await connectDb();
     const collection = db.collection('suatchieu');
@@ -94,10 +143,11 @@ router.post('/add', async (req, res) => {
 
     const newShowtime = {
       id: newId, // Gán ID mới
-      ThoiGian,
       NgayChieu,
+      GioChieu, // Thêm trường Giờ Chiếu
       IdPhim,
       IdPhong,
+      TrangThai, // Thêm trường Trạng Thái
     };
 
     // Thêm suất chiếu vào cơ sở dữ liệu
@@ -111,20 +161,20 @@ router.post('/add', async (req, res) => {
   }
 });
 
-
 // Sửa thông tin suất chiếu
 router.put('/edit/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { ThoiGian, NgayChieu, IdPhim, IdPhong } = req.body; // Nhận các trường từ yêu cầu
+    const { NgayChieu, GioChieu, IdPhim, IdPhong, TrangThai } = req.body; // Nhận các trường từ yêu cầu
     const db = await connectDb();
     const collection = db.collection('suatchieu');
 
     const updatedShowtime = {
-      ThoiGian,
       NgayChieu,
+      GioChieu, // Cập nhật giờ chiếu
       IdPhim,
       IdPhong,
+      TrangThai, // Cập nhật trạng thái
     };
 
     const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedShowtime });
@@ -139,7 +189,6 @@ router.put('/edit/:id', async (req, res) => {
     res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
   }
 });
-
 
 // Xóa suất chiếu
 router.delete('/delete/:id', async (req, res) => {

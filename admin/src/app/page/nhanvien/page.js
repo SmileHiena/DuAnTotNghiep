@@ -18,7 +18,7 @@ const NhanVien = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch('http://localhost:3000/employees/');
+        const response = await fetch('http://localhost:3000/employees');
         const data = await response.json();
         setEmployees(data);
         setLoading(false);

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
@@ -25,7 +26,7 @@ function Header() {
           const response = await fetch('http://localhost:3000/users/detailuser', {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${tokenValue}`, // Dùng tokenValue ở đây
+              'Authorization': `Bearer ${tokenValue}`,
               'Content-Type': 'application/json'
             }
           });
@@ -33,7 +34,6 @@ function Header() {
           if (response.ok) {
             const data = await response.json();
             setUser(data);
-            console.log(data)
           } else {
             console.error('Failed to fetch user data');
             setIsLoggedIn(false);
@@ -45,14 +45,12 @@ function Header() {
         }
       };
       getUser();
+    } else {
+      setIsLoggedIn(false); // Cập nhật khi token không tồn tại
     }
   }, []);
+  
 
-  const handleLogout = () => {
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
-    setIsLoggedIn(false);
-    router.push('/');
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(prev => !prev);
@@ -83,21 +81,26 @@ function Header() {
   return (
     <header className="bg-black relative z-10">
       <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
+        {/* Logo Section */}
         <div className="flex items-center h-[100px]">
           <Link href="/">
             <img src="/images/logo.png" alt="Logo" className="w-[200px] h-[100px]" />
           </Link>
         </div>
 
+        {/* Mobile Menu Button */}
         <div className="xl:hidden ml-auto">
           <button onClick={toggleMenu} className="text-white">
             <i className="fas fa-bars text-xl"></i>
           </button>
         </div>
 
+        {/* Navigation Menu */}
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center">
-            <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Trang Chủ</Link></li>
+            <li>
+              <Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Trang Chủ</Link>
+            </li>
             <li className="relative">
               <button onClick={toggleSubMenu} className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Pages</button>
               {isSubMenuOpen && (
@@ -109,9 +112,15 @@ function Header() {
                 </ul>
               )}
             </li>
-            <li><Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Giới thiệu</Link></li>
-            <li><Link href="#" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Xem vé</Link></li>
-            <li><Link href="/page/event" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link></li>
+            <li>
+              <Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Giới thiệu</Link>
+            </li>
+            <li>
+              <Link href="/page/lichchieu" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Lịch chiếu</Link>
+            </li>
+            <li>
+              <Link href="/page/sukien" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link>
+            </li>
           </ul>
         </nav>
 
@@ -138,18 +147,13 @@ function Header() {
         {/* User Name or Login Button */}
         <div className="ml-8">
           {isLoggedIn ? (
-            <>
-              <div className='flex gap-4 items-center'>
-                <div className='text-center "border-2 border-white border-solid'>
-                  <Link className='no-underline text-white uppercase' href="/page/profile">
-                    <Image src={`http://localhost:3000/images/${user.Anh}`} className="rounded-full"width={50} height={50} />
-                    {/* Hoặc user.fullname */}
-                  </Link>
-
-                </div>
-                <button onClick={handleLogout} className="button-hover w-[117px] h-[30px]">Đăng xuất</button>
+            <div className='flex gap-4 items-center'>
+              <div className='text-center'>
+                <Link className='no-underline text-white uppercase' href="/page/profile">
+                  <Image src={`http://localhost:3000/images/${user.Anh}`} className="rounded-full" width={50} height={50} style={{ width: '50px', height: '50px', border: 'none' }} />
+                </Link>
               </div>
-            </>
+            </div>
           ) : (
             <>
               <Link href="/page/login">
@@ -166,10 +170,13 @@ function Header() {
           )}
         </div>
 
+        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 w-[200px] bg-white z-50 xl:hidden">
             <ul className="flex flex-col items-center space-y-4 py-4">
-              <li><Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Trang Chủ</Link></li>
+              <li>
+                <Link href="/" className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Trang Chủ</Link>
+              </li>
               <li className="relative">
                 <button onClick={toggleMobileSubMenu} className="text-black no-underline hover:text-[#F5CF49] hover:font-bold transition-colors duration-300">Pages</button>
                 {isMobileSubMenuOpen && (

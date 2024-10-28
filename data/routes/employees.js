@@ -85,7 +85,6 @@ router.post('/check-username', async (req, res) => {
     }
 });
 
-
 router.post('/add', upload.single('Anh'), async (req, res) => {
     try {
         const { HoTen, TenDangNhap, DiaChi, NgaySinh, GioTinh, SDT, ChucVu, Tinhtrang } = req.body;
@@ -120,6 +119,7 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
             ChucVu,
             Tinhtrang,
             Quyen: 'NhanVien',
+            IsAdmin: 0 // Thêm thuộc tính IsAdmin mặc định là 0
         };
 
         await collection.insertOne(newEmployee);
@@ -129,8 +129,6 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
         res.status(500).json({ message: 'Có lỗi xảy ra trong quá trình thêm nhân viên', error: error.message });
     }
 });
-
-
 
 // Sửa thông tin nhân viên
 router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
@@ -148,7 +146,8 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
             GioTinh,
             SDT,
             ChucVu,
-            Tinhtrang
+            Tinhtrang,
+            IsAdmin: 0 // Thêm thuộc tính IsAdmin mặc định là 0
         };
 
         // Lấy thông tin nhân viên hiện tại để xóa ảnh cũ
@@ -180,6 +179,7 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
         res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
     }
 });
+
 
 // Xóa nhân viên
 router.delete('/delete/:id', async (req, res) => {

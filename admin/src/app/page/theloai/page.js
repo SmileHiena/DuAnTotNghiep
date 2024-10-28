@@ -33,25 +33,27 @@ const TheLoai = () => {
     const confirmDelete = window.confirm(
       "Bạn có chắc chắn muốn xóa thể loại này không?"
     );
-
+  
     if (!confirmDelete) return;
-
+  
     try {
       const response = await fetch(`http://localhost:3000/theloai/${id}`, {
         method: "DELETE",
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Failed to delete category: ${errorText}`);
       }
-
+  
+      // Update state if deletion is successful
       setTheloai(theloai.filter((item) => item.id !== id));
+      console.log("Category deleted successfully.");
     } catch (error) {
       console.error("Delete failed:", error.message);
     }
   };
-
+  
   if (loading) {
     return <p>Loading categories...</p>;
   }
@@ -83,10 +85,10 @@ const TheLoai = () => {
                 <div className="col-sm-2">
                   <a
                     className="btn btn-add btn-sm"
-                    href="/form-add-category"
+                    href="/page/themtheloai"
                     title="Thêm"
                   >
-                    <i className="fas fa-plus"></i> Thêm mới
+                    <i className="fas fa-plus"></i> Tạo mới thể loại
                   </a>
                 </div>
               </div>
@@ -101,7 +103,7 @@ const TheLoai = () => {
                     <th>Mã thể loại</th>
                     <th>Tên thể loại</th>
                     <th>Ảnh thể loại</th>
-                    <th width="120">Tính năng</th>
+                    <th width="100">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -114,7 +116,7 @@ const TheLoai = () => {
                       </td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash mr-3"
+                          className="btn btn-primary btn-sm trash"
                           type="button"
                           title="Xóa"
                           onClick={() => handleDelete(item.id)}

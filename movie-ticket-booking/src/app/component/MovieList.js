@@ -1,6 +1,8 @@
 // components/MovieList.js
 "use client";
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'; // Import biểu tượng mũi tên
 
 const MovieList = ({ apiUrl, title }) => {
   const [movies, setMovies] = useState([]);
@@ -154,15 +156,14 @@ const MovieList = ({ apiUrl, title }) => {
           )}
         </div>
 
-        {/* Phân trang với mũi tên trái/phải */}
+        {/* Phân trang với biểu tượng mũi tên */}
         <div className="flex justify-center items-center mt-4">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`flex justify-center items-center mt-8 w-8 h-8 bg-gray-800 text-white rounded-full mx-2 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            &larr;
+            <FontAwesomeIcon icon={faChevronLeft} className="h-4 w-4" /> 
           </button>
 
           <div className="flex justify-center mt-8">
@@ -170,8 +171,7 @@ const MovieList = ({ apiUrl, title }) => {
               <button
                 key={pageNumber}
                 style={{
-                  backgroundColor:
-                    currentPage === pageNumber ? "#F5CF49" : "white",
+                  backgroundColor: currentPage === pageNumber ? "#F5CF49" : "white",
                   color: currentPage === pageNumber ? "white" : "black",
                 }}
                 className="rounded-full w-8 h-8 mx-1"
@@ -185,10 +185,9 @@ const MovieList = ({ apiUrl, title }) => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`flex justify-center items-center mt-8 w-8 h-8 bg-gray-800 text-white rounded-full mx-2 ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            &rarr;
+            <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" /> 
           </button>
         </div>
       </div>

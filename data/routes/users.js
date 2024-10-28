@@ -65,7 +65,7 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
       TenDangNhap,
       Ten,
       Anh: imagePath ? req.file.filename : null,
-      isAdmin: false,
+      isAdmin: 1,
     };
 
     // Insert the new user into the collection

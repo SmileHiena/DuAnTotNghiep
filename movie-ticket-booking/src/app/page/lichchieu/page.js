@@ -1,5 +1,5 @@
 "use client"; // Đánh dấu đây là Client Component
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 const LichChieuPage = () => {
@@ -10,64 +10,40 @@ const LichChieuPage = () => {
     'Rạp 3 - Lotte',
   ];
 
-  const lichChieu = [
-    {
-      id: 1,
-      phim: 'ĐỐ ANH CỒNG ĐƯỢC TÔI',
-      ngay: '27/09/2024',
-      raPhim: 'Rạp 1 - MegaStar',
-      gio: [
-        { time: '10:00', selected: false },
-        { time: '14:00', selected: false },
-        { time: '18:00', selected: false },
-      ],
-      theLoai: {
-        kieuPhim: "Hài, Hành Động",
-        thoiLuong: "118'",
-        quocGia: "Hàn Quốc",
-        ngonNgu: "Phụ Đề",
-        khuyenCao: "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+).",
-      },
-      anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
-      moTa: {
-        daoDien: "RYOO Seung-wan",
-        dienVien: "HWANG Jung-min, JUNG Hae-in",
-        ngayKhoiChieu: "Thứ Sáu, 27/09/2024",
-      },
-      thongTinPhim:
-        "Các thanh tra kỳ cựu nổi tiếng đã hoạt động trở lại! Thám tử Seo Do-cheol (HWANG Jung-min) và đội điều tra tội phạm nguy hiểm của anh không ngừng truy lùng tội phạm cả ngày lẫn đêm...",
-    },
-    {
-      id: 2,
-      phim: 'Phim 2',
-      ngay: '15/10/2024',
-      raPhim: 'Rạp 2 - Galaxy',
-      gio: [
-        { time: '11:00', selected: false },
-        { time: '15:00', selected: false },
-        { time: '19:00', selected: false },
-      ],
-      theLoai: {
-        kieuPhim: "Hành Động, Kinh Dị",
-        thoiLuong: "120'",
-        quocGia: "Mỹ",
-        ngonNgu: "Phụ Đề",
-        khuyenCao: "C18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+).",
-      },
-      anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
-      moTa: {
-        daoDien: "John Doe",
-        dienVien: "Actor A, Actor B",
-        ngayKhoiChieu: "Thứ Bảy, 15/10/2024",
-      },
-      thongTinPhim:
-        "Nội dung của phim 2 sẽ được cập nhật ở đây...",
-    },
-    // Thêm nhiều phim ở đây...
-  ];
+  const [lichChieu, setLichChieu] = useState([]);
+  const [theLoaiList, setTheLoaiList] = useState([]);
+
+  // Lấy dữ liệu từ API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const lichChieuResponse = await fetch("http://localhost:3000/suatchieu");
+        const theLoaiResponse = await fetch("http://localhost:3000/theloai");
+
+        const lichChieuData = await lichChieuResponse.json();
+        const theLoaiData = await theLoaiResponse.json();
+
+        // Kết hợp thông tin thể loại và chuyển đổi 'GioChieu' thành mảng
+        const lichChieuWithTheLoai = lichChieuData.map((item) => {
+          const matchedTheLoai = theLoaiData.find(tl => tl.id === item.IdPhim); // Sửa ID cho đúng mối quan hệ
+          return {
+            ...item,
+            theLoai: matchedTheLoai ? matchedTheLoai.Ten : "Không xác định", // Lấy tên thể loại
+            gio: item.GioChieu.split(",") // Chuyển đổi chuỗi thời gian thành mảng
+          };
+        });
+
+        setLichChieu(lichChieuWithTheLoai);
+        setTheLoaiList(theLoaiData);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [selectedShow, setSelectedShow] = useState(null);
-  const [selectedRap, setSelectedRap] = useState('Tất cả');
   const [selectedDate, setSelectedDate] = useState('');
 
   const handleSelectTime = (phimId, time) => {
@@ -76,8 +52,7 @@ const LichChieuPage = () => {
   };
 
   const filteredMovies = lichChieu.filter(phim =>
-    (selectedRap === 'Tất cả' || phim.raPhim === selectedRap) &&
-    (selectedDate === '' || phim.ngay === selectedDate)
+    (selectedDate === '' || phim.NgayChieu === selectedDate)
   );
 
   return (
@@ -85,78 +60,50 @@ const LichChieuPage = () => {
       <div className="max-w-[1410px] mx-auto mb-10">
         <h1 className="text-3xl font-bold mb-10">Lịch Chiếu Phim</h1>
 
-        <div className="mb-4">
-          <label htmlFor="rap-phim" className="text-white mr-2">
-            Chọn rạp:
-          </label>
-          <select
-            id="rap-phim"
-            value={selectedRap}
-            onChange={(e) => setSelectedRap(e.target.value)}
-            className="bg-[#212529] border-2 border-[#F5CF49] text-white p-2 rounded"
-          >
-            {rapPhim.map((rap, index) => (
-              <option key={index} value={rap}>
-                {rap}
-              </option>
-            ))}
-          </select>
-        </div>
-
-
         <div className="grid grid-cols-1 gap-4">
           {filteredMovies.map((phim) => (
-            <div key={phim.id} className="p-4 rounded-lg shadow bg-gray-800 flex ">
+            <div key={phim._id} className="p-4 rounded-lg shadow bg-gray-800 flex">
               {/* Bên trái chứa ảnh và thể loại */}
               <div className="flex">
                 <div className="relative w-[240px] h-[320px]">
                   <Image
-                    src={phim.anh}
-                    alt={phim.phim}
+                    src={phim.Anh || "/images/default.jpg"} 
+                    alt={phim.Ten}
                     layout="fill"
                     className="rounded-lg object-cover"
                   />
                 </div>
                 <div className="ml-4">
-                  <h2 className="text-2xl font-semibold">{phim.phim}</h2>
+                  <h2 className="text-2xl font-semibold">{phim.Ten}</h2>
                   <p className="text-white mt-2">
-                    <span className="font-bold">Thể loại:</span> {phim.theLoai.kieuPhim}
+                    <span className="font-bold">Kiểu phim:</span> {phim.KieuPhim}
                   </p>
                   <p className="text-white">
-                    <span className="font-bold">Thời lượng:</span> {phim.theLoai.thoiLuong}
-                  </p>
-                  <p className="text-white">
-                    <span className="font-bold">Ngôn ngữ:</span> {phim.theLoai.ngonNgu}
-                  </p>
-                  <p className="text-white">
-                    <span className="font-bold">Khuyến cáo:</span> {phim.theLoai.khuyenCao}
+                    <span className="font-bold">Ngày:</span> {phim.NgayChieu}
                   </p>
                 </div>
               </div>
 
               {/* Bên phải chứa thông tin rạp và thời gian chiếu */}
               <div className="ml-10">
-                <p className="text-gray-400">Rạp: {phim.raPhim}</p>
-                <p className="text-gray-400">Ngày: {phim.ngay}</p>
-
+                <p className="text-gray-400">Phòng: {phim.TenPhongChieu}</p>
                 <div className="mt-2 flex flex-wrap">
-                  {phim.gio.map((show) => (
+                  {phim.gio.map((show, index) => (
                     <button
-                      key={show.time}
+                      key={index} // Sử dụng index cho key trong trường hợp này
                       className={`bg-[#F5CF49] hover:bg-[#e6b632] text-gray-900 py-2 px-4 rounded mr-2 mb-2 ${selectedShow &&
                         selectedShow.phimId === phim.id &&
-                        selectedShow.time === show.time
+                        selectedShow.time === show
                         ? "opacity-50 cursor-not-allowed"
                         : ""
                         }`}
-                      onClick={() => handleSelectTime(phim.id, show.time)}
-                      disabled={
-                        selectedShow &&
+                      onClick={() => handleSelectTime(phim.id, show)}
+                      disabled={selectedShow &&
                         selectedShow.phimId === phim.id &&
-                        selectedShow.time === show.time
+                        selectedShow.time === show
                       }
                     >
-                      {show.time}
+                      {show}
                     </button>
                   ))}
                 </div>
