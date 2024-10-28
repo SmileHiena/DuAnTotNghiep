@@ -4,13 +4,14 @@ import Head from "next/head";
 import { useRouter } from "next/navigation";
 
 const QuanLyPhongChieu = ({ params }) => {
-  const { id: rapId } = params; // Retrieve 'id' from params
+  const { id: rapId } = params;
   const [raps, setRaps] = useState([]);
   const [phongChieu, setPhongChieu] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPhong, setCurrentPhong] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [newPhongChieu, setNewPhongChieu] = useState({ TenPhongChieu: '', SoLuongGhe: '' });
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false); // Thêm trạng thái cho popup thêm
+  const [newPhongChieu, setNewPhongChieu] = useState({ TenPhongChieu: "", SoLuongGhe: "" });
   const router = useRouter();
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const QuanLyPhongChieu = ({ params }) => {
 
   const handleAddPhongChieu = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/rap/${id}/phong-chieu`, {
+      const response = await fetch(`http://localhost:3000/rap/${rapId}/phong-chieu`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,8 @@ const QuanLyPhongChieu = ({ params }) => {
       if (response.ok) {
         const addedPhongChieu = await response.json();
         setPhongChieu((prev) => [...prev, addedPhongChieu]);
-        setNewPhongChieu({ TenPhongChieu: '', SoLuongGhe: '' });
+        setNewPhongChieu({ TenPhongChieu: "", SoLuongGhe: "" });
+        setIsAddModalOpen(false);
       } else {
         alert("Có lỗi xảy ra khi thêm phòng chiếu!");
       }
@@ -122,29 +124,14 @@ const QuanLyPhongChieu = ({ params }) => {
       <main className="app-content">
         <h1>Quản lý phòng chiếu cho Rạp ID: {rapId}</h1>
 
-        {/* Form thêm phòng chiếu */}
-        <div className="form-group">
-          <h2>Thêm phòng chiếu mới</h2>
-          <input
-            type="text"
-            placeholder="Tên phòng chiếu"
-            value={newPhongChieu.TenPhongChieu}
-            onChange={(e) => setNewPhongChieu({ ...newPhongChieu, TenPhongChieu: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Số lượng ghế"
-            value={newPhongChieu.SoLuongGhe}
-            onChange={(e) => setNewPhongChieu({ ...newPhongChieu, SoLuongGhe: e.target.value })}
-          />
-          <button onClick={handleAddPhongChieu} className="btn btn-primary">Thêm</button>
-        </div>
+        {/* Nút mở popup thêm phòng chiếu */}
+        <button onClick={() => setIsAddModalOpen(true)} className="btn btn-primary">Thêm phòng chiếu mới</button>
 
-        {/* Render room list */}
+        {/* Render danh sách phòng chiếu */}
         {phongChieu.length > 0 ? (
-          <ul>
+          <ul className="room-list">
             {phongChieu.map((phong) => (
-              <li key={phong._id}>
+              <li key={phong._id} className="room-item">
                 <span>{phong.TenPhongChieu} - {phong.SoLuongGhe} chỗ ngồi</span>
                 <button
                   className="btn btn-sm btn-primary ml-2"
@@ -187,6 +174,29 @@ const QuanLyPhongChieu = ({ params }) => {
               />
               <button onClick={handleEditPhongChieu} className="btn btn-primary">Lưu</button>
               <button onClick={() => setIsEditModalOpen(false)} className="btn btn-secondary">Đóng</button>
+            </div>
+          </div>
+        )}
+
+        {/* Modal thêm phòng chiếu */}
+        {isAddModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Thêm phòng chiếu mới</h2>
+              <input
+                type="text"
+                placeholder="Tên phòng chiếu"
+                value={newPhongChieu.TenPhongChieu}
+                onChange={(e) => setNewPhongChieu({ ...newPhongChieu, TenPhongChieu: e.target.value })}
+              />
+              <input
+                type="number"
+                placeholder="Số lượng ghế"
+                value={newPhongChieu.SoLuongGhe}
+                onChange={(e) => setNewPhongChieu({ ...newPhongChieu, SoLuongGhe: e.target.value })}
+              />
+              <button onClick={handleAddPhongChieu} className="btn btn-primary">Thêm</button>
+              <button onClick={() => setIsAddModalOpen(false)} className="btn btn-secondary">Đóng</button>
             </div>
           </div>
         )}

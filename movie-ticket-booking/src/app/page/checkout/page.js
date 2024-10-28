@@ -1,16 +1,32 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const CheckoutPage = () => {
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    email: '',
+  });
+
+  useEffect(() => {
+    // Lấy thông tin từ cookie và lưu vào state
+    const name = Cookies.get('customerName');
+    const phone = Cookies.get('customerPhone');
+    const email = Cookies.get('customerEmail');
+
+    if (name && phone && email) {
+      setCustomerInfo({ name, phone, email });
+    }
+  }, []);
+
   const [buttonColor1, setButtonColor1] = useState('#F5CF49');
   const [buttonColor2, setButtonColor2] = useState('#F5CF49');
 
   return (
     <section className="text-white bg-[rgba(0,0,0,0.3)]">
       <div className="container mx-auto p-4">
-        <h1 className="text-xl font-bold">
-          TRANG THANH TOÁN
-        </h1>
+        <h1 className="text-xl font-bold">TRANG THANH TOÁN</h1>
         <hr className="border-gray-600 mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[1410px] mx-auto">
           <div>
@@ -18,15 +34,15 @@ const CheckoutPage = () => {
               <div className="flex justify-between p-4 bg-[rgba(0,0,0,0.7)]">
                 <div>
                   <p className="font-bold">Tên khách hàng</p>
-                  <p>Nguyễn Văn A</p>
+                  <p>{customerInfo.name}</p>
                 </div>
                 <div>
                   <p className="font-bold">Số điện thoại</p>
-                  <p>0123456789</p>
+                  <p>{customerInfo.phone}</p>
                 </div>
                 <div>
                   <p className="font-bold">Email</p>
-                  <p>A123@gmail.com</p>
+                  <p>{customerInfo.email}</p>
                 </div>
               </div>
             </div>
@@ -78,7 +94,7 @@ const CheckoutPage = () => {
             </div>
             <div className="flex justify-start mt-4 space-x-4">
               <button
-                className=" py-2 font-semibold rounded w-[150px]" // Sử dụng lớp Tailwind để đặt chiều dài
+                className="py-2 font-semibold rounded w-[150px]"
                 style={{ backgroundColor: buttonColor1, color: 'black' }}
                 onMouseOver={() => setButtonColor1('#FFD700')}
                 onMouseOut={() => setButtonColor1('#F5CF49')}
@@ -86,7 +102,7 @@ const CheckoutPage = () => {
                 QUAY LẠI
               </button>
               <button
-                className=" py-2 font-semibold rounded w-[150px]" // Sử dụng lớp Tailwind để đặt chiều dài
+                className="py-2 font-semibold rounded w-[150px]"
                 style={{ backgroundColor: buttonColor2, color: 'black' }}
                 onMouseOver={() => setButtonColor2('#FFD700')}
                 onMouseOut={() => setButtonColor2('#F5CF49')}
@@ -94,7 +110,6 @@ const CheckoutPage = () => {
                 THANH TOÁN
               </button>
             </div>
-
           </div>
           <div>
             <div className="bg-[rgba(0,0,0,0.7)] p-4 rounded-lg">

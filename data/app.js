@@ -23,6 +23,9 @@ var authRouter = require('./routes/auth');
 var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
 var commentRouter = require('./routes/comments');
+var suatchieuRouter = require('./routes/suatchieu');
+var loaiveRouter = require('./routes/loaive');
+var giochieurouter = require('./routes/giochieu');
 
 var app = express();
 
@@ -63,6 +66,10 @@ app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/comments', commentRouter);
+app.use('/suatchieu', suatchieuRouter);
+app.use('/loaive', loaiveRouter);
+app.use('/giochieu', giochieurouter);
+
 
 app.use(function (req, res, next) {
   next(createError(404));
