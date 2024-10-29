@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import "../../../public/styles/dangchieu.css";
+import dynamic from "next/dynamic"; // Import dynamic để sử dụng Slider
 
 // Dynamically import the slider
 const Slider = dynamic(() => import('react-slick'), { ssr: false });
@@ -15,7 +13,7 @@ const Event = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:3000/event/");
+        const response = await fetch("http://localhost:3000/event");
         if (!response.ok) {
           throw new Error("Failed to fetch events");
         }
@@ -27,26 +25,26 @@ const Event = () => {
         setLoading(false);
       }
     };
-
     fetchEvents();
   }, []);
 
   if (loading) {
     return <p className="text-center">Loading events...</p>;
   }
-
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
+  // Cài đặt cho slider
   const settings = {
-    dots: false, 
+    dots: true,
     infinite: true,
+    arrows: false,
     speed: 200,
     slidesToShow: 3,
-    slidesToScroll: 1, 
+    slidesToScroll: 1,
     rows: 2,
-    autoplay: true, 
+    autoplay: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -76,24 +74,38 @@ const Event = () => {
   };
 
   return (
-    <section className="dang-chieu pb-5">
-      <div className="dang-chieu__container mx-auto py-8">
-        <div className=" max-w-full mx-auto py-8">
-          <h2 className="dang-chieu__title pt-4">KHUYỄN MÃI</h2>
-          <Slider {...settings}>
-            {events.map((event) => (
-              <div key={event.id} className="dang-chieu__card">
-                <Link href={`page/eventdetails/${event.id}`}>
-                  <img
-                    src={event.Anh}
-                    alt={event.Ten}
-                    className="dang-chieu__image"
-                  />
-                </Link>
-              </div>
-            ))}
-          </Slider>
-        </div>
+    <section style={{ backgroundColor: 'rgba(0, 0, 0, 0.45)' }}>
+      <div className="pt-10">
+        <h1 className='text-center uppercase text-[40px] text-[#FFFFFF] font-bold mb-8'>Khuyến mãi</h1>
+      </div>
+      <div className="mx-auto w-full" style={{ maxWidth: '1410px', paddingBottom: '80px' }}>
+        <style jsx>{`
+          .slick-dots li button {
+            background-color: #f5cf49; /* Màu vàng cho các dots */
+            width: 12px; /* Kích thước của dots */
+            height: 12px; /* Kích thước của dots */
+            border-radius: 50%; /* Bo tròn để tạo hình tròn */
+          }
+
+          .slick-dots li.slick-active button {
+            background-color: #d4a83d; /* Màu vàng đậm hơn cho dot đang hoạt động */
+          }
+
+          .slick-dots li button:before {
+            display: none; /* Ẩn pseudo-element before nếu không cần thiết */
+          }
+        `}</style>
+        <Slider {...settings}>
+          {events.map(item => (
+            <div className="rounded-lg overflow-hidden" key={item.id}>
+              <img
+                src={item.Anh}
+                className="w-full h-[212px] p-2 object-cover rounded-lg" // Thêm lớp rounded-lg
+                alt={`Image ${item.id}`}
+              />
+            </div>
+          ))}
+        </Slider>
       </div>
     </section>
   );
