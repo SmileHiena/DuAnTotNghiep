@@ -1,5 +1,4 @@
 "use client";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faReply, faPlay } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -38,7 +37,7 @@ const Detail = () => {
         }
         const movieData = await movieResponse.json();
         setMovie(movieData);
-
+        
         // Fetch comments
         const commentsResponse = await fetch(
           `http://localhost:3000/comments?movieId=${id}`
@@ -184,7 +183,7 @@ const Detail = () => {
                     Xem trailer
                   </button>
                 </div>
-                <Link href={`/page/datve/${movie._id}`}>
+                <Link href={`/page/datve/${movie.id}`}>
                   <button
                     className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300"
                     style={{ width: "150px", height: "41px" }}

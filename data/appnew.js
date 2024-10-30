@@ -25,6 +25,26 @@ const data = {
       },
       ThongTinPhim: "Nội dung phim...",
     },
+    {
+      id: 2,
+      Ten: "Hoai",
+      TheLoai: {
+        KieuPhim: "Hài, Hành Động",
+        ThoiLuong: "118'",
+        QuocGia: "Hàn quốc",
+        NgonNgu: "Phụ Đề",
+        KhuyenCao: "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+)",
+      },
+      Anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
+      IdDanhMuc: 4,
+      TrangThai: "dangchieu",
+      MoTa: {
+        DaoDien: "RYOO Seung-wan",
+        DienVien: "HWANG Jung-min, JUNG Hae-in",
+        NgayKhoiChieu: "Thứ Sáu, 27/09/2024",
+      },
+      ThongTinPhim: "Nội dung phim...",
+    },
   ],
 
   // ----- Thể Loại -----
@@ -73,17 +93,39 @@ const data = {
           SoLuongGhe: 10,
           // Thêm danh sách ghế
           Ghe: [
-            { Hang: "A", Ghe: ["A01", "A02", "A03", "A04", "A05"] },
-            { Hang: "B", Ghe: ["B01", "B02", "B03", "B04", "B05"] },
-            // Thêm các hàng ghế khác...
+            { Hang: "A", Ghe: ["P1_A01", "P1_A02", "P1_A03", "P1_A04", "P1_A05"] },
+            { Hang: "B", Ghe: ["P1_B01", "P1_B02", "P1_B03", "P1_B04", "P1_B05"] },
+            // Thêm các hàng ghế khác nếu cần...
+          ],
+        },
+        {
+          id: 2,
+          TenPhongChieu: "Phòng chiếu 2",
+          SoLuongGhe: 10,
+          // Thêm danh sách ghế
+          Ghe: [
+            { Hang: "C", Ghe: ["P2_C01", "P2_C02", "P2_C03", "P2_C04", "P2_C05"] },
+            { Hang: "D", Ghe: ["P2_D01", "P2_D02", "P2_D03", "P2_D04", "P2_D05"] },
+            // Thêm các hàng ghế khác nếu cần...
+          ],
+        },
+        {
+          id: 3,
+          TenPhongChieu: "Phòng chiếu 3",
+          SoLuongGhe: 10,
+          // Thêm danh sách ghế
+          Ghe: [
+            { Hang: "E", Ghe: ["P3_E01", "P3_E02", "P3_E03", "P3_E04", "P3_E05"] },
+            { Hang: "F", Ghe: ["P3_F01", "P3_F02", "P3_F03", "P3_F04", "P3_F05"] },
+            // Thêm các hàng ghế khác nếu cần...
           ],
         },
       ],
     },
   ],
 
-  // ----- Suất Chiếu -----
-  SuatChieu: [
+// ----- Suất Chiếu -----
+ SuatChieu: [
     {
       id: 1,
       IdPhim: 1,
@@ -91,9 +133,20 @@ const data = {
       NgayChieu: "26/09/2024",
       GioChieu: "18:00",
       TrangThai: "DangChieu",
+      DaDatGhe: ["P1_A01", "P1_A02"], 
+    },
+    {
+      id: 2,
+      IdPhim: 1,
+      IdPhong: 1,
+      NgayChieu: "26/09/2024",
+      GioChieu: "15:00",
+      TrangThai: "DangChieu",
+      DaDatGhe: [], 
     },
     // Thêm suất chiếu khác nếu cần
   ],
+
 
   // ----- Loại Vé -----
   LoaiVe: [
