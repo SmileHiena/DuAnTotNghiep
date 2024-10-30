@@ -85,7 +85,7 @@ const BlogDetailPage = () => {
         <div className="flex flex-col lg:flex-row gap-8 mt-8 justify-between">
           <div className="flex-col max-w-[1000px]">
             {blogDetail.map((blog) => (
-              <main key={blog._id} className="flex-1 bg-[#000000] rounded-lg shadow p-6 overflow-auto">
+              <main key={blog.id} className="flex-1 bg-[#000000] rounded-lg shadow p-6 overflow-auto">
                 <h2 className="text-2xl text-[#F5CF49] font-bold">{blog.NoiDung1}</h2>
                 <p className="mt-2 text-white">{blog.NoiDung2}</p>
                 <p className="text-white">{blog.NoiDung3}</p>

@@ -8,6 +8,7 @@ const data = {
     {
       id: 1,
       Ten: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
+      Trailer:"https://youtu.be/JgUWVooKSrA?t=64",
       TheLoai: {
         KieuPhim: "Hài, Hành Động",
         ThoiLuong: "118'",
@@ -779,26 +780,290 @@ Blogditals:[
     Anh:"https://homepage.momocdn.net/blogscontents/momo-amazone-s3-api-240906140535-638612283354168796.jpeg" ,
   },
 
+],
+
+lichChieu: [
+  {
+    id: 1,
+    ngay: "2024-10-30",
+    thu: "Thứ Tư",
+    idPhim:1
+  },
+  {
+    id: 2,
+    ngay: "2024-10-31",
+    thu: "Thứ Năm",
+    idPhim:1
+  },
+  {
+    id: 3,
+    ngay: "2024-11-01",
+    thu: "Thứ Sáu",
+    idPhim:1
+  }, 
+  {
+    id: 4,
+    ngay: "2024-10-30",
+    thu: "Thứ Tư",
+    idPhim:2
+  },
+  {
+    id: 5,
+    ngay: "2024-10-31",
+    thu: "Thứ Năm",
+    idPhim:2
+  },
+  {
+    id: 6,
+    ngay: "2024-11-01",
+    thu: "Thứ Sáu",
+    idPhim:2
+  }, 
+],
+phong: [
+  {
+    id: 1,
+    idLichChieu: 1, // ID của lịch chiếu tương ứng
+    tenPhong: "Phòng 1",
+  },
+  {
+    id: 2,
+    idLichChieu: 1,
+    tenPhong: "Phòng 2",
+  },
+  {
+    id: 3,
+    idLichChieu: 2,
+    tenPhong: "Phòng 3",
+  },
+  {
+    id: 4,
+    idLichChieu: 5,
+    tenPhong: "Phòng 3",
+  },
+  {
+    id: 5,
+    idLichChieu: 4, // ID của lịch chiếu tương ứng
+    tenPhong: "Phòng 1",
+  },
+  {
+    id: 6,
+    idLichChieu: 5,
+    tenPhong: "Phòng 2",
+  },
+  {
+    id: 7,
+    idLichChieu: 4,
+    tenPhong: "Phòng 3",
+  },
+  {
+    id: 8,
+    idLichChieu: 6,
+    tenPhong: "Phòng 3",
+  },
+],
 
 
+xuatChieu: [
+  {
+    id: 1,
+    maPhong: 1,
+    gioChieu: "10:30",
+    trangThai: " hoạt động"
+  },
+  {
+    id: 2,
+    maPhong: 1,
+    gioChieu: "13:00",
+       trangThai: " hoạt động"
+  },
+  {
+    id: 3,
+    maPhong: 2,
+    gioChieu: "15:00",
+     trangThai: " hoạt động"
+  },
+  {
+    id: 4,
+    maPhong: 3,
+    gioChieu: "18:00",
+       trangThai: " hoạt động"
+  },
+  {
+    id: 5,
+    maPhong: 3,
+    gioChieu: "20:00",
+       trangThai: " hoạt động"
+  },
+  {
+    id: 6,
+    maPhong: 2,
+    gioChieu: "20:00",
+       trangThai: " hoạt động"
+  },
 
 
+  {
+    id: 7,
+    maPhong: 4,
+    gioChieu: "10:30",
+    trangThai: " hoạt động"
+  },
+  {
+    id: 8,
+    maPhong: 4,
+    gioChieu: "12:30",
+    trangThai: " hoạt động"
+  },
+  {
+    id: 9,
+    maPhong: 5,
+    gioChieu: "10:30",
+    trangThai: " hoạt động"
+  },
+  {
+    id: 10,
+    maPhong: 5,
+    gioChieu: "20:30",
+    trangThai: " hoạt động"
+  },
+  {
+    id: 11,
+    maPhong: 6,
+    gioChieu: "20:30",
+    trangThai: " hoạt động"
+  },
+],
 
+ghe: [
+  { id: 1, maXuatChieu: 1, tenGhe: "A1", trangThai: "Trống" },
 
+  { id: 2, maXuatChieu: 1, tenGhe: "A2", trangThai: "Đã đặt" },
+  { id: 3, maXuatChieu: 1, tenGhe: "A3", trangThai: "Trống" },
+  { id: 4, maXuatChieu: 1, tenGhe: "A4", trangThai: "Trống" },
+  { id: 5, maXuatChieu: 1, tenGhe: "A5", trangThai: "Trống" },
+  { id: 6, maXuatChieu: 1, tenGhe: "A6", trangThai: "Trống" },
+  { id: 7, maXuatChieu: 1, tenGhe: "A7", trangThai: "Trống" },
+  { id: 8, maXuatChieu: 1, tenGhe: "A8", trangThai: "Đã đặt" },
+  { id: 9, maXuatChieu: 1, tenGhe: "A9", trangThai: "Trống" },
+  { id: 10, maXuatChieu: 1, tenGhe: "A10", trangThai: "Trống" },
 
+  { id: 11, maXuatChieu: 2, tenGhe: "B1", trangThai: "Trống" },
+  { id: 12, maXuatChieu: 2, tenGhe: "B2", trangThai: "Trống" },
+  { id: 13, maXuatChieu: 2, tenGhe: "B3", trangThai: "Đã đặt" },
+  { id: 14, maXuatChieu: 2, tenGhe: "B4", trangThai: "Trống" },
+  { id: 15, maXuatChieu: 2, tenGhe: "B5", trangThai: "Trống" },
+  { id: 16, maXuatChieu: 2, tenGhe: "B6", trangThai: "Trống" },
+  { id: 17, maXuatChieu: 2, tenGhe: "B7", trangThai: "Trống" },
+  { id: 18, maXuatChieu: 2, tenGhe: "B8", trangThai: "Trống" },
+  { id: 19, maXuatChieu: 2, tenGhe: "B9", trangThai: "Trống" },
+  { id: 20, maXuatChieu: 2, tenGhe: "B10", trangThai: "Trống" },
 
+  { id: 21, maXuatChieu: 3, tenGhe: "C1", trangThai: "Đã đặt" },
+  { id: 22, maXuatChieu: 3, tenGhe: "C2", trangThai: "Trống" },
+  { id: 23, maXuatChieu: 3, tenGhe: "C3", trangThai: "Trống" },
+  { id: 24, maXuatChieu: 3, tenGhe: "C4", trangThai: "Trống" },
+  { id: 25, maXuatChieu: 3, tenGhe: "C5", trangThai: "Trống" },
+  { id: 26, maXuatChieu: 3, tenGhe: "C6", trangThai: "Trống" },
+  { id: 27, maXuatChieu: 3, tenGhe: "C7", trangThai: "Đã đặt" },
+  { id: 28, maXuatChieu: 3, tenGhe: "C8", trangThai: "Trống" },
+  { id: 29, maXuatChieu: 3, tenGhe: "C9", trangThai: "Trống" },
+  { id: 30, maXuatChieu: 3, tenGhe: "C10", trangThai: "Trống" },
 
-
-
-
-
-
-
-
-
+  { id: 31, maXuatChieu: 4, tenGhe: "D1", trangThai: "Trống" },
+  { id: 32, maXuatChieu: 4, tenGhe: "D2", trangThai: "Trống" },
+  { id: 33, maXuatChieu: 4, tenGhe: "D3", trangThai: "Trống" },
+  { id: 34, maXuatChieu: 4, tenGhe: "D4", trangThai: "Trống" },
+  { id: 35, maXuatChieu: 4, tenGhe: "D5", trangThai: "Đã đặt" },
+  { id: 36, maXuatChieu: 4, tenGhe: "D6", trangThai: "Trống" },
+  { id: 37, maXuatChieu: 4, tenGhe: "D7", trangThai: "Trống" },
+  { id: 38, maXuatChieu: 4, tenGhe: "D8", trangThai: "Trống" },
+  { id: 39, maXuatChieu: 4, tenGhe: "D9", trangThai: "Trống" },
+  { id: 40, maXuatChieu: 4, tenGhe: "D10", trangThai: "Trống" },
+  { id: 41, maXuatChieu: 5, tenGhe: "A1", trangThai: "Trống" },
+  { id: 42, maXuatChieu: 5, tenGhe: "A2", trangThai: "Trống" },
+  { id: 43, maXuatChieu: 5, tenGhe: "A4", trangThai: "Trống" },
+  { id: 44, maXuatChieu: 5, tenGhe: "A4", trangThai: "Trống" },
+  { id: 45, maXuatChieu: 5, tenGhe: "A5", trangThai: "Đã đặt" },
+  { id: 46, maXuatChieu: 5, tenGhe: "A6", trangThai: "Trống" },
+  { id: 47, maXuatChieu: 5, tenGhe: "A7", trangThai: "Trống" },
+  { id: 48, maXuatChieu: 5, tenGhe: "A8", trangThai: "Trống" },
+  { id: 49, maXuatChieu: 5, tenGhe: "A9", trangThai: "Trống" },
+  { id: 50, maXuatChieu: 5, tenGhe: "A10", trangThai: "Trống" },
+  { id: 51, maXuatChieu: 5, tenGhe: "B1", trangThai: "Trống" },
+  { id: 52, maXuatChieu: 5, tenGhe: "B2", trangThai: "Trống" },
+  { id: 53, maXuatChieu: 5, tenGhe: "B5", trangThai: "Trống" },
+  { id: 54, maXuatChieu: 5, tenGhe: "B5", trangThai: "Trống" },
+  { id: 55, maXuatChieu: 5, tenGhe: "B5", trangThai: "Đã đặt" },
+  { id: 56, maXuatChieu: 5, tenGhe: "B6", trangThai: "Trống" },
+  { id: 57, maXuatChieu: 5, tenGhe: "B7", trangThai: "Trống" },
+  { id: 58, maXuatChieu: 5, tenGhe: "B8", trangThai: "Trống" },
+  { id: 59, maXuatChieu: 5, tenGhe: "B9", trangThai: "Trống" },
+  { id: 60, maXuatChieu: 5, tenGhe: "B10", trangThai: "Trống" },
+  { id: 61, maXuatChieu: 6, tenGhe: "A1", trangThai: "Trống" },
+  { id: 62, maXuatChieu: 6, tenGhe: "A2", trangThai: "Trống" },
+  { id: 63, maXuatChieu: 6, tenGhe: "A3", trangThai: "Trống" },
+  { id: 64, maXuatChieu: 6, tenGhe: "A4", trangThai: "Trống" },
+  { id: 65, maXuatChieu: 6, tenGhe: "A5", trangThai: "Trống" },
+  { id: 66, maXuatChieu: 6, tenGhe: "A6", trangThai: "Trống" },
+  { id: 67, maXuatChieu: 6, tenGhe: "A7", trangThai: "Trống" },
+  { id: 68, maXuatChieu: 6, tenGhe: "A8", trangThai: "Trống" },
+  { id: 69, maXuatChieu: 6, tenGhe: "A9", trangThai: "Trống" },
+  { id: 70, maXuatChieu: 6, tenGhe: "A10", trangThai: "Trống" },
+  { id: 71, maXuatChieu: 6, tenGhe: "B1", trangThai: "Trống" },
+  { id: 72, maXuatChieu: 6, tenGhe: "B2", trangThai: "Trống" },
+  { id: 73, maXuatChieu: 6, tenGhe: "B3", trangThai: "Trống" },
+  { id: 74, maXuatChieu: 6, tenGhe: "B4", trangThai: "Trống" },
+  { id: 75, maXuatChieu: 6, tenGhe: "B5", trangThai: "Trống" },
+  { id: 76, maXuatChieu: 6, tenGhe: "B6", trangThai: "Trống" },
+  { id: 77, maXuatChieu: 6, tenGhe: "B7", trangThai: "Trống" },
+  { id: 78, maXuatChieu: 6, tenGhe: "B8", trangThai: "Trống" },
+  { id: 79, maXuatChieu: 6, tenGhe: "B9", trangThai: "Trống" },
+  { id: 80, maXuatChieu: 6, tenGhe: "B10", trangThai: "Trống" },
+  { id: 81, maXuatChieu: 7, tenGhe: "A1", trangThai: "Trống" },
+  { id: 82, maXuatChieu: 7, tenGhe: "A2", trangThai: "Trống" },
+  { id: 83, maXuatChieu: 7, tenGhe: "A3", trangThai: "Trống" },
+  { id: 84, maXuatChieu: 7, tenGhe: "A4", trangThai: "Trống" },
+  { id: 85, maXuatChieu: 7, tenGhe: "A5", trangThai: "Trống" },
+  { id: 86, maXuatChieu: 7, tenGhe: "A6", trangThai: "Trống" },
+  { id: 87, maXuatChieu: 7, tenGhe: "A7", trangThai: "Trống" },
+  { id: 88, maXuatChieu: 7, tenGhe: "A8", trangThai: "Trống" },
+  { id: 89, maXuatChieu: 7, tenGhe: "A9", trangThai: "Trống" },
+  { id: 90, maXuatChieu: 7, tenGhe: "A10", trangThai: "Trống" },
+  { id: 91, maXuatChieu: 7, tenGhe: "B1", trangThai: "Trống" },
+  { id: 92, maXuatChieu: 7, tenGhe: "B2", trangThai: "Trống" },
+  { id: 93, maXuatChieu: 7, tenGhe: "B3", trangThai: "Trống" },
+  { id: 94, maXuatChieu: 7, tenGhe: "B4", trangThai: "Trống" },
+  { id: 95, maXuatChieu: 7, tenGhe: "B5", trangThai: "Trống" },
+  { id: 96, maXuatChieu: 7, tenGhe: "B6", trangThai: "Trống" },
+  { id: 97, maXuatChieu: 7, tenGhe: "B7", trangThai: "Trống" },
+  { id: 98, maXuatChieu: 7, tenGhe: "B8", trangThai: "Trống" },
+  { id: 99, maXuatChieu: 7, tenGhe: "B9", trangThai: "Trống" },
+  { id: 100, maXuatChieu: 7, tenGhe: "B10", trangThai: "Trống" },
+  { id: 101, maXuatChieu: 8, tenGhe: "A1", trangThai: "Trống" },
+  { id: 102, maXuatChieu: 8, tenGhe: "A2", trangThai: "Trống" },
+  { id: 103, maXuatChieu: 8, tenGhe: "A3", trangThai: "Trống" },
+  { id: 104, maXuatChieu: 8, tenGhe: "A4", trangThai: "Trống" },
+  { id: 105, maXuatChieu: 8, tenGhe: "A5", trangThai: "Trống" },
+  { id: 106, maXuatChieu: 8, tenGhe: "A6", trangThai: "Trống" },
+  { id: 107, maXuatChieu: 8, tenGhe: "A7", trangThai: "Trống" },
+  { id: 108, maXuatChieu: 8, tenGhe: "A8", trangThai: "Trống" },
+  { id: 109, maXuatChieu: 8, tenGhe: "A9", trangThai: "Trống" },
+  { id: 110, maXuatChieu: 8, tenGhe: "A10", trangThai: "Trống" },
+  { id: 111, maXuatChieu: 8, tenGhe: "B1", trangThai: "Trống" },
+  { id: 112, maXuatChieu: 8, tenGhe: "B2", trangThai: "Trống" },
+  { id: 113, maXuatChieu: 8, tenGhe: "B3", trangThai: "Trống" },
+  { id: 114, maXuatChieu: 8, tenGhe: "B4", trangThai: "Trống" },
+  { id: 115, maXuatChieu: 8, tenGhe: "B5", trangThai: "Trống" },
+  { id: 116, maXuatChieu: 8, tenGhe: "B6", trangThai: "Trống" },
+  { id: 117, maXuatChieu: 8, tenGhe: "B7", trangThai: "Trống" },
+  { id: 118, maXuatChieu: 8, tenGhe: "B8", trangThai: "Trống" },
+  { id: 119, maXuatChieu: 8, tenGhe: "B9", trangThai: "Trống" },
+  { id: 120, maXuatChieu: 8, tenGhe: "B10", trangThai: "Trống" },
 
 
 ],
+
   // ----- Rạp -----
   Rap: [
     {
@@ -1375,6 +1640,10 @@ async function main() {
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
       { name: "blogdetial", data: data.Blogditals },
+      { name: "Lichchieu", data: data.lichChieu },
+      { name: "Phong", data: data.phong },
+      { name: "xuatchieu", data: data.xuatChieu},
+      { name: "ghe", data: data.ghe },
     ];
 
     for (const { name, data } of collections) {

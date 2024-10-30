@@ -1,20 +1,29 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
-const DatVe = () => {
-  const { id } = useParams();
-  const [movie, setMovie] = useState({});
-  const [suatchieu, setSuatchieu] = useState([]);
-  const [raps, setRaps] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState(null);
-  const [Loaive, setLoaive] = useState([]);
-  const [quantities, setQuantities] = useState({});
-  const [Combo, setCombo] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+const MovieBookingPage = () => {
+  const [showShowtimes, setShowShowtimes] = useState(false);
+  const [showTheaterList, setShowTheaterList] = useState(false);
+  const [showTicketSelection, setShowTicketSelection] = useState(false);
+  const pathname = usePathname();
+  const [phims, setPhim] = useState([]);
+  const [phongs, setPhong] = useState([]);
+  const [ghes, setghe] = useState([]);
+  const id = pathname.split("/").pop();
+  const [movie, setMovie] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [lichchieu, setLichChieu] = useState([]);
+  const [selectedLichChieuId, setSelectedLichChieuId] = useState(null);
+  const [selectedPhongId, setSelectedPhongId] = useState(null);
+  const [selectedGheId, setSelectedGheId] = useState(null);
+  
+  const handleToggle = () => {
+    setIsVisible(!isVisible);
+  };
+
   useEffect(() => {
     const fetchMovieData = async () => {
       if (!id) {
@@ -22,530 +31,336 @@ const DatVe = () => {
         return;
       }
 
-      // Log the ID to ensure it's being passed correctly
-      console.log(`Fetching data for movie ID: ${id}`);
-
       try {
-        // Fetch movie data
-        const movieResponse = await fetch(
-          `http://localhost:3000/sanpham/${id}`
-        );
+        const movieResponse = await fetch(`http://localhost:3000/sanpham/${id}`);
         if (!movieResponse.ok) {
-          throw new Error(
-            `Failed to fetch movie data: ${movieResponse.statusText} (Status Code: ${movieResponse.status})`
-          );
+          throw new Error(`Failed to fetch movie data: ${movieResponse.statusText}`);
         }
         const movieData = await movieResponse.json();
         setMovie(movieData);
-
-        // Fetch comments
-        const commentsResponse = await fetch(`/api/comments?movieId=${id}`);
-        if (!commentsResponse.ok) {
-          throw new Error(
-            `Failed to fetch comments: ${commentsResponse.statusText} (Status Code: ${commentsResponse.status})`
-          );
-        }
-        const commentsData = await commentsResponse.json();
-        setComments(commentsData);
       } catch (error) {
-        console.error("Error fetching movie data or comments:", error);
+        console.error("Error fetching movie data:", error);
       }
     };
 
     fetchMovieData();
   }, [id]);
 
+  useEffect(() => {
+    const fetchPhimId = async () => {
+      if (!movie || !movie.id) return;
+      try {
+        const responseDetail = await fetch(`http://localhost:3000/sanpham/${movie.id}/phim`);
+        if (!responseDetail.ok) {
+          throw new Error("Không thể lấy chi tiết lịch chiếu");
+        }
+        const dataDetail = await responseDetail.json();
+        setPhim(dataDetail.filter((phim) => phim.idPhim === parseInt(movie.id, 10)));
+      } catch (error) {
+        console.error("Error fetching schedule details:", error);
+      }
+    };
+
+    fetchPhimId();
+  }, [movie]);
+
+  useEffect(() => {
+    const fetchPhongId = async () => {
+      if (!selectedPhongId) return;
+
+      try {
+        const responseDetail = await fetch(`http://localhost:3000/phong/${selectedPhongId}/xuatchieu`);
+        if (!responseDetail.ok) {
+          throw new Error("Không thể lấy chi tiết phòng chiếu");
+        }
+        const dataDetail = await responseDetail.json();
+        setPhong(dataDetail);
+        console.log("987")
+      } catch (error) {
+        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
+      }
+    };
+
+    fetchPhongId();
+  }, [selectedPhongId]);
+
+  useEffect(() => {
+    const fetchLichId = async () => {
+      if (!selectedLichChieuId) return;
+
+      try {
+        const responseDetail = await fetch(`http://localhost:3000/lichchieu/${selectedLichChieuId}/phong`);
+        if (!responseDetail.ok) {
+          throw new Error("Không thể lấy chi tiết lịch chiếu");
+        }
+        const dataDetail = await responseDetail.json();
+        setLichChieu(dataDetail);
+      } catch (error) {
+        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
+      }
+    };
+
+    fetchLichId();
+  }, [selectedLichChieuId]);
+
+
+  useEffect(() => {
+    const fetchGheId = async () => {
+      if (!selectedGheId) return;
+  
+      try {
+        const responseDetail = await fetch(`http://localhost:3000/ghe/${selectedGheId}/xuatchieu`);
+        if (!responseDetail.ok) {
+          throw new Error("Không thể lấy chi tiết lịch chiếu");
+        }
+        const dataDetail = await responseDetail.json();
+        setghe(dataDetail); // Cập nhật danh sách ghế với dữ liệu mới
+      } catch (error) {
+        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
+      }
+    };
+  
+    fetchGheId();
+  }, [selectedGheId]);
+  
+
   if (!movie) {
-    return <div>Loading...</div>;
+    return <p>Loading...</p>;
   }
 
-  // ----- Suất Chiếu -----
-  useEffect(() => {
-    const fetchSuatchieu = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/suatchieu"); // Địa chỉ API
-        if (!response.ok) {
-          throw new Error("Failed to fetch suatchieu");
-        }
-        const data = await response.json();
-        setSuatchieu(data);
-      } catch (error) {
-        console.error("Error fetching suatchieu:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSuatchieu();
-  }, []);
-
-  // ----- Rạp -----
-  useEffect(() => {
-    const fetchRaps = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/rap`); // Địa chỉ API
-        if (!response.ok) {
-          throw new Error("Failed to fetch raps");
-        }
-        const data = await response.json();
-        setRaps(data);
-      } catch (error) {
-        console.error("Error fetching raps:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRaps();
-  }, []);
-
-  // ----- Loại vé -----
-  useEffect(() => {
-    const fetchLoaive = async () => {
-      setLoading(true); // Set loading to true before fetching
-      try {
-        const response = await fetch(`http://localhost:3000/loaive/`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch loaive");
-        }
-        const data = await response.json();
-        console.log("Fetched data:", data); // Log fetched data
-        setLoaive(data);
-      } catch (error) {
-        console.error("Error fetching loaive:", error);
-        setError("Error fetching ticket types. Please try again.");
-      } finally {
-        setLoading(false); // Set loading to false after fetching
-      }
-    };
-
-    fetchLoaive(); // Call fetchLoaive on component mount
-  }, []);
-  const handleQuantityChange = (id, change) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max((prev[id] || 1) + change, 1), // Ensure quantity is at least 1
-    }));
-  };
-
-  const seats = [
-    {
-      row: "A",
-      seats: [
-        { number: 1, booked: false },
-        { number: 2, booked: false },
-        { number: 3, booked: false },
-        { number: 4, booked: true }, // Ghế đã được đặt
-        { number: 5, booked: false },
-        { number: 6, booked: true }, // Ghế đã được đặt
-        { number: 7, booked: false },
-        { number: 8, booked: false },
-        { number: 9, booked: false },
-        { number: 10, booked: true }, // Ghế đã được đặt
-      ],
-    },
-    {
-      row: "B",
-      seats: [
-        { number: 1, booked: false },
-        { number: 2, booked: false },
-        { number: 3, booked: false },
-        { number: 4, booked: false },
-        { number: 5, booked: true },
-        { number: 6, booked: false },
-        { number: 7, booked: false },
-        { number: 8, booked: false },
-        { number: 9, booked: true },
-        { number: 10, booked: false },
-      ],
-    },
-    {
-      row: "C",
-      seats: [
-        { number: 1, booked: false },
-        { number: 2, booked: false },
-        { number: 3, booked: false },
-        { number: 4, booked: false },
-        { number: 5, booked: false },
-        { number: 6, booked: false },
-        { number: 7, booked: true },
-        { number: 8, booked: false },
-        { number: 9, booked: false },
-        { number: 10, booked: true },
-      ],
-    },
-    {
-      row: "D",
-      seats: [
-        { number: 1, booked: true }, // Ghế đã được đặt
-        { number: 2, booked: false },
-        { number: 3, booked: false },
-        { number: 4, booked: false },
-        { number: 5, booked: false },
-        { number: 6, booked: false },
-        { number: 7, booked: false },
-        { number: 8, booked: false },
-        { number: 9, booked: false },
-        { number: 10, booked: false },
-      ],
-    },
-    {
-      row: "E",
-      seats: [
-        { number: 1, booked: false },
-        { number: 2, booked: false },
-        { number: 3, booked: false },
-        { number: 4, booked: false },
-        { number: 5, booked: false },
-        { number: 6, booked: false },
-        { number: 7, booked: false },
-        { number: 8, booked: false },
-        { number: 9, booked: false },
-        { number: 10, booked: true }, // Ghế đã được đặt
-      ],
-    },
-  ];
-
- // ----- Combo ----- 
- useEffect(() => {
-  const fetchCombo = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/combo");
-      if (!response.ok) throw new Error("Failed to fetch Combo");
-      const data = await response.json();
-      setCombo(data);
-    } catch (error) {
-      console.error("Error fetching Combo:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchCombo();
-}, []);
-
-const toggleSeatSelection = (row, number) => {
-  const seatId = `${row}-${number}`;
-  setSelectedSeats((prev) =>
-    prev.includes(seatId) ? prev.filter((s) => s !== seatId) : [...prev, seatId]
-  );
-};
-
-if (loading) return <div>Loading...</div>;
-if (error) return <div>{error}</div>;
 
   return (
-    <div className="justify-center mx-auto text-white bg-[rgba(0,0,0,0.6)] shadow-lg w-full max-w-[1410px] mx-auto">
-      <section>
-        <div className="flex justify-center">
-          <div className="">
-            <div className="flex flex-col md:flex-row items-start gap-20 mr-[120px] mt-8">
-              {/* left box image */}
-              <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
-                <img
-                  src={movie.Anh}
-                  alt={movie.title}
-                  className="object-cover"
-                  style={{ height: "650px", width: "auto" }}
-                />
-              </div>
+    <div className="bg-gray-900 container mx-auto max-w-[1410px] flex flex-col gap-6 text-white min-h-screen p-6">
+      <div className="container mx-auto max-w-[1410px] flex flex-col gap-6">
+        <div className="flex flex-col md:flex-row items-start gap-10 mt-8">
+          <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
+            <img
+              src={movie.Anh}
+              alt={movie.Ten}
+              className="object-cover"
+              style={{ height: "650px", width: "auto" }}
+            />
+          </div>
 
-              {/* right box info */}
-              <div className="pt-20 md:w-1/2 flex flex-col space-y-6">
-                <h1 className="text-[30px] font-semibold mb-4">{movie.Ten}</h1>
+          <div className="md:w-[65%] flex flex-col">
+            <h1 className="text-[30px] font-semibold mt-4 mb-4">{movie.Ten}</h1>
+            <p className="text-[18px] mb-2">
+              <span className="font-semibold">Đạo diễn:</span> {movie.MoTa?.DaoDien}
+            </p>
+            <p className="text-[18px] mb-2">
+              <span className="font-semibold">Diễn viên:</span> {movie.MoTa?.DienVien}
+            </p>
+            <p className="text-[18px] mb-2">
+              <span className="font-semibold">Ngày khởi chiếu:</span> {movie.MoTa?.NgayKhoiChieu}
+            </p>
+            <p className="text-[18px]">
+              <span className="font-semibold">Thể loại:</span> {movie.TheLoai?.KieuPhim}
+            </p>
+            <h1 className="text-[20px] font-bold mt-7 mb-2">Nội Dung</h1>
+            <p className="text-[16px] mb-2">{movie.ThongTinPhim}</p>
 
-                {/* Description */}
-                <h1 className="pt-20 text-[20px] font-bold">Nội Dung</h1>
-                <p className="text-[18px] mb-4">{movie.ThongTinPhim}</p>
-
-                {/* Additional movie information */}
-                <div className="pt-20 flex flex-wrap justify-between mb-6">
-                  <p className="text-[18px]">
-                    <span className="font-semibold">Thể loại:</span>{" "}
-                    {movie.TheLoai ? movie.TheLoai.KieuPhim : "N/A"}
-                  </p>
-
-                  <p className="text-[18px]">
-                    <span className="font-semibold">Thời gian:</span>{" "}
-                    {movie.TheLoai ? movie.TheLoai.ThoiLuong : "N/A"}
-                  </p>
-                  <p className="text-[18px]">
-                    <span className="font-semibold">Quốc gia:</span>{" "}
-                    {movie.TheLoai ? movie.TheLoai.QuocGia : "N/A"}
-                  </p>
-                </div>
+            <div className="flex mt-7 space-x-2">
+              <div className="flex">
+                <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
+                  <FontAwesomeIcon
+                    icon={faPlay}
+                    style={{ color: "#DA70D6", width: "12px", height: "12px" }}
+                  />
+                </p>
+                <button
+                  onClick={handleToggle}
+                  className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]"
+                >
+                  {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Suất Chiếu Section */}
-      <section className="w-1410 mx-auto">
-        <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
-          Suất Chiếu
-        </h1>
-        <div className="flex justify-center gap-6 mt-6 flex-wrap">
-          {suatchieu.map((showtime) => (
-            <div
-              key={showtime.id}
-              className="h-[150px] w-[150px] border-4 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded-lg transition duration-300 group hover:bg-[#F5CF49] shadow-lg"
+        {isVisible && (
+   <iframe 
+   className=" flex items-center justify-center w-[100%] min-h-[700px] bg-blue-500 " 
+   style={{ zIndex: 9999 }} 
+   src={movie.Trailer}
+   frameBorder="0" 
+   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+   allowFullScreen>
+</iframe>
+        )}
+
+        <div className="my-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">Lịch Chiếu</h2>
+          {phims.map((phim) => (
+            <button
+              key={phim.idPhim}
+              className="bg-yellow-500 text-black py-2 px-4 rounded"
+              onClick={() => {
+                setSelectedLichChieuId(phim.id); // Lưu ID lịch chiếu đã chọn
+                setShowShowtimes(true);
+                setShowTheaterList(false);
+                setShowTicketSelection(false);
+                setLichChieu([]); // Reset danh sách phòng chiếu khi chọn lịch chiếu mới
+              }}
             >
-              <p className="text-2xl font-semibold">{showtime.ThoiGian}</p>
-              <p className="text-lg font-semibold">{showtime.NgayChieu}</p>
-            </div>
+              <p>{phim.ngay}</p>
+              <p>{phim.thu}</p>
+            </button>
           ))}
         </div>
-      </section>
 
-      {/* Danh Sách Rạp Section */}
-      <section className="mt-10">
-        <h2 className="text-[40px] font-bold mb-4 text-center mt-20 pb-3">
-          Danh Sách Rạp
-        </h2>
-        <div className="flex flex-col items-center">
-          {raps.length > 0 ? (
-            raps.map((theater) => (
-              <div
-                key={theater.id} // Make sure the ID is unique
-                className="bg-[rgba(0,0,0,0.3)] w-full max-w-[1035px] p-4 mb-4 rounded"
-              >
-                <div className="flex justify-between">
-                  <h3 className="text-[28px] text-[#F5CF49] font-semibold">
-                    {theater.TenRap}
-                  </h3>
-                  <p>^</p>
-                </div>
-                <p className="text-[16px] font-light mt-4 ml-7">
-                  {theater.ViTri}
-                </p>
-                <div className="flex flex-wrap mt-4 ml-7">
-                  {theater.PhongChieu.map((room) => (
-                    <div
-                      key={room.id}
-                      className="bg-[#F5CF49] items-center text-center flex flex-col justify-center items-center rounded p-2 mb-2 mx-2 cursor-pointer w-[200px]"
-                      onClick={() => setSelectedRoom(room)}
-                    >
-                      <p className="text-[16px]">{room.TenPhongChieu}</p>
-                    </div>
-                  ))}
-                </div>
-                {/* Long box for showtimes */}
-                <div className="mt-4 w-full bg-[rgba(0,0,0,0.5)] p-4 rounded">
-                  {selectedRoom && (
-                    <>
-                      <h4 className="text-[18px] font-semibold">Lịch Chiếu:</h4>
-                      {selectedRoom.LichChieu.map((schedule) => (
-                        <div key={schedule.IdSuatChieu} className="mt-2">
-                          {schedule.GioChieu.map((showtime) => (
-                            <div
-                              key={showtime.id}
-                              className={`flex justify-between items-center bg-[rgba(255, 255, 255, 0.2)] p-2 rounded mb-2 cursor-pointer`}
-                              onClick={() => handleShowtimeClick(showtime)} // Add your click handler here
-                            >
-                              <p
-                                className={`text-[16px] ${
-                                  showtime.TrangThai === "dadat"
-                                    ? "text-red-500"
-                                    : "text-green-500"
-                                }`}
-                              >
-                                {showtime.Gio} -{" "}
-                                {showtime.TrangThai === "dadat"
-                                  ? "Đã Đặt"
-                                  : "Chưa Đặt"}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                  {!selectedRoom && (
-                    <p className="text-gray-500">
-                      Vui lòng chọn phòng để xem lịch chiếu.
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))
-          ) : (
-            <div>No theaters available.</div> // Handling no theaters
-          )}
-        </div>
-      </section>
-
-      {/* Chọn Loại Vé Section */}
-      <section className="mt-10">
-        <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
-          CHỌN LOẠI VÉ
-        </h2>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : (
-          <div className="flex justify-center gap-4">
-            {console.log("Loaive data:", Loaive)} {/* Log the Loaive data */}
-            {Loaive.map((ticketType) => (
-              <div
-                key={ticketType.id}
-                className="w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded"
-              >
-                <h3 className="text-lg text-[18px] font-bold">
-                  {ticketType.TenVe}
-                </h3>
-                <p className="text-[14px] text-gray-400">
-                  Giá: {ticketType.GiaVe.toLocaleString()} VND
-                </p>
-                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded ml-[150px]">
+        {showShowtimes && lichchieu.length > 0 && (
+          <div className="my-8 text-center">
+            <h2 className="text-3xl font-bold mb-4">Phòng Chiếu</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {lichchieu.map((lich) => (
+                <div
+                  key={lich.idLichChieu}
+                  className="bg-gray-800 p-4 rounded-lg text-left text-white"
+                >
                   <button
-                    onClick={() => handleQuantityChange(ticketType.id, -1)}
-                    className="text-black p-1"
+                    className="bg-yellow-500 text-black py-2 px-4 rounded mt-3"
+                    onClick={() => {
+                      setSelectedPhongId(lich.id);
+                      setShowTheaterList(true);
+                      setShowTicketSelection(false);
+                    }}
                   >
-                    -
-                  </button>
-                  <span className="text-black p-1">
-                    {quantities[ticketType.id] || 1}
-                  </span>
-                  <button
-                    onClick={() => handleQuantityChange(ticketType.id, 1)}
-                    className="text-black p-1"
-                  >
-                    +
+                   {lich.tenPhong}
                   </button>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
-      </section>
+        {showTheaterList && (
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold mb-4">Danh sách xuất chiếu </h2>
+            <div className="bg-purple-700 p-4 rounded-lg">
+              <h3 className="font-bold text-xl mb-2"> Rạp StichMan phường 12 Thành phố Hồ Chí Minh</h3>
+              <p>xuất chiếu</p>
+              {phongs.map((phong) => (
+  <button
+    key={phong.id}
+    className="bg-gray-800 py-1 px-3 rounded text-yellow-500 mt-2"
+    onClick={() => { 
+      setSelectedGheId(phong.id); // Lưu ID phòng đã chọn
+      setShowTicketSelection(true); // Hiện thị lựa chọn vé
 
-      {/* Seat Selection Section */}
-      <section className="rounded-lg shadow-lg p-4 mt-4 mx-4">
-        <h1 className="text-3xl font-bold text-center">CHỌN GHẾ - RẠP 03</h1>
-        <div className="bg-white text-black text-center py-2 rounded mt-4">
-          Màn hình
-        </div>
+      // Reset lại state ghế trước khi lấy thông tin mới
+      setghe([]); // Đặt lại danh sách ghế
+    }}
+  >
+    {phong.gioChieu} {/* Hiển thị giờ chiếu */}
+  </button>
+))}
 
-        <div className="flex flex-col items-center mt-20">
-          {/* Ghế từng hàng */}
-          {seats.map(({ row, seats }) => (
-            <div key={row} className="flex items-center mb-4">
-              <div className="w-8 text-center font-bold">{row}</div>
-              {/* Hiển thị ghế trong hàng */}
-              <div className="flex space-x-2">
-                {seats.map(({ number, booked }) => (
-                  <div key={`${row}${number}`} className="seat">
-                    <button
-                      className={`w-12 h-12 border-2 rounded-lg flex items-center justify-center transition-all duration-200 ${
-                        booked
-                          ? "bg-gray-300 cursor-not-allowed" // Ghế đã đặt
-                          : "bg-gray-800 text-white hover:bg-[#F5CF49] hover:text-black"
-                      }`}
-                      onClick={() =>
-                        !booked && handleSeatClick(`${row}${number}`)
-                      }
-                      disabled={booked} // Vô hiệu hóa nút nếu ghế đã đặt
-                    >
-                      {`${row}${number}`}
-                    </button>
-                  </div>
-                ))}
-              </div>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
 
-        {/* Legends */}
-        <div className="legends flex justify-center mt-4">
-          <div className="legend flex items-center mr-4">
-            <div className="legend-box w-4 h-4 bg-blue-500 mr-2"></div> Ghế Đơn
-          </div>
-          <div className="legend flex items-center mr-4">
-            <div className="legend-box w-4 h-4 bg-green-500 mr-2"></div> Ghế Đôi
-          </div>
-          <div className="legend flex items-center mr-4">
-            <div className="legend-box w-4 h-4 bg-gray-300 mr-2"></div> Ghế
-            Thường
-          </div>
-          <div className="legend flex items-center">
-            <div className="legend-box w-4 h-4 bg-yellow-300 mr-2"></div> Ghế
-            Chọn
-          </div>
-        </div>
-      </section>
-
-      {/* Combo Section */}
-      <div>
-      {/* Combo Section */}
-      <section className="mt-10">
-        <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
-          CHỌN COMBO
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {Combo.map((item) => (
-            <div
-              key={item.id}
-              className="w-[350px] p-4 flex items-center gap-4"
-            >
-              {/* Left: Combo Image */}
-              <div className="flex-shrink-0">
-                <img
-                  src={`${item.Anh}`} // Ensure this path is correct
-                  alt={item.TenCombo}
-                  className="h-[130px] w-[130px] object-cover rounded"
-                />
-              </div>
-
-              {/* Right: Combo Info */}
-              <div>
-                <h3 className="mb-2 text-[16px] font-bold">{item.TenCombo}</h3>
-                <p className="mb-2 text-[14px] font-bold">{item.NoiDung}</p>
-                <p className="mb-2 text-[14px] font-bold">
-                  Giá: {item.Gia.toLocaleString()} VND
-                </p>
-                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded">
-                  <button
-                    className="text-black p-1"
-                    onClick={() => handleQuantityChange(item.id, -1)}
-                  >
-                    -
-                  </button>
-                  <span className="text-black p-1">
-                    {quantities[item.id] || 1}
-                  </span>
-                  <button
-                    className="text-black p-1"
-                    onClick={() => handleQuantityChange(item.id, 1)}
-                  >
-                    +
-                  </button>
+{showTicketSelection && (
+          <>
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold mb-4">Chọn Loại Vé</h2>
+              <div className="flex items-center justify-center gap-4">
+                <div className="bg-gray-800 p-4 rounded-lg text-center">
+                  <h3>Người Lớn</h3>
+                  <p>65,000 VND</p>
+                  <div className="flex justify-center gap-2 mt-2">
+                    <button className="bg-gray-700 px-4 py-2 rounded">-</button>
+                    <span className="px-4">0</span>
+                    <button className="bg-gray-700 px-4 py-2 rounded">+</button>
+                  </div>
+                </div>
+                <div className="bg-gray-800 p-4 rounded-lg text-center">
+                  <h3>HSSV/Người Cao Tuổi</h3>
+                  <p>45,000 VND</p>
+                  <div className="flex justify-center gap-2 mt-2">
+                    <button className="bg-gray-700 px-4 py-2 rounded">-</button>
+                    <span className="px-4">0</span>
+                    <button className="bg-gray-700 px-4 py-2 rounded">+</button>
+                  </div>
+                </div>
+                <div className="bg-gray-800 p-4 rounded-lg text-center">
+                  <h3>VIP</h3>
+                  <p>150,000 VND</p>
+                  <div className="flex justify-center gap-2 mt-2">
+                    <button className="bg-gray-700 px-4 py-2 rounded">-</button>
+                    <span className="px-4">0</span>
+                    <button className="bg-gray-700 px-4 py-2 rounded">+</button>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-    </div>
 
-      {/* Tổng tiền */}
-      <section className="mt-10">
-        <div className="flex justify-between items-center">
-          {/* Empty div to create space for centering */}
-          <div className="flex-grow"></div>
-          {/* Centered Heading */}
-          <h2 className="text-center text-[20px] font-bold flex-grow">
-            Tổng tiền: <span className="font-light"> 200.000 VND</span>
-          </h2>
-          {/* Continue Button */}
-          <button className="bg-[#F5CF49] text-black m-3 w-40 h-[40px] rounded hover:bg-[#FFD700]">
-            Tiếp tục
-          </button>
+           {/* Seat Selection */}
+           <div className="my-8 text-center">
+              <h2 className="text-3xl font-bold mb-4">Chọn Ghế - Rạp 04</h2>
+              <div className="bg-gray-800 p-4 rounded-lg inline-block">
+                <div className="mb-4 text-white">Màn hình</div>
+                <div className="bg-gray-600 h-1 w-full mb-4"></div>
+                <div className="flex flex-wrap">
+  {ghes.map((ghe) => (
+    <div key={ghe.maXuatChieu} className="w-1/10 p-1"> {/* Độ rộng 10% cho mỗi nút */}
+      <button className="flex bg-gray-800 text-white py-2 px-4 rounded">
+        {ghe.tenGhe}
+      </button>
+    </div>
+  ))}
+</div>
+
+                <div className="flex justify-center mt-6 space-x-4">
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-white border mr-2 inline-block"></span>
+                    <span className="text-gray-400">Ghế Trống</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-yellow-500 border mr-2 inline-block"></span>
+                    <span className="text-gray-400">Ghế Đã Đặt</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-gray-300 border mr-2 inline-block"></span>
+                    <span className="text-gray-400">Ghế Đang Chọn</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold mb-4">Chọn Combo</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gray-800 p-4 rounded-lg text-center">
+              <h3 className="font-bold">Combo 1</h3>
+              <p>Popcorn lớn + Nước ngọt 1L</p>
+              <p className="text-yellow-400">100,000 VND</p>
+              <button className="bg-yellow-500 text-black py-1 px-4 rounded mt-2">
+                Chọn
+              </button>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg text-center">
+              <h3 className="font-bold">Combo 2</h3>
+              <p>Khoai tây chiên + Nước ngọt 1L</p>
+              <p className="text-yellow-400">90,000 VND</p>
+              <button className="bg-yellow-500 text-black py-1 px-4 rounded mt-2">
+                Chọn
+              </button>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg text-center">
+              <h3 className="font-bold">Combo 3</h3>
+              <p>Gà rán + Nước ngọt 1L</p>
+              <p className="text-yellow-400">120,000 VND</p>
+              <button className="bg-yellow-500 text-black py-1 px-4 rounded mt-2">
+                Chọn
+              </button>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
 
-export default DatVe;
+export default MovieBookingPage;

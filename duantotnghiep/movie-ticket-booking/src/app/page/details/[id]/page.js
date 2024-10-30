@@ -14,7 +14,12 @@ const Detail = () => {
   const [movie, setMovie] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [isExpanded, setIsExpanded] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleToggle = () => {
+      setIsVisible(!isVisible);
+  };
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -119,21 +124,7 @@ const Detail = () => {
                 {movie.TheLoai.KieuPhim}
               </p>
               <h1 className="text-[20px] font-bold mt-7 mb-2">Nội Dung</h1>
-              <div className="flex items-center justify-between mb-4 max-w-[690px]">
-                <p className="text-[16px] mb-2">
-                  {isExpanded
-                    ? movie.ThongTinPhim
-                    : `${movie.ThongTinPhim.substring(0, 300)}...`}{" "}
-                  {/* Truncate to 300 characters */}
-                  <button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="text-[#F5CF49] underline"
-                  >
-                    {isExpanded ? "Ẩn bớt" : "Xem thêm"}
-                  </button>
-                </p>
-
-              </div>
+        
               <div className="flex space-x-4 mb-6">
                 <p className="text-[18px]">
                   <span className="font-semibold">Thể loại:</span>{" "}
@@ -148,8 +139,8 @@ const Detail = () => {
                   {movie.TheLoai.QuocGia}
                 </p>
               </div>
-              {/* Buttons for booking and trailer */}
-              <div className="flex mt-7 space-x-2">
+               {/* Buttons for booking and trailer */}
+               <div className="flex mt-7 space-x-2">
                 <div className="flex">
                   <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
                     <FontAwesomeIcon
@@ -161,9 +152,14 @@ const Detail = () => {
                       }}
                     />
                   </p>
-
-                  <button className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
-                    Xem trailer
+                  {/* <button 
+                onClick={handleToggle} 
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
+            </button> */}
+                  <button 
+                    onClick={handleToggle}  className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
+                  {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
                   </button>
                 </div>
                 <Link href={`/page/datve/${movie.id}`}>
@@ -173,11 +169,23 @@ const Detail = () => {
                   >
                     Đặt vé
                   </button>
-                </Link>
+           </Link>
               </div>
             </div>
           </div>
-
+          {isVisible && (
+          <iframe 
+          className="flex items-center justify-center mt-9 w-full min-h-[700px] bg-blue-500" 
+          style={{ zIndex: 9999 }} 
+          src={movie.Trailer}
+          title="ĐỐ ANH CÒNG ĐƯỢC TÔI - MAIN TRAILER | KHỞI CHIẾU: 27.09.2024" 
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerPolicy="strict-origin-when-cross-origin" 
+          allowFullScreen>
+      </iframe>
+      
+)}
           {/* Comment Form Section */}
           <div className="flex justify-center mt-10 w-full">
             <div className="w-full max-w-[1410px]">
@@ -255,7 +263,6 @@ const Detail = () => {
 
           {/* Related Movies Section */}
           <TuongTu />
-          <DangChieu />
         </div>
       </div>
     </div>

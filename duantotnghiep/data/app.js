@@ -25,6 +25,10 @@ var rapRouter = require('./routes/rap');
 var suatchieuRouter = require('./routes/suatchieu');
 var loaiveRouter = require('./routes/loaive');
 var veRouter = require('./routes/ve');
+var gheRouter = require('./routes/ghe');
+var lichchieuRouter = require('./routes/lichchieu');
+var phongRouter = require('./routes/phong');
+var xuatchieuRouter = require('./routes/xuatchieu');
 
 var app = express();
 
@@ -55,6 +59,7 @@ app.use('/categories', categoriesRouter);
 app.use('/event', eventsRouter);
 app.use('/search', searchRouter);
 app.use('/sapchieu', sapchieuRouter);
+app.use('/lichchieu', lichchieuRouter);
 app.use('/employees', employeesRouter);
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/theloai', admin_theloaiRouter);
@@ -67,6 +72,9 @@ app.use('/rap', rapRouter);
 app.use('/suatchieu', suatchieuRouter);
 app.use('loaive', loaiveRouter);
 app.use('ve', veRouter);
+app.use('/phong', phongRouter);
+app.use('/xuatchieu', xuatchieuRouter);
+app.use('/ghe', gheRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
