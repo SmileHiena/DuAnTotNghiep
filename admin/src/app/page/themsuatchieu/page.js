@@ -56,14 +56,16 @@ const ThemSuatchieu = () => {
     e.preventDefault();
     setIsSubmitting(true);
     toast.info('Đang gửi...');
-
+  
     // Chuyển đổi định dạng Ngày chiếu từ 'YYYY-MM-DD' sang 'DD/MM/YYYY'
     const formattedDate = formData.NgayChieu.split('-').reverse().join('/');
+    
     const dataToSubmit = {
       ...formData,
       NgayChieu: formattedDate,
+      DaDatGhe: [] // Thêm trường DaDatGhe vào dữ liệu gửi lên
     };
-
+  
     try {
       const response = await fetch('http://localhost:3000/suatchieu/add', {
         method: 'POST',
@@ -72,21 +74,21 @@ const ThemSuatchieu = () => {
         },
         body: JSON.stringify(dataToSubmit),
       });
-
+  
       if (!response.ok) {
         const errorResult = await response.json();
         toast.error(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`);
         return;
       }
-
+  
       const result = await response.json();
       toast.success(result.message);
-
+  
       // Chờ 3 giây trước khi chuyển hướng
       setTimeout(() => {
         router.push('/page/suatchieu');
       }, 3000);
-
+  
       // Reset form sau khi thành công
       setFormData({
         GioChieu: '',
@@ -102,6 +104,7 @@ const ThemSuatchieu = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <>

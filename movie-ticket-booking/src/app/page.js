@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div>
       <Banner />
-      {/* <DangChieu /> */}
+      <DangChieu />
       <SapChieu />
       <Event />
       <BlogSection />
