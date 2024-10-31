@@ -306,40 +306,6 @@ router.get('/phim/:IdPhim', async (req, res) => {
   }
 });
 
-// router.get('/phim/:IdPhim', async (req, res) => {
-//   try {
-//     const { IdPhim } = req.params;
-//     const db = await connectDb();
-//     const showtimesCollection = db.collection('suatchieu');
-
-//     // Lấy danh sách suất chiếu có IdPhim trùng khớp và chỉ lấy các trường cần thiết
-//     const showtimes = await showtimesCollection
-//       .find({ IdPhim: parseInt(IdPhim) })
-//       .project({
-//         _id: 1,
-//         id: 1,
-//         IdPhim: 1,
-//         IdPhong: 1,
-//         NgayChieu: 1,
-//         TrangThai: 1,
-        
-//       })
-//       .toArray();
-
-//     if (showtimes.length === 0) {
-//       return res.status(404).json({ message: 'Không tìm thấy suất chiếu cho phim này' });
-//     }
-
-//     // Trả về danh sách suất chiếu với các trường đã chỉ định
-//     res.json(showtimes);
-//   } catch (error) {
-//     console.error('Lỗi khi lấy danh sách suất chiếu theo phim:', error);
-//     res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
-//   }
-// });
-
-
-
 // Lấy danh sách suất chiếu theo phim với trạng thái DangChieu
 router.get('/phim/:IdPhim/dangchieu', async (req, res) => {
   try {
@@ -391,6 +357,35 @@ router.get('/phim/:IdPhim/dangchieu', async (req, res) => {
   } catch (error) {
     console.error('Lỗi khi lấy danh sách suất chiếu đang chiếu theo phim:', error);
     res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
+  }
+});
+
+// Lấy danh sách ghế theo IdPhong
+router.get('/ghe/:IdPhong', async (req, res) => {
+  try {
+    const { IdPhong } = req.params; // Lấy IdPhong từ tham số
+    const db = await connectDb();
+    const rapCollection = db.collection('rap');
+
+    // Lấy rạp đầu tiên (chỉ có một rạp)
+    const rap = await rapCollection.findOne({});
+
+    if (!rap) {
+      return res.status(404).json({ message: 'Không tìm thấy rạp' });
+    }
+
+    // Tìm phòng chiếu tương ứng với IdPhong
+    const phongChieu = rap.PhongChieu.find(phong => phong.id === parseInt(IdPhong));
+
+    if (!phongChieu) {
+      return res.status(404).json({ message: 'Không tìm thấy phòng chiếu này' });
+    }
+
+    // Trả về danh sách ghế trong phòng chiếu
+    res.status(200).json(phongChieu.Ghe || []);
+  } catch (error) {
+    console.error('Lỗi khi lấy danh sách ghế:', error);
+    res.status(500).json({ message: 'Lỗi khi lấy danh sách ghế', error });
   }
 });
 
