@@ -70,7 +70,7 @@ app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/suatchieu', suatchieuRouter);
-app.use('loaive', loaiveRouter);
+app.use('/loaive', loaiveRouter);
 app.use('ve', veRouter);
 app.use('/phong', phongRouter);
 app.use('/xuatchieu', xuatchieuRouter);

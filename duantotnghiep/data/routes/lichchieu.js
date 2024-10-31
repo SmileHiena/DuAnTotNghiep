@@ -45,9 +45,6 @@ router.get("/", async (req, res) => {
     }
   });
 
-
-
-
   router.get("/:id/phong", async (req, res) => {
     const lichId = parseInt(req.params.id); // Chuyển đổi ID từ chuỗi sang số
     console.log(`Fetching details for schedule with ID: ${lichId}`);

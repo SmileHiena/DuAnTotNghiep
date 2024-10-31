@@ -300,9 +300,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 
-
 //lọc lịch chiếu theo phim
-
 router.get("/:id/phim", async (req, res) => {
   const PhimId = parseInt(req.params.id); // Chuyển đổi ID từ chuỗi sang số
   console.log(`Fetching details for schedule with ID: ${PhimId}`);

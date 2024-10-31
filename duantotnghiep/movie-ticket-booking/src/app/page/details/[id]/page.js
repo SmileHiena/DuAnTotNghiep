@@ -175,7 +175,7 @@ const Detail = () => {
           </div>
           {isVisible && (
           <iframe 
-          className="flex items-center justify-center mt-9 w-full min-h-[700px] bg-blue-500" 
+          className="flex mt-8 items-center justify-center w-full min-h-[700px] bg-blue-500" 
           style={{ zIndex: 9999 }} 
           src={movie.Trailer}
           title="ĐỐ ANH CÒNG ĐƯỢC TÔI - MAIN TRAILER | KHỞI CHIẾU: 27.09.2024" 

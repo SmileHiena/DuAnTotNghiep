@@ -8,7 +8,7 @@ const data = {
     {
       id: 1,
       Ten: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
-      Trailer:"https://youtu.be/JgUWVooKSrA?t=64",
+      Trailer:"https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Hành Động",
         ThoiLuong: "118'",
@@ -36,7 +36,7 @@ const data = {
         ThoiLuong: "122'",
         QuocGia: "Việt Nam",
         NgonNgu: "VN",
-        KhuyenCao: "T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)",
+        KhuyenCao: "T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)",
       },
       Anh: "/images/phim/cam.jpg",
       IdDanhMuc: 2,
@@ -150,6 +150,7 @@ const data = {
       LuotXem: "314 lượt xem",
     },
   ],
+
 Blogditals:[
   {
     id:1,
@@ -820,6 +821,7 @@ lichChieu: [
     idPhim:2
   }, 
 ],
+
 phong: [
   {
     id: 1,
@@ -839,30 +841,29 @@ phong: [
   {
     id: 4,
     idLichChieu: 5,
-    tenPhong: "Phòng 3",
+    tenPhong: "Phòng 4",
   },
   {
     id: 5,
     idLichChieu: 4, // ID của lịch chiếu tương ứng
-    tenPhong: "Phòng 1",
+    tenPhong: "Phòng 5",
   },
   {
     id: 6,
     idLichChieu: 5,
-    tenPhong: "Phòng 2",
+    tenPhong: "Phòng 6",
   },
   {
     id: 7,
     idLichChieu: 4,
-    tenPhong: "Phòng 3",
+    tenPhong: "Phòng 7",
   },
   {
     id: 8,
     idLichChieu: 6,
-    tenPhong: "Phòng 3",
+    tenPhong: "Phòng 8",
   },
 ],
-
 
 xuatChieu: [
   {
@@ -901,7 +902,6 @@ xuatChieu: [
     gioChieu: "20:00",
        trangThai: " hoạt động"
   },
-
 
   {
     id: 7,
@@ -1217,16 +1217,19 @@ ghe: [
       id: 1,
       TenVe: "Người Lớn - Đơn",
       GiaVe: 75000,
+      idkc: 1,
     },
     {
       id: 2,
       TenVe: "HSSV-Người Cao Tuổi",
       GiaVe: 45000,
+      idkc: 2,
     },
     {
       id: 3,
       TenVe: "Người Lớn - Đôi",
       GiaVe: 155000,
+      idkc: 1,
     },
   ],
 

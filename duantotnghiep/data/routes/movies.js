@@ -71,19 +71,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-// //Trả về json danh sách sản phẩm
-// router.get('/api/Movie', async (req, res, next) => {
-//   const db = await connectDb();
-//   const productCollection = db.collection('phim');
-//   const phim = await productCollection.find().toArray();
-//   if (phim) {
-//     res.status(200).json(phim);
-//   } else {
-//     res.status(404).json({ message: 'Not found' });
-//   }
-// });
-
-
-
 module.exports = router;
