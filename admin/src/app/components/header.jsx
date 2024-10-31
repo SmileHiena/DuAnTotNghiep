@@ -45,6 +45,12 @@ const Header = () => {
                         </Link>
                     </li>
                     <li>
+                        <Link className="app-menu__item" href="/page/suatchieu">
+                            <i className='app-menu__icon bx bx-id-card'></i>
+                            <span className="app-menu__label">Quản lý suất chiếu</span>
+                        </Link>
+                    </li>
+                    <li>
                         <Link className="app-menu__item" href="/page/nhanvien">
                             <i className='app-menu__icon bx bx-id-card'></i>
                             <span className="app-menu__label">Quản lý nhân viên</span>

@@ -8,6 +8,8 @@ const DatVe = () => {
   const [movies, setMovies] = useState([]);
   const [showtimes, setShowtimes] = useState([]);
   const [ticketTypes, setTicketTypes] = useState([]);
+  // const [combos, setcombos] = useState([]);
+  const [comboQuantities, setComboQuantities] = useState({});
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [raps, setRaps] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -17,7 +19,19 @@ const DatVe = () => {
   const [showCinema, setShowCinema] = useState(false);
   const [selectedRap, setSelectedRap] = useState(null);
   const [selectedRoomId, setSelectedRoomId] = useState(null); // Lưu ID phòng đã chọn
-  const [selectedDate, setSelectedDate] = useState(null); 
+  const [selectedDate, setSelectedDate] = useState(null);   
+  const [totalAmount, setTotalAmount] = useState(0);
+  
+  const calculateTotal = () => {
+    const ticketPrice = selectedSeats.length > 0 ? ticketTypes.reduce((acc, type) => {
+      return acc + (type.GiaVe * ticketQuantities[type.id]); // Tính giá vé chỉ khi có ghế được chọn
+    }, 0) : 0; // Nếu không có ghế nào được chọn, giá vé là 0
+    const comboPrice = combos.reduce((acc, combo) => {
+      return acc + (combo.Gia * comboQuantities[combo.id]); // Giả sử mỗi combo có thuộc tính price và quantity
+    }, 0);
+    const total =  (ticketPrice + comboPrice) // Tính tổng
+    setTotalAmount(total);
+  };
   
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +50,16 @@ const DatVe = () => {
             }, {});
             setTicketQuantities(initialTicketQuantities);
 
+            const comboResponse = await fetch('http://localhost:3000/combo');
+            const combosData = await comboResponse.json();
+            setCombos(combosData);
+            
+            const initialComboQuantities = combosData.reduce((acc, combo) => {
+              acc[combo.id] = 0;
+              return acc;
+            }, {});
+            setComboQuantities(initialComboQuantities);
+
             // const rapResponse = await fetch(`http://localhost:3000/rap/phongchieu/${id}`);
             // const rapsData = await rapResponse.json();
             // setRaps(rapsData);
@@ -44,9 +68,6 @@ const DatVe = () => {
             const showtimesData = await showtimeResponse.json();
             setShowtimes(showtimesData);
     
-            const comboResponse = await fetch('http://localhost:3000/combo');
-            const combosData = await comboResponse.json();
-            setCombos(combosData);
           } catch (error) {
             console.error("Error fetching data:", error);
           } finally {
@@ -55,7 +76,13 @@ const DatVe = () => {
         };
 
     fetchData();
+    calculateTotal(); 
   }, []);
+
+  useEffect(() => {
+    calculateTotal(); // Gọi hàm tính tổng khi có thay đổi
+  }, [selectedSeats, ticketQuantities, comboQuantities]);
+
 
   const handleSuatChieuClick = async (showtime) => {
     try {
@@ -162,8 +189,19 @@ const DatVe = () => {
         setSelectedSeats(selectedSeats.slice(0, totalTickets));
       }
       return updatedQuantities;
+      
     });
   };
+
+  const handleComboQuantityChange = (comboId, change) => {
+    setComboQuantities((prev) => {
+      const updatedQuantities = {
+        ...prev,
+        [comboId]: Math.max(0, prev[comboId] + change),
+      };
+      return updatedQuantities;
+    });
+  }
 
   const toggleSeatSelection = (row, seat) => {
     const seatCode = `${row}-${seat}`;
@@ -250,7 +288,12 @@ const DatVe = () => {
               }
               return acc;
             }, {})
-          ).map(([_, showtime], index) => (
+          ).sort(([dateA], [dateB]) => {
+            const [dayA, monthA, yearA] = dateA.split("/").map(Number);
+            const [dayB, monthB, yearB] = dateB.split("/").map(Number);
+            return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+          })
+          .map(([_, showtime], index) => (
             <div
               key={index} // Tạo key duy nhất từ IdPhong và NgayChieu
               onClick={() => {
@@ -410,11 +453,23 @@ const DatVe = () => {
                   Giá: {item.Gia.toLocaleString()} VND
                 </p>
                 <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded">
-                  <button className="text-black p-1">-</button>
-                  <span className="text-black p-1">1</span>
-                  <button className="text-black p-1">+</button>
-                </div>
+                <button
+                    className="text-black p-1"
+                    onClick={() => handleComboQuantityChange(item.id, -1)}
+                  >
+                    -
+                  </button>
+                  <span className="text-black p-1">
+                    {comboQuantities[item.id]}
+                  </span>
+                  <button
+                    className="text-black p-1"
+                    onClick={() => handleComboQuantityChange(item.id, 1)}
+                  >
+                    +
+                  </button>
               </div>
+            </div>
             </div>
           ))}
         </div>
@@ -427,7 +482,7 @@ const DatVe = () => {
           <div className="flex-grow"></div>
           {/* Centered Heading */}
           <h2 className="text-center text-[20px] font-bold flex-grow">
-            Tổng tiền: <span className="font-light">200.000 VND</span>
+          Tổng Tiền: {totalAmount.toLocaleString()} VNĐ
           </h2>
           {/* Continue Button */}
           <button className="bg-[#F5CF49] text-black m-3 w-40 h-[40px] rounded hover:bg-[#FFD700]">

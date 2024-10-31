@@ -25,14 +25,34 @@ const data = {
       },
       ThongTinPhim: "Nội dung phim...",
     },
+    {
+      id: 2,
+      Ten: "Hoai",
+      TheLoai: {
+        KieuPhim: "Hài, Hành Động",
+        ThoiLuong: "118'",
+        QuocGia: "Hàn quốc",
+        NgonNgu: "Phụ Đề",
+        KhuyenCao: "T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên (18+)",
+      },
+      Anh: "/images/phim/Do-anh-cong-duoc-toi.jpg",
+      IdDanhMuc: 4,
+      TrangThai: "dangchieu",
+      MoTa: {
+        DaoDien: "RYOO Seung-wan",
+        DienVien: "HWANG Jung-min, JUNG Hae-in",
+        NgayKhoiChieu: "Thứ Sáu, 27/09/2024",
+      },
+      ThongTinPhim: "Nội dung phim...",
+    },
   ],
-
 
   // ----- Thể Loại -----
   TheLoai: [
     {
       id: 1,
       Ten: "Tình Cảm",
+      Anh: "",
     }
   ],
 
@@ -45,28 +65,116 @@ const data = {
       LuotXem: "314 lượt xem",
     },
   ],
+
+  Blogditals: [
+    {
+      id: 1,
+      MaBlog: 7,
+      NoiDung1: "Trảm Thần: Phàm Trần Thần Vực",
+      NoiDung2: "hể loại: Anime bộ, Fantasy, Adventure, Action",
+      NoiDung3: "Quốc gia: Trung Quốc",
+      NoiDung4: "Ngôn ngữ: VietSub",
+      NoiDung6: "Năm sản xuất: 2024",
+      NoiDung5: "Câu chuyện lấy bối cảnh thời kỳ mạt thế, nơi nguy hiểm luôn rình rập. Bộ phim xoay quanh Lâm Thất Dạ, một thiếu niên được chọn làm đại diện của thần minh. Thông qua sự nỗ lực và giác ngộ của bản thân, Lâm Thất Dạ dần trở thành người gác đêm cho đô thị, với nhiệm vụ bảo vệ quê hương và đất nước khỏi những hiểm nguy. Phim không chỉ mang đến những trận chiến kịch tính mà còn khắc họa hành trình trưởng thành của một người anh hùng giữa thời đại đầy biến động.",
+      Anh: "https://homepage.momocdn.net/blogscontents/momo-amazone-s3-api-240918160932-638622725722888616.jpg"
+    },
+  ],
+
   // ----- Rạp -----
+  Rap: [
+    {
+      id: 1,
+      TenRap: "Rạp ScreenTime Quận 12",
+      ViTri: "Vincom Center, Quận 12, TP.HCM",
+      PhongChieu: [
+        {
+          id: 1,
+          TenPhongChieu: "Phòng chiếu 1",
+          SoLuongGhe: 10,
+          // Thêm danh sách ghế
+          Ghe: [
+            { Hang: "A", Ghe: ["P1_A01", "P1_A02", "P1_A03", "P1_A04", "P1_A05"] },
+            { Hang: "B", Ghe: ["P1_B01", "P1_B02", "P1_B03", "P1_B04", "P1_B05"] },
+            // Thêm các hàng ghế khác nếu cần...
+          ],
+        },
+        {
+          id: 2,
+          TenPhongChieu: "Phòng chiếu 2",
+          SoLuongGhe: 10,
+          // Thêm danh sách ghế
+          Ghe: [
+            { Hang: "C", Ghe: ["P2_C01", "P2_C02", "P2_C03", "P2_C04", "P2_C05"] },
+            { Hang: "D", Ghe: ["P2_D01", "P2_D02", "P2_D03", "P2_D04", "P2_D05"] },
+            // Thêm các hàng ghế khác nếu cần...
+          ],
+        },
+        {
+          id: 3,
+          TenPhongChieu: "Phòng chiếu 3",
+          SoLuongGhe: 10,
+          // Thêm danh sách ghế
+          Ghe: [
+            { Hang: "E", Ghe: ["P3_E01", "P3_E02", "P3_E03", "P3_E04", "P3_E05"] },
+            { Hang: "F", Ghe: ["P3_F01", "P3_F02", "P3_F03", "P3_F04", "P3_F05"] },
+            // Thêm các hàng ghế khác nếu cần...
+          ],
+        },
+      ],
+    },
+  ],
 
-  
-
-
-
-
-
-
-
-  // ----- Suất Chiếu -----
-  SuatChieu: [
+// ----- Suất Chiếu -----
+ SuatChieu: [
     {
       id: 1,
       IdPhim: 1,
       IdPhong: 1,
       NgayChieu: "26/09/2024",
       GioChieu: "18:00",
-      TrangThai: "hoatdong", // Trạng thái suất chiếu
+      TrangThai: "DangChieu",
+      DaDatGhe: ["P1_A01", "P1_A02"], 
+    },
+    {
+      id: 2,
+      IdPhim: 1,
+      IdPhong: 1,
+      NgayChieu: "26/09/2024",
+      GioChieu: "15:00",
+      TrangThai: "DangChieu",
+      DaDatGhe: [], 
+    },
+    {
+      id: 3,
+      IdPhim : 1,
+      IdPhong: 2,
+      NgayChieu: "18/10/2024",
+      GioChieu: "03:56",
+      "TrangThai": "DangChieu",
+      "DaDatGhe": [],
+    },
+    {
+      "id": 4,
+    "NgayChieu": "26/09/2024",
+    "GioChieu": "18:47",
+    "IdPhim": 1,
+    "IdPhong": 1,
+    "TrangThai": "DangChieu",
+    "DaDatGhe": [],
+    },
+    {
+      "id": 5,
+    "NgayChieu": "18/10/2024",
+    "GioChieu": "19:52",
+    "IdPhim": 1,
+    "IdPhong": 1,
+    "TrangThai": "DangChieu",
+    "DaDatGhe": [],
     },
     // Thêm suất chiếu khác nếu cần
   ],
+
+
   // ----- Loại Vé -----
   LoaiVe: [
     {
@@ -96,7 +204,6 @@ const data = {
       Gia: 209000,
     },
   ],
-
 
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
@@ -186,7 +293,130 @@ const data = {
       Luuy: "Áp dụng vào ngày 28 tháng 6.",
       DieuKien: "Áp dụng tại web 28 tháng 6.",
     },
+    {
+      id: 2,
+      Ten: "HAIPHUONG45",
+      Anh: "/images/event/haiphuong.jpg",
+      NoiDung:
+        "Đặt vé phim Hai Phượng - Bộ phim hành động kịch tính do Ngô Thanh Vân thủ vai chính...........................................",
+      NgayBatDau: "05-10-2024",
+      NgayKetThuc: "05-11-2024",
+      Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      DieuKien:
+        "Áp dụng cho học sinh sinh viên xuất trình thẻ học sinh hoặc CCCD dưới 22 tuổi.",
+    },
+    {
+      id: 3,
+      Ten: "GIANGSINH2024",
+      NoiDung: "Ưu đãi vé xem phim mùa Giáng Sinh 2024 tại tất cả các rạp.",
+      Anh: "/images/event/giangsinh2024.jpg",
+      NgayBatDau: "01/12/2024",
+      NgayKetThuc: "25/12/2024",
+      Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      DieuKien: "Áp dụng khi mua trực tuyến qua ứng dụng ScreenTime.",
+    },
+    {
+      id: 4,
+      Ten: "TET2025",
+      NoiDung: "Mua vé xem phim và nhận ngay lì xì Tết 2025.",
+      Anh: "/images/event/tet2025.jpg",
+      NgayBatDau: "01/02/2025",
+      NgayKetThuc: "15/02/2025",
+      Luuy: "Áp dụng trong dịp Tết Nguyên Đán.",
+      DieuKien: "Áp dụng cho đơn hàng từ 2 vé trở lên.",
+    },
+    {
+      id: 5,
+      Ten: "BLACKFRIDAY2024",
+      NoiDung: "Giảm giá 50% tất cả các phim nhân dịp Black Friday.",
+      Anh: "/images/event/Black_Friday.jpg",
+      NgayBatDau: "28/11/2024",
+      NgayKetThuc: "29/11/2024",
+      Luuy: "Áp dụng cho tất cả các suất chiếu trong ngày.",
+      DieuKien: "Áp dụng cho các giao dịch trực tuyến.",
+    },
+    {
+      id: 6,
+      Ten: "SUMMERSALE2025",
+      NoiDung: "Giảm 30% vé xem phim mùa hè 2025 tại ScreenTime.",
+      Anh: "/images/event/summer.jpg",
+      NgayBatDau: "01/06/2025",
+      NgayKetThuc: "30/06/2025",
+      Luuy: "Áp dụng vào các ngày cuối tuần.",
+      DieuKien: "Áp dụng cho tất cả thành viên ScreenTime.",
+    },
+    {
+      id: 7,
+      Ten: "HALLOWEEN2024",
+      NoiDung: "Mua vé phim kinh dị giảm 40% trong dịp Halloween.",
+      Anh: "/images/event/halloween.jpg",
+      NgayBatDau: "25/10/2024",
+      NgayKetThuc: "31/10/2024",
+      Luuy: "Áp dụng cho phim thuộc thể loại kinh dị.",
+      DieuKien: "Áp dụng cho học sinh, sinh viên xuất trình thẻ.",
+    },
+    {
+      id: 8,
+      Ten: "QUOCKHANH2025",
+      NoiDung: "Ưu đãi đặc biệt nhân dịp Quốc Khánh 2/9.",
+      Anh: "/images/event/quockhanh.jpg",
+      NgayBatDau: "01/09/2025",
+      NgayKetThuc: "02/09/2025",
+      Luuy: "Áp dụng trong ngày lễ Quốc Khánh.",
+      DieuKien: "Áp dụng cho tất cả các khách hàng.",
+    },
+    {
+      id: 9,
+      Ten: "VALENTINE2025",
+      NoiDung: "Giảm 50% cho các cặp đôi nhân dịp Valentine 2025.",
+      Anh: "/images/event/valentine.jpg",
+      NgayBatDau: "14/02/2025",
+      NgayKetThuc: "14/02/2025",
+      Luuy: "Áp dụng cho các suất chiếu buổi tối.",
+      DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
+    },
+    {
+      id: 10,
+      Ten: "WOMENSDAY2025",
+      NoiDung: "Miễn phí vé cho khách hàng nữ nhân ngày 8/3.",
+      Anh: "/images/event/womenday.jpg",
+      NgayBatDau: "08/03/2025",
+      NgayKetThuc: "08/03/2025",
+      Luuy: "Áp dụng cho khách hàng nữ.",
+      DieuKien: "Áp dụng cho suất chiếu đầu tiên trong ngày.",
+    },
+    {
+      id: 11,
+      Ten: "MOTHERSDAY2025",
+      NoiDung: "Giảm giá 30% cho khách hàng đi cùng mẹ vào ngày 10/5.",
+      Anh: "/images/event/mothersday.jpg",
+      NgayBatDau: "10/05/2025",
+      NgayKetThuc: "10/05/2025",
+      Luuy: "Áp dụng cho tất cả các phim.",
+      DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
+    },
+    {
+      id: 12,
+      Ten: "THANKSGIVING2024",
+      NoiDung: "Khuyến mãi dịp lễ Tạ Ơn - Mua vé xem phim giảm 20%.",
+      Anh: "/images/event/thanksgiving.jpg",
+      NgayBatDau: "27/11/2024",
+      NgayKetThuc: "29/11/2024",
+      Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      DieuKien: "Áp dụng cho giao dịch mua online.",
+    },
+    {
+      id: 13,
+      Ten: "TRUNGTET2024",
+      NoiDung: "Ưu đãi Trung Thu - Giảm 25% vé phim thiếu nhi.",
+      Anh: "/images/event/trungthu.jpg",
+      NgayBatDau: "15/09/2024",
+      NgayKetThuc: "20/09/2024",
+      Luuy: "Áp dụng cho phim thiếu nhi.",
+      DieuKien: "Áp dụng cho khách hàng dưới 12 tuổi.",
+    },
   ],
+
 };
 
 async function main() {
@@ -211,6 +441,7 @@ async function main() {
       { name: "chitiethoadon", data: data.ChiTietHoaDon },
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
+      { name: "blogdetial", data: data.Blogditals },
     ];
 
     for (const { name, data } of collections) {
