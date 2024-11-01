@@ -1,17 +1,110 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const [buttonColor1, setButtonColor1] = useState('#F5CF49');
   const [buttonColor2, setButtonColor2] = useState('#F5CF49');
+  const [bookingInfo, setBookingInfo] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
+  const [paymentMethod, setPaymentMethod] = useState(null); // State for payment method selection
+  const [error, setError] = useState(''); // State for error message
+
+  useEffect(() => {
+    const data = Cookies.get("bookingInfo");
+    if (data) {
+      const info = JSON.parse(data);
+      setBookingInfo(info);
+
+      const currentTime = new Date().getTime();
+      const holdTimeInSeconds = 300; // 5 minutes
+      const expirationTime = currentTime + holdTimeInSeconds * 1000;
+
+      Cookies.set("holdExpiration", expirationTime);
+
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = expirationTime - now;
+
+        if (distance < 0) {
+          clearInterval(interval);
+          setRemainingTime(0);
+          Cookies.remove("holdExpiration"); 
+        } else {
+          setRemainingTime(Math.floor(distance / 1000));
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, []);
+
+  const handlePayment = async () => {
+    // Check if a payment method has been selected
+    if (!paymentMethod) {
+        setError('Bạn phải chọn phương thức thanh toán.'); // Set error message if not selected
+        return;
+    }
+    setError(''); // Clear error message if a payment method is selected
+
+    const paymentData = {
+        NgayMua: new Date().toISOString(), // Replace with actual purchase date if needed
+        Rap: "Ticket Quận 12",
+        PhuongThucThanhToan: paymentMethod, // Save selected payment method
+        TenPhim: bookingInfo ? bookingInfo.movieName : "Chưa có thông tin",
+        ThoiGian: bookingInfo ? bookingInfo.showtimeTime : "Chưa có thông tin",
+        NgayChieu: bookingInfo ? bookingInfo.showtimeDate : "Chưa có thông tin", // Ensure this field exists in bookingInfo
+        SoGhe: bookingInfo ? bookingInfo.selectedSeats.join(", ") : "chưa có thống tin", // Count of selected seats
+        PhongChieu: bookingInfo ? bookingInfo.room : "Chưa có thông tin",
+        GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0, // Sum of ticket prices
+        TongTien: bookingInfo ? bookingInfo.totalAmount : 0, // Total amount from bookingInfo
+        TenKhachHang: "Nguyễn Văn A", // Replace with actual customer name if needed
+        Email: "A123@gmail.com", // Replace with actual customer email if needed
+        Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "", // Join combo names with commas
+    };
+
+    try {
+        const response = await fetch('http://localhost:3000/checkout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(paymentData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to create invoice');
+        }
+
+        const result = await response.json();
+        console.log('Invoice created:', result);
+
+        // Redirect to invoice details page using the id
+        if (result.id) { // Ensure that result.id exists
+            router.push(`/page/chitiethoadon/${result.id}`); // Redirect to the details page with the invoice ID
+        } else {
+            setError('Không có ID hóa đơn để chuyển hướng.');
+        }
+    } catch (error) {
+        console.error('Payment error:', error);
+        setError('Đã xảy ra lỗi khi thanh toán.');
+    }
+};
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
 
   return (
     <section className="text-white bg-[rgba(0,0,0,0.3)]">
       <div className="container mx-auto p-4">
-        <h1 className="text-xl font-bold">
-          TRANG THANH TOÁN
-        </h1>
+        <h1 className="text-xl font-bold">TRANG THANH TOÁN</h1>
         <hr className="border-gray-600 mb-4" />
+        {error && <div className="text-red-500 mb-4">{error}</div>} {/* Display error message if exists */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[1410px] mx-auto">
           <div>
             <div className="mb-4">
@@ -31,39 +124,40 @@ const CheckoutPage = () => {
               </div>
             </div>
             <div className="space-y-4">
-              <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
-                <input className="mr-2" name="payment" type="radio" />
-                <img
-                  alt="Momo logo"
-                  className="mr-2"
-                  height="24"
-                  src="https://storage.googleapis.com/a1aa/image/9wrjggel7jXQcCNtBhX99ZH3wSe0ZP3MLp2PuOTVD3jqJCnTA.jpg"
-                  width="24"
-                />
-                <span>Thanh toán qua Momo</span>
-              </label>
-              <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
-                <input className="mr-2" name="payment" type="radio" />
-                <img
-                  alt="Nội địa logo"
-                  className="mr-2"
-                  height="24"
-                  src="https://storage.googleapis.com/a1aa/image/BMhFtv7NofUuDyLI2zUYcccGbHCsByXh6jcSNVwWljV0EhzJA.jpg"
-                  width="24"
-                />
-                <span>Thanh toán qua Thẻ nội địa</span>
-              </label>
-              <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
-                <input className="mr-2" name="payment" type="radio" />
-                <img
-                  alt="Quốc tế logo"
-                  className="mr-2"
-                  height="24"
-                  src="https://storage.googleapis.com/a1aa/image/eSRLxk1FwCQlGS1yllkaauZIYG6KHdVRgAowAyn6rtn1EhzJA.jpg"
-                  width="24"
-                />
-                <span>Thanh toán qua thẻ quốc tế</span>
-              </label>
+              {/* Payment Method Selection */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bold">Chọn phương thức thanh toán</span>
+                  {error && <span className="text-red-500 text-sm">{error}</span>} {/* Display error message if exists */}
+                </div>
+                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
+                  <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('momo')} />
+                  <img alt="Momo logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/9wrjggel7jXQcCNtBhX99ZH3wSe0ZP3MLp2PuOTVD3jqJCnTA.jpg" width="24" />
+                  <span>Thanh toán qua Momo</span>
+                </label>
+                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
+                  <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('localCard')} />
+                  <img
+                    alt="Nội địa logo"
+                    className="mr-2"
+                    height="24"
+                    src="https://storage.googleapis.com/a1aa/image/BMhFtv7NofUuDyLI2zUYcccGbHCsByXh6jcSNVwWljV0EhzJA.jpg"
+                    width="24"
+                  />
+                  <span>Thanh toán qua Thẻ nội địa</span>
+                </label>
+                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
+                  <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('internationalCard')} />
+                  <img
+                    alt="Quốc tế logo"
+                    className="mr-2"
+                    height="24"
+                    src="https://storage.googleapis.com/a1aa/image/eSRLxk1FwCQlGS1yllkaauZIYG6KHdVRgAowAyn6rtn1EhzJA.jpg"
+                    width="24"
+                  />
+                  <span>Thanh toán qua thẻ quốc tế</span>
+                </label>
+              </div>
             </div>
             <div className="mt-4">
               <div className="flex items-center">
@@ -78,72 +172,68 @@ const CheckoutPage = () => {
             </div>
             <div className="flex justify-start mt-4 space-x-4">
               <button
-                className=" py-2 font-semibold rounded w-[150px]" // Sử dụng lớp Tailwind để đặt chiều dài
+                className="py-2 font-semibold rounded w-[150px]"
                 style={{ backgroundColor: buttonColor1, color: 'black' }}
                 onMouseOver={() => setButtonColor1('#FFD700')}
                 onMouseOut={() => setButtonColor1('#F5CF49')}
+                onClick={() => window.history.back()}
               >
                 QUAY LẠI
               </button>
               <button
-                className=" py-2 font-semibold rounded w-[150px]" // Sử dụng lớp Tailwind để đặt chiều dài
+                className="py-2 font-semibold rounded w-[150px]"
                 style={{ backgroundColor: buttonColor2, color: 'black' }}
                 onMouseOver={() => setButtonColor2('#FFD700')}
                 onMouseOut={() => setButtonColor2('#F5CF49')}
+                onClick={handlePayment}
               >
                 THANH TOÁN
               </button>
             </div>
-
           </div>
           <div>
             <div className="bg-[rgba(0,0,0,0.7)] p-4 rounded-lg">
-              <h2 className="font-bold text-lg">LÀM GIÀU VỚI MA (T16)</h2>
+              <h2 className="font-bold text-lg">{bookingInfo ? bookingInfo.movieName : "Không có tên phim"}</h2>
               <div className="flex justify-between items-center">
-                <span className="text-[#F5CF49]">
-                  Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)
-                </span>
-                <span className="bg-[#F5CF49] text-[14px] text-black px-2 py-1 rounded">
-                  THỜI GIAN GIỮ VÉ: 04:00
-                </span>
+                <span className="text-[#F5CF49]">Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)</span>
+                <span className="bg-[#F5CF49] text-[14px] text-black px-2 py-1 rounded">THỜI GIAN GIỮ VÉ: {formatTime(remainingTime)}</span>
               </div>
-              <p className="mt-2">Ticker Quận 12</p>
-              <p className="text-gray-400">
-                271 Nguyễn Trãi, Phường Nguyễn Cư Trinh, Quận 1, Thành Phố Hồ Chí Minh
-              </p>
+              <p className="mt-2">Ticket Quận 12</p>
+              <p className="text-gray-400">271 Nguyễn Trãi, Phường Nguyễn Cư Trinh, Quận 1, Thành Phố Hồ Chí Minh</p>
               <div className="mt-4 grid grid-cols-2 gap-4">
                 <div>
                   <p className="font-bold">THỜI GIAN</p>
-                  <p>16:25 Thứ Bảy 21/09/2024</p>
+                  <p>{bookingInfo ? bookingInfo.showtimeTime : "Tạm chưa có thống tin"}</p>
+                </div>
+                <div>
+                  <p className="font-bold">NGÀY CHIẾU</p>
+                  <p>{bookingInfo ? bookingInfo.showtimeDate : "Tạm chưa có thống tin"}</p>
                 </div>
                 <div>
                   <p className="font-bold">PHÒNG</p>
-                  <p>06</p>
+                  <p>{bookingInfo ? bookingInfo.room : "Tạm chưa có thống tin"}</p>
                 </div>
                 <div>
                   <p className="font-bold">SỐ VÉ</p>
-                  <p>1</p>
+                  <p>{bookingInfo ? bookingInfo.selectedSeats.length : "Tạm chưa có thống tin"}</p>
                 </div>
                 <div>
                   <p className="font-bold">LOẠI VÉ</p>
-                  <p>Người Lớn</p>
-                </div>
-                <div>
-                  <p className="font-bold">LOẠI VÉ</p>
-                  <p>Ghế Thường</p>
+                  <p>{bookingInfo ? bookingInfo.ticketTypes.map(ticket => `${ticket.name}`).join(", ") : "Tạm chưa có thống tin"}</p>
                 </div>
                 <div>
                   <p className="font-bold">SỐ GHẾ</p>
-                  <p>E01</p>
+                  <p>{bookingInfo ? bookingInfo.selectedSeats.join(", ") : "Tạm chưa có thống tin"}</p>
                 </div>
                 <div>
-                  <p className="font-bold">Bắp nước</p>
+                  <p className='font-bold'>Combo</p>
+                  <p>{bookingInfo ? bookingInfo.combos.map(ticket => `${ticket.name}`).join(", ") : "Tạm chưa có thống tin"}</p>
                 </div>
               </div>
               <hr className="border-gray-600 my-4" />
               <div className="flex justify-between items-center">
                 <span className="font-bold">SỐ TIỀN CẦN THANH TOÁN</span>
-                <span className="text-2xl font-bold">70,000VND</span>
+                <span className="text-2xl font-bold">{bookingInfo ? bookingInfo.totalAmount.toLocaleString() : "Tạm chưa có thống tin"} VND</span>
               </div>
             </div>
           </div>

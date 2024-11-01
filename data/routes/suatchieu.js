@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Lấy danh sách suất chiếu
+// Lấy danh sách suất chiếu đang chiếu
 router.get('/dangchieu', async (req, res) => {
   try {
     const db = await connectDb();
@@ -79,12 +79,19 @@ router.get('/dangchieu', async (req, res) => {
     // Chỉ lấy những suất chiếu có trạng thái là "DangChieu"
     const showtimes = await collection.find({ TrangThai: "DangChieu" }).toArray();
 
-    // Lấy danh sách phim để ánh xạ IdPhim với tên phim
+    // Lấy danh sách phim để ánh xạ IdPhim với tên phim, ảnh, thể loại, và các thông tin khác
     const movieCollection = db.collection('phim');
     const movies = await movieCollection.find({}).toArray();
     const movieMap = {};
     movies.forEach(movie => {
-      movieMap[movie.id.toString()] = movie.Ten; // Giả định bạn có thuộc tính Ten trong bảng phim
+      movieMap[movie.id.toString()] = {
+        Ten: movie.Ten,
+        Anh: movie.Anh,
+        KieuPhim: movie.TheLoai?.KieuPhim || 'Không xác định', // Giả định TheLoai có thể không có KieuPhim
+        ThoiLuong: movie.TheLoai?.ThoiLuong || 'Không xác định', // Thêm thời lượng
+        DaoDien: movie.MoTa?.DaoDien || 'Không xác định', // Thêm đạo diễn
+        DienVien: movie.MoTa?.DienVien || 'Không xác định', // Thêm diễn viên
+      };
     });
 
     // Lấy danh sách rạp để ánh xạ IdPhong với tên phòng
@@ -93,15 +100,21 @@ router.get('/dangchieu', async (req, res) => {
     const theaterMap = {};
     theaters.forEach(theater => {
       theater.PhongChieu.forEach(room => {
-        theaterMap[room.id] = room.TenPhongChieu;
+        theaterMap[room.id] = room.TenPhongChieu; // Giả định room có thuộc tính TenPhongChieu
       });
     });
 
-    // Thêm tên phim và tên phòng vào danh sách suất chiếu
+    // Thêm các thuộc tính chi tiết cho mỗi suất chiếu
     const showtimesWithDetails = showtimes.map(showtime => ({
       ...showtime,
-      Ten: movieMap[showtime.IdPhim.toString()] || 'Không xác định', // Gán tên phim
-      TenPhongChieu: theaterMap[showtime.IdPhong] || 'Không xác định' // Gán tên phòng
+      Anh: movieMap[showtime.IdPhim.toString()]?.Anh || 'Không xác định',         // Ảnh phim
+      Ten: movieMap[showtime.IdPhim.toString()]?.Ten || 'Không xác định',         // Tên phim
+      KieuPhim: movieMap[showtime.IdPhim.toString()]?.KieuPhim || 'Không xác định', // Kiểu phim
+      ThoiLuong: movieMap[showtime.IdPhim.toString()]?.ThoiLuong || 'Không xác định', // Thời lượng phim
+      DaoDien: movieMap[showtime.IdPhim.toString()]?.DaoDien || 'Không xác định', // Đạo diễn
+      DienVien: movieMap[showtime.IdPhim.toString()]?.DienVien || 'Không xác định', // Diễn viên
+      TenPhongChieu: theaterMap[showtime.IdPhong] || 'Không xác định',           // Tên phòng chiếu
+      DaDatGhe: showtime.DaDatGhe || []                                          // Danh sách ghế đã đặt
     }));
 
     res.json(showtimesWithDetails);
@@ -388,6 +401,5 @@ router.get('/ghe/:IdPhong', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy danh sách ghế', error });
   }
 });
-
 
 module.exports = router;

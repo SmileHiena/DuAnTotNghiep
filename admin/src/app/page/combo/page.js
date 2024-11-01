@@ -171,7 +171,7 @@ const Combo = () => {
                     {combos.length > 0 ? (
                       combos.map((combo) => (
                         <tr key={combo._id}>
-                          <td>{combo.id}</td>
+                          <td>{combo._id}</td>
                           <td>{combo.TenCombo}</td>
                           <td>{combo.NoiDung}</td>
                           <td>{formatCurrency(combo.Gia)}</td>

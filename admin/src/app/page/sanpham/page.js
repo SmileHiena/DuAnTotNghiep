@@ -326,7 +326,7 @@ const SanPham = () => {
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>Mã phim</th>
+                    <th>ID</th>
                     <th>Tên phim</th>
                     <th>Ảnh phim</th>
                     <th>Thể loại</th>
@@ -345,7 +345,7 @@ const SanPham = () => {
                 <tbody>
                   {sanPhamList.map((product) => (
                     <tr key={product._id}>
-                      <td>{product.id}</td>
+                      <td>{product._id}</td>
                       <td>{product.Ten}</td>
                       <td>
                         <img
