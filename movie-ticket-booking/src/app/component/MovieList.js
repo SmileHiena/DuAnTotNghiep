@@ -133,7 +133,7 @@ const MovieList = ({ apiUrl, title }) => {
               <div
                 key={index}
                 className="text-center cursor-pointer"
-                onClick={() => handleMovieClick(movie._id)} // Thêm sự kiện click
+                onClick={() => handleMovieClick(movie.id)} // Thêm sự kiện click
               >
                 <img
                   src={`${movie.Anh}`}

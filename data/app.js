@@ -25,7 +25,8 @@ var rapRouter = require('./routes/rap');
 var commentRouter = require('./routes/comments');
 var suatchieuRouter = require('./routes/suatchieu');
 var loaiveRouter = require('./routes/loaive');
-var giochieurouter = require('./routes/giochieu');
+var giochieuRouter = require('./routes/giochieu');
+var checkoutRouter = require('./routes/checkout');
 
 var app = express();
 
@@ -68,7 +69,8 @@ app.use('/rap', rapRouter);
 app.use('/comments', commentRouter);
 app.use('/suatchieu', suatchieuRouter);
 app.use('/loaive', loaiveRouter);
-app.use('/giochieu', giochieurouter);
+app.use('/giochieu', giochieuRouter);
+app.use('/checkout', checkoutRouter);
 
 
 app.use(function (req, res, next) {

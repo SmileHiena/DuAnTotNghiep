@@ -25,7 +25,7 @@ const Sukien = [
   // Thêm các sự kiện khác ở đây...
 ];
 
-const EventPage = () => {
+const PaymentPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center "style={{ backgroundColor: '#212529' }} > {/* Nền ngoài 45% trong suốt */}
       <div className="max-w-[1410px] w-full">
@@ -78,4 +78,4 @@ const EventPage = () => {
   );
 };
 
-export default EventPage;
+export default PaymentPage;
