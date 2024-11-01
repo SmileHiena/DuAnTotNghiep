@@ -1,6 +1,6 @@
 // middleware.js
 const jwt = require('jsonwebtoken');
-const connectDb = require('../models/db');// Đường dẫn đến file kết nối DB
+const connectDb = require('../models/db');
 
 const getUserFromToken = async (req, res, next) => {
     const token = req.headers.authorization;

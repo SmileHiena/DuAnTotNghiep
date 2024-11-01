@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic"; // Import dynamic để sử dụng Slider
+import Link from "next/link";
 
 // Dynamically import the slider
 const Slider = dynamic(() => import('react-slick'), { ssr: false });
@@ -98,11 +99,13 @@ const Event = () => {
         <Slider {...settings}>
           {events.map(item => (
             <div className="rounded-lg overflow-hidden" key={item.id}>
+              <Link href={"page/sukien"} >
               <img
                 src={item.Anh}
                 className="w-full h-[212px] p-2 object-cover rounded-lg" // Thêm lớp rounded-lg
                 alt={`Image ${item.id}`}
               />
+              </Link>
             </div>
           ))}
         </Slider>

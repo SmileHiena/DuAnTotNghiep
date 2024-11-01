@@ -4,6 +4,7 @@ import { faThumbsUp, faReply, faPlay } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import DangChieu from "@/app/component/dangchieu";
 import TuongTu from "../../../../app/component/tuongtu";
 import Cookies from "js-cookie";
 
@@ -37,7 +38,7 @@ const Detail = () => {
         }
         const movieData = await movieResponse.json();
         setMovie(movieData);
-        
+
         // Fetch comments
         const commentsResponse = await fetch(
           `http://localhost:3000/comments?movieId=${id}`
@@ -270,6 +271,7 @@ const Detail = () => {
 
           {/* Similar Movies Section */}
           <TuongTu />
+          <DangChieu />
         </div>
       </div>
     </div>

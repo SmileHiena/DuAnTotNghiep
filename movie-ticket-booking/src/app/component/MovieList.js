@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'; // Import biểu tượng mũi tên
+import Link from "next/link";
 
 const MovieList = ({ apiUrl, title }) => {
   const [movies, setMovies] = useState([]);
@@ -143,12 +144,14 @@ const MovieList = ({ apiUrl, title }) => {
           {currentMovies.length > 0 ? (
             currentMovies.map((movie, index) => (
               <div key={index} className="text-center">
+                 <Link href={`/page/details/${movie.id}`}>
                 <img
                   src={`${movie.Anh}`}
                   alt={`Poster of ${movie.Ten}`}
                   className="w-full h-auto max-w-[250px] max-h-[350px] mx-auto rounded"
                 />
                 <div className="text-sm mt-2 text-[#FFFFFF]">{movie.Ten}</div>
+                </Link>
               </div>
             ))
           ) : (
