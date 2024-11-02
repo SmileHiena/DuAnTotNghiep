@@ -58,9 +58,18 @@ const ChiTietHoaDon = () => {
   }
 
   return (
-    <div className="max-w-full flex flex-col items-center justify-center mx-auto p-4 sm:p-6 bg-[rgba(0,0,0,0.3)]" style={{ maxWidth: '1410px' }}>
-      <h2 className="text-2xl sm:text-3xl font-semibold text-white text-center mb-4">CHI TIẾT HÓA ĐƠN</h2>
-      <div className="overflow-hidden shadow-lg rounded-lg border border-gray-700" style={{ width: '50%' }} id="invoice">
+    <div
+      className="max-w-full flex flex-col items-center justify-center mx-auto p-4 sm:p-6 bg-[rgba(0,0,0,0.3)]"
+      style={{ maxWidth: "1410px" }}
+    >
+      <h2 className="text-2xl sm:text-3xl font-semibold text-white text-center mb-4">
+        CHI TIẾT HÓA ĐƠN
+      </h2>
+      <div
+        className="overflow-hidden shadow-lg rounded-lg border border-gray-700"
+        style={{ width: "50%" }}
+        id="invoice"
+      >
         <table className="min-w-full bg-[rgba(0,0,0,0.5)] mx-auto">
           <thead>
             <tr className="bg-gray-800 text-white">
@@ -70,52 +79,94 @@ const ChiTietHoaDon = () => {
           </thead>
           <tbody className="text-white text-sm">
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Mã hóa đơn:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.id}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                Mã hóa đơn:
+              </td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.id}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Ngày mua:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.NgayMua}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {new Date(hoaDon.NgayMua).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Rạp:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Rap}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.Rap}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Phương thức thanh toán:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.PhuongThucThanhToan}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                Phương thức thanh toán:
+              </td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.PhuongThucThanhToan}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Tên phim:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TenPhim}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.TenPhim}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Thời gian chiếu:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.ThoiGian}, {hoaDon.NgayChieu}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                Thời gian chiếu:
+              </td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.ThoiGian}, {new Date(hoaDon.NgayChieu).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Số ghế:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.SoGhe}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.SoGhe}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Phòng chiếu:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.PhongChieu}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                Phòng chiếu:
+              </td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.PhongChieu}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Giá vé:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.GiaVe}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.GiaVe}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Tổng tiền:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TongTien}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.TongTien}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Tên khách hàng:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TenKhachHang}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                Tên khách hàng:
+              </td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.TenKhachHang}
+              </td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Email:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Email}</td>
+              <td className="py-2 px-3 border-b border-gray-600">
+                {hoaDon.Email}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -123,20 +174,20 @@ const ChiTietHoaDon = () => {
 
       <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
         <button
-          style={{ backgroundColor: '#F5CF49', width: '150px', height: '40px' }} // Set button size
+          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} // Set button size
           className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
           onClick={handleDownload} // Add click event for download
         >
           Tải Xuống
         </button>
         <button
-          style={{ backgroundColor: '#F5CF49', width: '150px', height: '40px' }} // Set button size
+          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} // Set button size
           className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
         >
           Chia Sẻ
         </button>
         <button
-          style={{ backgroundColor: '#F5CF49', width: '150px', height: '40px' }} // Set button size
+          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} // Set button size
           className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
         >
           Hủy Đơn

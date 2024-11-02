@@ -75,10 +75,10 @@ const LichChieuPage = () => {
 
         <div className="grid grid-cols-1 gap-4">
           {filteredMovies.map((phim) => (
-            <div key={phim._id} className="p-4 rounded-lg shadow bg-[rgba(0,0,0,0.7)] flex">
+            <div key={phim._id} className="p-4 rounded-lg shadow bg-[rgba(0,0,0,0.7)] flex flex-col md:flex-row md:items-start">
               {/* Bên trái chứa ảnh và thể loại */}
-              <div className="flex">
-                <div className="relative w-[240px] h-[320px]">
+              <div className="flex-1 flex flex-col md:flex-row">
+                <div className="relative w-full md:w-[240px] h-[320px]">
                   <Image
                     src={phim.Anh || "/images/default.jpg"}
                     alt={phim.Ten}
@@ -86,7 +86,7 @@ const LichChieuPage = () => {
                     className="rounded-lg object-cover"
                   />
                 </div>
-                <div className="ml-4">
+                <div className="ml-0 md:ml-4 mt-4 md:mt-0 flex-1">
                   <h2 className="text-2xl font-semibold">{phim.Ten}</h2>
                   <p className="text-white mt-2">
                     <span className="font-bold">Kiểu phim:</span> {phim.KieuPhim}
@@ -104,7 +104,7 @@ const LichChieuPage = () => {
               </div>
 
               {/* Bên phải chứa thông tin rạp và thời gian chiếu */}
-              <div className="ml-10">
+              <div className="mt-4 md:mt-0 md:ml-10 flex-1">
                 <p className="text-gray-400">Phòng: {phim.TenPhongChieu}</p>
                 <p className="text-white">
                   <span className="font-bold">Ngày chiếu:</span> {phim.NgayChieu}

@@ -8,6 +8,7 @@ const CheckoutPage = () => {
   const [buttonColor1, setButtonColor1] = useState('#F5CF49');
   const [buttonColor2, setButtonColor2] = useState('#F5CF49');
   const [bookingInfo, setBookingInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null); 
   const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
   const [paymentMethod, setPaymentMethod] = useState(null); // State for payment method selection
   const [error, setError] = useState(''); // State for error message
@@ -15,34 +16,48 @@ const CheckoutPage = () => {
   useEffect(() => {
     const data = Cookies.get("bookingInfo");
     if (data) {
-      const info = JSON.parse(data);
-      setBookingInfo(info);
+        const info = JSON.parse(data);
+        setBookingInfo(info);
 
-      const currentTime = new Date().getTime();
-      const holdTimeInSeconds = 300; // 5 minutes
-      const expirationTime = currentTime + holdTimeInSeconds * 1000;
-
-      Cookies.set("holdExpiration", expirationTime);
-
-      const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = expirationTime - now;
-
-        if (distance < 0) {
-          clearInterval(interval);
-          setRemainingTime(0);
-          Cookies.remove("holdExpiration"); 
+        const tokenValue = Cookies.get("token");
+        if (tokenValue) {
+            fetchUserDetails(tokenValue);
         } else {
-          setRemainingTime(Math.floor(distance / 1000));
+            alert("Vui lòng đăng nhập lại.");
         }
-      }, 1000);
-
-      return () => clearInterval(interval);
     }
-  }, []);
+}, []);
+const tokenValue = Cookies.get("token"); // Ensure this cookie is set correctly
+
+const fetchUserDetails = async (tokenValue) => {
+  try {
+      const response = await fetch("http://localhost:3000/users/detailuser", {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${tokenValue}`,
+              "Content-Type": "application/json",
+          },
+      });
+
+      if (response.ok) {
+          const data1 = await response.json();
+          setUserInfo(data1);
+      } else {
+          console.error("Failed to fetch user data", response.status, response.statusText);
+          alert("Vui lòng đăng nhập lại.");
+      }
+  } catch (error) {
+      console.error("An error occurred while fetching user data:", error);
+      alert("Có lỗi xảy ra, vui lòng thử lại.");
+  }
+};
+
+  // fetchUserDetails();
+
 
   const handlePayment = async () => {
     // Check if a payment method has been selected
+    const tokenValue = Cookies.get("token"); 
     if (!paymentMethod) {
         setError('Bạn phải chọn phương thức thanh toán.'); // Set error message if not selected
         return;
@@ -52,6 +67,7 @@ const CheckoutPage = () => {
     const paymentData = {
         NgayMua: new Date().toISOString(), // Replace with actual purchase date if needed
         Rap: "Ticket Quận 12",
+        userId:userInfo ? userInfo.userId  : 'Chưa có  thông tin',
         PhuongThucThanhToan: paymentMethod, // Save selected payment method
         TenPhim: bookingInfo ? bookingInfo.movieName : "Chưa có thông tin",
         ThoiGian: bookingInfo ? bookingInfo.showtimeTime : "Chưa có thông tin",
@@ -60,8 +76,8 @@ const CheckoutPage = () => {
         PhongChieu: bookingInfo ? bookingInfo.room : "Chưa có thông tin",
         GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0, // Sum of ticket prices
         TongTien: bookingInfo ? bookingInfo.totalAmount : 0, // Total amount from bookingInfo
-        TenKhachHang: "Nguyễn Văn A", // Replace with actual customer name if needed
-        Email: "A123@gmail.com", // Replace with actual customer email if needed
+        TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin", // Replace with actual customer name if needed
+        Email: userInfo ? userInfo.Email : "Chưa có thông tin", // Replace with actual customer email if needed
         Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "", // Join combo names with commas
     };
 
@@ -109,17 +125,17 @@ const CheckoutPage = () => {
           <div>
             <div className="mb-4">
               <div className="flex justify-between p-4 bg-[rgba(0,0,0,0.7)]">
-                <div>
+              <div>
                   <p className="font-bold">Tên khách hàng</p>
-                  <p>Nguyễn Văn A</p>
+                  <p>{userInfo ? userInfo.Ten : "Tạm chưa có thông tin"}</p> {/* Display user name */}
                 </div>
                 <div>
                   <p className="font-bold">Số điện thoại</p>
-                  <p>0123456789</p>
+                  <p>{userInfo ? userInfo.SDT : "Tạm chưa có thông tin"}</p> {/* Display user phone */}
                 </div>
                 <div>
                   <p className="font-bold">Email</p>
-                  <p>A123@gmail.com</p>
+                  <p>{userInfo ? userInfo.Email : "Tạm chưa có thông tin"}</p> {/* Display user email */}
                 </div>
               </div>
             </div>
@@ -130,12 +146,12 @@ const CheckoutPage = () => {
                   <span className="font-bold">Chọn phương thức thanh toán</span>
                   {error && <span className="text-red-500 text-sm">{error}</span>} {/* Display error message if exists */}
                 </div>
-                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
-                  <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('momo')} />
+                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
+                  <input className="mr-2 " name="payment" type="radio" onChange={() => setPaymentMethod('momo')} />
                   <img alt="Momo logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/9wrjggel7jXQcCNtBhX99ZH3wSe0ZP3MLp2PuOTVD3jqJCnTA.jpg" width="24" />
                   <span>Thanh toán qua Momo</span>
                 </label>
-                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
+                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
                   <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('localCard')} />
                   <img
                     alt="Nội địa logo"
@@ -146,7 +162,7 @@ const CheckoutPage = () => {
                   />
                   <span>Thanh toán qua Thẻ nội địa</span>
                 </label>
-                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer">
+                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
                   <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('internationalCard')} />
                   <img
                     alt="Quốc tế logo"

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { ObjectId } = require('mongodb'); // Ensure ObjectId is imported for MongoDB document querying
 const connectDb = require('../models/db');
+const { getUserFromToken } = require('./middleware');
 let currentId = 0; 
 
 async function getNextSequenceValue(sequenceName) {
@@ -31,7 +32,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST: Create a new invoice
-router.post('/', async (req, res) => {
+router.post('/',  async (req, res) => {
     try {
         const {
             NgayMua,
@@ -46,15 +47,17 @@ router.post('/', async (req, res) => {
             TongTien,
             TenKhachHang,
             Email,
-            selectedSeats,
+            userId,
             Combo,
         } = req.body;
 
         // Validate input data
-        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email || !Combo) {
+        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email || !Combo || !userId) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
+
+        // const userId = req.userId;
         // Use currentId for the new invoice ID
         const newInvoiceId = ++currentId; // Increment currentId for new invoice
 
@@ -64,6 +67,7 @@ router.post('/', async (req, res) => {
         // Construct the new invoice object
         const newInvoice = {
             id: newInvoiceId, // Set the auto-incremented ID here
+            userId,  
             NgayMua,
             Rap,
             PhuongThucThanhToan,
@@ -115,5 +119,20 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch invoice' });
     }
 });
+
+router.get("/:userId", getUserFromToken, async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const db = await connectDb();
+      const hoadonCollection = db.collection("hoadon");
+      
+      const hoadon = await hoadonCollection.find({ userId }).toArray();
+      res.status(200).json(hoadon);
+  } catch (error) {
+      console.error("Error fetching hoadon:", error);
+      res.status(500).json({ message: "Failed to fetch hoadon" });
+  }
+  });
+  
 
 module.exports = router;
