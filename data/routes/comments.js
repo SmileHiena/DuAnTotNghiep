@@ -4,38 +4,49 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { getUserFromToken } = require('./middleware');
+
+// // Thiết lập nơi lưu trữ và tên file
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//       cb(null, 'public/'); // Thư mục lưu trữ ảnh
+//   },
+//   filename: function (req, file, cb) {
+//       cb(null, Date.now() + '-' + file.originalname); // Tên file độc nhất
+//   }
+// });
+
+// // Kiểm tra file upload
+// function checkFileUpLoad(req, file, cb) {
+//   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+//     return cb(new Error('Bạn chỉ được upload file ảnh'));
+//   }
+//   cb(null, true);
+// }
+
+// // Upload file
+// let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 const connectDb = require('../models/db');
 
-//---------------------------Products--------------------------------//
-// Generate a token for password reset
-function generateToken() {
-  return crypto.randomBytes(20).toString('hex');
-}
-
+// ---------------------------Products--------------------------------//
 // GET /api/comments?movieId=:movieId
-
 router.get("/", async (req, res) => {
     try {
-      const movieId = req.query.movieId; // Lấy movieId từ query (nếu có)
-      const userId = req.query.userId; // Lấy userId từ query (nếu có)
+      const movieId = req.query.movieId;
+      const userId = req.query.userId;
   
       const db = await connectDb();
-      const commentsCollection = db.collection("binhluan"); // Đảm bảo collection tên đúng
+      const commentsCollection = db.collection("binhluan");
   
-      // Xây dựng query để lọc
       const query = {};
   
-      // Nếu có movieId, thêm điều kiện lọc theo movieId
       if (movieId) {
         query.movieId = movieId;
       }
   
-      // Nếu có userId, thêm điều kiện lọc theo userId
       if (userId) {
         query.userId = userId;
       }
   
-      // Tìm bình luận dựa trên query đã xây dựng
       const comments = await commentsCollection.find(query).toArray();
   
       res.status(200).json(comments);
@@ -45,8 +56,7 @@ router.get("/", async (req, res) => {
     }
   });
 
-
-  router.get("/:movieId", async (req, res) => {
+router.get("/:movieId", async (req, res) => {
     try {
         const { movieId } = req.params;
         const db = await connectDb();
@@ -59,10 +69,17 @@ router.get("/", async (req, res) => {
         res.status(500).json({ message: "Failed to fetch comments" });
     }
 });
-  
-  // Thêm bình luận mới
-  router.post("/", getUserFromToken, async (req, res) => {
+
+// Thêm bình luận mới
+router.post("/", getUserFromToken, async (req, res) => {
     try {
+        const { user } = req;
+        
+        // Kiểm tra xem người dùng có đăng nhập không
+        if (!user) {
+            return res.status(401).json({ message: "Bạn phải đăng nhập để bình luận." });
+        }
+        
         const { movieId, content } = req.body;
 
         // Kiểm tra dữ liệu đầu vào
@@ -70,17 +87,15 @@ router.get("/", async (req, res) => {
             return res.status(400).json({ message: "movieId và content là bắt buộc" });
         }
 
-        const { user } = req; // Lấy thông tin người dùng từ req
-
         const db = await connectDb();
         const commentsCollection = db.collection("binhluan");
 
         const newComment = {
             movieId,
-            userId: user._id, // Sử dụng user ID từ req.user
+            userId: String(user.userId),
             content,
-            username: user.TenDangNhap, // Tên người dùng
-            userImage: user.Anh, // Ảnh người dùng
+            username: user.TenDangNhap,
+            userImage: user.Anh,
             timestamp: new Date(),
         };
 
@@ -92,8 +107,8 @@ router.get("/", async (req, res) => {
     }
 });
   
-  // Cập nhật bình luận
-  router.put("/:id", async (req, res) => {
+// Cập nhật bình luận
+router.put("/:id", async (req, res) => {
     try {
       const { id } = req.params;
       const { content } = req.body;
@@ -112,10 +127,10 @@ router.get("/", async (req, res) => {
       console.error("Error updating comment:", error);
       res.status(500).json({ message: "Failed to update comment" });
     }
-  });
+});
   
-  // Xóa bình luận
-  router.delete("/:id", async (req, res) => {
+// Xóa bình luận
+router.delete("/:id", async (req, res) => {
     try {
       const { id } = req.params;
   
@@ -128,11 +143,37 @@ router.get("/", async (req, res) => {
       console.error("Error deleting comment:", error);
       res.status(500).json({ message: "Failed to delete comment" });
     }
-  });
+});
 
 
+// const getUserFromToken = (req, res, next) => {
+//   const token = req.headers.authorization?.split(" ")[1]; // Extract token from 'Bearer <token>'
+//   if (!token) return res.status(401).json({ message: "Unauthorized" });
 
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use your JWT secret
+//     req.user = { _id: decoded.userId }; // Attach user ID to req.user
+//     next();
+//   } catch (error) {
+//     console.error("Token verification failed:", error);
+//     res.status(401).json({ message: "Unauthorized" });
+//   }
+// };
 
+// Fetches comment history based on the logged-in user's ID
+router.get("/:userId", getUserFromToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const db = await connectDb();
+    const commentsCollection = db.collection("binhluan");
+    
+    const comments = await commentsCollection.find({ userId }).toArray();
+    res.status(200).json(comments);
+} catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ message: "Failed to fetch comments" });
+}
+});
 
 
 module.exports = router;

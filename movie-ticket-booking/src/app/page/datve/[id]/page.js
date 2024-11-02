@@ -23,7 +23,7 @@ const DatVe = () => {
   const [selectedRoomId, setSelectedRoomId] = useState(null); // Lưu ID phòng đã chọn
   const [selectedDate, setSelectedDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedTicketType, setSelectedTicketType] = useState(null); 
+  const [selectedTicketType, setSelectedTicketType] = useState(null);
 
   const calculateTotal = () => {
     const ticketPrice = selectedSeats.length > 0 ? ticketTypes.reduce((acc, type) => {
@@ -62,10 +62,6 @@ const DatVe = () => {
           return acc;
         }, {});
         setComboQuantities(initialComboQuantities);
-
-        // const rapResponse = await fetch(`http://localhost:3000/rap/phongchieu/${id}`);
-        // const rapsData = await rapResponse.json();
-        // setRaps(rapsData);
 
         const showtimeResponse = await fetch(`http://localhost:3000/suatchieu/phim/${id}`);
         const showtimesData = await showtimeResponse.json();
@@ -132,20 +128,6 @@ const DatVe = () => {
     return <div>Loading...</div>;
   }
 
-  const groupedShowtimes = Object.entries(
-    showtimes.reduce((acc, showtime) => {
-      const key = showtime.NgayChieu;
-      if (!acc[key]) {
-        acc[key] = { ...showtime };
-      }
-      return acc;
-    }, {})
-  ).sort(([dateA], [dateB]) => {
-    const [dayA, monthA, yearA] = dateA.split("/").map(Number);
-    const [dayB, monthB, yearB] = dateB.split("/").map(Number);
-    return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
-  });
-
   const getDayOfWeek = (dateString) => {
     const [day, month, year] = dateString.split("/").map(Number);
     const date = new Date(year, month - 1, day);
@@ -189,12 +171,12 @@ const DatVe = () => {
 
       if (change > 0) {
         setSelectedTicketType(ticketId); // Lưu loại vé khi tăng số lượng
-    } else {
+      } else {
         // Nếu giảm số lượng, kiểm tra nếu số lượng đã về 0 thì không chọn
         if (updatedQuantities[ticketId] === 0) {
-            setSelectedTicketType(null);
+          setSelectedTicketType(null);
         }
-    }
+      }
 
       // Giới hạn số ghế chọn theo số lượng vé
       if (selectedSeats.length > totalTickets) {
@@ -240,21 +222,29 @@ const DatVe = () => {
   };
 
   const handleContinue = () => {
+
+    const isLoggedIn = Cookies.get("token");
+    if (!isLoggedIn) {
+      alert("Vui lòng đăng nhập để đặt vé.");
+
+      return;
+    }
+
     const selectedTicketTypes = ticketTypes
-        .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
-        .map(ticketType => ({
-            name: ticketType.TenVe,
-            price: ticketType.GiaVe,
-            quantity: ticketQuantities[ticketType.id] // Quantity of selected ticket types
-        }));
+      .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
+      .map(ticketType => ({
+        name: ticketType.TenVe,
+        price: ticketType.GiaVe,
+        quantity: ticketQuantities[ticketType.id] // Quantity of selected ticket types
+      }));
 
     const selectedCombos = combos
-        .filter(combo => comboQuantities[combo.id] > 0) // Filter selected combos
-        .map(combo => ({
-            name: combo.TenCombo,
-            price: combo.Gia,
-            quantity: comboQuantities[combo.id] // Quantity of selected combos
-        }));
+      .filter(combo => comboQuantities[combo.id] > 0) // Filter selected combos
+      .map(combo => ({
+        name: combo.TenCombo,
+        price: combo.Gia,
+        quantity: comboQuantities[combo.id] // Quantity of selected combos
+      }));
 
     // Find the selected showtime and room corresponding to the selected IDs
     const selectedShowtime = showtimes.find(showtime => showtime.IdPhong === selectedRoomId && showtime.NgayChieu === selectedDate);
@@ -269,24 +259,24 @@ const DatVe = () => {
 
     // Save necessary information to cookie
     Cookies.set("bookingInfo", JSON.stringify({
-        selectedSeats,       // List of selected seats
-        ticketQuantities,    // Ticket quantities
-        combos: selectedCombos, // Combo quantities
-        totalAmount,         // Total amount
-        movieName: movies.Ten,   // Movie name
-        showtimeDate,        // Showtime date
-        showtimeTime,        // Showtime time
-        room: selectedRoom ? selectedRoom.TenPhongChieu : null, // Room name
-        ticketTypes: selectedTicketTypes,
-        holdTime   
+      selectedSeats,       // List of selected seats
+      ticketQuantities,    // Ticket quantities
+      combos: selectedCombos, // Combo quantities
+      totalAmount,         // Total amount
+      movieName: movies.Ten,   // Movie name
+      showtimeDate,        // Showtime date
+      showtimeTime,        // Showtime time
+      room: selectedRoom ? selectedRoom.TenPhongChieu : null, // Room name
+      ticketTypes: selectedTicketTypes,
+      holdTime
     }), { expires: 30 / 1440 });  // Expires in 5 minutes (1 day / 288)
 
     // Redirect or perform other actions after saving to cookie
     router.push("/page/checkout");
-};
+  };
 
 
-  
+
   return (
     <div className="justify-center mx-auto text-white bg-[rgba(0,0,0,0.6)] shadow-lg w-full max-w-[1410px] mx-auto">
       <section>
@@ -389,7 +379,6 @@ const DatVe = () => {
                   <h3 className="text-[28px] text-[#F5CF49] font-semibold">
                     {room.TenPhongChieu}
                   </h3>
-                  <p>^</p>
                 </div>
                 <div className=" flex flex-row justify-start ">
                   {/* Hiển thị giờ chiếu cho phòng */}
@@ -411,18 +400,17 @@ const DatVe = () => {
         </section>
       )}
 
-
       {/* Chọn Loại Vé Section */}
       {showCinema && selectedDate && (
-        <section className="mt-10">
-          <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
+        <section className="mt-10 px-4 md:px-0">
+          <h2 className="text-[30px] md:text-[40px] font-bold mt-20 mb-5 text-center">
             CHỌN LOẠI VÉ
           </h2>
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col md:flex-row justify-center gap-4">
             {ticketTypes.map((ticketType) => (
               <div
                 key={ticketType.id}
-                className="w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded"
+                className="w-full md:w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded flex flex-col justify-between mx-auto md:mx-0"
               >
                 <h3 className="text-lg text-[18px] font-bold">
                   {ticketType.TenVe}
@@ -430,7 +418,7 @@ const DatVe = () => {
                 <p className="text-[14px] text-gray-400">
                   Giá: {ticketType.GiaVe.toLocaleString()} VND
                 </p>
-                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded ml-[150px]">
+                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 mx-auto rounded">
                   <button
                     className="text-black p-1"
                     onClick={() => handleTicketQuantityChange(ticketType.id, -1)}

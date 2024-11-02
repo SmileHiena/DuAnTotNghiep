@@ -36,7 +36,7 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
     const userCollection = db.collection("taikhoan");
     const { Email, MatKhau, SDT, TenDangNhap, Ten, NgaySinh, DiaChi, GioiTinh } = req.body;
     const imagePath = req.file ? req.file.path : null;
-    // const newId = (await collection.countDocuments()) + 1;
+    const newId = (await userCollection.countDocuments()) + 1;
     const { v4: uuidv4 } = require('uuid');
     // Check if the email already exists
     const existingUser = await userCollection.findOne({ Email });
@@ -56,6 +56,7 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
     // Create new user object
     const newUser = {
       id: uuidv4(),
+      userId: newId,
       Email,
       NgaySinh,
       DiaChi,
