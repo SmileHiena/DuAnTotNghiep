@@ -60,23 +60,28 @@ const Detail = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
+  
+    const token = Cookies.get("token");
+    if (!token) {
+      alert("Bạn cần đăng nhập để bình luận.");
+      return;
+    }
+  
     if (!newComment.trim()) return;
-
+  
     const commentData = { movieId: id, content: newComment };
-    console.log("Comment Data:", commentData); // Log comment data
-
+    console.log("Comment Data:", commentData);
+  
     try {
-      const token = Cookies.get("token"); // Hoặc từ cookie nếu bạn lưu ở đó
-
       const response = await fetch("http://localhost:3000/comments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Thêm token vào tiêu đề
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(commentData),
       });
-
+  
       if (response.ok) {
         const addedComment = await response.json();
         setComments((prevComments) => [...prevComments, addedComment]);
@@ -89,7 +94,7 @@ const Detail = () => {
       console.error("Failed to post comment", error);
     }
   };
-
+  
   const toggleExpand = (id) => {
     setExpandedComments((prev) => ({
       ...prev,

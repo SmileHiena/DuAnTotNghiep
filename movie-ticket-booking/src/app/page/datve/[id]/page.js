@@ -132,20 +132,6 @@ const DatVe = () => {
     return <div>Loading...</div>;
   }
 
-  const groupedShowtimes = Object.entries(
-    showtimes.reduce((acc, showtime) => {
-      const key = showtime.NgayChieu;
-      if (!acc[key]) {
-        acc[key] = { ...showtime };
-      }
-      return acc;
-    }, {})
-  ).sort(([dateA], [dateB]) => {
-    const [dayA, monthA, yearA] = dateA.split("/").map(Number);
-    const [dayB, monthB, yearB] = dateB.split("/").map(Number);
-    return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
-  });
-
   const getDayOfWeek = (dateString) => {
     const [day, month, year] = dateString.split("/").map(Number);
     const date = new Date(year, month - 1, day);
@@ -240,6 +226,14 @@ const DatVe = () => {
   };
 
   const handleContinue = () => {
+
+    const isLoggedIn  = Cookies.get("token");
+    if (!isLoggedIn ) {
+      alert("Vui lòng đăng nhập để đặt vé.");
+
+      return;
+    }
+
     const selectedTicketTypes = ticketTypes
         .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
         .map(ticketType => ({

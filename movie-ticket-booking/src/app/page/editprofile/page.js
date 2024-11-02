@@ -47,12 +47,12 @@ const EditProfile = () => {
         </div>
         <div className="flex flex-col ml-12" style={{ marginTop: '-100px', marginLeft: '150px' }}>
           <img 
-            src={`http://localhost:3000/images/${accountInfo.image}`} 
+            src={`http://localhost:3000/images/${accountInfo.Anh}`} 
             alt="Profile" 
             className="rounded-full w-36 h-36 border-5 border-white object-cover"  style={{zIndex:'99999'}}
           />
           <div>
-            <h2 className="text-32xl mt-1 font-semibold text-white">{accountInfo.FullName}</h2>
+            <h2 className="text-32xl mt-1 font-semibold text-white">{accountInfo.Ten}</h2>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ const EditProfile = () => {
             <h2 className="text-2xl text-center text-white font-semibold">THÔNG TIN KHÁCH HÀNG</h2>
             <div className="flex items-center">
               <FontAwesomeIcon icon={faUser} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}><strong>Họ và Tên:</strong> {accountInfo.FullName}</p>
+              <p className="text-white" style={{ marginTop: '20px' }}><strong>Họ và Tên:</strong> {accountInfo.Ten}</p>
             </div>
             <div className="flex items-center">
               <FontAwesomeIcon icon={faPhone} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
@@ -101,7 +101,7 @@ const EditProfile = () => {
                   <label className="text-white">Họ và tên</label>
                   <input
                     type="text"
-                    defaultValue={accountInfo.FullName}
+                    defaultValue={accountInfo.Ten}
                     className='input-info mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
                     placeholder="Nhập họ và tên"
                   />

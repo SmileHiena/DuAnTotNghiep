@@ -20,6 +20,7 @@
     "formik": "^2.4.6",
     "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "movie-ticket-booking": "file:",
     "next": "^14.2.15",
     "nodemailer": "^6.9.15",

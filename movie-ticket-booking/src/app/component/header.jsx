@@ -97,15 +97,17 @@ function Header() {
 
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center">
-            <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Trang Chủ</Link></li>
-            <li className="relative">
-              <button onClick={toggleSubMenu} className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Pages</button>
+            <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">Trang Chủ</Link></li>
+            <li onMouseEnter={() => setIsSubMenuOpen(true)} // Show submenu on hover
+            onMouseLeave={() => setIsSubMenuOpen(false)} className="relative text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">
+
+             Pages
               {isSubMenuOpen && (
-                <ul className="absolute left-0 mt-2 bg-white pl-4 rounded shadow-lg w-[200px] z-20">
-                  <li><Link href="/page/lienhe" className="block no-underline py-2 text-black hover:bg-gray-200">Liên hệ</Link></li>
-                  <li><Link href="/page/danhsach" className="block no-underline py-2 text-black hover:bg-gray-200">Danh sách phim</Link></li>
-                  <li><Link href="/page/dangchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
-                  <li><Link href="/page/sapchieu" className="block no-underline py-2 text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
+                <ul className="absolute top-10 left-0 mt-2 bg-white pl-0 rounded shadow-lg w-[200px] z-20">
+                  <li><Link href="/page/lienhe" className="block no-underline py-2 pl-[2rem] text-black hover:bg-gray-200">Liên hệ</Link></li>
+                  <li><Link href="/page/danhsach" className="block no-underline py-2 pl-[2rem] text-black hover:bg-gray-200">Danh sách phim</Link></li>
+                  <li><Link href="/page/dangchieu" className="block no-underline py-2 pl-[2rem] text-black hover:bg-gray-200">Phim đang chiếu</Link></li>
+                  <li><Link href="/page/sapchieu" className="block no-underline py-2 pl-[2rem] text-black hover:bg-gray-200">Phim sắp chiếu</Link></li>
                 </ul>
               )}
             </li>
@@ -146,7 +148,7 @@ function Header() {
                     {/*Hoặc user.fullname {user.Anh}  */}
                 </Link>
               </div>
-              <button onClick={handleLogout} className="button-hover w-[117px] h-[30px]">Đăng xuất</button>
+              <button onClick={handleLogout} className=" w-[117px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid">Đăng xuất</button>
             </div>
             </>
           ) : (
