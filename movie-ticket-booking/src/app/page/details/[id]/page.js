@@ -1,3 +1,4 @@
+// detals/[id]/page.js
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faReply, faPlay } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +11,7 @@ import Cookies from "js-cookie";
 
 const Detail = () => {
   const pathname = usePathname();
-  const id = pathname.split("/").pop(); // Extract the `id` from the URL
+  const id = pathname.split("/").pop();
   const [movie, setMovie] = useState(null);
   const [expandedComments, setExpandedComments] = useState({});
   const [comments, setComments] = useState([]);
@@ -270,7 +271,7 @@ const Detail = () => {
           </div>
 
           {/* Similar Movies Section */}
-          <TuongTu />
+          <TuongTu movieId={id} />
           <DangChieu />
         </div>
       </div>
