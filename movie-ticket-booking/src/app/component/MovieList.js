@@ -117,9 +117,9 @@ const MovieList = ({ apiUrl, title }) => {
               className="bg-white border text-black border-gray-300 rounded py-2 px-4"
             >
               <option value="all">Tất cả</option>
-              <option value="Hài">Hài</option>
+              <option value="Hài Hước">Hài</option>
               <option value="Hành Động">Hành Động</option>
-              <option value="Kinh Dị">Kinh Dị</option>
+              <option value="Hoạt Hình - Phiêu lưu">Hoạt Hình</option>
               {/* Thêm các thể loại khác nếu cần */}
             </select>
           </div>

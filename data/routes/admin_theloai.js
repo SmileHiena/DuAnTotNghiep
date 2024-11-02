@@ -23,6 +23,28 @@ const upload = multer({
     cb(null, true);
   }
 });
+// API để lấy danh sách phim theo danh mục
+router.get("/danhmuc/:id", async (req, res) => {
+  try {
+    const db = await connectDb();
+    const movieCollection = db.collection("phim");
+
+    // Lấy id danh mục từ tham số
+    const categoryId = parseInt(req.params.id, 10);
+
+    // Tìm kiếm phim theo IdDanhMuc
+    const movies = await movieCollection.find({ IdDanhMuc: categoryId }).toArray();
+
+    if (movies.length > 0) {
+      res.status(200).json(movies);
+    } else {
+      res.status(404).json({ message: "No movies found for this category." });
+    }
+  } catch (error) {
+    console.error("Error fetching movies by category:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 // API to get the list of products
 router.get("/", async (req, res) => {

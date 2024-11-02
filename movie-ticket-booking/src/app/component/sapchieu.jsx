@@ -80,7 +80,7 @@ const SapChieu = () => {
         </div>
         <div className="button-container">
           <button className="button-hover">
-            <Link className="text-black no-underline" href="/page/sapchieu">Thêm</Link>
+            <Link className="no-underline" href="/page/sapchieu">Xem thêm</Link>
           </button>
         </div>
       </section>
