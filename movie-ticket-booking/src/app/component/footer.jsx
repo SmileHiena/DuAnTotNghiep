@@ -3,8 +3,8 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="text-white bg-black py-8">
-      <section className="flex justify-center items-center">
-        <div className="mb-4 flex justify-between items-start max-w-[1410px] w-full">
+      <section className="flex justify-center items-center ">
+        <div className="mb-4 flex justify-between md:items-start max-w-[1410px] w-full flex-col md:flex-row">
           <div className="flex flex-col items-center pr-4">
             <Link href="/">
             <Image
@@ -30,27 +30,27 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex flex-col pr-8 mt-20">
+          <div className="flex flex-col items-center mt-20">
             <h3 style={{ fontSize: "20px" }} className="font-bold mb-2 text-left ">XEM PHIM</h3>
-            <ul className="space-y-1 text-base">
+            <ul className="space-y-1 text-center text-base">
               <li>Phim đang chiếu</li>
               <li>Phim sắp chiếu</li>
               <li>Suất chiếu đặc biệt</li>
             </ul>
           </div>
 
-          <div className="flex flex-col pr-8 mt-20">
+          <div className="flex flex-col items-center mt-20">
             <h3 style={{ fontSize: "20px" }} className="font-bold mb-2 text-left ">STICKER MAN</h3>
-            <ul className="space-y-1 text-base">
+            <ul className="space-y-1 text-center text-base">
               <li>Giới thiệu</li>
               <li>Liên hệ</li>
               <li>Tuyển dụng</li>
             </ul>
           </div>
 
-          <div className="flex flex-col mt-20">
+          <div className="flex flex-col items-center mt-20">
             <h3 style={{ fontSize: "20px" }} className="font-bold mb-2 text-left ">THUÊ SỰ KIỆN</h3>
-            <ul className="space-y-1 text-base">
+            <ul className="space-y-1 text-center text-base">
               <li>Thuê rạp</li>
               <li>Các loại hình cho thuê khác</li>
             </ul>
@@ -58,7 +58,7 @@ const Footer = () => {
         </div>
       </section>
 
-      <div className="flex justify-between items-center mb-4 text-base max-w-[1410px] mx-auto">
+      <div className="flex justify-between flex-col md:flex-row items-center mb-4 text-base max-w-[1410px] mx-auto">
         <div>
           <p>© 2024 Tickerman. All rights reserved.</p>
         </div>

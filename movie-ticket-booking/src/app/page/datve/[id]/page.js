@@ -265,12 +265,12 @@ const DatVe = () => {
     Cookies.set("bookingInfo", JSON.stringify({
         selectedSeats,       // List of selected seats
         ticketQuantities,    // Ticket quantities
-        combos: selectedCombos, // Combo quantities
+        combos: selectedCombos || null, // Combo quantities
         totalAmount,         // Total amount
         movieName: movies.Ten,   // Movie name
         showtimeDate,        // Showtime date
         showtimeTime,        // Showtime time
-        room: selectedRoom ? selectedRoom.TenPhongChieu : null, // Room name
+        room: selectedRoom ? selectedRoom.TenPhongChieu : "null", // Room name
         ticketTypes: selectedTicketTypes,
         holdTime   
     }), { expires: 30 / 1440 });  // Expires in 5 minutes (1 day / 288)

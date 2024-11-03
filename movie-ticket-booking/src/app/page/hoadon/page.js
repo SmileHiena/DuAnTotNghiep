@@ -148,7 +148,7 @@ const Profile = () => {
                     <tr className="bg-gray-700" key={invoice._id}>
                       <td className="text-center px-2 py-2">{invoice.TenPhim}</td>
                       <td className="text-center px-2 py-2">
-                      {new Date(selectedInvoice.NgayMua).toLocaleDateString("vi-VN", {
+                        {new Date(invoice.NgayMua).toLocaleDateString("vi-VN", {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",

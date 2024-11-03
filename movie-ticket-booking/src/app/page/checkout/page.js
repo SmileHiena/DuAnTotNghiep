@@ -78,15 +78,16 @@ const fetchUserDetails = async (tokenValue) => {
         TongTien: bookingInfo ? bookingInfo.totalAmount : 0, // Total amount from bookingInfo
         TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin", // Replace with actual customer name if needed
         Email: userInfo ? userInfo.Email : "Chưa có thông tin", // Replace with actual customer email if needed
-        Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "", // Join combo names with commas
+        Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null", // Join combo names with commas
     };
 
     try {
         const response = await fetch('http://localhost:3000/checkout/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-            },
+              Authorization: `Bearer ${tokenValue}`,
+              "Content-Type": "application/json",
+          },
             body: JSON.stringify(paymentData),
         });
 
@@ -243,7 +244,11 @@ const fetchUserDetails = async (tokenValue) => {
                 </div>
                 <div>
                   <p className='font-bold'>Combo</p>
-                  <p>{bookingInfo ? bookingInfo.combos.map(ticket => `${ticket.name}`).join(", ") : "Tạm chưa có thống tin"}</p>
+                  <p>
+  {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0 
+    ? bookingInfo.combos.map(ticket => ticket.name).join(", ") 
+    : "Tạm chưa có thông tin"}
+</p>
                 </div>
               </div>
               <hr className="border-gray-600 my-4" />

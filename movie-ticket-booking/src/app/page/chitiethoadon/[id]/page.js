@@ -2,15 +2,16 @@
 import React, { useEffect, useState } from "react"; // Import useEffect and useState
 import html2canvas from "html2canvas";
 import { useParams } from "next/navigation";
+import Cookies from 'js-cookie';
 
 const ChiTietHoaDon = () => {
   const { id } = useParams();
   const [hoaDon, setHoaDon] = useState(null); // Use null to indicate no data yet
   const [loading, setLoading] = useState(true); // State to manage loading status
   const [error, setError] = useState(null); // State for error handling
+  const [message, setMessage] = useState(""); // State to show success/error messages
 
   useEffect(() => {
-    // Fetch invoice details from the backend
     const fetchInvoiceDetails = async () => {
       try {
         const response = await fetch(`http://localhost:3000/checkout/${id}`);
@@ -44,7 +45,31 @@ const ChiTietHoaDon = () => {
         console.error("Error generating image: ", error);
       });
   };
-
+  const handleCancel = async () => {
+    if (confirm("Bạn có chắc chắn muốn hủy hóa đơn này không?")) {
+      try {
+        const response = await fetch(`http://localhost:3000/checkout/${id}`, {
+          method: "DELETE", // Use DELETE method
+          headers: {
+            // Remove Authorization header since we are not using tokens
+            "Content-Type": "application/json", // Optional: Set content type if needed
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Hủy hóa đơn không thành công");
+        }
+  
+        setMessage("Hóa đơn đã được hủy thành công!"); // Success message
+        setHoaDon(null); // Clear invoice information
+      } catch (error) {
+        console.error("Error canceling invoice: ", error);
+        setMessage(error.message); // Display error message
+      }
+    }
+    Router.push("/");
+  };
+  
   if (loading) {
     return <div className="text-white">Loading...</div>; // Display loading message
   }
@@ -79,116 +104,77 @@ const ChiTietHoaDon = () => {
           </thead>
           <tbody className="text-white text-sm">
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">
-                Mã hóa đơn:
-              </td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.id}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">Mã hóa đơn:</td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.id}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Ngày mua:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {new Date(hoaDon.NgayMua).toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.NgayMua}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Rạp:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.Rap}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Rap}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">
-                Phương thức thanh toán:
-              </td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.PhuongThucThanhToan}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">Phương thức thanh toán:</td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.PhuongThucThanhToan}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Tên phim:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.TenPhim}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TenPhim}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">
-                Thời gian chiếu:
-              </td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.ThoiGian}, {new Date(hoaDon.NgayChieu).toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">Thời gian chiếu:</td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.ThoiGian}, {hoaDon.NgayChieu}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Số ghế:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.SoGhe}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.SoGhe}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">
-                Phòng chiếu:
-              </td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.PhongChieu}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">Phòng chiếu:</td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.PhongChieu}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Giá vé:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.GiaVe}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.GiaVe}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Tổng tiền:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.TongTien}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TongTien}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">
-                Tên khách hàng:
-              </td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.TenKhachHang}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">Tên khách hàng:</td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TenKhachHang}</td>
             </tr>
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Email:</td>
-              <td className="py-2 px-3 border-b border-gray-600">
-                {hoaDon.Email}
-              </td>
+              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Email}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {message && <div className="text-green-500 mt-2">{message}</div>} {/* Hiển thị thông báo */}
+
       <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
         <button
-          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} // Set button size
+          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
           className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
           onClick={handleDownload} // Add click event for download
         >
           Tải Xuống
         </button>
         <button
-          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} // Set button size
+          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
           className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
         >
           Chia Sẻ
         </button>
         <button
-          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} // Set button size
+          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
           className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
+          onClick={handleCancel} // Thêm sự kiện nhấn cho nút Hủy Đơn
         >
           Hủy Đơn
         </button>

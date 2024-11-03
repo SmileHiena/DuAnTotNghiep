@@ -1,38 +1,36 @@
 var express = require('express');
 var router = express.Router();
-const { ObjectId } = require('mongodb'); // Ensure ObjectId is imported for MongoDB document querying
+const { ObjectId } = require('mongodb');
 const connectDb = require('../models/db');
 const { getUserFromToken } = require('./middleware');
 let currentId = 0; 
 
-async function getNextSequenceValue(sequenceName) {
-    const db = await connectDb();
-    const countersCollection = db.collection('counters');
-    const sequenceDocument = await countersCollection.findOneAndUpdate(
-        { _id: sequenceName },
-        { $inc: { seq: 1 } },
-        { returnOriginal: false }
-    );
-    return sequenceDocument.value.seq;
-}
-
-// GET: Retrieve all invoices
-router.get('/', async (req, res) => {
+// GET: Lấy hóa đơn cho người dùng dựa trên token
+router.get("/", getUserFromToken, async (req, res) => {
     try {
-        const db = await connectDb();
-        const invoicesCollection = db.collection('hoadon');
+      const movieId = req.query.movieId;
+      const userId = req.user.userId; // Lấy userId từ token
 
-        // Fetch all invoices
-        const invoices = await invoicesCollection.find().toArray();
-        res.status(200).json(invoices);
+      const db = await connectDb();
+      const hoadonCollection = db.collection("hoadon");
+
+      const query = { userId };
+
+      if (movieId) {
+        query.movieId = movieId;
+      }
+
+      const hoadon = await hoadonCollection.find(query).toArray();
+
+      res.status(200).json(hoadon);
     } catch (error) {
-        console.error('Error fetching invoices:', error);
-        res.status(500).json({ message: 'Failed to fetch invoices' });
+      console.error("Error fetching hoadon:", error);
+      res.status(500).json({ message: "Failed to fetch hoadon" });
     }
 });
 
-// POST: Create a new invoice
-router.post('/',  async (req, res) => {
+// POST: Tạo hóa đơn mới
+router.post('/', getUserFromToken, async (req, res) => {
     try {
         const {
             NgayMua,
@@ -47,27 +45,25 @@ router.post('/',  async (req, res) => {
             TongTien,
             TenKhachHang,
             Email,
-            userId,
             Combo,
         } = req.body;
 
-        // Validate input data
-        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email || !Combo || !userId) {
+        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
+        const userId = req.user.userId; // Lấy userId từ token
 
-        // const userId = req.userId;
-        // Use currentId for the new invoice ID
-        const newInvoiceId = ++currentId; // Increment currentId for new invoice
-
+        // Connect to the database
         const db = await connectDb();
         const invoicesCollection = db.collection('hoadon');
 
-        // Construct the new invoice object
+        // Calculate new invoice ID
+        const newInvoiceId = (await invoicesCollection.countDocuments()) + 1;
+
         const newInvoice = {
-            id: newInvoiceId, // Set the auto-incremented ID here
-            userId,  
+            id: newInvoiceId,
+            userId,
             NgayMua,
             Rap,
             PhuongThucThanhToan,
@@ -80,34 +76,33 @@ router.post('/',  async (req, res) => {
             TongTien,
             TenKhachHang,
             Email,
-            Combo,
+            Combo: Combo || null,
             createdAt: new Date(),
         };
 
-        // Insert the new invoice into the collection
+        // Insert the new invoice
         const result = await invoicesCollection.insertOne(newInvoice);
-        res.status(201).json({ id: newInvoiceId, ...newInvoice }); // Respond with the new invoice ID
+        res.status(201).json({ id: newInvoiceId, ...newInvoice });
     } catch (error) {
         console.error('Error creating invoice:', error);
         res.status(500).json({ message: 'Failed to create invoice' });
     }
 });
-// GET: Retrieve an invoice by ID
+
+
+// GET: Lấy hóa đơn theo ID
 router.get('/:id', async (req, res) => {
     try {
         const db = await connectDb();
         const invoicesCollection = db.collection('hoadon');
 
-        // Parse the ID from the request parameters and convert it to an integer
-        const invoiceId = parseInt(req.params.id, 10); // Convert to integer
+        const invoiceId = parseInt(req.params.id, 10);
 
-        // Check if the provided ID is a valid number
         if (isNaN(invoiceId) || invoiceId <= 0) {
             return res.status(400).json({ message: 'Invalid invoice ID' });
         }
 
-        // Fetch the invoice by ID
-        const invoice = await invoicesCollection.findOne({ id: invoiceId }); // Use the integer ID
+        const invoice = await invoicesCollection.findOne({ id: invoiceId });
 
         if (!invoice) {
             return res.status(404).json({ message: 'Invoice not found' });
@@ -120,19 +115,33 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get("/:userId", getUserFromToken, async (req, res) => {
+
+// DELETE: Hủy hóa đơn theo ID
+router.delete('/:id', async (req, res) => {
     try {
-      const { userId } = req.params;
-      const db = await connectDb();
-      const hoadonCollection = db.collection("hoadon");
-      
-      const hoadon = await hoadonCollection.find({ userId }).toArray();
-      res.status(200).json(hoadon);
-  } catch (error) {
-      console.error("Error fetching hoadon:", error);
-      res.status(500).json({ message: "Failed to fetch hoadon" });
-  }
-  });
-  
+        const db = await connectDb();
+        const invoicesCollection = db.collection('hoadon');
+
+        const invoiceId = parseInt(req.params.id, 10); // Get the ID from the URL
+
+        // Check if the ID is valid
+        if (isNaN(invoiceId) || invoiceId <= 0) {
+            return res.status(400).json({ message: 'Invalid invoice ID' });
+        }
+
+        // Find and delete the invoice
+        const result = await invoicesCollection.deleteOne({ id: invoiceId });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Invoice not found' });
+        }
+
+        res.status(200).json({ message: 'Invoice deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting invoice:', error);
+        res.status(500).json({ message: 'Failed to delete invoice' });
+    }
+});
+
 
 module.exports = router;
