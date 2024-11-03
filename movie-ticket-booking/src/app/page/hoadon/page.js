@@ -2,15 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faMapLocationDot,
-  faPhone,
-  faEnvelope,
-  faCakeCandles,
-  faEdit,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit,faUser, faArrowLeft, } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const Profile = () => {
@@ -109,8 +101,8 @@ const Profile = () => {
           </div>
         </div>
 
-         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
-         <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white">
+        <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
+          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white">
             <nav className="space-y-4">
               <Link href="/page/profile" className="flex items-center text-lg text-white no-underline">
                 <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng
@@ -122,6 +114,13 @@ const Profile = () => {
                 <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử mua hàng
               </Link>
             </nav>
+            <div className="flex justify-between mt-4 flex-col md:flex-row">
+              <Link href="/page/profile">
+                <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+                  <FontAwesomeIcon icon={faArrowLeft} className="mr-1" style={{ width: '20px', height: '20px' }} /> Quay lại
+                </button>
+              </Link>
+            </div>
           </div>
 
           <div className="w-full md:w-3/4">
@@ -148,11 +147,11 @@ const Profile = () => {
                     <tr className="bg-gray-700" key={invoice._id}>
                       <td className="text-center px-2 py-2">{invoice.TenPhim}</td>
                       <td className="text-center px-2 py-2">
-                      {new Date(invoice.NgayMua).toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
+                        {new Date(invoice.NgayMua).toLocaleDateString("vi-VN", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
                       </td>
                       <td className="text-center px-2 py-2">
                         <button
@@ -183,51 +182,51 @@ const Profile = () => {
                 <p className="text-white">
                   <strong className="text-white">Ngày mua:</strong>{" "}
                   {new Date(selectedInvoice.NgayMua).toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Rạp:</strong>{" "}
-                     {selectedInvoice.Rap}
+                  <strong className="text-white">Rạp:</strong>{" "}
+                  {selectedInvoice.Rap}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Phương thức thanh toán:</strong>{" "}
-                     {selectedInvoice.PhuongThucThanhToan}
+                  <strong className="text-white">Phương thức thanh toán:</strong>{" "}
+                  {selectedInvoice.PhuongThucThanhToan}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Ten phim:</strong>{" "}
-                     {selectedInvoice.TenPhim}
+                  <strong className="text-white">Ten phim:</strong>{" "}
+                  {selectedInvoice.TenPhim}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Thời gian:</strong>{" "}
-                     {selectedInvoice.ThoiGian}
+                  <strong className="text-white">Thời gian:</strong>{" "}
+                  {selectedInvoice.ThoiGian}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Ngày chiếu:</strong>{" "}
-                     
-                     {new Date(selectedInvoice.NgayChieu).toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
+                  <strong className="text-white">Ngày chiếu:</strong>{" "}
+
+                  {new Date(selectedInvoice.NgayChieu).toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Số ghế:</strong>{" "}
-                     {selectedInvoice.SoGhe}
+                  <strong className="text-white">Số ghế:</strong>{" "}
+                  {selectedInvoice.SoGhe}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Phòng chiếu:</strong>{" "}
-                     {selectedInvoice.PhongChieu}
+                  <strong className="text-white">Phòng chiếu:</strong>{" "}
+                  {selectedInvoice.PhongChieu}
                 </p>
                 <p className="text-white">
-                    <strong className="text-white">Giá vé:</strong>{" "}
-                     {selectedInvoice.GiaVe}
+                  <strong className="text-white">Giá vé:</strong>{" "}
+                  {selectedInvoice.GiaVe}
                 </p>
                 <p className="text-white">
                   <strong className="text-white">Tổng số tiền:</strong>{" "}
-                   {selectedInvoice.TongTien} VND
+                  {selectedInvoice.TongTien} VND
                 </p>
                 <button
                   onClick={() => toggleInvoiceDetails(null)}

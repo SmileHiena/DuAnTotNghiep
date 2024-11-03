@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEdit, faSignOutAlt, } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faEdit, } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const Profile = () => {
@@ -96,6 +96,13 @@ const Profile = () => {
                 mua hàng
               </Link>
             </nav>
+            <div className="flex justify-between mt-4 flex-col md:flex-row">
+              <Link href="/page/editprofile">
+              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+                  <FontAwesomeIcon icon={faEdit} className="mr-1" style={{ width: '20px', height: '20px' }} /> Sửa
+                </button>
+              </Link>
+            </div>
           </div>
 
           <div className="w-full md:w-3/4 p-6 text-white">
@@ -138,42 +145,6 @@ const Profile = () => {
                   />
                 </div>
               </div>
-              <button className=" w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid">
-                Lưu
-              </button>
-            </div>
-            <div className="bg-black bg-opacity-50 p-6 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">Đổi mật khẩu</h2>
-              <div className="mb-4">
-                <label className="block mb-2">
-                  Mật khẩu cũ <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2">
-                  Mật khẩu mới <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2">
-                  Xác thực mật khẩu <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
-                />
-              </div>
-              <button className=" w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid">
-                Lưu
-              </button>
             </div>
           </div>
         </div>
