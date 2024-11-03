@@ -85,7 +85,8 @@ const fetchUserDetails = async (tokenValue) => {
         const response = await fetch('http://localhost:3000/checkout/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+              Authorization: `Bearer ${tokenValue}`,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(paymentData),
         });

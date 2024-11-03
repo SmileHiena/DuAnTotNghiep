@@ -118,7 +118,7 @@ const ThemSanPham = () => {
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
-        const response = await fetch("http://localhost:3000/theloai/");
+        const response = await fetch("http://localhost:3000/theloai");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

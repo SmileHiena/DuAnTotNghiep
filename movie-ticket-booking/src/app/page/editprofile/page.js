@@ -201,30 +201,30 @@ const EditProfile = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
-          <div className="w-full md:w-1/3 h-auto p-6 bg-gray-700">
-            <h2 className="text-2xl text-center text-white font-semibold">THÔNG TIN KHÁCH HÀNG</h2>
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faUser} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}><strong>Họ và Tên:</strong> {accountInfo.Ten}</p>
-            </div>
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faPhone} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}><strong>SĐT:</strong> {accountInfo.SDT}</p>
-            </div>
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}><strong>Email:</strong> {accountInfo.Email}</p>
-            </div>
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faCakeCandles} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}>
-                <strong>Ngày sinh:</strong> {accountInfo.NgaySinh ? new Date(accountInfo.NgaySinh).toLocaleDateString() : 'N/A'}
-              </p>
-            </div>
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faMapLocationDot} className="mr-2 text-white" style={{ width: '20px', height: '20px' }} />
-              <p className="text-white" style={{ marginTop: '20px' }}><strong>Địa chỉ:</strong> {accountInfo.DiaChi}</p>
-            </div>
+          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white">
+            <nav className="space-y-4">
+              <Link
+                href="/page/profile"
+                className="flex items-center text-lg text-white no-underline"
+              >
+                <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin
+                khách hàng
+              </Link>
+              <Link
+                href="/page/comment"
+                className="flex items-center text-lg text-white no-underline"
+              >
+                <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử
+                bình luận
+              </Link>
+              <Link
+                href="/page/hoadon"
+                className="flex items-center text-lg text-white no-underline"
+              >
+                <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử
+                mua hàng
+              </Link>
+            </nav>
             <div className="flex justify-between mt-4 flex-col md:flex-row">
               <Link href="/page/profile">
                 <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
@@ -234,117 +234,122 @@ const EditProfile = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-2/3">
-            <h2 className="text-2xl mb-2 text-white font-semibold">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
-            <form onSubmit={handleSave}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-                <div className="form-group">
-                  <label className="text-white" htmlFor="Ten">Họ và Tên:</label>
-                  <input
-                    type="text"
-                    name="Ten"
-                    id="Ten"
-                    value={updatedInfo.Ten || ''}
-                    onChange={handleChange}
-                   className="w-full p-2 rounded-md bg-[#212925] border border-white"
-                    required
-                  />
+          <div className="w-full md:w-3/4 p-6 text-white">
+            <h2 className="text-3xl font-bold mb-6">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
+            <div className="bg-black bg-opacity-50 p-6 rounded-lg mb-6">
+            <h2 className="text-2xl font-semibold mb-4">Thông tin cá nhân</h2>
+              <form onSubmit={handleSave}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="Ten">Họ và Tên:</label>
+                    <input
+                      type="text"
+                      name="Ten"
+                      id="Ten"
+                      value={updatedInfo.Ten || ''}
+                      onChange={handleChange}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="sdt">SĐT:</label>
+                    <input
+                      type="text"
+                      name="SDT"
+                      id="sdt"
+                      value={updatedInfo.SDT || ''}
+                      onChange={handleChange}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="email">Email:</label>
+                    <input
+                      type="email"
+                      name="Email"
+                      id="email"
+                      value={updatedInfo.Email || ''}
+                      onChange={handleChange}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="ngaysinh">Ngày sinh:</label>
+                    <input
+                      type="date"
+                      name="NgaySinh"
+                      id="ngaysinh"
+                      value={updatedInfo.NgaySinh ? new Date(updatedInfo.NgaySinh).toISOString().slice(0, 10) : ''}
+                      onChange={handleChange}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="diachi">Địa chỉ:</label>
+                    <input
+                      type="text"
+                      name="DiaChi"
+                      id="diachi"
+                      value={updatedInfo.DiaChi || ''}
+                      onChange={handleChange}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label className="text-white" htmlFor="sdt">SĐT:</label>
-                  <input
-                    type="text"
-                    name="SDT"
-                    id="sdt"
-                    value={updatedInfo.SDT || ''}
-                    onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-white" htmlFor="email">Email:</label>
-                  <input
-                    type="email"
-                    name="Email"
-                    id="email"
-                    value={updatedInfo.Email || ''}
-                    onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-white" htmlFor="ngaysinh">Ngày sinh:</label>
-                  <input
-                    type="date"
-                    name="NgaySinh"
-                    id="ngaysinh"
-                    value={updatedInfo.NgaySinh ? new Date(updatedInfo.NgaySinh).toISOString().slice(0, 10) : ''}
-                    onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-white" htmlFor="diachi">Địa chỉ:</label>
-                  <input
-                    type="text"
-                    name="DiaChi"
-                    id="diachi"
-                    value={updatedInfo.DiaChi || ''}
-                    onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
-                </div>
-              </div>
-              <button type="submit" className="bg-[#F5CF49] w-[150px] text-[#000000] py-2 px-4 rounded-lg mt-4 ">
-                Cập nhật
-              </button>
-            </form>
+                <button type="submit" className="bg-[#F5CF49] w-[150px] text-[#000000] py-2 px-4 rounded-lg mt-4 ">
+                  Cập nhật
+                </button>
+              </form>
+            </div>
 
             <h2 className="text-2xl mb-2 text-white font-semibold mt-8">ĐỔI MẬT KHẨU</h2>
-            <form onSubmit={handlePasswordChange}>
-              <div className="grid grid-cols-1 gap-4">
-                <div className="form-group">
-                  <label className="text-white" htmlFor="oldPassword">Mật khẩu cũ:</label>
-                  <input
-                    type="password"
-                    id="oldPassword"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
+            <div className="bg-black bg-opacity-50 p-6 rounded-lg mb-6">
+              <form onSubmit={handlePasswordChange}>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="oldPassword">Mật khẩu cũ:</label>
+                    <input
+                      type="password"
+                      id="oldPassword"
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="newPassword">Mật khẩu mới:</label>
+                    <input
+                      type="password"
+                      id="newPassword"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="text-white" htmlFor="confirmPassword">Xác nhận mật khẩu mới:</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label className="text-white" htmlFor="newPassword">Mật khẩu mới:</label>
-                  <input
-                    type="password"
-                    id="newPassword"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-white" htmlFor="confirmPassword">Xác nhận mật khẩu mới:</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="w-full p-2 rounded-md bg-[#212925] border border-white text-white"
-                    required
-                  />
-                </div>
-              </div>
-              <button type="submit" className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mt-4 w-[150px]">
-                Đổi mật khẩu
-              </button>
-            </form>
+                <button type="submit" className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mt-4 w-[150px]">
+                  Đổi mật khẩu
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

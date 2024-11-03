@@ -1,11 +1,11 @@
 "use client";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faReply, faPlay } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import TuongTu from "../../../../app/component/tuongtu";
+import DangChieu from "@/app/component/dangchieu";
 import Cookies from "js-cookie";
 
 const Detail = () => {
@@ -275,7 +275,8 @@ const Detail = () => {
           </div>
 
           {/* Similar Movies Section */}
-          <TuongTu />
+          <TuongTu movieId={movie.id} />
+          <DangChieu/>
         </div>
       </div>
     </div>

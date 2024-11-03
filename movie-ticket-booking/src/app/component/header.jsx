@@ -113,7 +113,7 @@ function Header() {
             </li>
             <li><Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Giới thiệu</Link></li>
             <li><Link href="#" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Xem vé</Link></li>
-            <li><Link href="/page/event" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link></li>
+            <li><Link href="/page/sukien" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link></li>
           </ul>
         </nav>
 

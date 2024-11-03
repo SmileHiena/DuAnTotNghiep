@@ -87,7 +87,7 @@ router.put("/updateUser/:id", async (req, res) => {
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
-    const userId = req.params.id; // lấy id trực tiếp dưới dạng chuỗi
+    const userId = req.params.id; // Lấy userId từ tham số URL
 
     // Lấy thông tin cần cập nhật từ req.body
     const { Ten, Email, DiaChi, SDT, NgaySinh } = req.body;
@@ -100,7 +100,7 @@ router.put("/updateUser/:id", async (req, res) => {
 
     // Thực hiện cập nhật thông tin người dùng
     const updateUser = await userCollection.updateOne(
-      { id: userId },
+      { id: userId }, // Sử dụng userId thay vì uuidv4()
       {
         $set: {
           Ten,
@@ -108,6 +108,7 @@ router.put("/updateUser/:id", async (req, res) => {
           DiaChi,
           SDT,
           NgaySinh,
+          // không cần truyền userId vào đây nữa
         },
       }
     );
@@ -122,7 +123,6 @@ router.put("/updateUser/:id", async (req, res) => {
     return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
   }
 });
-
 
 router.put('/updateprofilepicture/:id', upload.single("Anh"), async (req, res) => {
   try {
@@ -149,7 +149,6 @@ router.put('/updateprofilepicture/:id', upload.single("Anh"), async (req, res) =
     return res.status(500).json({ message: 'Đã xảy ra lỗi!' });
   }
 });
-
 
 router.put("/updatepassword/:id", async (req, res) => {
   try {
@@ -195,7 +194,6 @@ router.put("/updatepassword/:id", async (req, res) => {
     return res.status(500).json({ message: 'Đã xảy ra lỗi trong quá trình đổi mật khẩu.' });
   }
 });
-
 
 // Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
