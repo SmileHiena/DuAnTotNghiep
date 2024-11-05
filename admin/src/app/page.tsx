@@ -1,0 +1,10 @@
+export default function Home() {
+  return (
+    <>
+      <main className="app-content">
+   <h1>hello</h1>
+   
+  </main>
+    </>
+  );
+}
