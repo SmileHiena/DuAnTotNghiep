@@ -51,6 +51,9 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
                                 <img src={movie.Anh} alt={movie.Ten} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110" />
                                 <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex flex-col justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-100 rounded-lg"></div>
                             </div>
+                            <div class="flex justify-center">
+                                <span class="block text-center max-w-[250px] mx-auto truncate">{movie.Ten}</span>
+                            </div>
                         </Link>
                     ))}
                 </div>

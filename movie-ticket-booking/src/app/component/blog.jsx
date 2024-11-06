@@ -13,7 +13,7 @@ const BlogSection = () => {
       try {
         const response = await fetch("http://localhost:3000/blog/limit/?limit=10");
         if (!response.ok) {
-          throw new Error("Failed to fetch blogs");
+          throw new Error("lỗi ở fetch blogs");
         }
         const data = await response.json();
         setBlogs(data);

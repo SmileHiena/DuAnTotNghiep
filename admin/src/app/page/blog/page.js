@@ -178,7 +178,7 @@ const Blog = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <Button className="btn btn-add btn-sm" onClick={handleAddBlog}>
+                  <Button className="btn btn-add" onClick={handleAddBlog}>
                     <i className="fas fa-plus"></i> Thêm mới
                   </Button>
                 </div>
@@ -205,7 +205,7 @@ const Blog = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
-                      <td>{blog.LuotXem} Lượt xem</td>
+                      <td>{blog.LuotXem} lượt xem</td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary mr-3"
@@ -290,11 +290,11 @@ const Blog = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Đóng
+          <Button onClick={handleSaveChanges} className="btn btn-save" >
+            Lưu lại
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu thay đổi
+          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel" >
+            Hủy bỏ
           </Button>
         </Modal.Footer>
       </Modal>

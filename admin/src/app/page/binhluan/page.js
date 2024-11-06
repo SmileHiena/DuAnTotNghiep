@@ -59,13 +59,7 @@ const BinhLuan = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <a
-                    className="btn btn-add btn-sm"
-                    href="/form-add-comment"
-                    title="Thêm"
-                  >
-                    <i className="fas fa-plus"></i> Tạo mới bình luận
-                  </a>
+                 
                 </div>
               </div>
               <table
@@ -77,7 +71,7 @@ const BinhLuan = () => {
               >
                 <thead>
                   <tr>
-                    <th>Mã bình luận</th>
+                    <th>ID</th>
                     <th>Nội dung</th>
                     <th>Ngày bình luận</th>
                     <th>Mã phim</th>

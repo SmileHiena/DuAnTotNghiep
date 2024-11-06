@@ -79,7 +79,6 @@ router.post("/add", upload.single('Anh'), async (req, res) => {
       _id: new ObjectId(), // New ObjectId for MongoDB
       id: newId,
       Ten: req.body.Ten,
-      Anh: req.file ? `/images/theloai/${req.file.filename}` : "", // Save file path if file is uploaded
     };
 
     // Insert new event
@@ -92,27 +91,64 @@ router.post("/add", upload.single('Anh'), async (req, res) => {
   }
 });
 
+// API to edit a category
+router.put("/edit/:id", async (req, res) => {
+  const { id } = req.params;
 
-// Route để xóa một bài blog
-router.delete("/theloai/:id", async (req, res) => {
   try {
+    // Log the entire body to see incoming data
+    console.log("Incoming category data:", req.body);
+
+    // Destructure the data directly from the body
+    const { TenTheLoai } = req.body; // Change this based on your field names
+
+    // Specify the fields to update
+    const updateData = {
+      Ten: TenTheLoai, // Use the correct field name here
+    };
+
     const db = await connectDb();
     const categoryCollection = db.collection("theloai");
 
-    // Convert id to an integer if it is a number
-    const id = parseInt(req.params.id, 10);
+    // Update the document with the specified ID
+    const result = await categoryCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateData }
+    );
 
-    const result = await categoryCollection.deleteOne({ id: id });
-    if (result.deletedCount === 1) {
-      res.status(200).json({ message: "Category deleted successfully." });
-    } else {
-      res.status(404).json({ message: "Category not found." });
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Category not found" });
     }
+
+    res
+      .status(200)
+      .json({ message: "Category updated successfully", updatedCategory: updateData });
   } catch (error) {
-    console.error("Error deleting category:", error);
-    res.status(500).json({ message: "Failed to delete category", error: error.message });
+    console.error("Error updating category:", error);
+    res.status(500).json({ message: "Failed to update category", error: error.message });
   }
 });
 
+
+// Delete blog by ID
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const db = await connectDb();
+    const { id } = req.params;
+
+    const result = await db
+      .collection("theloai")
+      .deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.status(200).json({ message: "Category deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting Category:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 module.exports = router;

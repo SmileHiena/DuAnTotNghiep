@@ -26,6 +26,7 @@ var loaiveRouter = require('./routes/loaive');
 var doanhthuRouter = require('./routes/doanhthu');
 var commentRouter = require('./routes/comments');
 var checkoutRouter = require('./routes/checkout');
+var hoadonRouter = require('./routes/hoadon');
 
 var app = express();
 
@@ -69,6 +70,7 @@ app.use('/loaive', loaiveRouter);
 app.use('/doanhthu', doanhthuRouter);
 app.use('/comments', commentRouter);
 app.use('/checkout', checkoutRouter);
+app.use('/hoadon', hoadonRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

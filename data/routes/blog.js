@@ -203,6 +203,7 @@ router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
 
     const db = await connectDb();
     const blogCollection = db.collection("blog");
+    
     const result = await blogCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateData }

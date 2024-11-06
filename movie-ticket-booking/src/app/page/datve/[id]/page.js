@@ -10,7 +10,7 @@ const DatVe = () => {
   const [movies, setMovies] = useState([]);
   const [showtimes, setShowtimes] = useState([]);
   const [ticketTypes, setTicketTypes] = useState([]);
-  // const [combos, setcombos] = useState([]);
+  const [DaDatGhe, setDaDatGhe] = useState([]);
   const [comboQuantities, setComboQuantities] = useState({});
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [raps, setRaps] = useState([]);
@@ -62,6 +62,7 @@ const DatVe = () => {
           return acc;
         }, {});
         setComboQuantities(initialComboQuantities);
+
 
         const showtimeResponse = await fetch(`http://localhost:3000/suatchieu/phim/${id}`);
         const showtimesData = await showtimeResponse.json();
@@ -229,6 +230,12 @@ const DatVe = () => {
 
       return;
     }
+    const numberOfTickets = Object.values(ticketQuantities).reduce((acc, quantity) => acc + quantity, 0);
+    const numberOfSeats = selectedSeats.length;
+    if (numberOfTickets !== numberOfSeats) {
+      alert("Số loại vé và số ghế phải bằng nhau để thực hiện thanh toán.");
+      return; // Ngừng quá trình thanh toán
+    }
 
     const selectedTicketTypes = ticketTypes
       .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
@@ -261,12 +268,12 @@ const DatVe = () => {
     Cookies.set("bookingInfo", JSON.stringify({
       selectedSeats,       // List of selected seats
       ticketQuantities,    // Ticket quantities
-      combos: selectedCombos, // Combo quantities
+      combos: selectedCombos || null, // Combo quantities
       totalAmount,         // Total amount
       movieName: movies.Ten,   // Movie name
       showtimeDate,        // Showtime date
       showtimeTime,        // Showtime time
-      room: selectedRoom ? selectedRoom.TenPhongChieu : null, // Room name
+      room: selectedRoom ? selectedRoom.TenPhongChieu : "null", // Room name
       ticketTypes: selectedTicketTypes,
       holdTime
     }), { expires: 30 / 1440 });  // Expires in 5 minutes (1 day / 288)
@@ -379,6 +386,7 @@ const DatVe = () => {
                   <h3 className="text-[28px] text-[#F5CF49] font-semibold">
                     {room.TenPhongChieu}
                   </h3>
+                  <p>^</p>
                 </div>
                 <div className=" flex flex-row justify-start ">
                   {/* Hiển thị giờ chiếu cho phòng */}
@@ -399,6 +407,7 @@ const DatVe = () => {
           </div>
         </section>
       )}
+
 
       {/* Chọn Loại Vé Section */}
       {showCinema && selectedDate && (
@@ -454,12 +463,17 @@ const DatVe = () => {
                 {row.Ghe.map((ghe, index) => {
                   const seatCode = `${row.Hang}-${ghe}`;
                   const isSelected = selectedSeats.includes(seatCode);
+                  const isBooked = DaDatGhe.includes(seatCode); // Kiểm tra ghế đã đặt
+                
                   return (
                     <div
                       key={index}
-                      onClick={() => toggleSeatSelection(row.Hang, ghe)}
-
-                      className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer ${isSelected ? "bg-green-500" : "bg-[#F5CF49]"
+                      onClick={() => {
+                        if (!isBooked) { // Nếu ghế chưa được đặt, cho phép chọn
+                          toggleSeatSelection(row.Hang, ghe);
+                        }
+                      }}
+                      className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer ${isSelected ? "bg-green-500" : (isBooked ? "bg-gray-500" : "bg-[#F5CF49]")
                         }`}
                     >
                       <p className="text-black">{ghe}</p>
@@ -533,7 +547,7 @@ const DatVe = () => {
           </h2>
           {/* Continue Button */}
           <button
-            onClick={handleContinue} // Gọi hàm lưu vào cookie
+            onClick={handleContinue}
             className="bg-[#F5CF49] text-black m-3 w-40 h-[40px] rounded hover:bg-[#FFD700]"
           >
             Tiếp tục
