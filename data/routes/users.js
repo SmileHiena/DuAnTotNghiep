@@ -232,7 +232,7 @@ router.post("/login", async (req, res, next) => {
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || "secretkey",
-      { expiresIn: "1h" }
+      // { expiresIn: "1h" }
     );
 
     // Trả về thông tin người dùng và token

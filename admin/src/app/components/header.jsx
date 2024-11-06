@@ -41,6 +41,12 @@ const Header = () => {
                         </Link>
                     </li>
                     <li>
+                        <Link className="app-menu__item" href="/page/thongkedoanhthu">
+                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-6 h-6" />
+                            <span className="app-menu__label">Báo cáo doanh thu</span>
+                        </Link>
+                    </li>
+                    <li>
                         <Link className="app-menu__item" href="/page/suatchieu">
                             <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-6 h-6" />
                             <span className="app-menu__label">Quản lý suất chiếu</span>
@@ -104,12 +110,6 @@ const Header = () => {
                         <Link className="app-menu__item" href="/page/blog">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-6 h-6" />
                             <span className="app-menu__label">Quản lí Blog</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="app-menu__item" href="#">
-                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-6 h-6" />
-                            <span className="app-menu__label">Báo cáo doanh thu</span>
                         </Link>
                     </li>
                     <li>

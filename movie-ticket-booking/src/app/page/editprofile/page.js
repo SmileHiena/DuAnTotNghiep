@@ -170,34 +170,30 @@ const EditProfile = () => {
   return (
     <section className="flex justify-center items-center w-full px-4">
       <div className="w-full max-w-[1410px]">
-        <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }}>
-        </div>
-        <div className="flex ml-12" style={{ marginTop: '-100px', marginLeft: '150px' }}>
-          <form className="relative " onSubmit={handleSubmit}>
-            <img
-              src={`http://localhost:3000/images/${accountInfo.Anh}`}
-              alt="Profile"
-              className="rounded-full w-36 h-36 border-5 border-white object-cover"
-              style={{ zIndex: '99999', filter: 'blur(3px)' }}
-            />
-            <label
-              htmlFor="Anh"
-              className="text-[#ffff] text-xl absolute top-12 mt-3  " style={{ marginLeft: '40px' }}
-            >
-              Chọn ảnh
-            </label>
-            <input
-              id="Anh"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <button type="submit" className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-5 rounded-lg ml-5" style={{ zIndex: '99999' }}>
-              Lưu ảnh
-            </button>
+        <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }}></div>
+        <div className="relative -mt-20 flex flex-col md:flex-row">
+          <div className="flex flex-col items-center w-full md:w-1/4" >
+            <form className="relative " onSubmit={handleSubmit}>
+              <img src={`http://localhost:3000/images/${accountInfo.Anh}`} alt="Profile" className="rounded-full w-36 h-36 border-5 border-white object-cover" style={{ zIndex: '99999', filter: 'blur(3px)' }} />
+              <label
+                htmlFor="Anh"
+                className="text-[#ffff] text-xl absolute top-12 mt-3  " style={{ marginLeft: '40px' }}
+              >
+                Chọn ảnh
+              </label>
+              <input
+                id="Anh"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <button type="submit" className="mt-4 bg-[#F5CF49] text-[#000000] py-2 px-5 rounded-lg ml-5" style={{ zIndex: '99999' }}>
+                Lưu ảnh
+              </button>
 
-          </form>
+            </form>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
@@ -237,7 +233,7 @@ const EditProfile = () => {
           <div className="w-full md:w-3/4 p-6 text-white">
             <h2 className="text-3xl font-bold mb-6">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
             <div className="bg-black bg-opacity-50 p-6 rounded-lg mb-6">
-            <h2 className="text-2xl font-semibold mb-4">Thông tin cá nhân</h2>
+              <h2 className="text-2xl font-semibold mb-4">Thông tin cá nhân</h2>
               <form onSubmit={handleSave}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                   <div className="form-group">

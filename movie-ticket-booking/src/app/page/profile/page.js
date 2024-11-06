@@ -72,7 +72,7 @@ const Profile = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
-          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white">
+          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white h-[300px]">
             <nav className="space-y-4">
               <Link
                 href="/page/profile"
@@ -96,13 +96,6 @@ const Profile = () => {
                 mua hàng
               </Link>
             </nav>
-            <div className="flex justify-between mt-4 flex-col md:flex-row">
-              <Link href="/page/editprofile">
-              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
-                  <FontAwesomeIcon icon={faEdit} className="mr-1" style={{ width: '20px', height: '20px' }} /> Sửa
-                </button>
-              </Link>
-            </div>
           </div>
 
           <div className="w-full md:w-3/4 p-6 text-white">
@@ -144,6 +137,13 @@ const Profile = () => {
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
                   />
                 </div>
+                <div className="flex justify-between mt-4 flex-col md:flex-row">
+              <Link href="/page/editprofile">
+              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+                  <FontAwesomeIcon icon={faEdit} className="mr-1" style={{ width: '20px', height: '20px' }} /> Sửa
+                </button>
+              </Link>
+            </div>
               </div>
             </div>
           </div>
