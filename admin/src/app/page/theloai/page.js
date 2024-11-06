@@ -13,7 +13,7 @@ const TheLoai = () => {
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
-        const response = await fetch("http://localhost:3000/theloai/");
+        const response = await fetch("http://localhost:3000/theloai");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -33,25 +33,27 @@ const TheLoai = () => {
     const confirmDelete = window.confirm(
       "Bạn có chắc chắn muốn xóa thể loại này không?"
     );
-
+  
     if (!confirmDelete) return;
-
+  
     try {
       const response = await fetch(`http://localhost:3000/theloai/${id}`, {
         method: "DELETE",
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Failed to delete category: ${errorText}`);
       }
-
+  
+      // Update state if deletion is successful
       setTheloai(theloai.filter((item) => item.id !== id));
+      console.log("Category deleted successfully.");
     } catch (error) {
       console.error("Delete failed:", error.message);
     }
   };
-
+  
   if (loading) {
     return <p>Loading categories...</p>;
   }
@@ -83,7 +85,7 @@ const TheLoai = () => {
                 <div className="col-sm-2">
                   <a
                     className="btn btn-add btn-sm"
-                    href="/form-add-category"
+                    href="/page/themtheloai"
                     title="Thêm"
                   >
                     <i className="fas fa-plus"></i> Tạo mới thể loại

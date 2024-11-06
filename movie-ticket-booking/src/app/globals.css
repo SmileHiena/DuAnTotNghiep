@@ -43,20 +43,6 @@ body {
 .text-black {
   color: #212529;
 }
-.seat {
-  padding: 8px;
-  margin: 4px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.available {
-  background-color: green;
-  color: white;
-}
-
-.hetcho {
-  background-color: red;
-  color: white;
-  cursor: not-allowed;
+.text-red{
+  color:red
 }

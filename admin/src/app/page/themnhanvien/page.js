@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for the toast
 
 const ThemNhanVien = () => {
   const router = useRouter();
@@ -18,7 +20,6 @@ const ThemNhanVien = () => {
     Tinhtrang: '',
   });
 
-  const [statusMessage, setStatusMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
@@ -68,80 +69,83 @@ const ThemNhanVien = () => {
 
     // Kiểm tra tên đăng nhập
     if (!validateUserName(formData.TenDangNhap)) {
-        setStatusMessage('Tên đăng nhập phải ít nhất 6 ký tự và không có ký tự đặc biệt.');
-        return;
+      toast.error('Tên đăng nhập phải ít nhất 6 ký tự và không có ký tự đặc biệt.');
+      return;
     }
 
     // Kiểm tra số điện thoại
     if (!validatePhoneNumber(formData.SDT)) {
-        setStatusMessage('Số điện thoại phải có đúng 10 chữ số.');
-        return;
+      toast.error('Số điện thoại phải có đúng 10 chữ số.');
+      return;
     }
 
     // Kiểm tra mật khẩu
     if (!validatePassword(formData.MatKhau)) {
-        setStatusMessage('Mật khẩu phải ít nhất 6 ký tự, bắt đầu bằng chữ hoa, có số, chữ và ít nhất 1 ký tự đặc biệt.');
-        return;
+      toast.error('Mật khẩu phải ít nhất 6 ký tự, bắt đầu bằng chữ hoa, có số, chữ và ít nhất 1 ký tự đặc biệt.');
+      return;
     }
 
     // Kiểm tra tên đăng nhập và số điện thoại đã tồn tại
     const existsMessage = await checkUserExists();
     if (existsMessage) {
-        setStatusMessage(existsMessage);
-        return;
+      toast.error(existsMessage);
+      return;
     }
 
     const formDataToSend = new FormData();
     formDataToSend.append('MatKhau', formData.MatKhau);
 
     for (const key in formData) {
-        if (key !== 'MatKhau') {
-            formDataToSend.append(key, formData[key]);
-        }
+      if (key !== 'MatKhau') {
+        formDataToSend.append(key, formData[key]);
+      }
     }
 
     setIsSubmitting(true);
-    setStatusMessage('Đang gửi...');
+    toast.info('Đang gửi...');
 
     try {
-        const response = await fetch('http://localhost:3000/employees/add', {
-            method: 'POST',
-            body: formDataToSend,
-        });
+      const response = await fetch('http://localhost:3000/employees/add', {
+        method: 'POST',
+        body: formDataToSend,
+      });
 
-        if (!response.ok) {
-            const errorResult = await response.json();
-            console.error('Lỗi từ server:', errorResult);
-            setStatusMessage(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`);
-            return;
-        }
+      if (!response.ok) {
+        const errorResult = await response.json();
+        console.error('Lỗi từ server:', errorResult);
+        toast.error(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`); // Thông báo lỗi
+        return;
+      }
 
-        const result = await response.json();
-        setStatusMessage(result.message);
+      const result = await response.json();
+      toast.success(result.message); // Hiển thị thông báo thành công
 
-        // Chuyển hướng về trang danh sách nhân viên sau khi lưu thành công
+      // Chờ 3 giây trước khi chuyển hướng
+      setTimeout(() => {
         router.push('/page/nhanvien');
+      }, 3000);
 
-        // Reset form sau khi thành công
-        setFormData({
-            HoTen: '',
-            TenDangNhap: '',
-            MatKhau: '',
-            Anh: null,
-            DiaChi: '',
-            NgaySinh: '',
-            GioTinh: '',
-            SDT: '',
-            ChucVu: '',
-            Tinhtrang: '',
-        });
+      // Reset form sau khi thành công
+      setFormData({
+        HoTen: '',
+        TenDangNhap: '',
+        MatKhau: '',
+        Anh: null,
+        DiaChi: '',
+        NgaySinh: '',
+        GioTinh: '',
+        SDT: '',
+        ChucVu: '',
+        Tinhtrang: '',
+      });
     } catch (error) {
-        console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
-        setStatusMessage('Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.');
+      console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
+      toast.error('Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.'); // Thông báo lỗi
     } finally {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
-};
+  };
+
   return (
     <>
       <Head>
@@ -221,7 +225,7 @@ const ThemNhanVien = () => {
                     <a className="btn btn-cancel" href="/page/nhanvien">Hủy bỏ</a>
                   </div>
                 </form>
-                {statusMessage && <div className="status-message">{statusMessage}</div>}
+                <ToastContainer /> {/* Đặt ToastContainer ở đây */}
               </div>
             </div>
           </div>

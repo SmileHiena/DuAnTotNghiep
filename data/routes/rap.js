@@ -4,8 +4,6 @@ var router = express.Router();
 const { ObjectId } = require("mongodb");
 const connectDb = require('../models/db');
 
-
-
 router.get('/:id', async (req, res) => {
     try {
         const db = await connectDb();
@@ -92,8 +90,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-
 // Sửa thông tin rạp bằng _id
 router.put('/:id', async (req, res) => {
     const { TenRap, ViTri } = req.body; // Bỏ SoLuongPhong
@@ -126,7 +122,6 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi sửa rạp', error });
     }
 });
-
 
 // Xóa rạp
 router.delete('/:id', async (req, res) => {
@@ -263,31 +258,29 @@ router.delete('/:id/phong-chieu/:phongId', async (req, res) => {
     }
 });
 
-
 // In the `rapchieu` API file
 router.get('/phongchieu/:id', async (req, res) => {
     const roomId = req.params.id;
-  
+
     try {
-      const db = await connectDb();
-      const cinemasCollection = db.collection('rap');
-      
-      // Find the cinema that contains the requested screening room
-      const cinema = await cinemasCollection.findOne(
-        { "PhongChieu.id": parseInt(roomId) },
-        { projection: { "PhongChieu.$": 1 } } // Only return the specific screening room
-      );
-  
-      if (cinema && cinema.PhongChieu.length > 0) {
-        res.status(200).json(cinema.PhongChieu[0]); // Return the screening room details
-      } else {
-        res.status(404).json({ message: 'Screening room not found' });
-      }
+        const db = await connectDb();
+        const cinemasCollection = db.collection('rap');
+
+        // Find the cinema that contains the requested screening room
+        const cinema = await cinemasCollection.findOne(
+            { "PhongChieu.id": parseInt(roomId) },
+            { projection: { "PhongChieu.$": 1 } } // Only return the specific screening room
+        );
+
+        if (cinema && cinema.PhongChieu.length > 0) {
+            res.status(200).json(cinema.PhongChieu[0]); // Return the screening room details
+        } else {
+            res.status(404).json({ message: 'Screening room not found' });
+        }
     } catch (error) {
-      console.error('Error fetching screening room:', error);
-      res.status(500).json({ message: 'Failed to fetch screening room' });
+        console.error('Error fetching screening room:', error);
+        res.status(500).json({ message: 'Failed to fetch screening room' });
     }
-  });
-  
+});
 
 module.exports = router;

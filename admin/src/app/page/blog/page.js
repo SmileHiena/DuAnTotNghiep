@@ -1,16 +1,14 @@
 "use client"; // Mark this file as a client component
 
 import Head from "next/head";
-import 'boxicons/css/boxicons.min.css';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-// import { Modal, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 // Toast
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Blog = () => {
   const router = useRouter();
@@ -20,7 +18,7 @@ const Blog = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedBlog, setEditedBlog] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
-  const [editError, setEditError] = useState(""); 
+  const [editError, setEditError] = useState("");
   const [error, setError] = useState("");
 
   const notify = () => {
@@ -181,14 +179,14 @@ const Blog = () => {
               <div className="row element-button">
                 <div className="col-sm-2">
                   <Button className="btn btn-add btn-sm" onClick={handleAddBlog}>
-                    <i className="fas fa-plus"></i> Tạo mới bài viết
+                    <i className="fas fa-plus"></i> Thêm mới
                   </Button>
                 </div>
               </div>
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>Mã bài viết</th>
+                    <th>ID</th>
                     <th>Tên blog</th>
                     <th>Ảnh</th>
                     <th>Lượt xem</th>
@@ -210,21 +208,22 @@ const Blog = () => {
                       <td>{blog.LuotXem} Lượt xem</td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(blog._id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                          className="btn btn-primary mr-3"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditBlog(blog)}
                         >
-                          <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} />
+                          <FontAwesomeIcon icon={faPenToSquare} />
                         </button>
+                        <button
+                          className="btn btn-danger mr-3"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(blog._id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+
                       </td>
                     </tr>
                   ))}

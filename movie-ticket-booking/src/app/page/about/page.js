@@ -7,8 +7,8 @@ const About = () => {
         <h1 className="text-4xl font-bold text-center text-F5CF49 mb-6">
           Về <span className="text-yellow-400">Screen Time</span>
         </h1>
-        <img 
-          src={`/images/phim/cong-tu-bac-lieu.jpg`} 
+        <img
+          src={`/images/logo.png`}
           alt="Cinema"
           className="w-full h-64 object-cover rounded-md mb-6"
         />

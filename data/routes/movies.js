@@ -36,57 +36,32 @@ function generateToken() {
 
 router.get('/:id', async (req, res) => {
   try {
+    const movieId = req.params.id; // Lấy ID từ URL
     const db = await connectDb();
-    const moviesCollection = db.collection('phim');
+    const moviesCollection = db.collection('phim'); // Tên collection là 'phim'
 
-    // Lấy thông tin phim theo ID
-    const movieId = req.params.id;
-    const movie = await moviesCollection.findOne({ id: movieId });
+    // Tìm phim theo _id (Lưu ý sử dụng ObjectId cho trường _id)
+    const movie = await moviesCollection.findOne({ _id: new ObjectId(movieId) });
 
-    if (!movie) {
-      return res.status(404).json({ message: 'Movie not found' });
+    if (movie) {
+      res.status(200).json(movie);
+    } else {
+      res.status(404).json({ message: 'Phim không tồn tại' });
     }
-
-    // Lấy phim tương tự theo thể loại của phim hiện tại
-    const similarMovies = await moviesCollection
-      .find({ "TheLoai.KieuPhim": movie.TheLoai.KieuPhim, id: { $ne: movieId } })
-      .limit(4) // Giới hạn số lượng phim tương tự
-      .toArray();
-
-    // Trả về cả phim chi tiết và phim tương tự
-    res.status(200).json({
-      movie,
-      similarMovies
-    });
   } catch (error) {
-    console.error('Error fetching movie and similar movies:', error);
-    res.status(500).json({ message: 'Failed to fetch movie data' });
+    console.error('Error fetching movie by ID:', error);
+    res.status(500).json({ message: 'Lỗi khi tìm phim theo ID' });
   }
 });
 
-
 router.get('/', async (req, res) => {
   try {
-    const trangThai = req.query.trangThai; // Lấy trạng thái từ query (nếu có)
-    const theLoai = req.query.theLoai; // Lấy thể loại từ query (nếu có)
-    
+    const trangThai = req.query.trangThai; // Lấy trạng thái từ query
     const db = await connectDb();
     const moviesCollection = db.collection('phim'); // Đảm bảo collection tên đúng
 
-    // Xây dựng query để lọc
-    const query = {};
-
-    // Nếu có trạng thái, thêm điều kiện lọc theo trạng thái
-    if (trangThai) {
-      query.TrangThai = trangThai;
-    }
-
-    // Nếu có thể loại, thêm điều kiện lọc theo thể loại
-    if (theLoai) {
-      query['TheLoai.KieuPhim'] = { $regex: new RegExp(theLoai, 'i') }; // Tìm kiếm không phân biệt hoa thường
-    }
-
-    // Tìm phim dựa trên query đã xây dựng
+    // Nếu có trạng thái, lọc theo trạng thái
+    const query = trangThai ? { TrangThai: trangThai } : {};
     const movies = await moviesCollection.find(query).toArray();
 
     res.status(200).json(movies);
@@ -95,7 +70,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch movies' });
   }
 });
-
 
 
 // //Trả về json danh sách sản phẩm

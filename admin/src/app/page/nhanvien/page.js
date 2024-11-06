@@ -4,6 +4,8 @@ import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { ToastContainer, toast, Bounce } from 'react-toastify'; // Import Toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS cho Toastify
 
 const NhanVien = () => {
   const [employees, setEmployees] = useState([]);
@@ -16,7 +18,7 @@ const NhanVien = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch('http://localhost:3000/employees/');
+        const response = await fetch('http://localhost:3000/employees');
         const data = await response.json();
         setEmployees(data);
         setLoading(false);
@@ -51,6 +53,7 @@ const NhanVien = () => {
     setFile(null);
     setErrorMessage(''); // Reset thông báo lỗi khi đóng modal
   };
+
   const handleSave = async () => {
     if (currentEmployee) {
       // Kiểm tra số điện thoại
@@ -96,13 +99,17 @@ const NhanVien = () => {
         setEmployees((prev) =>
           prev.map((emp) => (emp._id === currentEmployee._id ? { ...currentEmployee, Anh: file ? `/images/${file.name}` : emp.Anh } : emp))
         );
+
+        toast.success('Cập nhật nhân viên thành công!', { // Thông báo thành công
+          position: 'top-right',
+          autoClose: 3000,
+        });
         handleCloseModal();
       } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật nhân viên:', error);
       }
     }
   };
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -123,6 +130,10 @@ const NhanVien = () => {
         });
 
         setEmployees((prev) => prev.filter((emp) => emp._id !== employeeId));
+        toast.success('Xóa nhân viên thành công!', { // Thông báo xóa thành công
+          position: 'top-right',
+          autoClose: 3000,
+        });
       } catch (error) {
         console.error('Có lỗi xảy ra khi xóa nhân viên:', error);
       }
@@ -149,7 +160,7 @@ const NhanVien = () => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
-                    <Link href="/page/themnhanvien" className="btn bg-[#F5CF49] font-bold">
+                    <Link href="/page/themnhanvien" className="btn btn-add">
                       <FontAwesomeIcon icon={faPlus} /> Thêm mới
                     </Link>
                   </div>
@@ -174,7 +185,7 @@ const NhanVien = () => {
                     {employees.length > 0 ? (
                       employees.map((employee) => (
                         <tr key={employee._id}>
-                          <td>{employee.id}</td>
+                          <td>{employee._id}</td>
                           <td>{employee.HoTen}</td>
                           <td>{employee.TenDangNhap}</td>
                           <td><img className="img-card-person" src={employee.Anh} alt={employee.HoTen} /></td>
@@ -185,10 +196,10 @@ const NhanVien = () => {
                           <td>{employee.ChucVu}</td>
                           <td>{employee.Tinhtrang}</td>
                           <td>
-                            <button className="btn btn-primary btn-sm mr-3" type="button" onClick={() => handleEditClick(employee._id)}>
+                            <button className="btn btn-primary mr-3" type="button" onClick={() => handleEditClick(employee._id)}>
                               <FontAwesomeIcon icon={faPenToSquare} />
                             </button>
-                            <button className="btn btn-danger btn-sm" type="button" onClick={() => handleDelete(employee._id)}>
+                            <button className="btn btn-danger" type="button" onClick={() => handleDelete(employee._id)}>
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
                           </td>
@@ -283,6 +294,8 @@ const NhanVien = () => {
           </div>
         </div>
       </div>
+
+      <ToastContainer transition={Bounce} /> {/* Thêm ToastContainer để hiển thị thông báo */}
     </>
   );
 };
