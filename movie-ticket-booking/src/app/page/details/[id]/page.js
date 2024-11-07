@@ -60,18 +60,18 @@ const Detail = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = Cookies.get("token");
     if (!token) {
       alert("Bạn cần đăng nhập để bình luận.");
       return;
     }
-  
+
     if (!newComment.trim()) return;
-  
+
     const commentData = { movieId: id, content: newComment };
     console.log("Comment Data:", commentData);
-  
+
     try {
       const response = await fetch("http://localhost:3000/comments", {
         method: "POST",
@@ -81,7 +81,7 @@ const Detail = () => {
         },
         body: JSON.stringify(commentData),
       });
-  
+
       if (response.ok) {
         const addedComment = await response.json();
         setComments((prevComments) => [...prevComments, addedComment]);
@@ -94,7 +94,7 @@ const Detail = () => {
       console.error("Failed to post comment", error);
     }
   };
-  
+
   const toggleExpand = (id) => {
     setExpandedComments((prev) => ({
       ...prev,
@@ -212,7 +212,7 @@ const Detail = () => {
                 {/* Comment Input */}
                 <form
                   onSubmit={handleCommentSubmit}
-                  className="flex flex-col items-center w-full"
+                  className="flex flex-col items-center max-w-[1200px] w-full"
                 >
                   <textarea
                     placeholder="Mời bạn thảo luận..."
@@ -221,8 +221,9 @@ const Detail = () => {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                   />
+                  {/* Nút gửi chuyển sang bên trái */}
                   <button
-                    className="mt-2 text-[20px] bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-300"
+                    className="mt-2 text-[20px] bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-300 self-start"
                     style={{ width: "150px", height: "41px" }}
                     type="submit"
                   >
@@ -233,50 +234,40 @@ const Detail = () => {
                 {/* Displaying Comments */}
                 <div className="w-full max-w-[1200px] mt-4">
                   {comments.map((comment) => (
-                    <div
-                      key={comment._id} // Use the MongoDB _id as the key
-                      className="mb-4 p-4 bg-[#423E3E] rounded flex items-start gap-4 w-full border border-white"
-                    >
+                    <div key={comment._id} className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300">
                       {comment.userImage && (
-                        <img
-                          src={`http://localhost:3000/images/${comment.userImage}`}
-                          alt={`${comment.username}'s avatar`}
-                          className="w-12 h-12 rounded-full"
-                        />
+                        <img src={`http://localhost:3000/images/${comment.userImage}`} alt={`${comment.username}'s avatar`} className="w-14 h-14 rounded-full border-2 border-[#F5CF49]" />
                       )}
                       <div className="flex flex-col flex-1 max-w-[1100px]">
-                        <span className="font-semibold text-[20px] max-w-[1100px] text-white mb-1">
-                          {comment.username}
-                        </span>
+                        <span className="font-semibold text-[20px] text-white mb-2">{comment.username}</span>
+                        <div className="border-b border-white opacity-20 w-full mb-2"></div>
+                        <p className="text-[18px] text-white mb-2 break-words">
+                          {comment.content.length > 100
+                            ? (expandedComments[comment._id] ? comment.content : `${comment.content.substring(0, 250)}...`)
+                            : comment.content
+                          }
+                        </p>
 
-                        <div className="border-b border-white w-full mb-1"></div>
-                        <p className="text-[20px] max-w-[1000px] text-white mb-1 break-words">
-                          {expandedComments[comment._id]
-                            ? comment.content
-                            : `${comment.content.substring(0, 100)}...`}
-                        </p>
-                        <button
-                          onClick={() => toggleExpand(comment._id)} // Pass the comment's ID
-                          className="text-[#F5CF49] underline mt-1"
-                        >
-                          {expandedComments[comment._id]
-                            ? "Ẩn bớt"
-                            : "Xem thêm"}
-                        </button>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {new Date(comment.timestamp).toLocaleString()}
-                        </p>
+                        {comment.content.length > 100 && (
+                          <button onClick={() => toggleExpand(comment._id)} className="text-[#F5CF49] underline mt-2 hover:text-[#F1D600]">
+                            {expandedComments[comment._id] ? "Ẩn bớt" : "Xem thêm"}
+                          </button>
+                        )}
+
+                        <p className="text-xs text-gray-400 mt-2">{new Date(comment.timestamp).toLocaleString()}</p>
                       </div>
                     </div>
                   ))}
                 </div>
+
               </div>
             </div>
           </div>
 
+
           {/* Similar Movies Section */}
           <TuongTu movieId={movie.id} />
-          <DangChieu/>
+          <DangChieu />
         </div>
       </div>
     </div>

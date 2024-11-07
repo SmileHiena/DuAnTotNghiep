@@ -1,9 +1,58 @@
-import '../../../public/css/main.css';
+'use client'
 import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faTachometerAlt, faIdCard, faUser, faTags, faTasks, faTicketAlt, faCommentDots, faFilm, faCalendarCheck, faChartPie, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faSignOutAlt, faIdCard, faUser, faTags, faTasks, faTicketAlt, faCommentDots, faFilm, faCalendarCheck, faChartPie, faCog } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';  // Import useRouter hook
 
 const Header = () => {
+    const [user, setUser] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();  // Initialize router
+
+    useEffect(() => {
+        const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
+        const tokenValue = token?.split('=')[1];
+
+        // Nếu không có token, điều hướng về trang login
+        if (!tokenValue) {
+            router.push('http://localhost:3001/page/login');
+        } else {
+            setIsLoggedIn(true);
+            const getUser = async () => {
+                try {
+                    const response = await fetch('http://localhost:3000/users/detailuser', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${tokenValue}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setUser(data);
+                    } else {
+                        console.error('Failed to fetch user data');
+                        setIsLoggedIn(false);
+                        alert('Vui lòng đăng nhập lại.');
+                    }
+                } catch (error) {
+                    console.error('An error occurred while fetching user data:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                }
+            };
+
+            getUser();
+        }
+    }, [router]);
+
+    const handleLogout = () => {
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+        setIsLoggedIn(false);
+        router.push('http://localhost:3001/page/login');  // Redirect to homepage after logout
+    };
+
     return (
         <>
             {/* Navbar */}
@@ -13,21 +62,22 @@ const Header = () => {
                 {/* Navbar Right Menu */}
                 <ul className="app-nav">
                     {/* User Menu */}
-                    <li>
-                        <Link className="app-nav__item" href="/index.html">
-                            <FontAwesomeIcon icon={faCog} className="w-6 h-6" />
-                        </Link>
+                    <li>{/* nơi chứa  nút đăng xuất */}
+                        <button onClick={handleLogout} className="app-nav__item">
+                            <FontAwesomeIcon icon={faSignOutAlt} className="w-6 h-6" />
+                        </button>
                     </li>
                 </ul>
             </header>
             {/* Sidebar menu */}
             <div className="app-sidebar__overlay" data-toggle="sidebar"></div>
             <aside className="app-sidebar">
+                {/* nơi hiện ảnh, tên admin */}
                 <Link href="/">
                     <div className="app-sidebar__user mb-2">
-                        <img className="app-sidebar__user-avatar mb-2" src="/images/user/hoai.jpg" alt="User Image" />
+                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/${user?.Anh}`} alt="User Image" />
                         <div>
-                            <p className="app-sidebar__user-name"><b>ScreenTime</b></p>
+                            <p className="app-sidebar__user-name"><b>{user?.HoTen || "Admin"}</b></p>
                             <p className="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
                         </div>
                     </div>

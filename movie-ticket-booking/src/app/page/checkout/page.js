@@ -22,12 +22,34 @@ const CheckoutPage = () => {
       const tokenValue = Cookies.get("token");
       if (tokenValue) {
         fetchUserDetails(tokenValue);
+        // const currentTime = new Date().getTime();
       } else {
         alert("Vui lòng đăng nhập lại.");
       }
+      const currentTime = new Date().getTime();
+      const holdTimeInSeconds = 300; // 5 minutes
+      const expirationTime = currentTime + holdTimeInSeconds * 1000;
+
+      Cookies.set("holdExpiration", expirationTime);
+
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = expirationTime - now;
+
+        if (distance < 0) {
+          clearInterval(interval);
+          setRemainingTime(0);
+          Cookies.remove("holdExpiration"); 
+      } else {
+        setRemainingTime(Math.floor(distance / 1000));
+        
+      }
+      }, 1000);
+
+      return () => clearInterval(interval);
     }
+
   }, []);
-  const tokenValue = Cookies.get("token"); // Ensure this cookie is set correctly
 
   const fetchUserDetails = async (tokenValue) => {
     try {
@@ -63,47 +85,50 @@ const CheckoutPage = () => {
       return;
     }
     setError(''); // Clear error message if a payment method is selected
-
+  
     const paymentData = {
-      NgayMua: new Date().toISOString(), // Replace with actual purchase date if needed
+      NgayMua: new Date().toISOString(),
+      orderId: Date.now(),
       Rap: "Ticket Quận 12",
       userId: userInfo ? userInfo.userId : 'Chưa có  thông tin',
-      PhuongThucThanhToan: paymentMethod, // Save selected payment method
+      PhuongThucThanhToan: paymentMethod,
       TenPhim: bookingInfo ? bookingInfo.movieName : "Chưa có thông tin",
       ThoiGian: bookingInfo ? bookingInfo.showtimeTime : "Chưa có thông tin",
-      NgayChieu: bookingInfo ? bookingInfo.showtimeDate : "Chưa có thông tin", // Ensure this field exists in bookingInfo
-      SoGhe: bookingInfo ? bookingInfo.selectedSeats.join(", ") : "chưa có thống tin", // Count of selected seats
+      NgayChieu: bookingInfo ? bookingInfo.showtimeDate : "Chưa có thông tin",
+      SoGhe: bookingInfo ? bookingInfo.selectedSeats.join(", ") : "chưa có thống tin",
       PhongChieu: bookingInfo ? bookingInfo.room : "Chưa có thông tin",
-      GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0, // Sum of ticket prices
-      TongTien: bookingInfo ? bookingInfo.totalAmount : 0, // Total amount from bookingInfo
-      TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin", // Replace with actual customer name if needed
-      Email: userInfo ? userInfo.Email : "Chưa có thông tin", // Replace with actual customer email if needed
-      Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null", // Join combo names with commas
+      GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0,
+      TongTien: bookingInfo ? bookingInfo.totalAmount : 0,
+      TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
+      Email: userInfo ? userInfo.Email : "Chưa có thông tin",
+      Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null",
     };
-
+  
     try {
-      const response = await fetch('http://localhost:3000/checkout/', {
+      // Giả sử bạn sẽ gửi thông tin thanh toán đến server
+      const response = await fetch('http://localhost:3000/order/create_payment_url', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${tokenValue}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(paymentData),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to create invoice');
       }
-
+  
       const result = await response.json();
       console.log('Invoice created:', result);
-
+  
+      // Lưu thông tin thanh toán vào token hoặc cookies
+      Cookies.set('paymentInfo', JSON.stringify(paymentData));  // Lưu thông tin thanh toán vào cookies
+  
       // Redirect to invoice details page using the id
-      if (result.id) { // Ensure that result.id exists
-        router.push(`/page/chitiethoadon/${result.id}`); // Redirect to the details page with the invoice ID
-      } else {
-        setError('Không có ID hóa đơn để chuyển hướng.');
-      }
+    
+        // Chuyển hướng tới trang thanh toán với ID hóa đơn
+        router.push(`/page/thanhtoan/`);  // Chuyển hướng đến trang chi tiết hóa đơn
+      
     } catch (error) {
       console.error('Payment error:', error);
       setError('Đã xảy ra lỗi khi thanh toán.');

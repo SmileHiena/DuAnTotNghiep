@@ -1,9 +1,10 @@
+// users.js ( api phía người dùng: http://localhost:3000/users/login )
 var express = require("express");
 var router = express.Router();
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
-const { ObjectId } = require('mongodb'); // Import ObjectId để tìm kiếm theo ID
+const { ObjectId } = require('mongodb');
 const path = require('path');
 // Thiết lập nơi lưu trữ và tên file
 let storage = multer.diskStorage({
@@ -44,12 +45,12 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email đã tồn tại" });
 
-    // Hash the password
+      // Hash the password
     }
-    if ( User) {
+    if (User) {
       return res.status(400).json({ message: "Tên đăng nhập đã tồn tại" });
 
-    // Hash the password
+      // Hash the password
     }
     const hashPassword = await bcrypt.hash(MatKhau, 10);
 
@@ -66,7 +67,7 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
       TenDangNhap,
       Ten,
       Anh: imagePath ? req.file.filename : null,
-      isAdmin: 1,
+      IsAdmin: 1,
     };
 
     // Insert the new user into the collection
@@ -195,60 +196,68 @@ router.put("/updatepassword/:id", async (req, res) => {
   }
 });
 
-// Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
-  const { usernameOrEmail, MatKhau } = req.body;
-     console.log(req.body)
+  const { usernameOrEmail, MatKhau } = req.body; // Lấy thông tin từ request body
+
   try {
     const db = await connectDb();
-    const userCollection = db.collection("taikhoan");
+    let userCollection, employeeCollection, user;
 
-    // Tìm người dùng bằng username hoặc email
-    const user = await userCollection.findOne({
+    // Tìm người dùng trong bảng "taikhoan" (Users)
+    userCollection = db.collection("taikhoan");
+    user = await userCollection.findOne({
       $or: [{ TenDangNhap: usernameOrEmail }, { Email: usernameOrEmail }],
     });
 
+    // Nếu không phải người dùng thì tìm trong bảng "admin" (Employees)
     if (!user) {
-      return res
-        .status(403)
-        .json({
-          message: "Tài khoản không tồn tại, vui lòng kiểm tra email hoặc tên đăng nhập.",
-        });
+      employeeCollection = db.collection("admin");
+      user = await employeeCollection.findOne({ TenDangNhap: usernameOrEmail.toLowerCase() });
+
+      if (!user) {
+        return res.status(404).json({ message: "Tên đăng nhập không đúng" });
+      }
     }
 
-    // So sánh mật khẩu không đồng bộ
+    // Kiểm tra mật khẩu
     const isPasswordCorrect = await bcrypt.compare(MatKhau, user.MatKhau);
     if (!isPasswordCorrect) {
-      return res.status(403).json({ message: "Mật khẩu không chính xác." });
+      return res.status(403).json({ message: "Mật khẩu không chính xác" });
     }
 
-    // Tạo token JWT
+    // Tạo JWT token
     const token = jwt.sign(
       {
+        id: user._id || user._id,
         TenDangNhap: user.TenDangNhap,
-        Email: user.Email,
-        SDT: user.SDT,
-        Ten: user.Ten,
-        isAdmin: user.isAdmin,
+        Email: user.Email || user.Email,
+        SDT: user.SDT || user.SDT,
+        Ten: user.Ten || user.HoTen, // Tên có thể là "Ten" (người dùng) hoặc "HoTen" (nhân viên)
+        IsAdmin: user.IsAdmin,
+        Quyen: user.Quyen || undefined, // Chỉ nhân viên mới có quyền
+        ChucVu: user.ChucVu || undefined, // Chỉ nhân viên mới có chức vụ
       },
       process.env.JWT_SECRET || "secretkey",
-      // { expiresIn: "1h" }
+      { expiresIn: "1h" }
     );
 
     // Trả về thông tin người dùng và token
     res.status(200).json({
       token: token,
       TenDangNhap: user.TenDangNhap,
-      Email: user.Email,
-      SDT: user.SDT,
-      Ten: user.Ten,
-      isAdmin: user.isAdmin,
+      Email: user.Email || undefined,
+      SDT: user.SDT || undefined,
+      Ten: user.Ten || user.HoTen,
+      IsAdmin: user.IsAdmin,
+      Quyen: user.Quyen || undefined,
+      ChucVu: user.ChucVu || undefined,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Lỗi server, vui lòng thử lại." });
   }
 });
+
 
 router.get("/users", async (req, res, next) => {
   const db = await connectDb();
@@ -265,7 +274,7 @@ router.get("/users/:id", async (req, res, next) => {
   const db = await connectDb();
   const usersCollection = db.collection("taikhoan");
   let id = req.params.id;
-  
+
   // Sử dụng ObjectId nếu id là ObjectId trong MongoDB
   const users = await usersCollection.findOne({ _id: ObjectId(id) });
   if (users) {
@@ -285,7 +294,7 @@ router.get("/users/:id/Ten", async (req, res, next) => {
     const user = await userCollection.findOne(
       { _id: ObjectId(id) }, // Sử dụng ObjectId
       { projection: { Ten: 1 } } // Chỉ lấy trường Ten
-    ); 
+    );
     if (user) {
       res.status(200).json({ Ten: user.Ten });
     } else {
@@ -299,27 +308,40 @@ router.get("/users/:id/Ten", async (req, res, next) => {
 
 // API để lấy thông tin người dùng chi tiết
 router.get('/detailuser', async (req, res, next) => {
-    const token = req.headers.authorization;
+  const token = req.headers.authorization;
 
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
+
+  const bearerToken = token.split(' ')[1];
+  jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
+    if (err) {
+      return res.status(401).json({ message: "Token không hợp lệ" });
     }
-    
-    const bearerToken = token.split(' ')[1];
-    jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
-        if (err) {
-            return res.status(401).json({ message: "Token không hợp lệ" });
-        }
-        const db = await connectDb();
-        const userCollection = db.collection('taikhoan');
-        const userInfo = await userCollection.findOne({ Email: user.Email });
-        if (userInfo) {
-            res.status(200).json(userInfo);
-        } else {
-            res.status(404).json({ message: "Không tìm thấy người dùng" });
-        }
-    });
+
+    const db = await connectDb();
+    let userCollection, employeeCollection, userInfo;
+
+    // Kiểm tra xem là người dùng hay nhân viên
+    if (user.IsAdmin === 1) {
+      // Nếu là người dùng (IsAdmin = 1), truy vấn bảng taikhoan
+      userCollection = db.collection('taikhoan');
+      userInfo = await userCollection.findOne({ Email: user.Email });
+    } else {
+      // Nếu là nhân viên (IsAdmin = 0), truy vấn bảng admin
+      employeeCollection = db.collection('admin');
+      userInfo = await employeeCollection.findOne({ TenDangNhap: user.TenDangNhap });
+    }
+
+    if (userInfo) {
+      res.status(200).json(userInfo);
+    } else {
+      res.status(404).json({ message: "Không tìm thấy người dùng hoặc nhân viên" });
+    }
+  });
 });
+
 
 
 module.exports = router;

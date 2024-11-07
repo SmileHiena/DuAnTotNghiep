@@ -1,3 +1,4 @@
+// employees.js ( api phía admin: http://localhost:3000/employees/login )
 const express = require('express');
 const router = express.Router();
 const connectDb = require('../models/db');
@@ -6,6 +7,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // Thiết lập nơi lưu trữ và tên file
 const storage = multer.diskStorage({
@@ -218,7 +220,6 @@ router.put('/lock/:id', async (req, res) => {
         res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
     }
 });
-
 
 
 module.exports = router;
