@@ -32,11 +32,20 @@ var order = require('./routes/order');
 var app = express();
 
 // Cấu hình middleware CORS
+const allowedOrigins = ['http://localhost:3001', 'http://localhost:3002', 'http://example.com']; // Thêm các nguồn gốc bạn muốn cho phép
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:3002'], // Cho phép truy cập từ các địa chỉ này
+  origin: (origin, callback) => {
+    // Kiểm tra xem origin có nằm trong danh sách cho phép không
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Cho phép nguồn gốc truy cập
+    } else {
+      callback(new Error('Not allowed by CORS')); // Chặn nguồn gốc không được phép
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
   credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
+
 
 // Serve the uploads folder as static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

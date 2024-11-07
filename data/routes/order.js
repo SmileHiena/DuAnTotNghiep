@@ -88,10 +88,8 @@ router.get("/vnpay_return", async function (req, res, next) {
   let vnp_Params = req.query;
 
   let secureHash = vnp_Params["vnp_SecureHash"];
-
   delete vnp_Params["vnp_SecureHash"];
   delete vnp_Params["vnp_SecureHashType"];
-
   vnp_Params = sortObject(vnp_Params);
 
   let config = require("config");
@@ -105,34 +103,74 @@ router.get("/vnpay_return", async function (req, res, next) {
   let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
   if (secureHash === signed) {
-    //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
     const orderId = req.query.vnp_TxnRef;
-    const db = await connectDb(); // Kết nối đến database MongoDB
-    const collection = db.collection('hoadon'); // Thay 'orders' bằng tên collection bạn đang sử dụng
-  
+
     try {
-      // Cập nhật trạng thái của đơn hàng
-      const result = await collection.updateOne(
-        { order_id: orderId }, // Điều kiện tìm kiếm
-        { $set: { state: "banked" } } // Cập nhật trạng thái
-      );
-  
-      if (result.modifiedCount > 0) {
-        console.log(`Cập nhật trạng thái cho đơn hàng ${orderId} thành công.`);
-      } else {
-        console.log(`Không tìm thấy đơn hàng với orderId ${orderId}.`);
+      // Lấy dữ liệu từ body (nếu có)
+      const {
+        NgayMua,
+        Rap,
+        PhuongThucThanhToan,
+        TenPhim,
+        ThoiGian,
+        NgayChieu,
+        SoGhe,
+        PhongChieu,
+        GiaVe,
+        TongTien,
+        TenKhachHang,
+        Email,
+        Combo,
+      } = req.user;
+
+      // Kiểm tra các trường thông tin quan trọng
+      if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email) {
+        return res.status(400).json({ message: 'Missing required fields' });
       }
-    } catch (err) {
-      console.error('Lỗi khi cập nhật:', err);
+
+      const userId = req.user.userId; // Lấy userId từ token
+
+      // Kết nối đến MongoDB
+      const db = await connectDb();
+      const invoicesCollection = db.collection('hoadon');
+
+      // Tính ID mới cho hóa đơn
+      const newInvoiceId = (await invoicesCollection.countDocuments()) + 1;
+
+      const newInvoice = {
+        id: newInvoiceId,
+        userId,
+        NgayMua,
+        Rap,
+        PhuongThucThanhToan,
+        TenPhim,
+        ThoiGian,
+        NgayChieu,
+        SoGhe,
+        PhongChieu,
+        GiaVe,
+        TongTien,
+        TenKhachHang,
+        Email,
+        Combo: Combo || null,
+        createdAt: new Date(),
+      };
+
+      // Lưu hóa đơn vào MongoDB
+      const result = await invoicesCollection.insertOne(newInvoice);
+      res.status(201).json({ id: newInvoiceId, ...newInvoice });
+
+      // Sau khi thành công, chuyển hướng đến trang thành công
+      res.redirect(`http://localhost:3001/success?orderId=${orderId}&amount=${vnp_Params["vnp_Amount"] / 100}&message=Thanh toán thành công&code=${vnp_Params["vnp_ResponseCode"]}`);
+    } catch (error) {
+      console.error('Error creating invoice:', error);
+      res.status(500).json({ message: 'Failed to create invoice' });
     }
-
-    res.redirect(`localhost:3001/success?orderId=${orderId}&amount=${vnp_Params["vnp_Amount"] / 100}&message=Thanh toán thành công&code=${vnp_Params["vnp_ResponseCode"]}`);
-
-    res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
   } else {
-    res.render("success", { code: "97" });
+    res.render("success", { code: "97" }); // Mã lỗi nếu hash không hợp lệ
   }
 });
+
 
 router.get("/vnpay_ipn", function (req, res, next) {
   let vnp_Params = req.query;

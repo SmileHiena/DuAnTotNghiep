@@ -58,31 +58,33 @@ const PaymentPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     // Đảm bảo thông tin thanh toán hợp lệ
-    if (!paymentInfo) {
-      alert("Không tìm thấy thông tin thanh toán.");
+    if (!paymentInfo || !paymentInfo.TongTien || !paymentInfo.orderId) {
+      alert("Thông tin thanh toán không đầy đủ.");
       return;
     }
-
-    // Cập nhật thông tin bankCode và language nếu cần
+  
     const amount = paymentInfo.TongTien;
     const orderId = paymentInfo.orderId;
-
+  
     if (selectedPaymentType === "bank") {
       try {
         const response = await axiosClient.post("/create_payment_url", {
           amount: amount,
           orderId: orderId,
-          bankCode: bankCode,  // Sử dụng bankCode đã chọn
-          language: language,  // Sử dụng ngôn ngữ đã chọn
+          bankCode: bankCode,
+          language: language,
         });
-
-        console.log("Response from API: ", response); // Kiểm tra response trả về
-        if (response) {
-          // setPaymentUrl(response.paymentUrl);  // Lưu URL thanh toán vào state
-          router.push(response);  // Chuyển hướng đến trang thanh toán
+  
+        console.log("Response from API:", response); // Kiểm tra response trả về
+  
+        // Kiểm tra nếu response là một chuỗi URL
+        if (typeof response === 'string' && response.startsWith("http")) {
+          setPaymentUrl(response);  // Lưu URL thanh toán vào state
+          router.push(response);    // Chuyển hướng đến trang thanh toán
         } else {
+          console.warn("paymentUrl không hợp lệ hoặc không có.");
           alert("Lỗi khi tạo liên kết thanh toán");
         }
       } catch (error) {
@@ -91,15 +93,20 @@ const PaymentPage = () => {
       }
     }
   };
+  
 
   if (!paymentInfo) {
     return <p>Đang tải thông tin thanh toán...</p>;
   }
+  // console.log(paymentInfo.orderId);
+  // console.log(paymentInfo.Email);
 
   return (
     <>
       <div>
-        <h1>Thanh toán cho hóa đơn</h1>
+        <h1>Thanh toán cho hóa đơn  {paymentInfo.orderId}</h1>
+        
+
         <div>
           <h3>Thông tin thanh toán:</h3>
           <p>Phương thức thanh toán: {paymentInfo.PhuongThucThanhToan}</p>

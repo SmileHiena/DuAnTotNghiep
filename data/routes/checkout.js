@@ -32,6 +32,7 @@ router.get("/", getUserFromToken, async (req, res) => {
 // POST: Tạo hóa đơn mới
 router.post('/', getUserFromToken, async (req, res) => {
     try {
+        // Destructure required fields from the request body
         const {
             NgayMua,
             Rap,
@@ -48,19 +49,37 @@ router.post('/', getUserFromToken, async (req, res) => {
             Combo,
         } = req.body;
 
-        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email) {
-            return res.status(400).json({ message: 'Missing required fields' });
+        // Check for missing required fields
+        const missingFields = [];
+        if (!NgayMua) missingFields.push("NgayMua");
+        if (!Rap) missingFields.push("Rap");
+        if (!PhuongThucThanhToan) missingFields.push("PhuongThucThanhToan");
+        if (!TenPhim) missingFields.push("TenPhim");
+        if (!ThoiGian) missingFields.push("ThoiGian");
+        if (!NgayChieu) missingFields.push("NgayChieu");
+        if (!SoGhe) missingFields.push("SoGhe");
+        if (!PhongChieu) missingFields.push("PhongChieu");
+        if (!GiaVe) missingFields.push("GiaVe");
+        if (!TongTien) missingFields.push("TongTien");
+        if (!TenKhachHang) missingFields.push("TenKhachHang");
+        if (!Email) missingFields.push("Email");
+
+        // If any fields are missing, return an error with details
+        if (missingFields.length > 0) {
+            return res.status(400).json({ message: `Missing required fields: ${missingFields.join(", ")}` });
         }
 
-        const userId = req.user.userId; // Lấy userId từ token
+        const userId = req.user.userId; // Get userId from the token
 
         // Connect to the database
         const db = await connectDb();
         const invoicesCollection = db.collection('hoadon');
 
-        // Calculate new invoice ID
-        const newInvoiceId = (await invoicesCollection.countDocuments()) + 1;
+        // Calculate new invoice ID by checking the highest existing ID and incrementing
+        const lastInvoice = await invoicesCollection.findOne({}, { sort: { id: -1 } });
+        const newInvoiceId = lastInvoice ? lastInvoice.id + 1 : 1;
 
+        // Create new invoice object
         const newInvoice = {
             id: newInvoiceId,
             userId,
@@ -80,7 +99,7 @@ router.post('/', getUserFromToken, async (req, res) => {
             createdAt: new Date(),
         };
 
-        // Insert the new invoice
+        // Insert the new invoice into the collection
         const result = await invoicesCollection.insertOne(newInvoice);
         res.status(201).json({ id: newInvoiceId, ...newInvoice });
     } catch (error) {

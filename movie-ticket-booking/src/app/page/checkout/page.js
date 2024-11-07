@@ -88,7 +88,7 @@ const CheckoutPage = () => {
   
     const paymentData = {
       NgayMua: new Date().toISOString(),
-      oderId: Date.now(),
+      orderId: Date.now(),
       Rap: "Ticket Quận 12",
       userId: userInfo ? userInfo.userId : 'Chưa có  thông tin',
       PhuongThucThanhToan: paymentMethod,
