@@ -149,7 +149,7 @@ const TaiKhoan = () => {
 
         // Cập nhật danh sách tài khoản mà không cần tải lại trang
         setAccounts((prev) =>
-          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: false } : acc)) // Cập nhật trạng thái
+          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: 1 } : acc)) // Cập nhật trạng thái
         );
 
         toast.success('Khóa tài khoản thành công!'); // Hiển thị thông báo thành công
@@ -171,7 +171,7 @@ const TaiKhoan = () => {
 
         // Cập nhật danh sách tài khoản mà không cần tải lại trang
         setAccounts((prev) =>
-          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: true } : acc)) // Cập nhật trạng thái
+          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: 0 } : acc)) // Cập nhật trạng thái
         );
 
         toast.success('Mở khóa tài khoản thành công!'); // Hiển thị thông báo thành công
