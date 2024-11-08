@@ -175,6 +175,7 @@ const Profile = () => {
             </table>
 
             {showInvoiceDetails && selectedInvoice && (
+              
               <div className="mt-4 p-4 bg-gray-800 border border-[#F5CF49] rounded">
                 <h3 className="text-xl text-white">Chi tiết hóa đơn</h3>
                 <p className="text-white">
@@ -229,6 +230,11 @@ const Profile = () => {
                   <strong className="text-white">Tổng số tiền:</strong>{" "}
                    {selectedInvoice.TongTien} VND
                 </p>
+                <p className="text-white">
+                  <strong className="text-white">Số điện thoại khách hàng:</strong>{" "}
+                   {selectedInvoice.SoDienThoai} VND
+                </p>
+                
                 <button
                   onClick={() => toggleInvoiceDetails(null)}
                   className="mt-2 bg-red-500 text-white rounded px-2 py-1 hover:bg-white hover:text-red-500"
@@ -236,6 +242,7 @@ const Profile = () => {
                   Đóng
                 </button>
               </div>
+             
             )}
           </div>
         </div>

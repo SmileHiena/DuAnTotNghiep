@@ -235,8 +235,9 @@ const Combo = () => {
                   <input className="form-control" type="file" accept="image/*" onChange={handleFileChange} />
                 </div>
               </div>
-              <button className="btn btn-save mr-3" type="button" onClick={handleCloseModal}>Đóng</button>
-              <button className="btn btn-cancel" type="button" onClick={handleSave}>Lưu</button>
+
+              <button className="btn btn-save mr-3" type="button" onClick={handleSave}>Lưu lại</button>
+              <button className="btn btn-cancel mr-3" type="button" onClick={handleCloseModal}>Hủy bỏ</button>
             </div>
           </div>
         </div>

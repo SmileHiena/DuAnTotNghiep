@@ -28,6 +28,7 @@ var loaiveRouter = require('./routes/loaive');
 var giochieuRouter = require('./routes/giochieu');
 var checkoutRouter = require('./routes/checkout');
 var order = require('./routes/order');
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -82,6 +83,7 @@ app.use('/loaive', loaiveRouter);
 app.use('/giochieu', giochieuRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/order', order);
+app.use('/admin', admin);
 
 
 

@@ -47,6 +47,9 @@ router.post('/', getUserFromToken, async (req, res) => {
             TenKhachHang,
             Email,
             Combo,
+            SoDienThoai,
+
+
         } = req.body;
 
         // Check for missing required fields
@@ -63,6 +66,7 @@ router.post('/', getUserFromToken, async (req, res) => {
         if (!TongTien) missingFields.push("TongTien");
         if (!TenKhachHang) missingFields.push("TenKhachHang");
         if (!Email) missingFields.push("Email");
+        if (!SoDienThoai) missingFields.push("SoDienThoai");
 
         // If any fields are missing, return an error with details
         if (missingFields.length > 0) {
@@ -95,6 +99,7 @@ router.post('/', getUserFromToken, async (req, res) => {
             TongTien,
             TenKhachHang,
             Email,
+            SoDienThoai,
             Combo: Combo || null,
             createdAt: new Date(),
         };

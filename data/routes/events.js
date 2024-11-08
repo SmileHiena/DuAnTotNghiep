@@ -150,4 +150,34 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
+// Fetch discount code by event name
+router.get("/discount/:eventName", async (req, res) => {
+  const { eventName } = req.params;  // Lấy giá trị eventName từ URL
+
+  try {
+    const db = await connectDb();
+    const eventCollection = db.collection("sukien");
+
+    // Tìm sự kiện theo tên Ten (trong cơ sở dữ liệu) và kiểm tra trường Giam có giá trị
+    const event = await eventCollection.findOne({
+      Ten: eventName, // Tìm sự kiện theo tên Ten
+      Giam: { $exists: true, $ne: null } // Kiểm tra trường Giam tồn tại và khác null
+    });
+
+    if (event && event.Ten && event.Giam) {
+      // Trả về mã giảm giá (Ten) và giá trị giảm giá (Giam) nếu có
+      res.status(200).json({
+        MaGiamGia: event.Ten, // Tên sự kiện làm mã giảm giá
+        discountPercent: event.Giam // Giá trị giảm giá (Giam)
+      });
+    } else {
+      res.status(404).json({ message: "Event not found or no discount available" });
+    }
+  } catch (error) {
+    console.error("Error fetching discount code:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
 module.exports = router;

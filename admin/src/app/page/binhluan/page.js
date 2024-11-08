@@ -59,13 +59,7 @@ const BinhLuan = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <a
-                    className="btn btn-add btn-sm"
-                    href="/form-add-comment"
-                    title="Thêm"
-                  >
-                    <i className="fas fa-plus"></i> Tạo mới bình luận
-                  </a>
+
                 </div>
               </div>
               <table
@@ -77,12 +71,12 @@ const BinhLuan = () => {
               >
                 <thead>
                   <tr>
-                    <th>Mã bình luận</th>
+                    <th width="100">ID</th>
                     <th>Nội dung</th>
                     <th>Ngày bình luận</th>
                     <th>Mã phim</th>
                     <th>Mã tài khoản</th>
-                    <th width="100">Tính năng</th>
+                    <th>Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,18 +89,7 @@ const BinhLuan = () => {
                       <td>{binhluan.IdTaiKhoan || binhluan.userId}</td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(binhluan._id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            style={{ color: "#de0400" }}
-                          />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                          className="btn btn-primary mr-3 edit"
                           type="button"
                           title="Sửa"
                           data-toggle="modal"
@@ -115,6 +98,17 @@ const BinhLuan = () => {
                           <FontAwesomeIcon
                             icon={faPenToSquare}
                             style={{ color: "#f59d39" }}
+                          />
+                        </button>
+                        <button
+                          className="btn btn-primary mr-3 trash"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(binhluan._id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            style={{ color: "#de0400" }}
                           />
                         </button>
                       </td>

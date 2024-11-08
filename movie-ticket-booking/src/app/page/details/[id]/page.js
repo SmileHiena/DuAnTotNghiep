@@ -158,16 +158,16 @@ const Detail = () => {
               </div>
 
               <div className="flex space-x-4 mb-6">
-                <p className="text-[18px]">
-                  <span className="font-semibold">Thể loại:</span>{" "}
+                <p className="text-[18px] w-2/4">
+                  <span className="font-semibold ">Thể loại:</span>{" "}
                   {movie.TheLoai.KieuPhim}
                 </p>
-                <p className="text-[18px]">
-                  <span className="font-semibold">Thời gian:</span>{" "}
+                <p className="text-[18px] w-1/3">
+                  <span className="font-semibold ">Thời gian:</span>{" "}
                   {movie.TheLoai.ThoiLuong}
                 </p>
-                <p className="text-[18px]">
-                  <span className="font-semibold">Quốc gia:</span>{" "}
+                <p className="text-[18px] w-1/3">
+                  <span className="font-semibold ">Quốc gia:</span>{" "}
                   {movie.TheLoai.QuocGia}
                 </p>
               </div>

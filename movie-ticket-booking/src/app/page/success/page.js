@@ -58,6 +58,7 @@ const PaymentSuccess = () => {
         TenKhachHang: info.TenKhachHang,
         Email: info.Email,
         Combo: info.Combo,
+        SoDienThoai: info.SoDienThoai,
       };
 
       console.log("Invoice Data:", invoiceData); // Kiểm tra payload
@@ -84,7 +85,7 @@ const PaymentSuccess = () => {
           // Chuyển hướng sau 7 giây
           setTimeout(() => {
             router.push(`/page/chitiethoadon/${result.id}`);
-          }, 7000);
+          }, 5000);
         } else {
           setError("Không có ID hóa đơn để chuyển hướng.");
         }
@@ -98,15 +99,21 @@ const PaymentSuccess = () => {
   }, [router]);
 
   return (
-    <div className="container">
-      <h1>Thanh toán thành công!</h1>
-      <p>Mã đơn hàng: <strong>{orderId}</strong></p>
+    <>
+    <div className="container mx-auto my-10 flex justify-center items-center">
+  <div className="bg-green-500 text-white rounded-lg shadow-lg p-10 text-center max-w-lg w-full">
+    <h1 className="text-3xl font-bold mb-4">Thanh toán thành công!</h1>
+    <p className="text-lg">Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!</p>
+  </div>
+</div>
+
+      {/* <p>Mã đơn hàng: <strong>{orderId}</strong></p>
       <p>Số tiền: <strong>{amount} VND</strong></p>
       <p>Trạng thái: <strong>{message}</strong></p>
       <p>Mã phản hồi: <strong>{code}</strong></p>
       {error && <p className="error-message">{error}</p>}
-      <p><a onClick={() => router.push("/")} href="#">Quay lại trang chủ</a></p>
-    </div>
+      <p><a onClick={() => router.push("/")} href="#">Quay lại trang chủ</a></p> */}
+      </>
   );
 };
 
