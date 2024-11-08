@@ -9,6 +9,7 @@ const data = {
     {
       id: 1,
       Ten: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
+      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Hành Động",
         ThoiLuong: "118'",

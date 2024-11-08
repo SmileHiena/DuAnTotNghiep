@@ -43,7 +43,7 @@ const Login = () => {
     });
 
     return (
-        <div className="flex justify-center items-center bg-cover bg-center w-full min-h-screen bg-[url''] ">
+        <div className="flex justify-center items-center bg-cover bg-center w-full min-h-screen bg-[url('/images/team.jpg')] ">
             <form onSubmit={formik.handleSubmit} className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}  >
                 <h1 className="text-center text-2xl sm:text-3xl md:text-4xl mb-5">Đăng nhập</h1>
 
