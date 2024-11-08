@@ -16,7 +16,7 @@ const Header = () => {
 
         // Nếu không có token, điều hướng về trang login
         if (!tokenValue) {
-            router.push('http://localhost:3002/page/login');
+            router.push('/page/login');
         }
         else {
             setIsLoggedIn(true);
@@ -51,7 +51,7 @@ const Header = () => {
     const handleLogout = () => {
         document.cookie = 'adminToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';  // Changed to 'adminToken'
         setIsLoggedIn(false);
-        router.push('http://localhost:3002/page/login');  
+        router.push('/page/login');  
     };
 
     return (

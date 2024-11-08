@@ -32,22 +32,22 @@ const ThemTheLoai = () => {
 
   const handleSubmitNewCategory = async (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("Ten", newCategory.Ten); // Change here
-    
+
     if (newCategory.Anh) {
-      formData.append("Anh", newCategory.Anh); 
+      formData.append("Anh", newCategory.Anh);
     }
-  
+
     try {
       const response = await fetch("http://localhost:3000/theloai/add", {
         method: "POST",
         body: formData,
       });
-  
+
       if (!response.ok) throw new Error("Failed to add category.");
-  
+
       const data = await response.json();
       toast.success("Thêm thể loại thành công!", {
         position: "top-right",
@@ -58,7 +58,7 @@ const ThemTheLoai = () => {
         draggable: true,
         progress: undefined,
       });
-  
+
       // Redirect after 2 seconds
       setTimeout(() => {
         router.push("/page/theloai");
@@ -68,7 +68,7 @@ const ThemTheLoai = () => {
       alert("Có lỗi xảy ra! Vui lòng thử lại.");
     }
   };
-  
+
 
   return (
     <>
@@ -95,22 +95,13 @@ const ThemTheLoai = () => {
                       required
                     />
                   </Form.Group>
-                  <Form.Group className="form-group col-md-4" controlId="formAnh">
-                    <Form.Label>Ảnh Thể Loại</Form.Label>
-                    <Form.Control
-                      type="file"
-                      name="Anh"
-                      onChange={handleFileChange}
-                      required
-                    />
-                  </Form.Group>
-                  
+
                   <div className="form-group col-md-12">
-                    <Button variant="primary" type="submit" className="mr-3">
-                      Thêm Thể Loại
+                    <Button type="submit" className="btn btn-save mr-3">
+                      Lưu lại
                     </Button>
-                    <Button variant="secondary" onClick={() => router.push("/page/theloai")}>
-                      Hủy Bỏ
+                    <Button className="btn btn-cancel" onClick={() => router.push("/page/theloai")}>
+                      Hủy bỏ
                     </Button>
                   </div>
                 </Form>
