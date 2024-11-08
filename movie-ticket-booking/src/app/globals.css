@@ -9,7 +9,7 @@
   
   --background: #212529;
   /* Đặt màu nền thành đen */
-  --foreground: #212529;
+  --foreground: #FFFFFF;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,3 +32,17 @@ body {
   }
 }
 
+.text-yellow {
+  color: #F5CF49;
+}
+
+.text-white {
+  color: #FFFFFF;
+}
+
+.text-black {
+  color: #212529;
+}
+.text-red{
+  color:red
+}

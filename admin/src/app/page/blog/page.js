@@ -18,8 +18,7 @@ const Blog = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedBlog, setEditedBlog] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
-  const [editError, setEditError] = useState(""); 
-  const [file, setFile] = useState(null);
+  const [editError, setEditError] = useState("");
   const [error, setError] = useState("");
 
   const notify = () => {
@@ -135,12 +134,6 @@ const Blog = () => {
         body: formData,
       });
 
-       // Cập nhật danh sách Blog mà không cần tải lại trang
-       setBlogList((prev) =>
-        prev.map((blg) => (blg._id === editedBlog._id ? { ...editedBlog, Anh: file ? `/images/${file.name}` : blg.Anh } : blg))
-      );
-      handleCloseModal();
-
       if (!response.ok) {
         throw new Error('Failed to update blog.');
       }
@@ -185,15 +178,15 @@ const Blog = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <Button className="btn btn-add btn-sm" onClick={handleAddBlog}>
-                    <i className="fas fa-plus"></i> Tạo mới bài viết
+                  <Button className="btn btn-add" onClick={handleAddBlog}>
+                    <i className="fas fa-plus"></i> Thêm mới
                   </Button>
                 </div>
               </div>
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>Mã bài viết</th>
+                    <th>ID</th>
                     <th>Tên blog</th>
                     <th>Ảnh</th>
                     <th>Lượt xem</th>
@@ -212,24 +205,25 @@ const Blog = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
-                      <td>{blog.LuotXem} Lượt xem</td>
+                      <td>{blog.LuotXem} lượt xem</td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(blog._id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                          className="btn btn-primary mr-3"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditBlog(blog)}
                         >
-                          <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} />
+                          <FontAwesomeIcon icon={faPenToSquare} />
                         </button>
+                        <button
+                          className="btn btn-danger mr-3"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(blog._id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+
                       </td>
                     </tr>
                   ))}
@@ -296,11 +290,11 @@ const Blog = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Đóng
+          <Button onClick={handleSaveChanges} className="btn btn-save" >
+            Lưu lại
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu thay đổi
+          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel" >
+            Hủy bỏ
           </Button>
         </Modal.Footer>
       </Modal>

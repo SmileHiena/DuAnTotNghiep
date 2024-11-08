@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const ThemTheLoai = () => {
   const [newCategory, setNewCategory] = useState({
     Ten: "",
-    Anh: null, // Assuming you want to upload an image
   });
 
   const router = useRouter();
@@ -23,22 +22,11 @@ const ThemTheLoai = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    setNewCategory((prev) => ({
-      ...prev,
-      Anh: e.target.files[0], // Handle image upload
-    }));
-  };
-
   const handleSubmitNewCategory = async (e) => {
     e.preventDefault();
   
     const formData = new FormData();
     formData.append("Ten", newCategory.Ten); // Change here
-    
-    if (newCategory.Anh) {
-      formData.append("Anh", newCategory.Anh); 
-    }
   
     try {
       const response = await fetch("http://localhost:3000/theloai/add", {
@@ -92,15 +80,6 @@ const ThemTheLoai = () => {
                       name="Ten"
                       value={newCategory.Ten}
                       onChange={handleInputChange}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="form-group col-md-4" controlId="formAnh">
-                    <Form.Label>Ảnh Thể Loại</Form.Label>
-                    <Form.Control
-                      type="file"
-                      name="Anh"
-                      onChange={handleFileChange}
                       required
                     />
                   </Form.Group>

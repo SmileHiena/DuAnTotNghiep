@@ -5,7 +5,9 @@ import SapChieu from './component/sapchieu';
 import DangChieu from './component/dangchieu';
 import QA from './component/qa';
 import Banner from './component/banner';
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 export default function Home() {
   return (
     <div>

@@ -4,6 +4,8 @@ import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Combo = () => {
   const [combos, setCombos] = useState([]);
@@ -56,10 +58,18 @@ const Combo = () => {
 
   const handleSave = async () => {
     if (currentCombo) {
+      const price = parseFloat(currentCombo.Gia); // Chuyển đổi giá thành số
+
+      // Kiểm tra nếu giá không phải là số hoặc nhỏ hơn hoặc bằng 0
+      if (isNaN(price) || price <= 0) {
+        setErrorMessage('Giá phải là một số lớn hơn 0.');
+        return;
+      }
+
       const formData = new FormData();
       formData.append('TenCombo', currentCombo.TenCombo);
       formData.append('NoiDung', currentCombo.NoiDung);
-      formData.append('Gia', currentCombo.Gia); // Giá vẫn được gửi
+      formData.append('Gia', price); // Sử dụng giá đã kiểm tra
       if (file) {
         formData.append('Anh', file);
       }
@@ -73,9 +83,17 @@ const Combo = () => {
         setCombos((prev) =>
           prev.map((cmb) => (cmb._id === currentCombo._id ? { ...currentCombo, Anh: file ? `/images/${file.name}` : cmb.Anh } : cmb))
         );
+        toast.success('Cập nhật combo thành công!', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
         handleCloseModal();
       } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật combo:', error);
+        toast.error('Cập nhật combo thất bại!', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     }
   };
@@ -99,8 +117,16 @@ const Combo = () => {
         });
 
         setCombos((prev) => prev.filter((cmb) => cmb._id !== comboId));
+        toast.success('Xóa combo thành công!', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       } catch (error) {
         console.error('Có lỗi xảy ra khi xóa combo:', error);
+        toast.error('Xóa combo thất bại!', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     }
   };
@@ -125,79 +151,98 @@ const Combo = () => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
-                    <Link href="/page/themcombo" className="btn bg-[#F5CF49] font-bold">
+                    <Link href="/page/themcombo" className="btn btn-add">
                       <FontAwesomeIcon icon={faPlus} /> Thêm mới
                     </Link>
                   </div>
                 </div>
-              </div>
-              <table
-                className="table table-hover table-bordered"
-                cellPadding="0"
-                cellSpacing="0"
-                border="0"
-                id="sampleTable"
-              >
-                <thead>
-                  <tr>
-                    <th>Mã combo</th>
-                    <th>Tên combo</th>
-                    <th>Ảnh combo</th>
-                    <th>Nội dung</th>
-                    <th>Giá (VND)</th>
-                    <th width="100">Tính năng</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {combo.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.id}</td>
-                      <td>{item.Ten}</td>
-                      <td>
-                        <img
-                          src={item.image}
-                          alt={item.Ten}
-                          style={{ height: '74px', width: '50px' }}
-                        />
-                      </td>
-                      <td>{item.NoiDung}</td>
-                      <td>{item.Gia.toLocaleString()} VND</td>
-                      <td className="table-td-center">
-                        <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            bounce
-                            style={{ color: '#de0400' }}
-                          />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
-                          type="button"
-                          title="Sửa"
-                          data-toggle="modal"
-                          data-target="#ModalUP"
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            bounce
-                            style={{ color: '#f59d39' }}
-                          />
-                        </button>
-                      </td>
+                <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên combo</th>
+                      <th>Nội dung</th>
+                      <th>Giá</th>
+                      <th>Ảnh</th>
+                      <th>Tính năng</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {combos.length > 0 ? (
+                      combos.map((combo) => (
+                        <tr key={combo._id}>
+                          <td>{combo._id}</td>
+                          <td>{combo.TenCombo}</td>
+                          <td>{combo.NoiDung}</td>
+                          <td>{formatCurrency(combo.Gia)}</td>
+                          <td><img className="img-card-person" src={combo.Anh} alt={combo.TenCombo} /></td>
+                          <td>
+                            <button className="btn btn-primary mr-3" type="button" onClick={() => handleEditClick(combo._id)}>
+                              <FontAwesomeIcon icon={faPenToSquare} />
+                            </button>
+                            <button className="btn btn-danger" type="button" onClick={() => handleDelete(combo._id)}>
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6">Không có combo nào được tìm thấy</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Thông báo Toast */}
+      <ToastContainer transition={Bounce} />
+
+      {/* Modal chỉnh sửa combo */}
+      <div className={`modal fade ${isModalOpen ? 'show' : ''}`} id="ModalUP" tabIndex="-1" role="dialog" aria-hidden={!isModalOpen} data-backdrop="static" data-keyboard="false" style={{ display: isModalOpen ? 'block' : 'none' }}>
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-body">
+              <div className="row">
+                <div className="form-group col-md-12">
+                  <h5>Chỉnh sửa thông tin combo</h5>
+                  {errorMessage && <p className="text-danger">{errorMessage}</p>}
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group col-md-6">
+                  <label className="control-label">ID combo</label>
+                  <input className="form-control" type="text" value={currentCombo?._id || ''} disabled />
+                </div>
+                <div className="form-group col-md-6">
+                  <label className="control-label">Tên combo</label>
+                  <input className="form-control" type="text" name="TenCombo" value={currentCombo?.TenCombo || ''} onChange={handleInputChange} required />
+                </div>
+                <div className="form-group col-md-6">
+                  <label className="control-label">Nội dung</label>
+                  <input className="form-control" type="text" name="NoiDung" value={currentCombo?.NoiDung || ''} onChange={handleInputChange} required />
+                </div>
+                <div className="form-group col-md-6">
+                  <label className="control-label">Giá</label>
+                  <input className="form-control" type="number" name="Gia" value={currentCombo?.Gia || ''} onChange={handleInputChange} required />
+                </div>
+                <div className="form-group col-md-6">
+                  <label className="control-label">Ảnh</label>
+                  <input className="form-control" type="file" accept="image/*" onChange={handleFileChange} />
+                </div>
+              </div>
+
+              <button className="btn btn-save mr-3" type="button" onClick={handleSave}>Lưu lại</button>
+              <button className="btn btn-cancel mr-3" type="button" onClick={handleCloseModal}>Hủy bỏ</button>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 };
 

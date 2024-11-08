@@ -99,7 +99,7 @@ const TaiKhoan = () => {
 
         // Cập nhật danh sách tài khoản mà không cần tải lại trang
         setAccounts((prev) =>
-          prev.map((acc) => (acc._id === currentAccount._id ? { ...currentAccount, Anh: file ? `/images/${file.name}` : acc.Anh } : acc))
+          prev.map((acc) => (acc._id === currentAccount._id ? { ...currentAccount, Anh: file ? `${file.name}` : acc.Anh } : acc))
         );
 
         toast.success('Cập nhật tài khoản thành công!'); // Hiển thị thông báo thành công
@@ -149,7 +149,7 @@ const TaiKhoan = () => {
 
         // Cập nhật danh sách tài khoản mà không cần tải lại trang
         setAccounts((prev) =>
-          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: false } : acc)) // Cập nhật trạng thái
+          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: 1 } : acc)) // Cập nhật trạng thái
         );
 
         toast.success('Khóa tài khoản thành công!'); // Hiển thị thông báo thành công
@@ -171,7 +171,7 @@ const TaiKhoan = () => {
 
         // Cập nhật danh sách tài khoản mà không cần tải lại trang
         setAccounts((prev) =>
-          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: true } : acc)) // Cập nhật trạng thái
+          prev.map((acc) => (acc._id === accountId ? { ...acc, IsAdmin: 0 } : acc)) // Cập nhật trạng thái
         );
 
         toast.success('Mở khóa tài khoản thành công!'); // Hiển thị thông báo thành công
@@ -226,10 +226,11 @@ const TaiKhoan = () => {
                     {accounts.length > 0 ? (
                       accounts.map((account) => (
                         <tr key={account._id}>
-                          <td>{account.id}</td>
+                          <td>{account._id}</td>
                           <td>{account.Ten}</td>
                           <td>{account.TenDangNhap}</td>
-                          <td><img className="img-card-person" src={account.Anh} alt={account.Ten} /></td>
+                          {/* <td><img className="img-card-person" src={account.Anh} alt={account.Ten} /></td> */}
+                          <td><img className="img-card-person" src={`http://localhost:3000/images/${account.Anh}`} alt={account.Ten} /></td>
                           <td>{account.DiaChi}</td>
                           <td>{account.NgaySinh}</td>
                           <td>{account.GioiTinh}</td>

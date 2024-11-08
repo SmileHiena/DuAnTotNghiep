@@ -1,9 +1,11 @@
 var express = require("express");
 var router = express.Router();
 const { ObjectId } = require("mongodb");
-const connectDb = require("../models/db");
+const connectDb = require("../models/db"); // Giả sử đây là file kết nối DB
 const multer = require("multer");
 const path = require("path");
+
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -43,7 +45,8 @@ const upload = multer({
   }
 });
 
-// Fetch blogs limit 10
+
+
 router.get("/limit", async (req, res) => {
   const limit = parseInt(req.query.limit) || 10; // Mặc định giới hạn là 10 blog
 
@@ -74,11 +77,19 @@ router.get("/limit", async (req, res) => {
 
 // Fetch blog by _ID
 router.get("/:id", async (req, res) => {
+  const blogId = parseInt(req.params.id); // Chuyển ID từ chuỗi sang số
+
   try {
-    const db = await connectDb();
-    const blog = await db
-      .collection("blog")
-      .findOne({ _id: ObjectId(req.params.id) });
+    const db = await connectDb(); // Kết nối đến MongoDB
+    const blogCollection = db.collection('blog');
+
+    // Kiểm tra xem ID có hợp lệ không
+    if (isNaN(blogId)) {
+      return res.status(400).json({ message: "Invalid blog ID" });
+    }
+
+    // Tìm blog theo ID
+    const blog = await blogCollection.findOne({ id: blogId });
 
     if (blog) {
       res.status(200).json(blog);
@@ -90,6 +101,59 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.get("/:id/details", async (req, res) => {
+  const blogId = parseInt(req.params.id); // Chuyển đổi ID từ chuỗi sang số
+  console.log(`Fetching details for blog with ID: ${blogId}`);
+
+  try {
+    const db = await connectDb(); // Kết nối đến MongoDB
+    const blogCollection = db.collection('blog');
+    const blogDetailCollection = db.collection('blogdetial');
+
+    // Tìm blog theo ID
+    const blog = await blogCollection.findOne({ id: blogId });
+    console.log('Blog found:', blog);
+
+    if (blog) {
+      // Nếu tìm thấy blog, tìm tất cả chi tiết blog tương ứng bằng MaBlog
+      const blogDetails = await blogDetailCollection.find({ MaBlog: blog.id }).toArray(); // Sử dụng find và toArray để lấy tất cả
+
+      console.log('Blog details found:', blogDetails);
+
+      if (blogDetails.length > 0) {
+        res.status(200).json(blogDetails); // Trả về mảng các chi tiết blog
+      } else {
+        res.status(404).json({ message: "Chi tiết blog không tìm thấy!" });
+      }
+    } else {
+      res.status(404).json({ message: "Blog không tìm thấy!" });
+    }
+  } catch (error) {
+    console.error("Error fetching blog detail:", error);
+    res.status(500).json({ message: "Lỗi server!" });
+  }
+});
+
+// router.get('/:id', async (req, res) => {
+//   try {
+//     const movieId = req.params.id; // Lấy ID từ URL
+//     const db = await connectDb();
+//     const moviesCollection = db.collection('phim'); // Tên collection là 'phim'
+
+//     // Tìm phim theo _id (Lưu ý sử dụng ObjectId cho trường _id)
+//     const movie = await moviesCollection.findOne({ _id: new ObjectId(movieId) });
+
+//     if (movie) {
+//       res.status(200).json(movie);
+//     } else {
+//       res.status(404).json({ message: 'Phim không tồn tại' });
+//     }
+//   } catch (error) {
+//     console.error('Error fetching movie by ID:', error);
+//     res.status(500).json({ message: 'Lỗi khi tìm phim theo ID' });
+//   }
+// });
 
 // API to add a new blog
 router.post("/add", upload.single("Anh"), async (req, res) => {
@@ -139,6 +203,7 @@ router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
 
     const db = await connectDb();
     const blogCollection = db.collection("blog");
+    
     const result = await blogCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateData }

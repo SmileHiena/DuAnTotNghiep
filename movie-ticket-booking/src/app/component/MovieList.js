@@ -1,6 +1,8 @@
-// components/MovieList.js
 "use client";
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import Link from "next/link";
 
 const MovieList = ({ apiUrl, title }) => {
   const [movies, setMovies] = useState([]);
@@ -8,21 +10,13 @@ const MovieList = ({ apiUrl, title }) => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage, setMoviesPerPage] = useState(15);
-
-  // Trạng thái cho các tiêu chí lọc
-  const [selectedGenre, setSelectedGenre] = useState("all"); // Lọc theo thể loại
-  const [selectedRating, setSelectedRating] = useState("all"); // Lọc theo đánh giá
+  const [selectedGenre, setSelectedGenre] = useState("all");
+  const [selectedRating, setSelectedRating] = useState("all");
 
   const fetchMovies = async () => {
     try {
-      const res = await fetch(apiUrl, {
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch");
-      }
-
+      const res = await fetch(apiUrl, { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch");
       const newData = await res.json();
       setMovies(newData);
       setLoading(false);
@@ -36,14 +30,13 @@ const MovieList = ({ apiUrl, title }) => {
     fetchMovies();
   }, [apiUrl]);
 
-  // Xác định số phim trên mỗi trang dựa vào màn hình
   useEffect(() => {
     const updateMoviesPerPage = () => {
       const screenWidth = window.innerWidth;
-      if (screenWidth >= 1280) setMoviesPerPage(15); // Desktop
-      else if (screenWidth >= 1024) setMoviesPerPage(12); // Tablet lớn
-      else if (screenWidth >= 768) setMoviesPerPage(8); // Tablet nhỏ
-      else setMoviesPerPage(4); // Mobile
+      if (screenWidth >= 1280) setMoviesPerPage(15);
+      else if (screenWidth >= 1024) setMoviesPerPage(12);
+      else if (screenWidth >= 768) setMoviesPerPage(8);
+      else setMoviesPerPage(4);
     };
 
     updateMoviesPerPage();
@@ -54,14 +47,11 @@ const MovieList = ({ apiUrl, title }) => {
     };
   }, []);
 
-  // Lọc phim dựa trên tiêu chí đã chọn
   const filteredMovies = movies.filter((movie) => {
     const matchesGenre =
-      selectedGenre === "all" ||
-      (movie.TheLoai?.KieuPhim && movie.TheLoai.KieuPhim.includes(selectedGenre));
+      selectedGenre === "all" || (movie.TheLoai?.KieuPhim && movie.TheLoai.KieuPhim.includes(selectedGenre));
     const matchesRating =
-      selectedRating === "all" ||
-      (movie.TheLoai?.KhuyenCao && movie.TheLoai.KhuyenCao.includes(selectedRating));
+      selectedRating === "all" || (movie.TheLoai?.KhuyenCao && movie.TheLoai.KhuyenCao.includes(selectedRating));
     return matchesGenre && matchesRating;
   });
 
@@ -91,11 +81,13 @@ const MovieList = ({ apiUrl, title }) => {
       startPage = Math.max(1, endPage - maxPageNumbersToShow + 1);
     }
 
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
+
+  useEffect(() => {
+    // Reset to the first page if the filtered movies change
+    setCurrentPage(1);
+  }, [selectedGenre, selectedRating, movies]);
 
   if (loading) return <div className="text-center text-white">Đang tải phim...</div>;
   if (error) return <div className="text-center text-red-500">{error}</div>;
@@ -115,9 +107,8 @@ const MovieList = ({ apiUrl, title }) => {
             >
               <option value="all">Tất cả</option>
               <option value="Hài">Hài</option>
-              <option value="Hành Động">Hành Động</option>
-              <option value="Kinh Dị">Kinh Dị</option>
-              {/* Thêm các thể loại khác nếu cần */}
+              <option value="Hành động">Hành Động</option>
+              <option value="Hoạt hình">Hoạt Hình</option>
             </select>
           </div>
           <div className="flex items-center">
@@ -131,22 +122,22 @@ const MovieList = ({ apiUrl, title }) => {
               <option value="T13">T13</option>
               <option value="T16">T16</option>
               <option value="T18">T18</option>
-              {/* Thêm các độ tuổi khác nếu cần */}
             </select>
           </div>
         </div>
 
-        {/* Danh sách phim */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {currentMovies.length > 0 ? (
             currentMovies.map((movie, index) => (
               <div key={index} className="text-center">
-                <img
-                  src={`${movie.Anh}`}
-                  alt={`Poster of ${movie.Ten}`}
-                  className="w-full h-auto max-w-[250px] max-h-[350px] mx-auto rounded"
-                />
-                <div className="text-sm mt-2 text-[#FFFFFF]">{movie.Ten}</div>
+                <Link href={`/page/details/${movie.id}`}>
+                  <img
+                    src={`${movie.Anh}`}
+                    alt={`Poster of ${movie.Ten}`}
+                    className="w-full h-auto max-w-[250px] max-h-[350px] mx-auto rounded"
+                  />
+                  <div className="text-sm mt-2 text-[#FFFFFF]">{movie.Ten}</div>
+                </Link>
               </div>
             ))
           ) : (
@@ -154,16 +145,13 @@ const MovieList = ({ apiUrl, title }) => {
           )}
         </div>
 
-        {/* Phân trang với mũi tên trái/phải */}
         <div className="flex justify-center items-center mt-4">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${
-              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`flex justify-center items-center mt-8 w-8 h-8 bg-gray-800 text-white rounded-full mx-2 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            &larr;
+            <FontAwesomeIcon icon={faChevronLeft} className="h-4 w-4" />
           </button>
 
           <div className="flex justify-center mt-8">
@@ -171,8 +159,7 @@ const MovieList = ({ apiUrl, title }) => {
               <button
                 key={pageNumber}
                 style={{
-                  backgroundColor:
-                    currentPage === pageNumber ? "#F5CF49" : "white",
+                  backgroundColor: currentPage === pageNumber ? "#F5CF49" : "white",
                   color: currentPage === pageNumber ? "white" : "black",
                 }}
                 className="rounded-full w-8 h-8 mx-1"
@@ -186,11 +173,9 @@ const MovieList = ({ apiUrl, title }) => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`flex justify-center mt-8 px-4 py-2 bg-gray-800 text-white rounded-full mx-2 ${
-              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`flex justify-center items-center mt-8 w-8 h-8 bg-gray-800 text-white rounded-full mx-2 ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            &rarr;
+            <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" />
           </button>
         </div>
       </div>

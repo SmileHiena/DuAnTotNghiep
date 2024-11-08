@@ -10,7 +10,7 @@ const SapChieu = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch("http://localhost:3000/sanpham/sapchieu/");
+        const response = await fetch("http://localhost:3000/sanpham/sapchieu");
         console.log("Response status:", response.status); 
         if (!response.ok) throw new Error("Failed to fetch movies.");
 
@@ -80,7 +80,7 @@ const SapChieu = () => {
         </div>
         <div className="button-container">
           <button className="button-hover">
-            <Link className="text-black no-underline" href="/page/sapchieu">Thêm</Link>
+            <Link className="no-underline" href="/page/sapchieu">Xem thêm</Link>
           </button>
         </div>
       </section>

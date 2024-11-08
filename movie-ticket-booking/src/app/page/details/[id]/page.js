@@ -1,20 +1,22 @@
 "use client";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faReply, faPlay } from "@fortawesome/free-solid-svg-icons";
-import DangChieu from "../../../component/dangchieu.jsx";
-import TuongTu from "@/app/component/tuongtu.jsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import TuongTu from "../../../../app/component/tuongtu";
+import DangChieu from "@/app/component/dangchieu";
+import Cookies from "js-cookie";
 
 const Detail = () => {
   const pathname = usePathname();
   const id = pathname.split("/").pop(); // Extract the `id` from the URL
   const [movie, setMovie] = useState(null);
+  const [expandedComments, setExpandedComments] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -23,7 +25,6 @@ const Detail = () => {
         return;
       }
 
-      // Log the ID to ensure it's being passed correctly
       console.log(`Fetching data for movie ID: ${id}`);
 
       try {
@@ -33,17 +34,19 @@ const Detail = () => {
         );
         if (!movieResponse.ok) {
           throw new Error(
-            `Failed to fetch movie data: ${movieResponse.statusText} (Status Code: ${movieResponse.status})`
+            `Failed to fetch movie data: ${movieResponse.statusText}`
           );
         }
         const movieData = await movieResponse.json();
         setMovie(movieData);
 
         // Fetch comments
-        const commentsResponse = await fetch(`/api/comments?movieId=${id}`);
+        const commentsResponse = await fetch(
+          `http://localhost:3000/comments?movieId=${id}`
+        );
         if (!commentsResponse.ok) {
           throw new Error(
-            `Failed to fetch comments: ${commentsResponse.statusText} (Status Code: ${commentsResponse.status})`
+            `Failed to fetch comments: ${commentsResponse.statusText}`
           );
         }
         const commentsData = await commentsResponse.json();
@@ -58,24 +61,50 @@ const Detail = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
+
+    const token = Cookies.get("token");
+    if (!token) {
+      alert("Bạn cần đăng nhập để bình luận.");
+      return;
+    }
+
     if (!newComment.trim()) return;
 
+    const commentData = { movieId: id, content: newComment };
+    console.log("Comment Data:", commentData);
+
     try {
-      // API call to post the new comment
-      const response = await fetch("/api/comments", {
+      const response = await fetch("http://localhost:3000/comments", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ movieId: id, content: newComment }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(commentData),
       });
 
       if (response.ok) {
         const addedComment = await response.json();
-        setComments([...comments, addedComment]);
+        setComments((prevComments) => [...prevComments, addedComment]);
         setNewComment(""); // Clear the comment input
+      } else {
+        const errorResponse = await response.json();
+        console.error("Error:", errorResponse); // Log error from API
       }
     } catch (error) {
       console.error("Failed to post comment", error);
     }
+  };
+
+  const handleToggle = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const toggleExpand = (id) => {
+    setExpandedComments((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the expanded state for the clicked comment
+    }));
   };
 
   if (!movie) {
@@ -91,17 +120,17 @@ const Detail = () => {
             <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
               <img
                 src={movie.Anh}
-                alt={movie.title}
+                alt={movie.Ten}
                 className="object-cover"
                 style={{ height: "650px", width: "auto" }}
               />
             </div>
 
-            {/* Right box for information - slightly wider */}
+            {/* Right box for movie information */}
             <div className="md:w-[65%] flex flex-col">
-              {" "}
-              {/* Adjust width here */}
-              <h1 className="text-[30px] font-semibold mt-4 mb-4">{movie.Ten}</h1>
+              <h1 className="text-[30px] font-semibold mt-4 mb-4">
+                {movie.Ten}
+              </h1>
               <p className="text-[18px] mb-2">
                 <span className="font-semibold">Đạo diễn:</span>{" "}
                 {movie.MoTa.DaoDien}
@@ -114,7 +143,7 @@ const Detail = () => {
                 <span className="font-semibold">Ngày khởi chiếu:</span>{" "}
                 {movie.MoTa.NgayKhoiChieu}
               </p>
-              <p className="text-[18px]">
+              <p className="text-[18px] mb-2">
                 <span className="font-semibold">Thể loại:</span>{" "}
                 {movie.TheLoai.KieuPhim}
               </p>
@@ -124,32 +153,32 @@ const Detail = () => {
                   {isExpanded
                     ? movie.ThongTinPhim
                     : `${movie.ThongTinPhim.substring(0, 300)}...`}{" "}
-                  {/* Truncate to 300 characters */}
                   <button
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="text-[#F5CF49] underline"
-                >
-                  {isExpanded ? "Ẩn bớt" : "Xem thêm"}
-                </button>
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="text-[#F5CF49] underline"
+                  >
+                    {isExpanded ? "Ẩn bớt" : "Xem thêm"}
+                  </button>
                 </p>
-                
               </div>
+
               <div className="flex space-x-4 mb-6">
-                <p className="text-[18px]">
+                <p className="text-[18px] w-2/4">
                   <span className="font-semibold">Thể loại:</span>{" "}
                   {movie.TheLoai.KieuPhim}
                 </p>
-                <p className="text-[18px]">
+                <p className="text-[18px] w-1/3">
                   <span className="font-semibold">Thời gian:</span>{" "}
                   {movie.TheLoai.ThoiLuong}
                 </p>
-                <p className="text-[18px]">
+                <p className="text-[18px] w-1/3">
                   <span className="font-semibold">Quốc gia:</span>{" "}
                   {movie.TheLoai.QuocGia}
                 </p>
               </div>
-               {/* Buttons for booking and trailer */}
-               <div className="flex mt-7 space-x-2">
+
+              {/* Buttons for booking and trailer */}
+              <div className="flex mt-7 space-x-2">
                 <div className="flex">
                   <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
                     <FontAwesomeIcon
@@ -161,9 +190,10 @@ const Detail = () => {
                       }}
                     />
                   </p>
-
-                  <button className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
-                    Xem trailer
+                  
+                  <button
+                    onClick={handleToggle} className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
+                    {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
                   </button>
                 </div>
                 <Link href={`/page/datve/${movie.id}`}>
@@ -177,6 +207,19 @@ const Detail = () => {
               </div>
             </div>
           </div>
+          {isVisible && (
+            <iframe
+              className="flex mt-8 items-center justify-center w-full min-h-[700px] bg-blue-500"
+              style={{ zIndex: 9999 }}
+              src={movie.Trailer}
+              title="ĐỐ ANH CÒNG ĐƯỢC TÔI - MAIN TRAILER | KHỞI CHIẾU: 27.09.2024"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen>
+            </iframe>
+
+          )}
 
           {/* Comment Form Section */}
           <div className="flex justify-center mt-10 w-full">
@@ -189,7 +232,7 @@ const Detail = () => {
                 {/* Comment Input */}
                 <form
                   onSubmit={handleCommentSubmit}
-                  className="flex flex-col items-center w-full"
+                  className="flex flex-col items-center max-w-[1200px] w-full"
                 >
                   <textarea
                     placeholder="Mời bạn thảo luận..."
@@ -198,8 +241,9 @@ const Detail = () => {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                   />
+                  {/* Nút gửi chuyển sang bên trái */}
                   <button
-                    className="mt-2 text-[20px] bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-300"
+                    className="mt-2 text-[20px] bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-300 self-start"
                     style={{ width: "150px", height: "41px" }}
                     type="submit"
                   >
@@ -208,53 +252,42 @@ const Detail = () => {
                 </form>
 
                 {/* Displaying Comments */}
-                {comments.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="mb-4 p-4 bg-[#423E3E] rounded flex items-start gap-4 w-full border border-white"
-                  >
-                    {comment.avt && (
-                      <img
-                        src={comment.avt}
-                        alt={`${comment.name}'s avatar`}
-                        className="w-12 h-12 rounded-full"
-                      />
-                    )}
-                    <div className="flex flex-col flex-1">
-                      <p className="font-semibold text-[28px] text-white mb-1">
-                        {comment.name}
-                      </p>
-                      <div className="border-b border-white w-full mb-1"></div>
-                      <p className="text-sm text-gray-300">{comment.content}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {comment.timestamp}
-                      </p>
-                      <div className="flex items-center gap-4 text-gray-400 mt-2">
-                        <button className="flex items-center gap-1 hover:text-yellow-500">
-                          <FontAwesomeIcon icon={faThumbsUp} />
-                          <span className="text-sm ml-1">
-                            {comment.likes || 0}
-                          </span>
-                        </button>
-                        <button className="flex items-center gap-1 hover:text-yellow-500">
-                          <FontAwesomeIcon icon={faReply} />
-                          <span className="text-sm">Reply</span>
-                        </button>
+                <div className="w-full max-w-[1200px] mt-4">
+                  {comments.map((comment) => (
+                    <div key={comment._id} className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300">
+                      {comment.userImage && (
+                        <img src={`http://localhost:3000/images/${comment.userImage}`} alt={`${comment.username}'s avatar`} className="w-14 h-14 rounded-full border-2 border-[#F5CF49]" />
+                      )}
+                      <div className="flex flex-col flex-1 max-w-[1100px]">
+                        <span className="font-semibold text-[20px] text-white mb-2">{comment.username}</span>
+                        <div className="border-b border-white opacity-20 w-full mb-2"></div>
+                        <p className="text-[18px] text-white mb-2 break-words">
+                          {comment.content.length > 100
+                            ? (expandedComments[comment._id] ? comment.content : `${comment.content.substring(0, 250)}...`)
+                            : comment.content
+                          }
+                        </p>
+
+                        {comment.content.length > 100 && (
+                          <button onClick={() => toggleExpand(comment._id)} className="text-[#F5CF49] underline mt-2 hover:text-[#F1D600]">
+                            {expandedComments[comment._id] ? "Ẩn bớt" : "Xem thêm"}
+                          </button>
+                        )}
+
+                        <p className="text-xs text-gray-400 mt-2">{new Date(comment.timestamp).toLocaleString()}</p>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
 
-                {/* Load More Button */}
-                <button className="border-2 border-yellow-500 rounded px-4 py-2 text-yellow-500 hover:bg-yellow-500 hover:text-black">
-                  Xem thêm
-                </button>
               </div>
             </div>
           </div>
 
-          {/* Related Movies Section */}
-          <TuongTu />
+
+          {/* Similar Movies Section */}
+          <TuongTu movieId={movie.id} />
+          <DangChieu />
         </div>
       </div>
     </div>

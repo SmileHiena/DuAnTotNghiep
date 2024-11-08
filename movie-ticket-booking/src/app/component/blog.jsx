@@ -1,10 +1,9 @@
-
-"use client";
+"use client"; // Đảm bảo đây là Client Component
 import React, { useState, useEffect } from "react";
-import Link from 'next/link';
-
+import { useRouter } from "next/navigation"; // Sử dụng 'next/navigation' cho Next.js 13+
 
 const BlogSection = () => {
+  const router = useRouter(); // Initialize useRouter
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,9 +11,9 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/blog/limit/?limit=10"); 
+        const response = await fetch("http://localhost:3000/blog/limit/?limit=10");
         if (!response.ok) {
-          throw new Error("Failed to fetch blogs");
+          throw new Error("lỗi ở fetch blogs");
         }
         const data = await response.json();
         setBlogs(data);
@@ -24,10 +23,14 @@ const BlogSection = () => {
         setLoading(false);
       }
     };
-  
+
     fetchBlogs();
   }, []);
-  
+
+  const handleBlogClick = (id) => {
+    router.push(`/page/blogdetail?id=${id}`); // Navigate to the blog detail page with the blog ID
+  };
+
   if (loading) {
     return <p className="text-center">Loading blogs...</p>;
   }
@@ -45,7 +48,11 @@ const BlogSection = () => {
       <div className="mx-auto mb-[40px]" style={{ maxWidth: '1410px' }}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[15px]">
           {blogs.map((blog) => (
-            <div key={blog.id} className="rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+            <div
+              key={blog.id}
+              className="rounded-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer"
+              onClick={() => handleBlogClick(blog.id)}
+            >
               <img
                 src={`${blog.Anh}`} // Adjust this path as needed
                 alt={blog.TenBlog}
