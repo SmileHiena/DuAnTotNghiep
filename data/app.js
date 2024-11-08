@@ -28,7 +28,7 @@ var commentRouter = require('./routes/comments');
 var checkoutRouter = require('./routes/checkout');
 var hoadonRouter = require('./routes/hoadon');
 var orderRouter = require('./routes/order');
-
+var adminRouter = require('./routes/admin');
 var app = express();
 
 // Cấu hình middleware CORS
@@ -73,6 +73,7 @@ app.use('/comments', commentRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/hoadon', hoadonRouter);
 app.use('/order', orderRouter);
+app.use('/admin', adminRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

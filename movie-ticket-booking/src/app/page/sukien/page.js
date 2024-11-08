@@ -37,13 +37,11 @@ const EventPage = () => {
                 // Image on the left for even index
                 <>
                   <div className="md:w-1/2 h-[300px] md:h-[450px] flex justify-center items-center">
-                    <Image
+                    <img
                       src={event.Anh}
                       alt={event.Ten}
                       layout="intrinsic"
-                      width={400}
-                      height={600}
-                      className="object-cover w-full h-full"
+                      className="object-cover w-[600px] h-[350px]"
                     />
                   </div>
                   <div className="p-8 md:w-1/2 flex flex-col justify-between">
@@ -85,13 +83,11 @@ const EventPage = () => {
                     </Link>
                   </div>
                   <div className="md:w-1/2 h-[300px] md:h-[450px] flex justify-center items-center">
-                    <Image
+                    <img
                       src={event.Anh}
                       alt={event.Ten}
                       layout="intrinsic"
-                      width={400}
-                      height={600}
-                      className="object-cover w-full h-full"
+                      className="object-cover w-[600px] h-[350px]"
                     />
                   </div>
                 </>

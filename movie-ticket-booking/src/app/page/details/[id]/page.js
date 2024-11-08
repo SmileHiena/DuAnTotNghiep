@@ -16,6 +16,7 @@ const Detail = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -95,6 +96,10 @@ const Detail = () => {
     }
   };
 
+  const handleToggle = () => {
+    setIsVisible(!isVisible);
+  };
+
   const toggleExpand = (id) => {
     setExpandedComments((prev) => ({
       ...prev,
@@ -158,15 +163,15 @@ const Detail = () => {
               </div>
 
               <div className="flex space-x-4 mb-6">
-                <p className="text-[18px]">
+                <p className="text-[18px] w-2/4">
                   <span className="font-semibold">Thể loại:</span>{" "}
                   {movie.TheLoai.KieuPhim}
                 </p>
-                <p className="text-[18px]">
+                <p className="text-[18px] w-1/3">
                   <span className="font-semibold">Thời gian:</span>{" "}
                   {movie.TheLoai.ThoiLuong}
                 </p>
-                <p className="text-[18px]">
+                <p className="text-[18px] w-1/3">
                   <span className="font-semibold">Quốc gia:</span>{" "}
                   {movie.TheLoai.QuocGia}
                 </p>
@@ -188,6 +193,15 @@ const Detail = () => {
                   <button className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
                     Xem trailer
                   </button>
+                  {/* <button 
+                onClick={handleToggle} 
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
+            </button> */}
+                  <button
+                    onClick={handleToggle} className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
+                    {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
+                  </button>
                 </div>
                 <Link href={`/page/datve/${movie.id}`}>
                   <button
@@ -200,6 +214,19 @@ const Detail = () => {
               </div>
             </div>
           </div>
+          {isVisible && (
+            <iframe
+              className="flex mt-8 items-center justify-center w-full min-h-[700px] bg-blue-500"
+              style={{ zIndex: 9999 }}
+              src={movie.Trailer}
+              title="ĐỐ ANH CÒNG ĐƯỢC TÔI - MAIN TRAILER | KHỞI CHIẾU: 27.09.2024"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen>
+            </iframe>
+
+          )}
 
           {/* Comment Form Section */}
           <div className="flex justify-center mt-10 w-full">
