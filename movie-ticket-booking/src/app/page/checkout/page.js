@@ -102,6 +102,7 @@ const CheckoutPage = () => {
       TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
       Email: userInfo ? userInfo.Email : "Chưa có thông tin",
       Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null",
+      IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
     };
   
     try {

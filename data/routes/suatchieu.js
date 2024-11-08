@@ -264,7 +264,6 @@ router.get('/phongchieu/:id', async (req, res) => {
   }
 });
 
-// Lấy danh sách suất chiếu theo phim
 router.get('/phim/:IdPhim', async (req, res) => {
   try {
     const { IdPhim } = req.params;
@@ -274,14 +273,6 @@ router.get('/phim/:IdPhim', async (req, res) => {
     // Lấy danh sách suất chiếu có IdPhim trùng khớp
     const showtimes = await showtimesCollection
       .find({ IdPhim: parseInt(IdPhim) })
-      .project({
-        _id: 1,
-        id: 1,
-        IdPhim: 1,
-        IdPhong: 1,
-        NgayChieu: 1,
-        TrangThai: 1,
-      })
       .toArray();
 
     if (showtimes.length === 0) {
@@ -296,21 +287,24 @@ router.get('/phim/:IdPhim', async (req, res) => {
       theater.PhongChieu.forEach(room => {
         theaterMap[room.id] = {
           TenPhongChieu: room.TenPhongChieu,
-          TenRap: theater.TenRap,      // Thêm tên rạp
-          ViTri: theater.ViTri          // Thêm vị trí
+          TenRap: theater.TenRap,
+          ViTri: theater.ViTri,
+          Ghe: room.Ghe // Lấy thông tin ghế trong phòng chiếu
         };
       });
     });
 
-    // Thêm tên phòng chiếu, tên rạp và vị trí vào danh sách suất chiếu
-    const showtimesWithDetails = showtimes
-      .filter(showtime => theaterMap[showtime.IdPhong]) // Lọc theo IdPhong có trong theaterMap
-      .map(showtime => ({
+    // Lấy các phòng chiếu và giờ chiếu cho mỗi suất chiếu
+    const showtimesWithDetails = showtimes.map(showtime => {
+      const roomDetails = theaterMap[showtime.IdPhong];
+      return {
         ...showtime,
-        TenPhongChieu: theaterMap[showtime.IdPhong].TenPhongChieu || 'Không xác định',
-        TenRap: theaterMap[showtime.IdPhong].TenRap || 'Không xác định', // Thêm tên rạp
-        ViTri: theaterMap[showtime.IdPhong].ViTri || 'Không xác định',   // Thêm vị trí
-      }));
+        TenPhongChieu: roomDetails?.TenPhongChieu || 'Không xác định',
+        TenRap: roomDetails?.TenRap || 'Không xác định',
+        ViTri: roomDetails?.ViTri || 'Không xác định',
+        Ghe: roomDetails?.Ghe || [] // Danh sách ghế trong phòng chiếu
+      };
+    });
 
     res.json(showtimesWithDetails);
   } catch (error) {
@@ -319,29 +313,25 @@ router.get('/phim/:IdPhim', async (req, res) => {
   }
 });
 
-// Lấy danh sách suất chiếu theo phim với trạng thái DangChieu
 router.get('/phim/:IdPhim/dangchieu', async (req, res) => {
   try {
     const { IdPhim } = req.params;
     const db = await connectDb();
     const showtimesCollection = db.collection('suatchieu');
 
-    // Lấy danh sách suất chiếu có IdPhim trùng khớp và trạng thái là "DangChieu"
-    const showtimes = await showtimesCollection.find({ IdPhim: parseInt(IdPhim), TrangThai: "DangChieu" }).toArray();
+    // Lấy danh sách suất chiếu có IdPhim trùng khớp và TrangThai là "DangChieu"
+    const showtimes = await showtimesCollection
+      .find({
+        IdPhim: parseInt(IdPhim),
+        TrangThai: "DangChieu" // Lọc theo trạng thái "DangChieu"
+      })
+      .toArray();
 
     if (showtimes.length === 0) {
       return res.status(404).json({ message: 'Không tìm thấy suất chiếu đang chiếu cho phim này' });
     }
 
-    // Lấy thông tin phim
-    const movieCollection = db.collection('phim');
-    const movie = await movieCollection.findOne({ id: parseInt(IdPhim) });
-
-    if (!movie) {
-      return res.status(404).json({ message: 'Không tìm thấy thông tin phim' });
-    }
-
-    // Lấy thông tin phòng chiếu
+    // Lấy danh sách các rạp
     const theaterCollection = db.collection('rap');
     const theaters = await theaterCollection.find({}).toArray();
     const theaterMap = {};
@@ -349,57 +339,138 @@ router.get('/phim/:IdPhim/dangchieu', async (req, res) => {
       theater.PhongChieu.forEach(room => {
         theaterMap[room.id] = {
           TenPhongChieu: room.TenPhongChieu,
-          TenRap: theater.TenRap,      // Thêm tên rạp
-          ViTri: theater.ViTri          // Thêm vị trí
+          TenRap: theater.TenRap,
+          ViTri: theater.ViTri,
+          Ghe: room.Ghe // Lấy thông tin ghế trong phòng chiếu
         };
       });
     });
 
-    // Thêm tên phòng chiếu, tên phim, tên rạp và vị trí vào danh sách suất chiếu
-    const showtimesWithDetails = showtimes.map(showtime => ({
-      ...showtime,
-      TenPhongChieu: theaterMap[showtime.IdPhong]?.TenPhongChieu || 'Không xác định',
-      TenRap: theaterMap[showtime.IdPhong]?.TenRap || 'Không xác định', // Thêm tên rạp
-      ViTri: theaterMap[showtime.IdPhong]?.ViTri || 'Không xác định',   // Thêm vị trí
-      TenPhim: movie.Ten,
-      AnhPhim: movie.Anh,
-      KieuPhim: movie.TheLoai.KieuPhim,
-    }));
+    // Lấy các phòng chiếu và giờ chiếu cho mỗi suất chiếu
+    const showtimesWithDetails = showtimes.map(showtime => {
+      const roomDetails = theaterMap[showtime.IdPhong];
+      return {
+        ...showtime,
+        TenPhongChieu: roomDetails?.TenPhongChieu || 'Không xác định',
+        TenRap: roomDetails?.TenRap || 'Không xác định',
+        ViTri: roomDetails?.ViTri || 'Không xác định',
+        Ghe: roomDetails?.Ghe || [] // Danh sách ghế trong phòng chiếu
+      };
+    });
 
     res.json(showtimesWithDetails);
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách suất chiếu đang chiếu theo phim:', error);
+    console.error('Lỗi khi lấy danh sách suất chiếu theo phim:', error);
     res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
   }
 });
 
-// Lấy danh sách ghế theo IdPhong
-router.get('/ghe/:IdPhong', async (req, res) => {
+router.get('/ghe/:IdPhong/:GioChieu', async (req, res) => {
   try {
-    const { IdPhong } = req.params; // Lấy IdPhong từ tham số
+    const { IdPhong, GioChieu } = req.params;
     const db = await connectDb();
+
+    // Lấy thông tin rạp và phòng chiếu theo IdPhong
     const rapCollection = db.collection('rap');
-
-    // Lấy rạp đầu tiên (chỉ có một rạp)
     const rap = await rapCollection.findOne({});
-
     if (!rap) {
       return res.status(404).json({ message: 'Không tìm thấy rạp' });
     }
 
-    // Tìm phòng chiếu tương ứng với IdPhong
     const phongChieu = rap.PhongChieu.find(phong => phong.id === parseInt(IdPhong));
-
     if (!phongChieu) {
-      return res.status(404).json({ message: 'Không tìm thấy phòng chiếu này' });
+      return res.status(404).json({ message: 'Không tìm thấy phòng chiếu' });
     }
 
-    // Trả về danh sách ghế trong phòng chiếu
-    res.status(200).json(phongChieu.Ghe || []);
+    // Lấy danh sách suất chiếu cho phòng và giờ chiếu
+    const suatChieuCollection = db.collection('suatchieu');
+    const suatChieu = await suatChieuCollection.findOne({
+      IdPhong: parseInt(IdPhong),
+      GioChieu: GioChieu
+    });
+
+    if (!suatChieu) {
+      return res.status(404).json({ message: 'Không tìm thấy suất chiếu cho phòng và giờ này' });
+    }
+
+    // Dữ liệu ghế theo phòng chiếu
+    const ghe = phongChieu.Ghe.map(gheHang => {
+      return {
+        Hang: gheHang.Hang,
+        Ghe: gheHang.Ghe.map(ghe => {
+          // Kiểm tra ghế đã đặt hay chưa
+          const isBooked = suatChieu.DaDatGhe.includes(ghe);
+          return {
+            Ghe: ghe,
+            DaDat: isBooked // Đánh dấu ghế đã đặt hay chưa
+          };
+        })
+      };
+    });
+
+    res.status(200).json(ghe);
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách ghế:', error);
-    res.status(500).json({ message: 'Lỗi khi lấy danh sách ghế', error });
+    console.error(error);
+    res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
   }
 });
+
+router.post('/capnhatghedadat', async (req, res) => {
+  try {
+    const { IdPhong, GioChieu, SoGhe } = req.body;
+
+    // Kết nối đến database
+    const db = await connectDb();
+
+    // Kiểm tra và xác thực dữ liệu đầu vào
+    if (!IdPhong || !GioChieu || !SoGhe || !Array.isArray(SoGhe)) {
+      return res.status(400).json({ message: 'Dữ liệu không hợp lệ' });
+    }
+
+    // Kết nối với collection suất chiếu
+    const suatChieuCollection = db.collection('suatchieu');
+
+    // Tìm suất chiếu tương ứng
+    const suatChieu = await suatChieuCollection.findOne({
+      IdPhong: IdPhong,
+      GioChieu: GioChieu
+    });
+
+    if (!suatChieu) {
+      return res.status(404).json({ message: 'Không tìm thấy suất chiếu' });
+    }
+
+    // Cập nhật danh sách ghế đã đặt
+    const updatedResult = await suatChieuCollection.updateOne(
+      {
+        IdPhong: IdPhong,
+        GioChieu: GioChieu
+      },
+      {
+        $addToSet: {
+          DaDatGhe: { $each: SoGhe }
+        }
+      }
+    );
+
+    if (updatedResult.modifiedCount === 0) {
+      return res.status(500).json({ message: 'Không thể cập nhật ghế đã đặt' });
+    }
+
+    res.status(200).json({
+      message: 'Cập nhật ghế đã đặt thành công',
+      updatedSeats: SoGhe
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Có lỗi xảy ra',
+      error: error.message
+    });
+  }
+});
+
+
 
 module.exports = router;
