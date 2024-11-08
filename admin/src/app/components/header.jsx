@@ -11,17 +11,18 @@ const Header = () => {
     const router = useRouter();  // Initialize router
 
     useEffect(() => {
-        const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
+        const token = document.cookie.split(';').find(c => c.trim().startsWith('adminToken='));  // Changed to 'adminToken'
         const tokenValue = token?.split('=')[1];
 
         // Nếu không có token, điều hướng về trang login
         if (!tokenValue) {
-            router.push('http://localhost:3001/page/login');
-        } else {
+            router.push('http://localhost:3002/page/login');
+        }
+        else {
             setIsLoggedIn(true);
             const getUser = async () => {
                 try {
-                    const response = await fetch('http://localhost:3000/users/detailuser', {
+                    const response = await fetch('http://localhost:3000/admin/detailadmin', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${tokenValue}`,
@@ -48,9 +49,9 @@ const Header = () => {
     }, [router]);
 
     const handleLogout = () => {
-        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+        document.cookie = 'adminToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';  // Changed to 'adminToken'
         setIsLoggedIn(false);
-        router.push('http://localhost:3001/page/login');  // Redirect to homepage after logout
+        router.push('http://localhost:3002/page/login');  
     };
 
     return (
@@ -64,7 +65,7 @@ const Header = () => {
                     {/* User Menu */}
                     <li>{/* nơi chứa  nút đăng xuất */}
                         <button onClick={handleLogout} className="app-nav__item">
-                            <FontAwesomeIcon icon={faSignOutAlt} className="w-6 h-6" />
+                            <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" />
                         </button>
                     </li>
                 </ul>
@@ -86,85 +87,85 @@ const Header = () => {
                 <ul className="app-menu">
                     <li>
                         <Link className="app-menu__item" href="/">
-                            <FontAwesomeIcon icon={faCartShopping} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faCartShopping} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">POS Bán Hàng</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/thongkedoanhthu">
-                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Báo cáo doanh thu</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/suatchieu">
-                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/nhanvien">
-                            <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý nhân viên</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/khachhang">
-                            <FontAwesomeIcon icon={faUser} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý khách hàng</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/sanpham">
-                            <FontAwesomeIcon icon={faTags} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faTags} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý phim</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/theloai">
-                            <FontAwesomeIcon icon={faTasks} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faTasks} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý thể loại</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/ve">
-                            <FontAwesomeIcon icon={faTicketAlt} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faTicketAlt} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý vé</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/combo">
-                            <FontAwesomeIcon icon={faTasks} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faTasks} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý Combo</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/binhluan">
-                            <FontAwesomeIcon icon={faCommentDots} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faCommentDots} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý bình luận</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/rap">
-                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý rạp</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/khuyenmai">
-                            <FontAwesomeIcon icon={faCalendarCheck} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faCalendarCheck} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lí khuyến mãi</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="/page/blog">
-                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lí Blog</span>
                         </Link>
                     </li>
                     <li>
                         <Link className="app-menu__item" href="#">
-                            <FontAwesomeIcon icon={faCog} className="app-menu__icon w-6 h-6" />
+                            <FontAwesomeIcon icon={faCog} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Cài đặt hệ thống</span>
                         </Link>
                     </li>
