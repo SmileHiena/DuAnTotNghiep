@@ -9,6 +9,7 @@ const Profile = () => {
   const [comments, setComments] = useState([]);
   const [showCommentDetails, setShowCommentDetails] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [expandedComments, setExpandedComments] = useState({});
 
   const toggleCommentDetails = (comment) => {
     setSelectedComment(comment);
@@ -77,116 +78,129 @@ const Profile = () => {
       getUserInfo();
     }
   }, []);
+  const toggleExpand = (id) => {
+    setExpandedComments((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the expanded state for the clicked comment
+    }));
+  };
 
   return (
     <section className="flex flex-col justify-center items-center w-full px-4">
-      <div className="w-full max-w-[1410px]">
-        <div
-          className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4"
-          style={{ backgroundImage: "url('../images/background.png')" }}
-        ></div>
-        <div className="relative -mt-20 flex flex-col md:flex-row">
-          <div className="flex flex-col items-center w-full md:w-1/4">
-            <img
-              src={`http://localhost:3000/images/${accountInfo.Anh}`} // Đường dẫn tới hình ảnh
-              alt="Profile"
-              className="rounded-full w-36 h-36 border-5 border-white object-cover"
-            />
-            <div className="flex justify-center mt-1">
-              <h2 className="text-3xl text-center font-semibold text-white">
-                {accountInfo.Ten}
-              </h2>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
-          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white h-[300px]">
-            <nav className="space-y-4">
-              <Link href="/page/profile" className="flex items-center text-lg text-white no-underline">
-                <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng
-              </Link>
-              <Link href="/page/comment" className="flex items-center text-lg text-white no-underline">
-                <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử bình luận
-              </Link>
-              <Link href="/page/hoadon" className="flex items-center text-lg text-white no-underline">
-                <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử mua hàng
-              </Link>
-            </nav>
-          </div>
-
-          <div className="w-full md:w-3/4">
-            <h2 className="text-2xl mb-2 text-white font-semibold">
-              LỊCH SỬ BÌNH LUẬN
-            </h2>
-            <table className="w-full border-collapse bg-gray-800 text-white">
-              <thead>
-                <tr>
-                  <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">
-                    Nội dung
-                  </th>
-                  <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">
-                    Ngày bình luận
-                  </th>
-                  <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">
-                    Chi tiết
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {comments.length > 0 ? (
-                  comments.map((comment) => (
-                    <tr className="bg-gray-700" key={comment._id}>
-                      <td className="text-center px-2 py-2">{comment.content}</td>
-                      <td className="text-center px-2 py-2">
-                        {new Date(comment.timestamp).toLocaleDateString()}
-                      </td>
-                      <td className="text-center px-2 py-2">
-                        <button
-                          onClick={() => toggleCommentDetails(comment)}
-                          className=" w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"
-                        >
-                          Xem chi tiết
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="3" className="text-center px-2 py-2">
-                      Không có bình luận nào.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-
-            {showCommentDetails && selectedComment && (
-              <div className="mt-4 p-4 bg-gray-800 border border-[#F5CF49] rounded">
-                <h3 className="text-xl text-white">Chi tiết bình luận</h3>
-                <p className="text-white">
-                  <strong className="text-white">Nội dung:</strong> {selectedComment.content}
-                </p>
-                <p className="text-white">
-                  <strong className="text-white">Ngày bình luận:</strong>{" "}
-                  {new Date(selectedComment.timestamp).toLocaleDateString("vi-VN", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </p>
-                <button
-                  onClick={() => toggleCommentDetails(null)}
-                  className="mt-2 bg-red-500 text-white rounded px-2 py-1"
-                >
-                  Đóng
-                </button>
-              </div>
-            )}
-          </div>
+  <div className="w-full max-w-[1410px]">
+    <div
+      className="relative h-[200px] sm:h-[300px] bg-cover bg-center border-3 border-white mb-4"
+      style={{ backgroundImage: "url('../images/background.png')" }}
+    ></div>
+    
+    <div className="relative -mt-20 flex flex-col items-center md:flex-row md:items-start">
+      <div className="flex flex-col items-center w-full md:w-1/4">
+        <img
+          src={`http://localhost:3000/images/${accountInfo.Anh}`}
+          alt="Profile"
+          className="rounded-full w-24 h-24 sm:w-36 sm:h-36 border-5 border-white object-cover"
+        />
+        <div className="flex justify-center mt-1">
+          <h2 className="text-2xl sm:text-3xl text-center font-semibold text-white">
+            {accountInfo.Ten}
+          </h2>
         </div>
       </div>
-    </section>
+    </div>
+
+    <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
+      <div className="w-full md:w-1/4 p-4 sm:p-6 bg-gray-700 text-white h-auto md:h-[300px]">
+        <nav className="space-y-2 sm:space-y-4">
+          <Link href="/page/profile" className="flex items-center text-sm sm:text-lg text-white no-underline">
+            <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng
+          </Link>
+          <Link href="/page/comment" className="flex items-center text-sm sm:text-lg text-white no-underline">
+            <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử bình luận
+          </Link>
+          <Link href="/page/hoadon" className="flex items-center text-sm sm:text-lg text-white no-underline">
+            <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử mua hàng
+          </Link>
+        </nav>
+      </div>
+
+      <div className="w-full md:w-3/4">
+        <h2 className="text-xl sm:text-2xl mb-2 text-white font-semibold">
+          LỊCH SỬ BÌNH LUẬN
+        </h2>
+        <table className="w-full border-collapse bg-gray-800 text-white text-xs sm:text-base">
+          <thead>
+            <tr>
+              <th className="bg-[#F5CF49] text-[#000000] px-2 py-1 sm:px-2 sm:py-2">
+                Nội dung
+              </th>
+              <th className="bg-[#F5CF49] text-[#000000] px-2 py-1 sm:px-2 sm:py-2">
+                Ngày bình luận
+              </th>
+              <th className="bg-[#F5CF49] text-[#000000] px-2 py-1 sm:px-2 sm:py-2">
+                Chi tiết
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {comments.length > 0 ? (
+              comments.map((comment) => (
+                <tr className="bg-gray-700" key={comment._id}>
+                  <td className="text-center px-2 py-1 sm:py-2">
+                    {comment.content.length > 25
+                      ? `${comment.content.substring(0, 25)}...`
+                      : comment.content}
+                  </td>
+                  <td className="text-center px-2 py-1 sm:py-2">
+                    {new Date(comment.timestamp).toLocaleDateString()}
+                  </td>
+                  <td className="text-center px-2 py-1 sm:py-2">
+                    <button
+                      onClick={() => toggleCommentDetails(comment)}
+                      className="w-[90px] h-[30px] sm:w-[117px] sm:h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"
+                    >
+                      Xem chi tiết
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" className="text-center px-2 py-2">
+                  Không có bình luận nào.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        {showCommentDetails && selectedComment && (
+          <div className="mt-4 p-3 sm:p-4 bg-gray-800 border border-[#F5CF49] rounded">
+            <h3 className="text-lg sm:text-xl text-white">Chi tiết bình luận</h3>
+            <p className="text-sm sm:text-base text-white mb-2 break-words">
+              <strong className="text-white inline whitespace-nowrap">Nội dung: </strong> 
+              <span className="inline">{selectedComment.content}</span>
+            </p>
+            <p className="text-sm sm:text-base text-white">
+              <strong className="text-white">Ngày bình luận:</strong>{" "}
+              {new Date(selectedComment.timestamp).toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </p>
+            <button
+              onClick={() => toggleCommentDetails(null)}
+              className="mt-2 bg-red-500 text-white rounded px-2 py-1"
+            >
+              Đóng
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
   );
 };
 

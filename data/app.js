@@ -19,6 +19,7 @@ var blogRouter = require('./routes/blog');
 var dangchieuRouter = require('./routes/dangchieu');
 var taikhoanRouter = require('./routes/taikhoan');
 var authRouter = require('./routes/auth');
+var veRouter = require('./routes/ve');
 var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
 var suatchieuRouter = require('./routes/suatchieu');
@@ -29,6 +30,7 @@ var checkoutRouter = require('./routes/checkout');
 var hoadonRouter = require('./routes/hoadon');
 var orderRouter = require('./routes/order');
 var adminRouter = require('./routes/admin');
+
 var app = express();
 
 // Cấu hình middleware CORS
@@ -73,6 +75,7 @@ app.use('/blog', blogRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/taikhoan', taikhoanRouter);
 app.use('/auth', authRouter);
+app.use('/ve', veRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/suatchieu', suatchieuRouter);

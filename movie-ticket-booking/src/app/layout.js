@@ -5,7 +5,7 @@ import Header from "./component/header";
 import Footer from "./component/footer";
 import { Provider } from 'react-redux';
 import store from './page/store/store';
-
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // export const metadata = {
 //   title: "ScreenTime",

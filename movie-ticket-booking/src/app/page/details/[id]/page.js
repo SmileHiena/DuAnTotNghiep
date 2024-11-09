@@ -181,7 +181,8 @@ const Detail = () => {
               <div className="flex mt-7 space-x-2">
                 <div className="flex">
                   <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
-                    <FontAwesomeIcon   onClick={handleToggle} 
+                    <FontAwesomeIcon
+                      onClick={handleToggle}
                       icon={faPlay}
                       style={{
                         color: "#DA70D6",
@@ -191,8 +192,10 @@ const Detail = () => {
                     />
                   </p>
                   <button
-                    onClick={handleToggle} className="text-[20px] no-underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px] mr-3  hover:text-yellow-600">
-                    {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
+                    onClick={handleToggle}
+                    className="text-[20px] no-underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px] mr-3  hover:text-yellow-600"
+                  >
+                    {isVisible ? "Ẩn Trailer" : "Xem Trailer"}
                   </button>
                 </div>
                 <Link href={`/page/datve/${movie.id}`}>
@@ -215,9 +218,8 @@ const Detail = () => {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen>
-            </iframe>
-
+              allowFullScreen
+            ></iframe>
           )}
 
           {/* Comment Form Section */}
@@ -253,36 +255,53 @@ const Detail = () => {
                 {/* Displaying Comments */}
                 <div className="w-full max-w-[1200px] mt-4">
                   {comments.map((comment) => (
-                    <div key={comment._id} className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300">
+                    <div
+                      key={comment._id}
+                      className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300"
+                    >
                       {comment.userImage && (
-                        <img src={`http://localhost:3000/images/${comment.userImage}`} alt={`${comment.username}'s avatar`} className="w-14 h-14 rounded-full border-2 border-[#F5CF49]" />
+                        <img
+                          src={`http://localhost:3000/images/${comment.userImage}`}
+                          alt={`${comment.username}'s avatar`}
+                          className="w-14 h-14 rounded-full border-2 border-[#F5CF49]"
+                        />
                       )}
-                      <div className="flex flex-col flex-1 max-w-[1100px]">
-                        <span className="font-semibold text-[20px] text-white mb-2">{comment.username}</span>
+                      <div className="flex flex-col flex-1 w-[80%] md:max-w-[1100px] p-4 sm:p-2">
+                        <span className="font-semibold text-[20px] sm:text-[16px] text-white mb-2">
+                          {comment.username}
+                        </span>
+
                         <div className="border-b border-white opacity-20 w-full mb-2"></div>
-                        <p className="text-[18px] text-white mb-2 break-words">
+
+                        <p className="text-[18px] sm:text-[14px] text-white mb-2 break-words">
                           {comment.content.length > 100
-                            ? (expandedComments[comment._id] ? comment.content : `${comment.content.substring(0, 250)}...`)
-                            : comment.content
-                          }
+                            ? expandedComments[comment._id]
+                              ? comment.content
+                              : `${comment.content.substring(0, 250)}...`
+                            : comment.content}
                         </p>
 
                         {comment.content.length > 100 && (
-                          <button onClick={() => toggleExpand(comment._id)} className="text-[#F5CF49] underline mt-2 hover:text-[#F1D600]">
-                            {expandedComments[comment._id] ? "Ẩn bớt" : "Xem thêm"}
+                          <button
+                            onClick={() => toggleExpand(comment._id)}
+                            className="text-[#F5CF49] underline mt-2 hover:text-[#F1D600] sm:text-[14px]"
+                          >
+                            {expandedComments[comment._id]
+                              ? "Ẩn bớt"
+                              : "Xem thêm"}
                           </button>
                         )}
 
-                        <p className="text-xs text-gray-400 mt-2">{new Date(comment.timestamp).toLocaleString()}</p>
+                        <p className="text-xs sm:text-[10px] text-gray-400 mt-2">
+                          {new Date(comment.timestamp).toLocaleString()}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
-
               </div>
             </div>
           </div>
-
 
           {/* Similar Movies Section */}
           <TuongTu movieId={movie.id} />
