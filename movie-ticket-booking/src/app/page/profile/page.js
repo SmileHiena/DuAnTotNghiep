@@ -7,13 +7,11 @@ import Link from "next/link";
 // Custom hook for auto-login and fetching user info
 const useAutoLogin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [accountInfo, setAccountInfo] = useState({});
+  const [accountInfo, setAccountInfo] = useState(null);
 
   useEffect(() => {
-    const token = document.cookie
-      .split(";")
-      .find((c) => c.trim().startsWith("token="));
-    const tokenValue = token?.split("=")[1];
+    const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
+    const tokenValue = token?.split('=')[1];
 
     if (tokenValue) {
       setIsLoggedIn(true);
@@ -23,7 +21,7 @@ const useAutoLogin = () => {
           const response = await fetch("http://localhost:3000/users/detailuser", {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${tokenValue}`,
+              'Authorization': `Bearer ${tokenValue}`,
               "Content-Type": "application/json",
             },
           });
@@ -51,9 +49,9 @@ const useAutoLogin = () => {
   return { isLoggedIn, accountInfo };
 };
 
-const Profile = () => {
-  const { isLoggedIn, accountInfo } = useAutoLogin(); // Get the values from the custom hook
+function Profile ()  {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const { isLoggedIn, accountInfo } = useAutoLogin(); // Get the values from the custom hook
 
   const toggleOrderDetails = () => {
     setShowOrderDetails(!showOrderDetails);
@@ -69,13 +67,13 @@ const Profile = () => {
         <div className="relative -mt-20 flex flex-col md:flex-row">
           <div className="flex flex-col items-center w-full md:w-1/4">
             <img
-              src={`http://localhost:3000/images/${accountInfo.Anh}`} // Profile image
+              src={`http://localhost:3000/images/${accountInfo?.Anh}`} // Profile image
               alt="Profile"
               className="rounded-full w-36 h-36 border-5 border-white object-cover"
             />
             <div className="flex justify-center mt-1">
               <h2 className="text-3xl text-center font-semibold text-white">
-                {accountInfo.Ten || "Chưa có tên"} {/* Display user's name */}
+                {accountInfo?.Ten || "Chưa có tên"} {/* Display user's name */}
               </h2>
             </div>
           </div>
@@ -119,7 +117,7 @@ const Profile = () => {
                     <label className="block mb-2">Họ và tên</label>
                     <input
                       type="text"
-                      defaultValue={accountInfo.Ten || ""}
+                      defaultValue={accountInfo?.Ten || ""}
                       className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
                       readOnly
                     />
@@ -129,8 +127,8 @@ const Profile = () => {
                     <input
                       type="text"
                       defaultValue={
-                        accountInfo.NgaySinh
-                          ? new Date(accountInfo.NgaySinh).toLocaleDateString(
+                        accountInfo?.NgaySinh
+                          ? new Date(accountInfo?.NgaySinh).toLocaleDateString(
                               "vi-VN",
                               {
                                 day: "2-digit",
@@ -148,7 +146,7 @@ const Profile = () => {
                     <label className="block mb-2">Số điện thoại</label>
                     <input
                       type="text"
-                      defaultValue={accountInfo.SDT || ""}
+                      defaultValue={accountInfo?.SDT || ""}
                       className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
                       readOnly
                     />
@@ -157,7 +155,7 @@ const Profile = () => {
                     <label className="block mb-2">Email</label>
                     <input
                       type="text"
-                      defaultValue={accountInfo.Email || ""}
+                      defaultValue={accountInfo?.Email || ""}
                       className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
                       readOnly
                     />
