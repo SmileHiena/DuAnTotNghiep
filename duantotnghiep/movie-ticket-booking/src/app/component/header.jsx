@@ -1,19 +1,16 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 
-function Header() {
+// Hàm useAutoLogin
+const useAutoLogin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
-  const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false);
-  const dispatch = useDispatch();
-  const menuRef = useRef(null);
-  const router = useRouter();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
@@ -26,14 +23,14 @@ function Header() {
           const response = await fetch('http://localhost:3000/users/detailuser', {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${tokenValue}`, // Dùng tokenValue ở đây
-              'Content-Type': 'application/json'
-            }
+              'Authorization': `Bearer ${tokenValue}`, // Sử dụng token từ cookie
+              'Content-Type': 'application/json',
+            },
           });
 
           if (response.ok) {
             const data = await response.json();
-            setUser(data);
+            setUser(data); // Cập nhật dữ liệu người dùng
           } else {
             console.error('Failed to fetch user data');
             setIsLoggedIn(false);
@@ -45,8 +42,37 @@ function Header() {
         }
       };
       getUser();
+    } else {
+      setIsLoggedIn(false); // Nếu không có token, cập nhật lại trạng thái đăng nhập
     }
   }, []);
+
+  return { isLoggedIn, user };
+};
+
+function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const [isMobileSubMenuOpen, setIsMobileSubMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+  const menuRef = useRef(null);
+  const router = useRouter();
+  const [input, setInput] = useState("");
+  const [results, setResults] = useState([]);
+
+  // Sử dụng hook tự động đăng nhập
+  const { isLoggedIn, user } = useAutoLogin();
+
+  const handleSearch = (event) => {
+    if (event.key === 'Enter') {
+      router.push(`/page/searchResult?name=${input}`);
+    }
+  };
+
+  const handleChange = (value) => {
+    setInput(value);
+    fetchData(value);
+  };
 
   const handleLogout = () => {
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
@@ -54,17 +80,9 @@ function Header() {
     router.push('/');
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev);
-  };
-
-  const toggleSubMenu = () => {
-    setIsSubMenuOpen(prev => !prev);
-  };
-
-  const toggleMobileSubMenu = () => {
-    setIsMobileSubMenuOpen(prev => !prev);
-  };
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const toggleSubMenu = () => setIsSubMenuOpen(prev => !prev);
+  const toggleMobileSubMenu = () => setIsMobileSubMenuOpen(prev => !prev);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -98,10 +116,8 @@ function Header() {
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center">
             <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">Trang Chủ</Link></li>
-            <li onMouseEnter={() => setIsSubMenuOpen(true)} // Show submenu on hover
-            onMouseLeave={() => setIsSubMenuOpen(false)} className="relative text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">
-
-             Pages
+            <li onMouseEnter={() => setIsSubMenuOpen(true)} onMouseLeave={() => setIsSubMenuOpen(false)} className="relative text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">
+              Pages
               {isSubMenuOpen && (
                 <ul className="absolute top-10 left-0 mt-2 bg-white pl-0 rounded shadow-lg w-[200px] z-20">
                   <li><Link href="/page/lienhe" className="block no-underline py-2 pl-[2rem] text-black hover:bg-gray-200">Liên hệ</Link></li>
@@ -112,56 +128,53 @@ function Header() {
               )}
             </li>
             <li><Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Giới thiệu</Link></li>
-            <li><Link href="#" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Xem vé</Link></li>
             <li><Link href="/page/sukien" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link></li>
           </ul>
         </nav>
 
-        {/* Search Area */}
-        <div className="ml-8 relative hidden lg:block">
-          <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-lg lg:max-w-md md:max-w-sm" style={{ height: '30px' }}>
-            <i className="fas fa-search text-white" style={{ fontSize: '14px', marginRight: '10px' }}></i>
+        {/* Search Bar */}
+        <div className="hidden lg:block relative ml-8">
+          <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-md">
+            <i className="fas fa-search text-white mr-2"></i>
             <input
               type="text"
               placeholder="Tìm kiếm..."
-              className="bg-transparent outline-none text-white w-full h-full text-left"
-              style={{ fontSize: '16px', paddingLeft: '2px' }}
+              value={input}
+              onChange={(e) => handleChange(e.target.value)}
+              onKeyDown={handleSearch}
+              className="bg-transparent text-white w-full outline-none"
             />
           </div>
         </div>
 
         {/* Mobile Search Icon */}
         <div className="ml-8 relative lg:hidden">
-          <button className="text-white">
-            <i className="fas fa-search"></i>
-          </button>
+          <button className="text-white"> <i className="fas fa-search"></i></button>
         </div>
 
         {/* User Name or Login Button */}
         <div className="ml-8">
           {isLoggedIn ? (
             <>
-            <div className='flex gap-4 items-center'>
-              <div className='text-center "border-2 border-white border-solid'>
-                <Link className='no-underline text-white uppercase' href="/page/profile">
-                   <Image  src={`http://localhost:3000/images/${user.Anh}`} width={30} height={30} />
-                    {/*Hoặc user.fullname {user.Anh}  */}
-                </Link>
+              <div className='flex gap-4 items-center'>
+                <div className='text-center '>
+                  <Link className='no-underline text-white uppercase' href="/page/profile">
+                    <img className='rounded-full ' src={`http://localhost:3000/images/${user?.Anh}`} width={30} height={30} alt="User Avatar" />
+                    {/* {user.Ten} */}
+                  </Link>
+                </div>
+                <button onClick={handleLogout} className="w-[40px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid">
+                  <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" />
+                </button>
               </div>
-              <button onClick={handleLogout} className=" w-[117px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid">Đăng xuất</button>
-            </div>
             </>
           ) : (
             <>
               <Link href="/page/login">
-                <button className="hidden sm:inline-block border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[117px] h-[30px] rounded hover:bg-[#F5CF49] hover:text-[#000000] hover:font-bold transition uppercase text-[14px]">
-                  Đăng Nhập
-                </button>
+                <button className="hidden sm:inline-block border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[117px] h-[30px] rounded hover:bg-[#F5CF49] hover:text-[#000000] hover:font-bold transition uppercase text-[14px]"> Đăng Nhập</button>
               </Link>
               <Link href="/page/login">
-                <button className="sm:hidden">
-                  <i className="fas fa-user text-[#FFFFFF] text-2xl"></i>
-                </button>
+                <button className="sm:hidden"> <i className="fas fa-user text-[#FFFFFF] text-2xl"></i> </button>
               </Link>
             </>
           )}

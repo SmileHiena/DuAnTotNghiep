@@ -21,9 +21,10 @@ router.post('/', getUserFromToken, async (req, res) => {
             TenKhachHang,
             Email,
             Combo,
+            IdPhong,
         } = req.body;
 
-        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email) {
+        if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email || !IdPhong) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
@@ -52,6 +53,7 @@ router.post('/', getUserFromToken, async (req, res) => {
             TenKhachHang,
             Email,
             Combo: Combo || null,
+            IdPhong: IdPhong,
             TrangThai: "Đã Đặt",  // Thêm trạng thái "Đã Đặt"
             createdAt: new Date(),
         };

@@ -16,6 +16,13 @@ const Suatchieu = () => {
     const [movies, setMovies] = useState([]);
     const [rooms, setRooms] = useState([]);
 
+    // Bộ lọc
+    const [filters, setFilters] = useState({
+        date: '',
+        room: '',
+        status: '',
+    });
+
     useEffect(() => {
         const fetchShowtimes = async () => {
             try {
@@ -54,9 +61,28 @@ const Suatchieu = () => {
         fetchRooms();
     }, []);
 
-    if (loading) {
-        return <p>Đang tải dữ liệu...</p>;
-    }
+    const convertToISODate = (dateStr) => {
+        const [day, month, year] = dateStr.split('/');
+        return `${year}-${month}-${day}`;
+    };
+
+    // Hàm lọc
+    const filteredShowtimes = showtimes.filter((showtime) => {
+        const { date, room, status } = filters;
+        const matchDate = date ? convertToISODate(showtime.NgayChieu) === date : true;
+        const matchRoom = room ? showtime.IdPhong.toString() === room : true;
+        const matchStatus = status ? showtime.TrangThai === status : true;
+        return matchDate && matchRoom && matchStatus;
+    });
+
+    // Cập nhật bộ lọc
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }));
+    };
 
     const handleEditClick = (showtimeId) => {
         const showtime = showtimes.find((s) => s._id === showtimeId);
@@ -73,21 +99,19 @@ const Suatchieu = () => {
     const handleSave = async () => {
         if (!currentShowtime) return;
 
-        // Kiểm tra tính hợp lệ của các trường dữ liệu
         if (!currentShowtime.NgayChieu || !currentShowtime.IdPhim || !currentShowtime.IdPhong || !currentShowtime.GioChieu || !currentShowtime.TrangThai) {
             setErrorMessage('Vui lòng điền đủ thông tin.');
             return;
         }
 
-        // Lấy suất chiếu hiện tại từ danh sách suất chiếu
         const originalShowtime = showtimes.find(s => s._id === currentShowtime._id);
         if (JSON.stringify(originalShowtime) === JSON.stringify(currentShowtime)) {
             toast.success('Cập nhật suất chiếu thành công!', {
                 position: 'top-right',
                 autoClose: 3000,
             });
-            handleCloseModal(); // Đóng modal khi không có thay đổi
-            return; // Không gửi yêu cầu cập nhật nếu không có thay đổi
+            handleCloseModal();
+            return;
         }
 
         try {
@@ -115,10 +139,8 @@ const Suatchieu = () => {
         }
     };
 
-
     const handleDelete = async (showtimeId) => {
         const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa suất chiếu này không?');
-
         if (confirmDelete) {
             try {
                 await fetch(`http://localhost:3000/suatchieu/delete/${showtimeId}`, {
@@ -158,12 +180,14 @@ const Suatchieu = () => {
         }
     };
 
+    if (loading) {
+        return <p>Đang tải dữ liệu...</p>;
+    }
+
     return (
         <>
             <main className="app-content">
-                <Head>
-                    <title>Danh sách suất chiếu</title>
-                </Head>
+                <Head><title>Danh sách suất chiếu</title></Head>
                 <div className="app-title">
                     <ul className="app-breadcrumb breadcrumb side">
                         <li className="breadcrumb-item active">
@@ -171,21 +195,30 @@ const Suatchieu = () => {
                         </li>
                     </ul>
                 </div>
-
                 <div className="row">
                     <div className="col-md-12">
                         <div className="tile">
                             <div className="tile-body">
                                 <div className="row element-button">
-                                    <div className="col-sm-2">
-                                        <Link href="/page/themsuatchieu" className="btn btn-add">
-                                            <FontAwesomeIcon icon={faPlus} /> Thêm mới
-                                        </Link>
+                                    <div className="col-sm-2"> <Link href="/page/themsuatchieu" className="btn btn-add"><FontAwesomeIcon icon={faPlus} /> Thêm mới</Link></div>
+                                    <div className="col-sm-3"><input type="date" name="date" value={filters.date} onChange={handleFilterChange} className="form-control" placeholder="Ngày chiếu" /></div>
+                                    <div className="col-sm-3">
+                                        <select name="room" value={filters.room} onChange={handleFilterChange} className="form-control">
+                                            <option value="">Chọn phòng chiếu</option>
+                                            {rooms.map(room => (<option key={room.id} value={room.id}> {room.TenPhongChieu}</option>))} </select>
+                                    </div>
+                                    <div className="col-sm-3">
+                                        <select name="status" value={filters.status} onChange={handleFilterChange} className="form-control" >
+                                            <option value="">Chọn trạng thái</option>
+                                            <option value="DangChieu">Đang chiếu</option>
+                                            <option value="NgungChieu">Ngừng chiếu</option>
+                                        </select>
                                     </div>
                                 </div>
+
                                 <table className="table table-hover table-bordered">
                                     <thead>
-                                        <tr >
+                                        <tr>
                                             <th>ID</th>
                                             <th>Thứ</th>
                                             <th>Ngày chiếu</th>
@@ -197,8 +230,8 @@ const Suatchieu = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {showtimes.length > 0 ? (
-                                            showtimes.map((showtime) => {
+                                        {filteredShowtimes.length > 0 ? (
+                                            filteredShowtimes.map((showtime) => {
                                                 const [day, month, year] = showtime.NgayChieu.split('/');
                                                 const date = new Date(`${year}-${month}-${day}`);
                                                 const daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
@@ -225,9 +258,7 @@ const Suatchieu = () => {
                                                 );
                                             })
                                         ) : (
-                                            <tr>
-                                                <td colSpan="10">Không có suất chiếu nào được tìm thấy</td>
-                                            </tr>
+                                            <tr><td colSpan="8">Không có suất chiếu nào được tìm thấy</td></tr>
                                         )}
                                     </tbody>
                                 </table>
@@ -279,12 +310,7 @@ const Suatchieu = () => {
 
                                 <div className="form-group col-md-6">
                                     <label className="control-label">ID Phim</label>
-                                    <select
-                                        className="form-control"
-                                        value={currentShowtime?.IdPhim || ''}
-                                        onChange={handleMovieChange}
-                                        required
-                                    >
+                                    <select className="form-control" value={currentShowtime?.IdPhim || ''} onChange={handleMovieChange} required>
                                         <option value="">Chọn phim</option>
                                         {movies.map(movie => (
                                             <option key={movie.id} value={movie.id}>
@@ -295,12 +321,7 @@ const Suatchieu = () => {
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label className="control-label">Tên Phòng Chiếu</label>
-                                    <select
-                                        className="form-control"
-                                        value={currentShowtime?.IdPhong || ''}
-                                        onChange={handleRoomChange}
-                                        required
-                                    >
+                                    <select className="form-control" value={currentShowtime?.IdPhong || ''} onChange={handleRoomChange} required>
                                         <option value="">Chọn phòng chiếu</option>
                                         {rooms.map(room => (
                                             <option key={room.id} value={room.id}>
@@ -323,19 +344,14 @@ const Suatchieu = () => {
                                     </select>
                                 </div>
                                 <div className="form-group col-md-12">
-                                    <button className="btn btn-save mr-3" type="button" onClick={handleSave}>
-                                        Lưu lại
-                                    </button>
-                                    <button className="btn btn-cancel" type="button" onClick={handleCloseModal}>
-                                        Hủy bỏ
-                                    </button>
+                                    <button className="btn btn-save mr-3" type="button" onClick={handleSave}>Lưu lại</button>
+                                    <button className="btn btn-cancel" type="button" onClick={handleCloseModal}>Hủy bỏ</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <ToastContainer transition={Bounce} />
         </>
     );

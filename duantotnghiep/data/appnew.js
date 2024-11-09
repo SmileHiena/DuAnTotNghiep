@@ -539,32 +539,28 @@ const data = {
     },
   ],
 
+
   // ----- Thể Loại -----
   TheLoai: [
     {
       id: 1,
       Ten: "Tình Cảm",
-      Anh: "",
     },
     {
       id: 2,
       Ten: "Hành động",
-      Anh: "",
     },
     {
       id: 3,
       Ten: "Hài Hước",
-      Anh: "",
     },
     {
       id: 4,
       Ten: "Chính kịch",
-      Anh: "",
     },
     {
       id: 5,
       Ten: "Hoạt Hình - Phiêu lưu",
-      Anh: "",
     },
   ],
 
@@ -1588,19 +1584,7 @@ const data = {
     },
   ],
 
-  // ----- Chi Tiết Hóa Đơn -----
-  ChiTietHoaDon: [
-    {
-      id: 1,
-      IdTaiKhoan: 1,
-      IdHoaDon: 1,
-      NgayXuatHoaDon: "30/09/2024",
-      IdXuatChieu: 1,
-      SoGhe: 1,
-      NgayChieu: "30/09/2024",
-      TongTien: 175000,
-    },
-  ],
+
 
   // ----- Hóa_Đơn -----
   HoaDon: [
@@ -1634,7 +1618,8 @@ const data = {
       ChucVu: "Nhân viên",
       Tinhtrang: "Hoạt động",
       IsAdmin: 0,
-    },],
+    },
+  ],
 
   // ----- Sukien -----
   Sukien: [
@@ -1646,6 +1631,7 @@ const data = {
       NgayBatDau: "20/10/2024",
       NgayKetThuc: "22/10/2024",
       Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      Giam: "20%",
       DieuKien: "Áp dụng tại web 28 tháng 6.",
     },
     {
@@ -1656,6 +1642,7 @@ const data = {
       NgayBatDau: "05-10-2024",
       NgayKetThuc: "05-11-2024",
       Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      Giam: "20%",
       DieuKien:
         "Áp dụng cho học sinh sinh viên xuất trình thẻ học sinh hoặc CCCD dưới 22 tuổi.",
     },
@@ -1667,6 +1654,7 @@ const data = {
       NgayBatDau: "01/12/2024",
       NgayKetThuc: "25/12/2024",
       Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      Giam: "20%",
       DieuKien: "Áp dụng khi mua trực tuyến qua ứng dụng ScreenTime.",
     },
     {
@@ -1677,6 +1665,7 @@ const data = {
       NgayBatDau: "01/02/2025",
       NgayKetThuc: "15/02/2025",
       Luuy: "Áp dụng trong dịp Tết Nguyên Đán.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho đơn hàng từ 2 vé trở lên.",
     },
     {
@@ -1687,6 +1676,7 @@ const data = {
       NgayBatDau: "28/11/2024",
       NgayKetThuc: "29/11/2024",
       Luuy: "Áp dụng cho tất cả các suất chiếu trong ngày.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho các giao dịch trực tuyến.",
     },
     {
@@ -1697,6 +1687,7 @@ const data = {
       NgayBatDau: "01/06/2025",
       NgayKetThuc: "30/06/2025",
       Luuy: "Áp dụng vào các ngày cuối tuần.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho tất cả thành viên ScreenTime.",
     },
     {
@@ -1707,6 +1698,7 @@ const data = {
       NgayBatDau: "25/10/2024",
       NgayKetThuc: "31/10/2024",
       Luuy: "Áp dụng cho phim thuộc thể loại kinh dị.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho học sinh, sinh viên xuất trình thẻ.",
     },
     {
@@ -1717,6 +1709,7 @@ const data = {
       NgayBatDau: "01/09/2025",
       NgayKetThuc: "02/09/2025",
       Luuy: "Áp dụng trong ngày lễ Quốc Khánh.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho tất cả các khách hàng.",
     },
     {
@@ -1727,6 +1720,7 @@ const data = {
       NgayBatDau: "14/02/2025",
       NgayKetThuc: "14/02/2025",
       Luuy: "Áp dụng cho các suất chiếu buổi tối.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
     },
     {
@@ -1737,6 +1731,7 @@ const data = {
       NgayBatDau: "08/03/2025",
       NgayKetThuc: "08/03/2025",
       Luuy: "Áp dụng cho khách hàng nữ.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho suất chiếu đầu tiên trong ngày.",
     },
     {
@@ -1747,6 +1742,7 @@ const data = {
       NgayBatDau: "10/05/2025",
       NgayKetThuc: "10/05/2025",
       Luuy: "Áp dụng cho tất cả các phim.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
     },
     {
@@ -1757,6 +1753,7 @@ const data = {
       NgayBatDau: "27/11/2024",
       NgayKetThuc: "29/11/2024",
       Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho giao dịch mua online.",
     },
     {
@@ -1767,6 +1764,7 @@ const data = {
       NgayBatDau: "15/09/2024",
       NgayKetThuc: "20/09/2024",
       Luuy: "Áp dụng cho phim thiếu nhi.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho khách hàng dưới 12 tuổi.",
     },
   ],
@@ -1792,7 +1790,6 @@ async function main() {
       { name: "combo", data: data.Combo },
       { name: "taikhoan", data: data.TaiKhoan },
       { name: "binhluan", data: data.BinhLuan },
-      { name: "chitiethoadon", data: data.ChiTietHoaDon },
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
       { name: "blogdetial", data: data.Blogditals },

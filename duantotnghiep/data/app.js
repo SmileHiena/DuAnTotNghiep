@@ -7,7 +7,6 @@ var cors = require('cors');
 var bcryptjs = require('bcryptjs');
 
 var indexRouter = require('./routes/index');
-var blogdetialRouter = require('./routes/blogdetail');
 var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
 var eventsRouter = require('./routes/events');
@@ -30,6 +29,7 @@ var checkoutRouter = require('./routes/checkout');
 var hoadonRouter = require('./routes/hoadon');
 var orderRouter = require('./routes/order');
 var adminRouter = require('./routes/admin');
+var blogdetailRouter = require('./routes/blogdetail');
 var app = express();
 
 // Cấu hình middleware CORS
@@ -57,11 +57,11 @@ app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
 app.use('/event', eventsRouter);
 app.use('/search', searchRouter);
-app.use('/blogdetail', blogdetialRouter);
 app.use('/sapchieu', sapchieuRouter);
 app.use('/employees', employeesRouter);
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/theloai', admin_theloaiRouter);
+app.use('/blogdetail',blogdetailRouter);
 app.use('/blog', blogRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/taikhoan', taikhoanRouter);
