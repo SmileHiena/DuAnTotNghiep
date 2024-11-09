@@ -81,6 +81,7 @@ router.post("/add", upload.single('Anh'), async (req, res) => {
       NgayKetThuc: newEvent.NgayKetThuc,
       Luuy: newEvent.Luuy,
       DieuKien: newEvent.DieuKien,
+      Giam: newEvent.Giam,
     };
 
     const db = await connectDb();
@@ -107,6 +108,7 @@ router.put("/edit/:id", upload.single('Anh'), async (req, res) => {
       NgayKetThuc: updatedEvent.NgayKetThuc,
       Luuy: updatedEvent.Luuy,
       DieuKien: updatedEvent.DieuKien,
+      Giam: updatedEvent.Giam,
     };
 
     if (req.file) {
@@ -150,7 +152,6 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
-// Fetch discount code by event name
 router.get("/discount/:eventName", async (req, res) => {
   const { eventName } = req.params;  // Lấy giá trị eventName từ URL
 
@@ -178,6 +179,5 @@ router.get("/discount/:eventName", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
-
 
 module.exports = router;

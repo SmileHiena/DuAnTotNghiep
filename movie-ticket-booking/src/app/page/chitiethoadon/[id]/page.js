@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 
 const ChiTietHoaDon = () => {
   const { id } = useParams();
-
-  const router = useRouter();
+   const router = useRouter();
   const [hoaDon, setHoaDon] = useState(null); // Use null to indicate no data yet
   const [loading, setLoading] = useState(true); // State to manage loading status
   const [error, setError] = useState(null); // State for error handling
@@ -153,10 +152,6 @@ const ChiTietHoaDon = () => {
             <tr className="hover:bg-gray-600 transition duration-200">
               <td className="py-2 px-3 border-b border-gray-600">Email:</td>
               <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Email}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">SĐT:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.SoDienThoai}</td>
             </tr>
           </tbody>
         </table>

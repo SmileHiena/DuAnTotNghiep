@@ -10,7 +10,7 @@ const DatVe = () => {
   const [movies, setMovies] = useState([]);
   const [showtimes, setShowtimes] = useState([]);
   const [ticketTypes, setTicketTypes] = useState([]);
-  // const [combos, setcombos] = useState([]);
+  const [DaDatGhe, setDaDatGhe] = useState([]);
   const [comboQuantities, setComboQuantities] = useState({});
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [raps, setRaps] = useState([]);
@@ -63,9 +63,6 @@ const DatVe = () => {
         }, {});
         setComboQuantities(initialComboQuantities);
 
-        // const rapResponse = await fetch(`http://localhost:3000/rap/phongchieu/${id}`);
-        // const rapsData = await rapResponse.json();
-        // setRaps(rapsData);
 
         const showtimeResponse = await fetch(`http://localhost:3000/suatchieu/phim/${id}`);
         const showtimesData = await showtimeResponse.json();
@@ -120,9 +117,15 @@ const DatVe = () => {
     setSelectedRoomId(showtime.IdPhong);
     // Fetch ghế tương ứng với giờ chiếu
     try {
-      const seatsResponse = await fetch(`http://localhost:3000/suatchieu/ghe/${showtime.IdPhong}`);
+      const seatsResponse = await fetch(`http://localhost:3000/suatchieu/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
       const seatsData = await seatsResponse.json();
       setSeats(seatsData);
+      
+      // Cập nhật trạng thái ghế đã đặt
+      const bookedSeats = seatsData.flatMap(row => 
+        row.Ghe.filter(seat => seat.DaDat).map(seat => `${row.Hang}-${seat.Ghe}`)
+      );
+      setDaDatGhe(bookedSeats);
     } catch (error) {
       console.error("Error fetching seats:", error);
     }
@@ -238,7 +241,7 @@ const DatVe = () => {
     if (numberOfTickets !== numberOfSeats) {
       alert("Số loại vé và số ghế phải bằng nhau để thực hiện thanh toán.");
       return; // Ngừng quá trình thanh toán
-  }
+    }
 
     const selectedTicketTypes = ticketTypes
       .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
@@ -269,7 +272,7 @@ const DatVe = () => {
 
     // Save necessary information to cookie
     Cookies.set("bookingInfo", JSON.stringify({
-      selectedSeats,       // List of selected seats
+      selectedSeats: selectedSeats.map(seatCode => seatCode.split('-')[1]),      // List of selected seats
       ticketQuantities,    // Ticket quantities
       combos: selectedCombos || null, // Combo quantities
       totalAmount,         // Total amount
@@ -278,7 +281,8 @@ const DatVe = () => {
       showtimeTime,        // Showtime time
       room: selectedRoom ? selectedRoom.TenPhongChieu : "null", // Room name
       ticketTypes: selectedTicketTypes,
-      holdTime
+      holdTime,
+      IdPhong: selectedRoomId
     }), { expires: 30 / 1440 });  // Expires in 5 minutes (1 day / 288)
 
     // Redirect or perform other actions after saving to cookie
@@ -460,26 +464,32 @@ const DatVe = () => {
             Danh Sách Ghế
           </h2>
           <div className="flex flex-col items-center">
-            {seats.map((row) => (
-              <div key={row.Hang} className="flex items-center mb-4">
-                <span className="font-bold mr-4">{row.Hang}: </span>
-                {row.Ghe.map((ghe, index) => {
-                  const seatCode = `${row.Hang}-${ghe}`;
-                  const isSelected = selectedSeats.includes(seatCode);
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => toggleSeatSelection(row.Hang, ghe)}
-
-                      className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer ${isSelected ? "bg-green-500" : "bg-[#F5CF49]"
-                        }`}
-                    >
-                      <p className="text-black">{ghe}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+          {seats.map((row) => (
+  <div key={row.Hang} className="flex items-center mb-4">
+    <span className="font-bold mr-4">{row.Hang}: </span>
+    {row.Ghe.map((ghe, index) => {
+      const seatCode = `${row.Hang}-${ghe.Ghe}`;
+      const isSelected = selectedSeats.includes(seatCode);
+      const isBooked = ghe.DaDat; // Sử dụng thuộc tính DaDat từ dữ liệu mới
+    
+      return (
+        <div
+          key={index}
+          onClick={() => {
+            if (!isBooked) { 
+              toggleSeatSelection(row.Hang, ghe.Ghe);
+            }
+          }}
+          className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer ${
+            isSelected ? "bg-green-500" : (isBooked ? "bg-gray-500" : "bg-[#F5CF49]")
+          }`}
+        >
+          <p className="text-black">{ghe.Ghe}</p>
+        </div>
+      );
+    })}
+  </div>
+))}
           </div>
         </section>
       )}
@@ -545,7 +555,7 @@ const DatVe = () => {
           </h2>
           {/* Continue Button */}
           <button
-            onClick={handleContinue} // Gọi hàm lưu vào cookie
+            onClick={handleContinue}
             className="bg-[#F5CF49] text-black m-3 w-40 h-[40px] rounded hover:bg-[#FFD700]"
           >
             Tiếp tục

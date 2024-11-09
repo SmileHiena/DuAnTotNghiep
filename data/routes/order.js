@@ -103,69 +103,69 @@ router.get("/vnpay_return", async function (req, res, next) {
   let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
   if (secureHash === signed) {
-    const orderId = req.query.vnp_TxnRef;
+    // const orderId = req.query.vnp_TxnRef;
 
-    try {
-      // Lấy dữ liệu từ body (nếu có)
-      const {
-        NgayMua,
-        Rap,
-        PhuongThucThanhToan,
-        TenPhim,
-        ThoiGian,
-        NgayChieu,
-        SoGhe,
-        PhongChieu,
-        GiaVe,
-        TongTien,
-        TenKhachHang,
-        Email,
-        Combo,
-      } = req.user;
+    // try {
+    //   // Lấy dữ liệu từ body (nếu có)
+    //   const {
+    //     NgayMua,
+    //     Rap,
+    //     PhuongThucThanhToan,
+    //     TenPhim,
+    //     ThoiGian,
+    //     NgayChieu,
+    //     SoGhe,
+    //     PhongChieu,
+    //     GiaVe,
+    //     TongTien,
+    //     TenKhachHang,
+    //     Email,
+    //     Combo,
+    //   } = req.user;
 
-      // Kiểm tra các trường thông tin quan trọng
-      if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email) {
-        return res.status(400).json({ message: 'Missing required fields' });
-      }
+    //   // Kiểm tra các trường thông tin quan trọng
+    //   if (!NgayMua || !Rap || !PhuongThucThanhToan || !TenPhim || !ThoiGian || !NgayChieu || !SoGhe || !PhongChieu || !GiaVe || !TongTien || !TenKhachHang || !Email) {
+    //     return res.status(400).json({ message: 'Missing required fields' });
+    //   }
 
-      const userId = req.user.userId; // Lấy userId từ token
+    //   const userId = req.user.userId; // Lấy userId từ token
 
-      // Kết nối đến MongoDB
-      const db = await connectDb();
-      const invoicesCollection = db.collection('hoadon');
+    //   // Kết nối đến MongoDB
+    //   const db = await connectDb();
+    //   const invoicesCollection = db.collection('hoadon');
 
-      // Tính ID mới cho hóa đơn
-      const newInvoiceId = (await invoicesCollection.countDocuments()) + 1;
+    //   // Tính ID mới cho hóa đơn
+    //   const newInvoiceId = (await invoicesCollection.countDocuments()) + 1;
 
-      const newInvoice = {
-        id: newInvoiceId,
-        userId,
-        NgayMua,
-        Rap,
-        PhuongThucThanhToan,
-        TenPhim,
-        ThoiGian,
-        NgayChieu,
-        SoGhe,
-        PhongChieu,
-        GiaVe,
-        TongTien,
-        TenKhachHang,
-        Email,
-        Combo: Combo || null,
-        createdAt: new Date(),
-      };
+    //   const newInvoice = {
+    //     id: newInvoiceId,
+    //     userId,
+    //     NgayMua,
+    //     Rap,
+    //     PhuongThucThanhToan,
+    //     TenPhim,
+    //     ThoiGian,
+    //     NgayChieu,
+    //     SoGhe,
+    //     PhongChieu,
+    //     GiaVe,
+    //     TongTien,
+    //     TenKhachHang,
+    //     Email,
+    //     Combo: Combo || null,
+    //     createdAt: new Date(),
+    //   };
 
-      // Lưu hóa đơn vào MongoDB
-      const result = await invoicesCollection.insertOne(newInvoice);
-      res.status(201).json({ id: newInvoiceId, ...newInvoice });
+    //   // Lưu hóa đơn vào MongoDB
+    //   const result = await invoicesCollection.insertOne(newInvoice);
+    //   res.status(201).json({ id: newInvoiceId, ...newInvoice });
 
-      // Sau khi thành công, chuyển hướng đến trang thành công
-      res.redirect(`http://localhost:3001/success?orderId=${orderId}&amount=${vnp_Params["vnp_Amount"] / 100}&message=Thanh toán thành công&code=${vnp_Params["vnp_ResponseCode"]}`);
-    } catch (error) {
-      console.error('Error creating invoice:', error);
-      res.status(500).json({ message: 'Failed to create invoice' });
-    }
+    //   // Sau khi thành công, chuyển hướng đến trang thành công
+    //   res.redirect(`http://localhost:3001/success?orderId=${orderId}&amount=${vnp_Params["vnp_Amount"] / 100}&message=Thanh toán thành công&code=${vnp_Params["vnp_ResponseCode"]}`);
+    // } catch (error) {
+    //   console.error('Error creating invoice:', error);
+    //   res.status(500).json({ message: 'Failed to create invoice' });
+    // }
   } else {
     res.render("success", { code: "97" }); // Mã lỗi nếu hash không hợp lệ
   }

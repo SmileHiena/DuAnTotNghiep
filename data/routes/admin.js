@@ -64,7 +64,7 @@ router.post("/login", async (req, res, next) => {
                 Quyen: user.Quyen,
             },
             process.env.JWT_SECRET || "secretkey",
-            // { expiresIn: "1h" }/
+            { expiresIn: "1h" }
         );
 
         // Trả về thông tin nhân viên và adminToken

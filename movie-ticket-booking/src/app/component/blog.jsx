@@ -1,8 +1,10 @@
 "use client"; // Đảm bảo đây là Client Component
+"use client"; // Đảm bảo đây là Client Component
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Sử dụng 'next/navigation' cho Next.js 13+
 
 const BlogSection = () => {
+
   const router = useRouter(); // Initialize useRouter
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const BlogSection = () => {
       try {
         const response = await fetch("http://localhost:3000/blog/limit/?limit=10");
         if (!response.ok) {
-          throw new Error("Failed to fetch blogs");
+          throw new Error("lỗi ở fetch blogs");
         }
         const data = await response.json();
         setBlogs(data);
@@ -24,12 +26,14 @@ const BlogSection = () => {
       }
     };
 
+
     fetchBlogs();
   }, []);
 
   const handleBlogClick = (id) => {
     router.push(`/page/blogdetail?id=${id}`); // Navigate to the blog detail page with the blog ID
   };
+
 
   if (loading) {
     return <p className="text-center">Loading blogs...</p>;

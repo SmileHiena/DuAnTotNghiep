@@ -40,7 +40,7 @@ const DangChieu = () => {
     const fetchMovies = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/movies?trangThai=dangchieu"
+          "http://localhost:3000/sanpham/dangchieu"
         );
         console.log("Response status:", response.status);
         if (!response.ok) throw new Error("Failed to fetch movies.");

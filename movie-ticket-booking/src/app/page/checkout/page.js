@@ -12,9 +12,6 @@ const CheckoutPage = () => {
   const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
   const [paymentMethod, setPaymentMethod] = useState(null); // State for payment method selection
   const [error, setError] = useState(''); // State for error message
-  const [discountCode, setDiscountCode] = useState(''); // State for discount code
-  const [discountApplied, setDiscountApplied] = useState(false); // Check if discount is applied
-  const [discountAmount, setDiscountAmount] = useState(0);
 
   useEffect(() => {
     const data = Cookies.get("bookingInfo");
@@ -101,11 +98,11 @@ const CheckoutPage = () => {
       SoGhe: bookingInfo ? bookingInfo.selectedSeats.join(", ") : "chưa có thống tin",
       PhongChieu: bookingInfo ? bookingInfo.room : "Chưa có thông tin",
       GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0,
-      TongTien: bookingInfo ? bookingInfo.totalAmount - discountAmount : 0,
+      TongTien: bookingInfo ? bookingInfo.totalAmount : 0,
       TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
       Email: userInfo ? userInfo.Email : "Chưa có thông tin",
-      SoDienThoai: userInfo ? userInfo.SDT : "Chọn có thể tin",
       Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null",
+      IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
     };
   
     try {
@@ -138,44 +135,6 @@ const CheckoutPage = () => {
       setError('Đã xảy ra lỗi khi thanh toán.');
     }
   };
-
-  const applyDiscountCode = async () => {
-    if (discountApplied) {
-      setError('Bạn chỉ có thể áp dụng một mã giảm giá.');
-      return;
-    }
-  
-    try {
-      // Gửi yêu cầu tới API để kiểm tra mã giảm giá
-      const response = await fetch(`http://localhost:3000/event/discount/${discountCode}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error('Mã giảm giá không hợp lệ.');
-      }
-  
-      const data = await response.json();
-  
-      // Kiểm tra nếu dữ liệu trả về có mã giảm giá và tỷ lệ giảm
-      if (data && data.MaGiamGia && data.discountPercent) {
-        const discountPercent = data.discountPercent;
-        setDiscountAmount(bookingInfo.totalAmount * (discountPercent / 100)); // Tính tiền giảm
-        setDiscountApplied(true);
-        setError('');
-      } else {
-        setError('Mã giảm giá không hợp lệ.');
-      }
-    } catch (error) {
-      console.error('Error fetching discount:', error);
-      setError('Mã giảm giá không hợp lệ.');
-    }
-  };
-  
-
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -334,11 +293,7 @@ const CheckoutPage = () => {
               <hr className="border-gray-600 my-4" />
               <div className="flex justify-between items-center">
                 <span className="font-bold">SỐ TIỀN CẦN THANH TOÁN</span>
-                {/* <p>Thành tiền: {bookingInfo ? bookingInfo.totalAmount.toLocaleString() : 0} VND</p> */}
-                {/* {discountApplied && (
-                  // <p>Giảm giá: <span className="text-[#F5CF49]">- {discountAmount.toLocaleString()} VND</span></p>
-                )} */}
-                <p>Tổng cộng: <span className="text-[#F5CF49]">{(bookingInfo ? bookingInfo.totalAmount - discountAmount : 0).toLocaleString()} VND</span></p>
+                <span className="text-2xl font-bold">{bookingInfo ? bookingInfo.totalAmount.toLocaleString() : "Tạm chưa có thống tin"} VND</span>
               </div>
             </div>
           </div>

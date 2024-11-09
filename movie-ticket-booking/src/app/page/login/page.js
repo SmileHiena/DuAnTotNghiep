@@ -26,8 +26,8 @@ const Login = () => {
                 // Chuyển trang theo vai trò
                 const token = data.token;
                 const payload = JSON.parse(atob(token.split('.')[1]));
-                if (payload.isAdmin) { // Kiểm tra vai trò admin
-                    window.location.href = 'http://localhost:3002'; // Chuyển đến trang admin
+                if (payload.IsAdmin === 0) { // Kiểm tra vai trò admin
+                    window.location.href = 'http://localhost:3001'; // Chuyển đến trang admin
                 } else {
                     window.location.href = '/'; // Chuyển đến trang người dùng
                 }
