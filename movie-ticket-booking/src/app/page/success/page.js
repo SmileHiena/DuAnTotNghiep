@@ -63,9 +63,7 @@ const PaymentSuccess = () => {
         // Nếu SoGhe không phải mảng hoặc chuỗi, báo lỗi
         setError("Dữ liệu ghế không hợp lệ.");
         return;
-      }
-      
-
+      }   
 
       const invoiceData = {
         NgayMua: info.NgayMua,
@@ -76,7 +74,7 @@ const PaymentSuccess = () => {
         TenPhim: info.TenPhim,
         ThoiGian: info.ThoiGian,
         NgayChieu: info.NgayChieu,
-        SoGhe: info.SoGhe, // Đảm bảo sử dụng ghế đã được định dạng lại
+        SoGhe: formattedSeats, // Đảm bảo sử dụng ghế đã được định dạng lại
         PhongChieu: info.PhongChieu,
         GiaVe: info.GiaVe,
         TongTien: info.TongTien,
@@ -104,6 +102,16 @@ const PaymentSuccess = () => {
 
         const result = await response.json();
         console.log("Hóa đơn đã được tạo:", result);
+
+        // Kiểm tra nếu có ID hóa đơn để chuyển hướng
+        if (result.id) {
+          // Chuyển hướng sau 7 giây
+          setTimeout(() => {
+            router.push(`/page/chitiethoadon/${result.id}`);
+          }, 5000); // 5000ms = 5 giây
+        } else {
+          setError("Không có ID hóa đơn để chuyển hướng.");
+        }
 
         // Gọi API cập nhật ghế đã đặt sau khi tạo hóa đơn thành công
         const updateSeatsResponse = await fetch("http://localhost:3000/suatchieu/capnhatghedadat", {
@@ -135,15 +143,16 @@ const PaymentSuccess = () => {
   }, []); // Chỉ chạy một lần khi component được mount
 
   return (
-    <div className="container">
-      <h1>Thanh toán thành công!</h1>
-      <p>Mã đơn hàng: <strong>{orderId}</strong></p>
-      <p>Số tiền: <strong>{amount} VND</strong></p>
-      <p>Trạng thái: <strong>{message}</strong></p>
-      <p>Mã phản hồi: <strong>{code}</strong></p>
+    <>
+      <div className="container mx-auto my-10 flex justify-center items-center">
+        <div className="bg-green-500 text-white rounded-lg shadow-lg p-10 text-center max-w-lg w-full">
+          <h1 className="text-3xl font-bold mb-4">Thanh toán thành công!</h1>
+          <p className="text-lg">Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!</p>
+        </div>
+      </div>
+
       {error && <p className="error-message">{error}</p>}
-      <p><a href="/">Quay lại trang chủ</a></p>
-    </div>
+    </>
   );
 };
 

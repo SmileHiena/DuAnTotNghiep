@@ -16,6 +16,7 @@ const ThemSuKien = () => {
     NgayKetThuc: "",
     Luuy: "",
     DieuKien: "",
+    Giam: "",
   });
 
   const router = useRouter();
@@ -153,6 +154,15 @@ const ThemSuKien = () => {
                       type="text"
                       name="DieuKien"
                       value={newEvent.DieuKien}
+                      onChange={handleInputChange}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form-group col-md-4" controlId="formGiam">
+                    <Form.Label>Giam</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="Giam"
+                      value={newEvent.Giam}
                       onChange={handleInputChange}
                     />
                   </Form.Group>

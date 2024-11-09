@@ -11,7 +11,7 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/blog/limit/?limit=10");
+        const response = await fetch("http://localhost:3000/blog/limit/?limit=9");
         if (!response.ok) {
           throw new Error("lỗi ở fetch blogs");
         }
