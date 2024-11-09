@@ -4,10 +4,11 @@ import html2canvas from "html2canvas";
 import { useParams } from "next/navigation";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const ChiTietHoaDon = () => {
   const { id } = useParams();
-   const router = useRouter();
+  const router = useRouter();
   const [hoaDon, setHoaDon] = useState(null); // Use null to indicate no data yet
   const [loading, setLoading] = useState(true); // State to manage loading status
   const [error, setError] = useState(null); // State for error handling
@@ -57,11 +58,11 @@ const ChiTietHoaDon = () => {
             "Content-Type": "application/json", // Optional: Set content type if needed
           },
         });
-  
+
         if (!response.ok) {
           throw new Error("Hủy hóa đơn không thành công");
         }
-  
+
         setMessage("Hóa đơn đã được hủy thành công!"); // Success message
         setHoaDon(null); // Clear invoice information
       } catch (error) {
@@ -71,7 +72,7 @@ const ChiTietHoaDon = () => {
     }
     router.push("/");
   };
-  
+
   if (loading) {
     return <div className="text-white">Loading...</div>; // Display loading message
   }
@@ -85,18 +86,9 @@ const ChiTietHoaDon = () => {
   }
 
   return (
-    <div
-      className="max-w-full flex flex-col items-center justify-center mx-auto p-4 sm:p-6 bg-[rgba(0,0,0,0.3)]"
-      style={{ maxWidth: "1410px" }}
-    >
-      <h2 className="text-2xl sm:text-3xl font-semibold text-white text-center mb-4">
-        CHI TIẾT HÓA ĐƠN
-      </h2>
-      <div
-        className="overflow-hidden shadow-lg rounded-lg border border-gray-700"
-        style={{ width: "50%" }}
-        id="invoice"
-      >
+    <div className="max-w-full flex flex-col items-center justify-center mx-auto p-4 sm:p-6 bg-[rgba(0,0,0,0.3)]" style={{ maxWidth: "1410px" }} >
+      <h2 className="text-2xl sm:text-3xl font-semibold text-white text-center mb-4">CHI TIẾT HÓA ĐƠN </h2>
+      <div className="overflow-hidden shadow-lg rounded-lg border border-gray-700" style={{ width: "50%" }} id="invoice" >
         <table className="min-w-full bg-[rgba(0,0,0,0.5)] mx-auto">
           <thead>
             <tr className="bg-gray-800 text-white">
@@ -160,26 +152,10 @@ const ChiTietHoaDon = () => {
       {message && <div className="text-green-500 mt-2">{message}</div>} {/* Hiển thị thông báo */}
 
       <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
-        <button
-          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
-          className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
-          onClick={handleDownload} // Add click event for download
-        >
-          Tải Xuống
-        </button>
-        <button
-          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
-          className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
-        >
-          Chia Sẻ
-        </button>
-        <button
-          style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
-          className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
-          onClick={handleCancel} // Thêm sự kiện nhấn cho nút Hủy Đơn
-        >
-          Hủy Đơn
-        </button>
+        <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200" onClick={handleDownload} >Tải Xuống</button>
+        <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200">Chia Sẻ</button>
+        <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200" onClick={handleCancel}>Hủy Đơn</button>
+        <Link href="/"><button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"> Trang chủ</button></Link>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const DatVe = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedTicketType, setSelectedTicketType] = useState(null);
-
+  const [selectedShowtime, setSelectedShowtime] = useState(null);
   const calculateTotal = () => {
     const ticketPrice = selectedSeats.length > 0 ? ticketTypes.reduce((acc, type) => {
       return acc + (type.GiaVe * ticketQuantities[type.id]); // Tính giá vé chỉ khi có ghế được chọn
@@ -114,15 +114,16 @@ const DatVe = () => {
   };
 
   const handleGioChieuClick = async (showtime) => {
+    setSelectedShowtime(showtime);
     setSelectedRoomId(showtime.IdPhong);
     // Fetch ghế tương ứng với giờ chiếu
     try {
       const seatsResponse = await fetch(`http://localhost:3000/suatchieu/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
       const seatsData = await seatsResponse.json();
       setSeats(seatsData);
-      
+
       // Cập nhật trạng thái ghế đã đặt
-      const bookedSeats = seatsData.flatMap(row => 
+      const bookedSeats = seatsData.flatMap(row =>
         row.Ghe.filter(seat => seat.DaDat).map(seat => `${row.Hang}-${seat.Ghe}`)
       );
       setDaDatGhe(bookedSeats);
@@ -292,57 +293,22 @@ const DatVe = () => {
 
 
   return (
-    <div className="justify-center mx-auto text-white bg-[rgba(0,0,0,0.6)] shadow-lg w-full max-w-[1410px] mx-auto">
-      <section>
-        <div className="flex justify-center">
-          <div className="">
-            <div className="flex flex-col md:flex-row items-start gap-20 mr-[120px] mt-8">
+    <div className="flex mx-auto text-white bg-[rgba(0,0,0,0.6)] shadow-lg w-full max-w-[1410px] mx-auto">
+      <section  className="w-1/3 sticky top-0">
+        <div className="flex justify-center  sticky top-6">
+            <div className="flex flex-col md:flex-col items-center  gap-20  mt-8">
               {/* left box image */}
-              <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
-                <img
-                  src={movies.Anh}
-                  alt={movies.title}
-                  className="object-cover"
-                  style={{ height: "650px", width: "auto" }}
-                />
-              </div>
-
-              {/* right box info */}
-              <div className="pt-20 md:w-1/2 flex flex-col space-y-6">
-                <h1 className="text-[30px] font-semibold mb-4">
-                  {movies.Ten}
-                </h1>
-
-                {/* Description */}
-                <h1 className="pt-20 text-[20px] font-bold">Nội Dung</h1>
-                <p className="text-[18px] mb-4">{movies.ThongTinPhim}</p>
-
-                {/* Additional movie information */}
-                <div className="pt-20 flex flex-wrap justify-between mb-6">
-                  <p className="text-[18px]">
-                    <span className="font-semibold">Thể loại:</span>{" "}
-                    {movies.TheLoai.KieuPhim}
-                  </p>
-                  <p className="text-[18px]">
-                    <span className="font-semibold">Thời gian:</span>{" "}
-                    {movies.TheLoai.ThoiLuong}
-                  </p>
-                  <p className="text-[18px]">
-                    <span className="font-semibold">Quốc gia:</span>{" "}
-                    {movies.TheLoai.QuocGia}
-                  </p>
-                </div>
+              <div className="md:w-1/2 flex mb-8 md:mb-0">
+                <img src={movies.Anh} alt={movies.title} className="object-cover" style={{ height: "auto", width: "auto" }} />
               </div>
             </div>
-          </div>
         </div>
       </section>
 
+      <div className="w-2/3 mr-8">
       {/* Suất Chiếu Section */}
-      <section>
-        <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
-          Lịch Chiếu
-        </h1>
+      <section className="pb-10">
+        <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
         <div className="flex justify-center gap-4 mt-6">
           {Object.entries(
             showtimes.reduce((acc, showtime) => {
@@ -358,52 +324,34 @@ const DatVe = () => {
             return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
           })
             .map(([_, showtime], index) => (
-              <div
-                key={index} // Tạo key duy nhất từ IdPhong và NgayChieu
-                onClick={() => {
-                  handleSuatChieuClick(showtime);
-                  // handleGioChieuClick(showtime);
-                }}
-                className="h-[93px] w-[103px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group hover:bg-[#F5CF49]"
-              >
-                <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white">
-                  {showtime.NgayChieu}
-                </h2>
-                <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black">
-                  {getDayOfWeek(showtime.NgayChieu)}   {/* render ngày ra thứ*/}
-                </p>
+              <div key={index} onClick={() => { handleSuatChieuClick(showtime); }} className="h-[95px] w-[110px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group hover:bg-[#F5CF49] mr-3" >
+                <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white"> {showtime.NgayChieu}</h2>
+                <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black"> {getDayOfWeek(showtime.NgayChieu)} </p>
               </div>
             ))}
         </div>
       </section>
 
-      {/* Danh Sách Rạp Section */}
       {showCinema && selectedDate && ( // Hiển thị danh sách phòng chiếu nếu đã chọn Ngày
         <section className="mt-10">
-          <h2 className="text-[40px] font-bold mb-4 text-center mt-20 pb-3">
-            Danh Sách Rạp
-          </h2>
+          <h2 className="text-[40px] font-bold mb-4 text-center mt-20 pb-3">DANH SÁCH PHÒNG CHIẾU</h2>
           <div className="flex flex-col items-center">
             {groupedRooms.map((room) => (
-              <div
-                key={room.IdPhong}
-                className="bg-[rgba(0,0,0,0.3)] w-full max-w-[1035px] p-4 mb-4 rounded"
-              >
+              <div key={room.IdPhong} className="bg-[#212529] w-full max-w-[1035px] p-4 mb-4 rounded">
                 <div className="flex justify-between">
-                  <h3 className="text-[28px] text-[#F5CF49] font-semibold">
+                  <h3 className="text-[28px] text-[#F5CF49] font-semibold hover:text-white">
                     {room.TenPhongChieu}
                   </h3>
-                  <p>^</p>
                 </div>
-                <div className=" flex flex-row justify-start ">
+                <div className="flex flex-row justify-start">
                   {/* Hiển thị giờ chiếu cho phòng */}
                   {room.showtimes.map((showtime, index) => (
                     <div
-                      key={index} // sử dụng index vì giờ chiếu có thể trùng lặp
-                      className="mt-2 w-[120px] h-[40px] bg-[#F5CF49] text-center flex flex-row justify-center items-center rounded cursor-pointer mr-4"
-                      onClick={() => handleGioChieuClick(showtime)}
-                    >
-                      <p className="text-[14px] text-black">
+                      key={index}
+                      className={`mt-2 w-[120px] h-[40px] text-center flex flex-row justify-center items-center rounded cursor-pointer mr-4 
+                    ${selectedShowtime === showtime ? 'bg-[#212529] border-2 border-[#F5CF49] text-white' : 'bg-[#F5CF49] text-black'}`}
+                      onClick={() => handleGioChieuClick(showtime)} >
+                      <p className="text-[14px] font-bold hover:text-white">
                         {showtime.GioChieu}
                       </p>
                     </div>
@@ -418,38 +366,17 @@ const DatVe = () => {
 
       {/* Chọn Loại Vé Section */}
       {showCinema && selectedDate && (
-        <section className="mt-10 px-4 md:px-0">
-          <h2 className="text-[30px] md:text-[40px] font-bold mt-20 mb-5 text-center">
-            CHỌN LOẠI VÉ
-          </h2>
+        <section className="mt-10 px-4 md:px-0 pb-10">
+          <h2 className="text-[30px] md:text-[40px] font-bold mt-20 mb-5 text-center">CHỌN LOẠI VÉ </h2>
           <div className="flex flex-col md:flex-row justify-center gap-4">
             {ticketTypes.map((ticketType) => (
-              <div
-                key={ticketType.id}
-                className="w-full md:w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded flex flex-col justify-between mx-auto md:mx-0"
-              >
-                <h3 className="text-lg text-[18px] font-bold">
-                  {ticketType.TenVe}
-                </h3>
-                <p className="text-[14px] text-gray-400">
-                  Giá: {ticketType.GiaVe.toLocaleString()} VND
-                </p>
+              <div key={ticketType.id} className="w-full md:w-[313px] h-[150px] bg-gradient-to-r from-gray-500 via-gray-700 to-gray-500 p-4 rounded flex flex-col justify-between mx-auto md:mx-0">
+                <h3 className="text-lg text-[18px] font-bold hover:text-yellow-400">{ticketType.TenVe}</h3>
+                <p className="text-[14px] text-white font-bold">Giá: {ticketType.GiaVe.toLocaleString()} VND</p>
                 <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 mx-auto rounded">
-                  <button
-                    className="text-black p-1"
-                    onClick={() => handleTicketQuantityChange(ticketType.id, -1)}
-                  >
-                    -
-                  </button>
-                  <span className="text-black p-1">
-                    {ticketQuantities[ticketType.id]}
-                  </span>
-                  <button
-                    className="text-black p-1"
-                    onClick={() => handleTicketQuantityChange(ticketType.id, 1)}
-                  >
-                    +
-                  </button>
+                  <button className="text-black font-bold p-1" onClick={() => handleTicketQuantityChange(ticketType.id, -1)}>-</button>
+                  <span className="text-black font-bold p-1"> {ticketQuantities[ticketType.id]}</span>
+                  <button className="text-black font-bold p-1" onClick={() => handleTicketQuantityChange(ticketType.id, 1)}> +</button>
                 </div>
               </div>
             ))}
@@ -459,109 +386,134 @@ const DatVe = () => {
 
       {/* Seat Selection Section */}
       {seats.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-[40px] font-bold mb-4 text-center">
-            Danh Sách Ghế
-          </h2>
-          <div className="flex flex-col items-center">
-          {seats.map((row) => (
-  <div key={row.Hang} className="flex items-center mb-4">
-    <span className="font-bold mr-4">{row.Hang}: </span>
-    {row.Ghe.map((ghe, index) => {
-      const seatCode = `${row.Hang}-${ghe.Ghe}`;
-      const isSelected = selectedSeats.includes(seatCode);
-      const isBooked = ghe.DaDat; // Sử dụng thuộc tính DaDat từ dữ liệu mới
-    
-      return (
-        <div
-          key={index}
-          onClick={() => {
-            if (!isBooked) { 
-              toggleSeatSelection(row.Hang, ghe.Ghe);
-            }
-          }}
-          className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer ${
-            isSelected ? "bg-green-500" : (isBooked ? "bg-gray-500" : "bg-[#F5CF49]")
-          }`}
-        >
-          <p className="text-black">{ghe.Ghe}</p>
-        </div>
-      );
-    })}
-  </div>
-))}
-          </div>
-        </section>
-      )}
+  <>
+    <section className="mt-10">
+      <h2 className="text-[40px] font-bold mb-4 text-center">Danh Sách Ghế</h2>
+      <div className="flex flex-col items-center">
+        <img src="/images/img-screen.png" className="mb-14 w-[500px]" />
+        {seats.map((row) => (
+          <div key={row.Hang} className="flex items-center mb-4">
+            <span className="font-bold mr-4">{row.Hang}: </span>
+            {row.Ghe.map((ghe, index) => {
+              const seatCode = `${row.Hang}-${ghe.Ghe}`;
+              const isSelected = selectedSeats.includes(seatCode);
+              const isBooked = ghe.DaDat; // Sử dụng thuộc tính DaDat từ dữ liệu mới
 
-      {/* Combo Section */}
-      <section className="mt-10">
-        <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
-          CHỌN COMBO
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {combos.map((item) => (
-            <div
-              key={item.id}
-              className="w-[350px] p-4 flex items-center gap-4" // Tạo layout cho 3 cột
-            >
-              {/* Left: Combo Image */}
-              <div className="flex-shrink-0">
-                <img
-                  src={`${item.Anh}`}
-                  alt={item.TenCombo}
-                  className="h-[130px] w-[130px] object-cover rounded"
-                />
-              </div>
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    if (!isBooked) {
+                      toggleSeatSelection(row.Hang, ghe.Ghe);
+                    }
+                  }}
+                  className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer 
+                    ${isSelected ? "bg-[#F5CF49]" : isBooked ? "bg-gray-800" : "bg-gray-500"}`}
+                  onMouseEnter={(e) => {
+                    if (isBooked) {
+                      e.target.style.cursor = "not-allowed"; // Thay đổi con trỏ khi rê chuột lên ghế đã đặt
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.cursor = "pointer"; // Reset con trỏ khi rời khỏi ghế
+                  }}
+                >
+                  <p className="font-bold text-white">{ghe.Ghe}</p>
 
-              {/* Right: Combo Info */}
-              <div>
-                <h3 className="mb-2 text-[16px] font-bold">{item.TenCombo}</h3>
-                <p className="mb-2 text-[14px] font-bold">{item.NoiDung}</p>
-                <p className="mb-2 text-[14px] font-bold">
-                  Giá: {item.Gia.toLocaleString()} VND
-                </p>
-                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded">
-                  <button
-                    className="text-black p-1"
-                    onClick={() => handleComboQuantityChange(item.id, -1)}
-                  >
-                    -
-                  </button>
-                  <span className="text-black p-1">
-                    {comboQuantities[item.id]}
-                  </span>
-                  <button
-                    className="text-black p-1"
-                    onClick={() => handleComboQuantityChange(item.id, 1)}
-                  >
-                    +
-                  </button>
+                  {/* Hiển thị ghi chú cho ghế đã đặt khi rê chuột vào ghế đã đặt */}
+                  {isBooked && (
+                    <div
+                      className="absolute bg-white text-red-600 text-xs p-1 rounded-md top-[-20px] left-[50%] transform -translate-x-1/2"
+                      style={{ display: isBooked ? "block" : "none" }}
+                    >
+                      Ghế đã đặt
+                    </div>
+                  )}
                 </div>
+              );
+            })}
+            
+          </div>
+          
+        ))}
+        <div class="flex space-x-4 text-sm">
+    <div class="flex items-center">
+      <div class="w-4 h-4 bg-gray-500 border border-white mr-2"></div>
+      <span>Chưa đặt</span>
+    </div>
+    <div class="flex items-center">
+      <div class="w-4 h-4 bg-gray-800 border border-white mr-2"></div>
+      <span>Đã đặt</span>
+    </div>
+    <div class="flex items-center">
+      <div class="w-4 h-4 bg-[#F5CF49] border border-white mr-2"></div>
+      <span>Đang chọn</span>
+    </div>
+  </div>
+      </div>
+    </section>
+
+    <section className="mt-10">
+      <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">CHỌN COMBO</h2>
+      <div className="flex flex-wrap justify-center gap-4">
+        {combos.map((item) => (
+          <div key={item.id} className="w-[350px] p-4 flex items-center gap-4">
+            {/* Left: Combo Image */}
+            <div className="flex-shrink-0">
+              <img
+                src={`${item.Anh}`}
+                alt={item.TenCombo}
+                className="h-[130px] w-[130px] object-cover rounded"
+              />
+            </div>
+            {/* Right: Combo Info */}
+            <div>
+              <h3 className="mb-2 text-[16px] font-bold">{item.TenCombo}</h3>
+              <p className="mb-2 text-[14px] font-bold">{item.NoiDung}</p>
+              <p className="mb-2 text-[14px] font-bold">
+                Giá: {item.Gia.toLocaleString()} VND
+              </p>
+              <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded">
+                <button
+                  className="text-black p-1 font-bold"
+                  onClick={() => handleComboQuantityChange(item.id, -1)}
+                >
+                  -
+                </button>
+                <span className="text-black p-1 font-bold">{comboQuantities[item.id]}</span>
+                <button
+                  className="text-black p-1 font-bold"
+                  onClick={() => handleComboQuantityChange(item.id, 1)}
+                >
+                  +
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        ))}
+      </div>
+    </section>
 
-      {/* Tổng tiền */}
-      <section className="mt-10">
-        <div className="flex justify-between items-center">
-          {/* Empty div to create space for centering */}
-          <div className="flex-grow"></div>
-          {/* Centered Heading */}
-          <h2 className="text-center text-[20px] font-bold flex-grow">
-            Tổng Tiền: {totalAmount.toLocaleString()} VNĐ
-          </h2>
-          {/* Continue Button */}
-          <button
-            onClick={handleContinue}
-            className="bg-[#F5CF49] text-black m-3 w-40 h-[40px] rounded hover:bg-[#FFD700]"
-          >
-            Tiếp tục
-          </button>
-        </div>
-      </section>
+    {/* Tổng tiền */}
+    <section className="mt-10 pb-5">
+      <div className="flex justify-between items-center mr-3">
+        <div className="flex-grow"></div>
+        <h2 className="text-center text-[20px] font-bold flex-grow">
+          Tổng Tiền: {totalAmount.toLocaleString()} VNĐ
+        </h2>
+        <button
+          onClick={handleContinue}
+          className="font-bold bg-[#F5CF49] text-black m-3 w-[150px] h-[40px] rounded hover:bg-[#FFD700]"
+        >
+          Tiếp tục
+        </button>
+      </div>
+    </section>
+  </>
+)}
+
+
+      </div>
     </div>
   );
 };
