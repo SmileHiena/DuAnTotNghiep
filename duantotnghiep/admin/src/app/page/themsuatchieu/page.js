@@ -8,10 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 const ThemSuatchieu = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    ThoiGian: '',
-    NgayChieu: '',
+    GioChieu: '',
+    NgayChieu: '', // Ngày chiếu vẫn để trống ở đây
     IdPhim: '',
     IdPhong: '',
+    TrangThai: 'DangChieu', // Thêm trường trạng thái, mặc định là "Đang chiếu"
   });
 
   const [movies, setMovies] = useState([]);
@@ -55,36 +56,46 @@ const ThemSuatchieu = () => {
     e.preventDefault();
     setIsSubmitting(true);
     toast.info('Đang gửi...');
-
+  
+    // Chuyển đổi định dạng Ngày chiếu từ 'YYYY-MM-DD' sang 'DD/MM/YYYY'
+    const formattedDate = formData.NgayChieu.split('-').reverse().join('/');
+    
+    const dataToSubmit = {
+      ...formData,
+      NgayChieu: formattedDate,
+      DaDatGhe: [] // Thêm trường DaDatGhe vào dữ liệu gửi lên
+    };
+  
     try {
       const response = await fetch('http://localhost:3000/suatchieu/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSubmit),
       });
-
+  
       if (!response.ok) {
         const errorResult = await response.json();
         toast.error(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`);
         return;
       }
-
+  
       const result = await response.json();
       toast.success(result.message);
-
+  
       // Chờ 3 giây trước khi chuyển hướng
       setTimeout(() => {
         router.push('/page/suatchieu');
       }, 3000);
-
+  
       // Reset form sau khi thành công
       setFormData({
-        ThoiGian: '',
+        GioChieu: '',
         NgayChieu: '',
         IdPhim: '',
         IdPhong: '',
+        TrangThai: 'DangChieu', // Reset trạng thái về mặc định
       });
     } catch (error) {
       console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
@@ -93,6 +104,7 @@ const ThemSuatchieu = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <>
@@ -110,12 +122,12 @@ const ThemSuatchieu = () => {
               <div className="tile-body">
                 <form className="row" onSubmit={handleSubmit}>
                   <div className="form-group col-md-4">
-                    <label className="control-label">Thời gian</label>
+                    <label className="control-label">Giờ chiếu</label>
                     <input
                       className="form-control"
-                      type="text"
-                      name="ThoiGian"
-                      value={formData.ThoiGian}
+                      type="time"
+                      name="GioChieu"
+                      value={formData.GioChieu}
                       onChange={handleChange}
                       required
                     />
@@ -126,7 +138,7 @@ const ThemSuatchieu = () => {
                       className="form-control"
                       type="date"
                       name="NgayChieu"
-                      value={formData.NgayChieu}
+                      value={formData.NgayChieu ? formData.NgayChieu.split('/').reverse().join('-') : ''}
                       onChange={handleChange}
                       required
                     />
@@ -163,6 +175,18 @@ const ThemSuatchieu = () => {
                           {room.TenPhongChieu}
                         </option>
                       ))}
+                    </select>
+                  </div>
+                  <div className="form-group col-md-4">
+                    <label className="control-label">Trạng thái</label>
+                    <select
+                      className="form-control"
+                      name="TrangThai"
+                      value={formData.TrangThai}
+                      onChange={handleChange}
+                    >
+                      <option value="DangChieu">Đang chiếu</option>
+                      <option value="NgungChieu">Ngừng chiếu</option>
                     </select>
                   </div>
                   <div className="form-group col-md-12">

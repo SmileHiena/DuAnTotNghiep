@@ -109,7 +109,7 @@ const ThemSanPham = () => {
       notify();
       router.push("/page/sanpham");
     } catch (error) {
-      console.error("Lỗi khi thêm sản phẩm:", error);
+      console.error("Lỗi khi thêm phim:", error);
       alert("Có lỗi xảy ra! Vui lòng thử lại.");
     }
   };
@@ -118,7 +118,7 @@ const ThemSanPham = () => {
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
-        const response = await fetch("http://localhost:3000/theloai/");
+        const response = await fetch("http://localhost:3000/theloai");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -135,23 +135,23 @@ const ThemSanPham = () => {
   return (
     <>
       <Head>
-        <title>Thêm Sản Phẩm</title>
+        <title>Thêm phim</title>
       </Head>
       <main className="app-content">
         <div className="app-title">
-          <h1>Thêm Sản Phẩm Mới</h1>
+          <h1>Thêm phim Mới</h1>
         </div>
         <div className="row">
           <div className="col-md-12">
             <div className="tile">
-              <h3 className="tile-title">Tạo Mới Sản Phẩm</h3>
+              <h3 className="tile-title">Tạo Mới Phim</h3>
               <div className="tile-body">
                 <Form onSubmit={handleSubmitNewPhim} className="row">
                   <Form.Group
                     className="form-group col-md-4"
                     controlId="formTen"
                   >
-                    <Form.Label>Tên Sản Phẩm</Form.Label>
+                    <Form.Label>Tên phim</Form.Label>
                     <Form.Control
                       type="text"
                       name="Ten"
@@ -167,7 +167,7 @@ const ThemSanPham = () => {
                     className="form-group col-md-4"
                     controlId="formAnh"
                   >
-                    <Form.Label>Ảnh Sản Phẩm</Form.Label>
+                    <Form.Label>Ảnh phim</Form.Label>
                     <Form.Control
                       type="file"
                       name="Anh"

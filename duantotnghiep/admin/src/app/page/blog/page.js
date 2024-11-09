@@ -2,16 +2,18 @@
 
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPenToSquare,faBackspace } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 // Toast
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import axios from "axios";
 const Blog = () => {
   const router = useRouter();
+  const [showShowtimes, setShowShowtimes] = useState(false);
+  const [showShoweditblog, setShowShoweditblog] = useState(false);
   const [blogList, setBlogList] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +21,25 @@ const Blog = () => {
   const [editedBlog, setEditedBlog] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
   const [editError, setEditError] = useState("");
+  const [selectedLichChieuId, setSelectedblogdetail] = useState(null);
+  const [lichchieu, setLichChieu] = useState([]);
   const [error, setError] = useState("");
+  const handleAddBlogDetail = () => {
+    router.push('/page/add-blogdetail'); // Điều hướng đến trang "add-bogdetail"
+  };
+  const [blogData, setBlogData] = useState({
+    NoiDung1: "",
+    NoiDung2: "",
+    NoiDung3: "",
+    NoiDung4: "",
+    NoiDung5: "",
+    Anh: "",
+  });
+
+  const handleCloseShowtimes = () => {
+    setShowShowtimes(false);
+  };
+  const [selectedEditBlog, setSelectededitblog] = useState(null);
 
   const notify = () => {
     toast.success('Xóa blog thành công!', {
@@ -35,6 +55,62 @@ const Blog = () => {
     });
   };
 
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/blogdetail/edit/${selectedEditBlog}`);
+        // Update the state with fetched data
+        setBlogData(response.data);
+
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+
+    if (selectedEditBlog) fetchBlogData();
+  }, [selectedEditBlog]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBlogData((prevData) => ({
+      ...prevData,
+      [name]: value,  // Dynamically update the field
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Update the blog with the new data
+      await axios.put(`http://localhost:3000/blogdetail/edit/${selectedEditBlog}`, {
+        newBlog: blogData
+      });
+      setShowShoweditblog(false); 
+      alert("dã thực hiện thay đổi blogdetail");
+      window.location.reload();// Close the modal after successful update
+    } catch (error) {
+      console.error("Error updating blog:", error);
+    }
+  };
+  const handleDeleteBlog = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/blogdetail/delete/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        console.log("Blogdetail deleted successfully");
+        alert("Đã thực hiện xóa blogdetail");
+        window.location.reload();
+        setShowShowtimes(false);
+      } else {
+        console.log("Blog not found");
+      }
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
+  };
+  
   const notifyEditSuccess = () => {
     toast.success('Sửa bài viết thành công!', {
       position: "top-right",
@@ -49,6 +125,26 @@ const Blog = () => {
     });
   };
 
+  useEffect(() => {
+    const fetchLichId = async () => {
+      if (!selectedLichChieuId) return;
+
+      try {
+        const responseDetail = await fetch(`http://localhost:3000/blog/${selectedLichChieuId}/details`);
+        if (!responseDetail.ok) {
+          throw new Error("Không thể lấy chi tiết lịch chiếu");
+        }
+        const dataDetail = await responseDetail.json();
+      
+        setLichChieu(dataDetail);
+
+      } catch (error) {
+        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
+      }
+    };
+
+    fetchLichId();
+  }, [selectedLichChieuId]);
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -65,7 +161,7 @@ const Blog = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) return;
+if (!window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) return;
 
     try {
       const response = await fetch(`http://localhost:3000/blog/delete/${id}`, {
@@ -175,14 +271,184 @@ const Blog = () => {
       <div className="row">
         <div className="col-md-12">
           <div className="tile">
-            <div className="tile-body">
+            
+<div className="tile-body">
+{showShowtimes && (
+  <div className="absolute top-0 left-0 right-0 mx-auto max-w-4xl bg-white shadow-2xl rounded-lg z-10 overflow-y-auto max-h-[48rem] border border-green-200">
+   <div className="flex justify-between items-center  sticky top-0 bg-white py-4">
+  <button   onClick={handleAddBlogDetail} className="py-3  mx-6 px-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-full shadow-md transition duration-300 ease-in-out">
+    Thêm Chi Tiết Blog
+  </button>
+  <FontAwesomeIcon 
+    icon={faBackspace} 
+    className="text-3xl mx-6 text-red-600 cursor-pointer transition duration-300 ease-in-out" 
+    onClick={handleCloseShowtimes} 
+  />
+</div>
+
+    {lichchieu.map((lich) => (
+      <div key={lich.id} className="border-b border-green-300 pb-6  last:border-b-0  px-6">
+        <div className="mt-4 space-y-3">
+          <h4 className="text-xl font-semibold text-green-800">{lich.NoiDung1 || "Detailed info line 1"}</h4>
+          <p className="text-green-700">{lich.NoiDung2 || "Detailed info line 2"}</p>
+          <p className="text-green-700">{lich.NoiDung4 || "Detailed info line 3"}</p>
+          <p className="text-green-700">{lich.NoiDung5 || "Detailed info line 3"}</p>
+          <p className="text-green-700">{lich.NoiDung6 || "Detailed info line 3"}</p>
+          <img 
+            src={lich.Anh || ""} 
+            alt="Showtimes image" 
+            className="mt-4 w-full max-w-lg mx-auto rounded-md shadow-md border border-green-200"
+          />
+        </div>
+        <div className="flex justify-between items-center mb-6">
+        <button 
+            onClick=
+            {() => { 
+              setSelectededitblog(lich.id);
+              setShowShoweditblog(true)
+              }}
+            className="mt-6 py-2 px-5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out"
+          >
+            Sửa
+          </button>
+          
+          <button 
+  onClick={() => { 
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa không?");
+    if (isConfirmed) {
+      handleDeleteBlog(lich.id);  // Truyền trực tiếp lich.id vào hàm
+    }
+  }}
+  className="mt-6 py-2 px-5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out"
+>
+  xóa
+</button>
+          </div>
+      </div>
+    ))}
+  </div>
+)}
+
+
+{showShoweditblog && (
+  <div className="absolute top-0 left-0 right-0 mx-auto max-w-4xl bg-white shadow-2xl rounded-lg z-10 overflow-y-auto min-h-[90%] border border-green-200">
+  <div className="sticky top-0 bg-white py-6 px-6">
+    <h3 className="text-2xl font-semibold text-gray-900 mb-4">Chỉnh Sửa Blog</h3>
+    <h4 className="text-gray-700 mb-6">Đang chỉnh sửa blog với ID: {selectedEditBlog}</h4>
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <label htmlFor="NoiDung1" className="block text-sm font-medium text-gray-700">Nội Dung 1</label>
+          <input
+            type="text"
+            id="NoiDung1"
+            name="NoiDung1"
+            value={blogData.NoiDung1}
+            onChange={handleChange}
+            className="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="NoiDung2" className="block text-sm font-medium text-gray-700">Nội Dung 2</label>
+          <input
+            type="text"
+            id="NoiDung2"
+            name="NoiDung2"
+            value={blogData.NoiDung2}
+            onChange={handleChange}
+            className="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="NoiDung3" className="block text-sm font-medium text-gray-700">Nội Dung 3</label>
+          <input
+            type="text"
+            id="NoiDung3"
+            name="NoiDung3"
+            value={blogData.NoiDung3}
+            onChange={handleChange}
+            className="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="NoiDung4" className="block text-sm font-medium text-gray-700">Nội Dung 4</label>
+          <input
+            type="text"
+            id="NoiDung4"
+            name="NoiDung4"
+            value={blogData.NoiDung4}
+            onChange={handleChange}
+            className="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="NoiDung5" className="block text-sm font-medium text-gray-700">Nội Dung 5</label>
+          <input
+            type="text"
+            id="NoiDung5"
+            name="NoiDung5"
+            value={blogData.NoiDung5}
+            onChange={handleChange}
+            className="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="Anh" className="block text-sm font-medium text-gray-700">Ảnh</label>
+          <input
+            type="text"
+            id="Anh"
+            name="Anh"
+            value={blogData.Anh}
+            onChange={handleChange}
+            className="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-between mt-8">
+        <button
+          type="submit"
+          className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-500 focus:outline-none focus:ring-2 focus:ring-green-400"
+        >
+          Lưu Thay Đổi
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowShoweditblog(false)}
+          className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+        >
+          Hủy
+        </button>
+      </div>
+    </form>
+
+    <button
+      onClick={() => setShowShoweditblog(false)}
+      className="mt-8 w-full py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+    >
+      Đóng
+    </button>
+  </div>
+</div>
+
+ 
+   
+    
+      )}
+
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <Button className="btn btn-add btn-sm" onClick={handleAddBlog}>
+                  <Button className="btn btn-add" onClick={handleAddBlog}>
                     <i className="fas fa-plus"></i> Thêm mới
                   </Button>
                 </div>
               </div>
+              
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
@@ -205,7 +471,7 @@ const Blog = () => {
                           style={{ width: "100px", height: "auto" }}
                         />
                       </td>
-                      <td>{blog.LuotXem} Lượt xem</td>
+                      <td>{blog.LuotXem} lượt xem</td>
                       <td className="table-td-center">
                         <button
                           className="btn btn-primary mr-3"
@@ -219,20 +485,33 @@ const Blog = () => {
                           className="btn btn-danger mr-3"
                           type="button"
                           title="Xóa"
-                          onClick={() => handleDelete(blog._id)}
+onClick={() => handleDelete(blog._id)}
                         >
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
-
+                         <button  onClick={() => { 
+                          setSelectedblogdetail(blog.id);
+                          setShowShowtimes(true);
+                          }}>
+                               xem chi tiết
+                          </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
-          </div>
+             
+              </div>
+              
         </div>
       </div>
+            </div>
+
+ 
+
+
+
+         
 
       {/* Modal to show more info about the selected blog */}
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -290,17 +569,18 @@ const Blog = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Đóng
+          <Button onClick={handleSaveChanges} className="btn btn-save" >
+            Lưu lại
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu thay đổi
+          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel" >
+            Hủy bỏ
           </Button>
-        </Modal.Footer>
+</Modal.Footer>
       </Modal>
 
       {/* Toast container for notifications */}
       <ToastContainer />
+     
     </main>
   );
 };

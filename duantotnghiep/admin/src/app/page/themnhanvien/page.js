@@ -209,7 +209,7 @@ const ThemNhanVien = () => {
                     <label className="control-label">Tình trạng</label>
                     <select className="form-control" name="Tinhtrang" onChange={handleChange} required>
                       <option value="">-- Chọn tình trạng --</option>
-                      <option value="Đang làm">Đang làm</option>
+                      <option value="Hoạt động">Hoạt động</option>
                       <option value="Tạm nghỉ">Tạm nghỉ</option>
                       <option value="Nghỉ việc">Nghỉ việc</option>
                     </select>

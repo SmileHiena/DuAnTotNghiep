@@ -1,366 +1,561 @@
 "use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-const MovieBookingPage = () => {
-  const [showShowtimes, setShowShowtimes] = useState(false);
-  const [showTheaterList, setShowTheaterList] = useState(false);
-  const [showTicketSelection, setShowTicketSelection] = useState(false);
-  const pathname = usePathname();
-  const [phims, setPhim] = useState([]);
-  const [phongs, setPhong] = useState([]);
-  const [ghes, setghe] = useState([]);
-  const id = pathname.split("/").pop();
-  const [movie, setMovie] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [lichchieu, setLichChieu] = useState([]);
-  const [selectedLichChieuId, setSelectedLichChieuId] = useState(null);
-  const [selectedPhongId, setSelectedPhongId] = useState(null);
-  const [selectedGheId, setSelectedGheId] = useState(null);
-  
-  const handleToggle = () => {
-    setIsVisible(!isVisible);
+const DatVe = () => {
+  const { id } = useParams();
+  const router = useRouter();
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [showtimes, setShowtimes] = useState([]);
+  const [ticketTypes, setTicketTypes] = useState([]);
+  const [DaDatGhe, setDaDatGhe] = useState([]);
+  const [comboQuantities, setComboQuantities] = useState({});
+  const [ticketQuantities, setTicketQuantities] = useState({});
+  const [raps, setRaps] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  const [seats, setSeats] = useState([]);
+  const [combos, setCombos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showCinema, setShowCinema] = useState(false);
+  const [selectedRap, setSelectedRap] = useState(null);
+  const [selectedRoomId, setSelectedRoomId] = useState(null); // Lưu ID phòng đã chọn
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedTicketType, setSelectedTicketType] = useState(null);
+
+  const calculateTotal = () => {
+    const ticketPrice = selectedSeats.length > 0 ? ticketTypes.reduce((acc, type) => {
+      return acc + (type.GiaVe * ticketQuantities[type.id]); // Tính giá vé chỉ khi có ghế được chọn
+    }, 0) : 0; // Nếu không có ghế nào được chọn, giá vé là 0
+    const comboPrice = combos.reduce((acc, combo) => {
+      return acc + (combo.Gia * comboQuantities[combo.id]); // Giả sử mỗi combo có thuộc tính price và quantity
+    }, 0);
+    const total = (ticketPrice + comboPrice) // Tính tổng
+    setTotalAmount(total);
   };
 
   useEffect(() => {
-    const fetchMovieData = async () => {
-      if (!id) {
-        console.error("Movie ID is missing");
-        return;
-      }
-
+    const fetchData = async () => {
       try {
         const movieResponse = await fetch(`http://localhost:3000/sanpham/${id}`);
-        if (!movieResponse.ok) {
-          throw new Error(`Failed to fetch movie data: ${movieResponse.statusText}`);
-        }
-        const movieData = await movieResponse.json();
-        setMovie(movieData);
+        const moviesData = await movieResponse.json();
+        setMovies(moviesData);
+
+        const ticketResponse = await fetch('http://localhost:3000/loaive');
+        const ticketTypesData = await ticketResponse.json();
+        setTicketTypes(ticketTypesData);
+
+        const initialTicketQuantities = ticketTypesData.reduce((acc, ticket) => {
+          acc[ticket.id] = 0;
+          return acc;
+        }, {});
+        setTicketQuantities(initialTicketQuantities);
+
+        const comboResponse = await fetch('http://localhost:3000/combo');
+        const combosData = await comboResponse.json();
+        setCombos(combosData);
+
+        const initialComboQuantities = combosData.reduce((acc, combo) => {
+          acc[combo.id] = 0;
+          return acc;
+        }, {});
+        setComboQuantities(initialComboQuantities);
+
+
+        const showtimeResponse = await fetch(`http://localhost:3000/suatchieu/phim/${id}`);
+        const showtimesData = await showtimeResponse.json();
+        setShowtimes(showtimesData);
+
       } catch (error) {
-        console.error("Error fetching movie data:", error);
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchMovieData();
-  }, [id]);
+    fetchData();
+    calculateTotal();
+  }, []);
 
   useEffect(() => {
-    const fetchPhimId = async () => {
-      if (!movie || !movie.id) return;
-      try {
-        const responseDetail = await fetch(`http://localhost:3000/sanpham/${movie.id}/phim`);
-        if (!responseDetail.ok) {
-          throw new Error("Không thể lấy chi tiết lịch chiếu");
-        }
-        const dataDetail = await responseDetail.json();
-        setPhim(dataDetail.filter((phim) => phim.idPhim === parseInt(movie.id, 10)));
-      } catch (error) {
-        console.error("Error fetching schedule details:", error);
-      }
-    };
-
-    fetchPhimId();
-  }, [movie]);
-
-  useEffect(() => {
-    const fetchPhongId = async () => {
-      if (!selectedPhongId) return;
-
-      try {
-        const responseDetail = await fetch(`http://localhost:3000/phong/${selectedPhongId}/xuatchieu`);
-        if (!responseDetail.ok) {
-          throw new Error("Không thể lấy chi tiết phòng chiếu");
-        }
-        const dataDetail = await responseDetail.json();
-        setPhong(dataDetail);
-        console.log("987")
-      } catch (error) {
-        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
-      }
-    };
-
-    fetchPhongId();
-  }, [selectedPhongId]);
-
-  useEffect(() => {
-    const fetchLichId = async () => {
-      if (!selectedLichChieuId) return;
-
-      try {
-        const responseDetail = await fetch(`http://localhost:3000/lichchieu/${selectedLichChieuId}/phong`);
-        if (!responseDetail.ok) {
-          throw new Error("Không thể lấy chi tiết lịch chiếu");
-        }
-        const dataDetail = await responseDetail.json();
-        setLichChieu(dataDetail);
-      } catch (error) {
-        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
-      }
-    };
-
-    fetchLichId();
-  }, [selectedLichChieuId]);
+    calculateTotal(); // Gọi hàm tính tổng khi có thay đổi
+  }, [selectedSeats, ticketQuantities, comboQuantities]);
 
 
-  useEffect(() => {
-    const fetchGheId = async () => {
-      if (!selectedGheId) return;
-  
-      try {
-        const responseDetail = await fetch(`http://localhost:3000/ghe/${selectedGheId}/xuatchieu`);
-        if (!responseDetail.ok) {
-          throw new Error("Không thể lấy chi tiết lịch chiếu");
-        }
-        const dataDetail = await responseDetail.json();
-        setghe(dataDetail); // Cập nhật danh sách ghế với dữ liệu mới
-      } catch (error) {
-        console.error("Lỗi khi lấy chi tiết phòng chiếu:", error);
-      }
-    };
-  
-    fetchGheId();
-  }, [selectedGheId]);
-  
+  const handleSuatChieuClick = async (showtime) => {
+    try {
+      // Fetch lại danh sách suất chiếu
+      const showtimeResponse = await fetch(
+        `http://localhost:3000/suatchieu/phim/${id}/dangchieu`
+      );
+      const showtimesData = await showtimeResponse.json();
+      setShowtimes(showtimesData);
+      setShowCinema(true);
+      setSelectedDate(showtime.NgayChieu); // Lưu Ngày đã chọn
 
-  if (!movie) {
-    return <p>Loading...</p>;
+      // Fetch lại danh sách phòng
+      const roomsResponse = await fetch(
+        `http://localhost:3000/suatchieu/phim/${id}`
+      );
+      const roomsData = await roomsResponse.json();
+
+      // Lọc các phòng chỉ dựa trên IdPhong của showtimesData
+      const filteredRooms = roomsData.filter((room) =>
+        showtimesData.some((showtime) => showtime.IdPhong === room.IdPhong)
+      );
+
+      setRooms(filteredRooms);
+      setSelectedRoomId(showtime.IdPhong); // Lưu ID phòng đã chọn
+    } catch (error) {
+      console.error("Error fetching showtimes:", error);
+    }
+  };
+
+  const handleGioChieuClick = async (showtime) => {
+    setSelectedRoomId(showtime.IdPhong);
+    // Fetch ghế tương ứng với giờ chiếu
+    try {
+      const seatsResponse = await fetch(`http://localhost:3000/suatchieu/ghe/${showtime.IdPhong}`);
+      const seatsData = await seatsResponse.json();
+      setSeats(seatsData);
+    } catch (error) {
+      console.error("Error fetching seats:", error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
+
+  const getDayOfWeek = (dateString) => {
+    const [day, month, year] = dateString.split("/").map(Number);
+    const date = new Date(year, month - 1, day);
+    const days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+    return days[date.getDay()];
+  };
+
+  const groupedRooms = rooms.reduce((acc, room) => {
+    const showtimesForRoom = showtimes.filter(
+      (showtime) =>
+        showtime.IdPhong === room.IdPhong &&
+        showtime.NgayChieu === selectedDate
+    );
+
+    if (showtimesForRoom.length > 0) {
+      const existingRoom = acc.find((r) => r.IdPhong === room.IdPhong);
+
+      if (!existingRoom) {
+        acc.push({
+          ...room,
+          showtimes: showtimesForRoom,
+        });
+      }
+    }
+
+    return acc;
+  }, []);
+
+  const handleTicketQuantityChange = (ticketId, change) => {
+    setTicketQuantities((prev) => {
+      const updatedQuantities = {
+        ...prev,
+        [ticketId]: Math.max(0, prev[ticketId] + change),
+      };
+
+      // Tính tổng số vé
+      const totalTickets = Object.values(updatedQuantities).reduce(
+        (acc, quantity) => acc + quantity,
+        0
+      );
+
+      if (change > 0) {
+        setSelectedTicketType(ticketId); // Lưu loại vé khi tăng số lượng
+      } else {
+        // Nếu giảm số lượng, kiểm tra nếu số lượng đã về 0 thì không chọn
+        if (updatedQuantities[ticketId] === 0) {
+          setSelectedTicketType(null);
+        }
+      }
+
+      // Giới hạn số ghế chọn theo số lượng vé
+      if (selectedSeats.length > totalTickets) {
+        setSelectedSeats(selectedSeats.slice(0, totalTickets));
+      }
+      return updatedQuantities;
+
+    });
+  };
+
+  const handleComboQuantityChange = (comboId, change) => {
+    setComboQuantities((prev) => {
+      const updatedQuantities = {
+        ...prev,
+        [comboId]: Math.max(0, prev[comboId] + change),
+      };
+      return updatedQuantities;
+    });
+  }
+
+  const toggleSeatSelection = (row, seat) => {
+    const seatCode = `${row}-${seat}`;
+    const totalTickets = Object.values(ticketQuantities).reduce(
+      (acc, quantity) => acc + quantity,
+
+    );
+
+    if (!totalTickets) {
+      alert("Vui lòng chọn số lượng vé trước khi chọn ghế.");
+      return;
+    }
+
+    setSelectedSeats((prevSelectedSeats) => {
+      if (prevSelectedSeats.includes(seatCode)) {
+        return prevSelectedSeats.filter((s) => s !== seatCode);
+      } else if (prevSelectedSeats.length < totalTickets) {
+        return [...prevSelectedSeats, seatCode];
+      } else {
+        alert("Số ghế chọn không được vượt quá số vé đã chọn");
+      }
+      return prevSelectedSeats;
+    });
+  };
+
+  const handleContinue = () => {
+
+    const isLoggedIn = Cookies.get("token");
+    if (!isLoggedIn) {
+      alert("Vui lòng đăng nhập để đặt vé.");
+
+      return;
+    }
+    const numberOfTickets = Object.values(ticketQuantities).reduce((acc, quantity) => acc + quantity, 0);
+    const numberOfSeats = selectedSeats.length;
+    if (numberOfTickets !== numberOfSeats) {
+      alert("Số loại vé và số ghế phải bằng nhau để thực hiện thanh toán.");
+      return; // Ngừng quá trình thanh toán
+    }
+
+    const selectedTicketTypes = ticketTypes
+      .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
+      .map(ticketType => ({
+        name: ticketType.TenVe,
+        price: ticketType.GiaVe,
+        quantity: ticketQuantities[ticketType.id] // Quantity of selected ticket types
+      }));
+
+    const selectedCombos = combos
+      .filter(combo => comboQuantities[combo.id] > 0) // Filter selected combos
+      .map(combo => ({
+        name: combo.TenCombo,
+        price: combo.Gia,
+        quantity: comboQuantities[combo.id] // Quantity of selected combos
+      }));
+
+    // Find the selected showtime and room corresponding to the selected IDs
+    const selectedShowtime = showtimes.find(showtime => showtime.IdPhong === selectedRoomId && showtime.NgayChieu === selectedDate);
+    const selectedRoom = rooms.find(room => room.IdPhong === selectedRoomId);
+
+    const holdTimeInMinutes = 5; // Change this value if needed
+    const holdTime = new Date(Date.now() + holdTimeInMinutes * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Include date and time separately if selectedShowtime is found
+    const showtimeDate = selectedShowtime ? selectedShowtime.NgayChieu : null; // Date
+    const showtimeTime = selectedShowtime ? selectedShowtime.GioChieu : null; // Time
+
+    // Save necessary information to cookie
+    Cookies.set("bookingInfo", JSON.stringify({
+      selectedSeats,       // List of selected seats
+      ticketQuantities,    // Ticket quantities
+      combos: selectedCombos || null, // Combo quantities
+      totalAmount,         // Total amount
+      movieName: movies.Ten,   // Movie name
+      showtimeDate,        // Showtime date
+      showtimeTime,        // Showtime time
+      room: selectedRoom ? selectedRoom.TenPhongChieu : "null", // Room name
+      ticketTypes: selectedTicketTypes,
+      holdTime
+    }), { expires: 30 / 1440 });  // Expires in 5 minutes (1 day / 288)
+
+    // Redirect or perform other actions after saving to cookie
+    router.push("/page/checkout");
+  };
+
 
 
   return (
-    <div className="bg-gray-900 container mx-auto max-w-[1410px] flex flex-col gap-6 text-white min-h-screen p-6">
-      <div className="container mx-auto max-w-[1410px] flex flex-col gap-6">
-        <div className="flex flex-col md:flex-row items-start gap-10 mt-8">
-          <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
-            <img
-              src={movie.Anh}
-              alt={movie.Ten}
-              className="object-cover"
-              style={{ height: "650px", width: "auto" }}
-            />
-          </div>
+    <div className="justify-center mx-auto text-white bg-[rgba(0,0,0,0.6)] shadow-lg w-full max-w-[1410px] mx-auto">
+      <section>
+        <div className="flex justify-center">
+          <div className="">
+            <div className="flex flex-col md:flex-row items-start gap-20 mr-[120px] mt-8">
+              {/* left box image */}
+              <div className="md:w-1/2 flex justify-end mb-8 md:mb-0">
+                <img
+                  src={movies.Anh}
+                  alt={movies.title}
+                  className="object-cover"
+                  style={{ height: "650px", width: "auto" }}
+                />
+              </div>
 
-          <div className="md:w-[65%] flex flex-col">
-            <h1 className="text-[30px] font-semibold mt-4 mb-4">{movie.Ten}</h1>
-            <p className="text-[18px] mb-2">
-              <span className="font-semibold">Đạo diễn:</span> {movie.MoTa?.DaoDien}
-            </p>
-            <p className="text-[18px] mb-2">
-              <span className="font-semibold">Diễn viên:</span> {movie.MoTa?.DienVien}
-            </p>
-            <p className="text-[18px] mb-2">
-              <span className="font-semibold">Ngày khởi chiếu:</span> {movie.MoTa?.NgayKhoiChieu}
-            </p>
-            <p className="text-[18px]">
-              <span className="font-semibold">Thể loại:</span> {movie.TheLoai?.KieuPhim}
-            </p>
-            <h1 className="text-[20px] font-bold mt-7 mb-2">Nội Dung</h1>
-            <p className="text-[16px] mb-2">{movie.ThongTinPhim}</p>
+              {/* right box info */}
+              <div className="pt-20 md:w-1/2 flex flex-col space-y-6">
+                <h1 className="text-[30px] font-semibold mb-4">
+                  {movies.Ten}
+                </h1>
 
-            <div className="flex mt-7 space-x-2">
-              <div className="flex">
-                <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
-                  <FontAwesomeIcon
-                    icon={faPlay}
-                    style={{ color: "#DA70D6", width: "12px", height: "12px" }}
-                  />
-                </p>
-                <button
-                  onClick={handleToggle}
-                  className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]"
-                >
-                  {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
-                </button>
+                {/* Description */}
+                <h1 className="pt-20 text-[20px] font-bold">Nội Dung</h1>
+                <p className="text-[18px] mb-4">{movies.ThongTinPhim}</p>
+
+                {/* Additional movie information */}
+                <div className="pt-20 flex flex-wrap justify-between mb-6">
+                  <p className="text-[18px]">
+                    <span className="font-semibold">Thể loại:</span>{" "}
+                    {movies.TheLoai.KieuPhim}
+                  </p>
+                  <p className="text-[18px]">
+                    <span className="font-semibold">Thời gian:</span>{" "}
+                    {movies.TheLoai.ThoiLuong}
+                  </p>
+                  <p className="text-[18px]">
+                    <span className="font-semibold">Quốc gia:</span>{" "}
+                    {movies.TheLoai.QuocGia}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {isVisible && (
-   <iframe 
-   className=" flex items-center justify-center w-[100%] min-h-[700px] bg-blue-500 " 
-   style={{ zIndex: 9999 }} 
-   src={movie.Trailer}
-   frameBorder="0" 
-   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-   allowFullScreen>
-</iframe>
-        )}
-
-        <div className="my-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Lịch Chiếu</h2>
-          {phims.map((phim) => (
-            <button
-              key={phim.idPhim}
-              className="bg-yellow-500 text-black py-2 px-4 rounded"
-              onClick={() => {
-                setSelectedLichChieuId(phim.id); // Lưu ID lịch chiếu đã chọn
-                setShowShowtimes(true);
-                setShowTheaterList(false);
-                setShowTicketSelection(false);
-                setLichChieu([]); // Reset danh sách phòng chiếu khi chọn lịch chiếu mới
-              }}
-            >
-              <p>{phim.ngay}</p>
-              <p>{phim.thu}</p>
-            </button>
-          ))}
+      {/* Suất Chiếu Section */}
+      <section>
+        <h1 className="text-center text-[40px] font-bold mt-20 pb-3">
+          Lịch Chiếu
+        </h1>
+        <div className="flex justify-center gap-4 mt-6">
+          {Object.entries(
+            showtimes.reduce((acc, showtime) => {
+              const key = showtime.NgayChieu;
+              if (!acc[key]) {
+                acc[key] = { ...showtime };
+              }
+              return acc;
+            }, {})
+          ).sort(([dateA], [dateB]) => {
+            const [dayA, monthA, yearA] = dateA.split("/").map(Number);
+            const [dayB, monthB, yearB] = dateB.split("/").map(Number);
+            return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+          })
+            .map(([_, showtime], index) => (
+              <div
+                key={index} // Tạo key duy nhất từ IdPhong và NgayChieu
+                onClick={() => {
+                  handleSuatChieuClick(showtime);
+                  // handleGioChieuClick(showtime);
+                }}
+                className="h-[93px] w-[103px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group hover:bg-[#F5CF49]"
+              >
+                <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white">
+                  {showtime.NgayChieu}
+                </h2>
+                <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black">
+                  {getDayOfWeek(showtime.NgayChieu)}   {/* render ngày ra thứ*/}
+                </p>
+              </div>
+            ))}
         </div>
+      </section>
 
-        {showShowtimes && lichchieu.length > 0 && (
-          <div className="my-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">Phòng Chiếu</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {lichchieu.map((lich) => (
-                <div
-                  key={lich.idLichChieu}
-                  className="bg-gray-800 p-4 rounded-lg text-left text-white"
-                >
+      {/* Danh Sách Rạp Section */}
+      {showCinema && selectedDate && ( // Hiển thị danh sách phòng chiếu nếu đã chọn Ngày
+        <section className="mt-10">
+          <h2 className="text-[40px] font-bold mb-4 text-center mt-20 pb-3">
+            Danh Sách Rạp
+          </h2>
+          <div className="flex flex-col items-center">
+            {groupedRooms.map((room) => (
+              <div
+                key={room.IdPhong}
+                className="bg-[rgba(0,0,0,0.3)] w-full max-w-[1035px] p-4 mb-4 rounded"
+              >
+                <div className="flex justify-between">
+                  <h3 className="text-[28px] text-[#F5CF49] font-semibold">
+                    {room.TenPhongChieu}
+                  </h3>
+                  <p>^</p>
+                </div>
+                <div className=" flex flex-row justify-start ">
+                  {/* Hiển thị giờ chiếu cho phòng */}
+                  {room.showtimes.map((showtime, index) => (
+                    <div
+                      key={index} // sử dụng index vì giờ chiếu có thể trùng lặp
+                      className="mt-2 w-[120px] h-[40px] bg-[#F5CF49] text-center flex flex-row justify-center items-center rounded cursor-pointer mr-4"
+                      onClick={() => handleGioChieuClick(showtime)}
+                    >
+                      <p className="text-[14px] text-black">
+                        {showtime.GioChieu}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+
+      {/* Chọn Loại Vé Section */}
+      {showCinema && selectedDate && (
+        <section className="mt-10 px-4 md:px-0">
+          <h2 className="text-[30px] md:text-[40px] font-bold mt-20 mb-5 text-center">
+            CHỌN LOẠI VÉ
+          </h2>
+          <div className="flex flex-col md:flex-row justify-center gap-4">
+            {ticketTypes.map((ticketType) => (
+              <div
+                key={ticketType.id}
+                className="w-full md:w-[313px] h-[150px] border-2 border-white bg-[#212529] p-4 rounded flex flex-col justify-between mx-auto md:mx-0"
+              >
+                <h3 className="text-lg text-[18px] font-bold">
+                  {ticketType.TenVe}
+                </h3>
+                <p className="text-[14px] text-gray-400">
+                  Giá: {ticketType.GiaVe.toLocaleString()} VND
+                </p>
+                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 mx-auto rounded">
                   <button
-                    className="bg-yellow-500 text-black py-2 px-4 rounded mt-3"
-                    onClick={() => {
-                      setSelectedPhongId(lich.id);
-                      setShowTheaterList(true);
-                      setShowTicketSelection(false);
-                    }}
+                    className="text-black p-1"
+                    onClick={() => handleTicketQuantityChange(ticketType.id, -1)}
                   >
-                   {lich.tenPhong}
+                    -
+                  </button>
+                  <span className="text-black p-1">
+                    {ticketQuantities[ticketType.id]}
+                  </span>
+                  <button
+                    className="text-black p-1"
+                    onClick={() => handleTicketQuantityChange(ticketType.id, 1)}
+                  >
+                    +
                   </button>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        )}
-        {showTheaterList && (
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Danh sách xuất chiếu </h2>
-            <div className="bg-purple-700 p-4 rounded-lg">
-              <h3 className="font-bold text-xl mb-2"> Rạp StichMan phường 12 Thành phố Hồ Chí Minh</h3>
-              <p>xuất chiếu</p>
-              {phongs.map((phong) => (
-  <button
-    key={phong.id}
-    className="bg-gray-800 py-1 px-3 rounded text-yellow-500 mt-2"
-    onClick={() => { 
-      setSelectedGheId(phong.id); // Lưu ID phòng đã chọn
-      setShowTicketSelection(true); // Hiện thị lựa chọn vé
+        </section>
+      )}
 
-      // Reset lại state ghế trước khi lấy thông tin mới
-      setghe([]); // Đặt lại danh sách ghế
-    }}
-  >
-    {phong.gioChieu} {/* Hiển thị giờ chiếu */}
-  </button>
-))}
-
-            </div>
+      {/* Seat Selection Section */}
+      {seats.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-[40px] font-bold mb-4 text-center">
+            Danh Sách Ghế
+          </h2>
+          <div className="flex flex-col items-center">
+            {seats.map((row) => (
+              <div key={row.Hang} className="flex items-center mb-4">
+                <span className="font-bold mr-4">{row.Hang}: </span>
+                {row.Ghe.map((ghe, index) => {
+                  const seatCode = `${row.Hang}-${ghe}`;
+                  const isSelected = selectedSeats.includes(seatCode);
+                  const isBooked = DaDatGhe.includes(seatCode); // Kiểm tra ghế đã đặt
+                
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        if (!isBooked) { // Nếu ghế chưa được đặt, cho phép chọn
+                          toggleSeatSelection(row.Hang, ghe);
+                        }
+                      }}
+                      className={`ml-2 w-[70px] h-[40px] flex items-center justify-center rounded cursor-pointer ${isSelected ? "bg-green-500" : (isBooked ? "bg-gray-500" : "bg-[#F5CF49]")
+                        }`}
+                    >
+                      <p className="text-black">{ghe}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
           </div>
-        )}
+        </section>
+      )}
 
-{showTicketSelection && (
-          <>
-            <div className="mb-8 text-center">
-              <h2 className="text-3xl font-bold mb-4">Chọn Loại Vé</h2>
-              <div className="flex items-center justify-center gap-4">
-                <div className="bg-gray-800 p-4 rounded-lg text-center">
-                  <h3>Người Lớn</h3>
-                  <p>65,000 VND</p>
-                  <div className="flex justify-center gap-2 mt-2">
-                    <button className="bg-gray-700 px-4 py-2 rounded">-</button>
-                    <span className="px-4">0</span>
-                    <button className="bg-gray-700 px-4 py-2 rounded">+</button>
-                  </div>
-                </div>
-                <div className="bg-gray-800 p-4 rounded-lg text-center">
-                  <h3>HSSV/Người Cao Tuổi</h3>
-                  <p>45,000 VND</p>
-                  <div className="flex justify-center gap-2 mt-2">
-                    <button className="bg-gray-700 px-4 py-2 rounded">-</button>
-                    <span className="px-4">0</span>
-                    <button className="bg-gray-700 px-4 py-2 rounded">+</button>
-                  </div>
-                </div>
-                <div className="bg-gray-800 p-4 rounded-lg text-center">
-                  <h3>VIP</h3>
-                  <p>150,000 VND</p>
-                  <div className="flex justify-center gap-2 mt-2">
-                    <button className="bg-gray-700 px-4 py-2 rounded">-</button>
-                    <span className="px-4">0</span>
-                    <button className="bg-gray-700 px-4 py-2 rounded">+</button>
-                  </div>
+      {/* Combo Section */}
+      <section className="mt-10">
+        <h2 className="text-[40px] font-bold mt-20 mb-5 text-center">
+          CHỌN COMBO
+        </h2>
+        <div className="flex flex-wrap justify-center gap-4">
+          {combos.map((item) => (
+            <div
+              key={item.id}
+              className="w-[350px] p-4 flex items-center gap-4" // Tạo layout cho 3 cột
+            >
+              {/* Left: Combo Image */}
+              <div className="flex-shrink-0">
+                <img
+                  src={`${item.Anh}`}
+                  alt={item.TenCombo}
+                  className="h-[130px] w-[130px] object-cover rounded"
+                />
+              </div>
+
+              {/* Right: Combo Info */}
+              <div>
+                <h3 className="mb-2 text-[16px] font-bold">{item.TenCombo}</h3>
+                <p className="mb-2 text-[14px] font-bold">{item.NoiDung}</p>
+                <p className="mb-2 text-[14px] font-bold">
+                  Giá: {item.Gia.toLocaleString()} VND
+                </p>
+                <div className="w-[92px] h-[31px] bg-[#F5CF49] flex items-center justify-center space-x-2 mt-2 rounded">
+                  <button
+                    className="text-black p-1"
+                    onClick={() => handleComboQuantityChange(item.id, -1)}
+                  >
+                    -
+                  </button>
+                  <span className="text-black p-1">
+                    {comboQuantities[item.id]}
+                  </span>
+                  <button
+                    className="text-black p-1"
+                    onClick={() => handleComboQuantityChange(item.id, 1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
-
-           {/* Seat Selection */}
-           <div className="my-8 text-center">
-              <h2 className="text-3xl font-bold mb-4">Chọn Ghế - Rạp 04</h2>
-              <div className="bg-gray-800 p-4 rounded-lg inline-block">
-                <div className="mb-4 text-white">Màn hình</div>
-                <div className="bg-gray-600 h-1 w-full mb-4"></div>
-                <div className="flex flex-wrap">
-  {ghes.map((ghe) => (
-    <div key={ghe.maXuatChieu} className="w-1/10 p-1"> {/* Độ rộng 10% cho mỗi nút */}
-      <button className="flex bg-gray-800 text-white py-2 px-4 rounded">
-        {ghe.tenGhe}
-      </button>
-    </div>
-  ))}
-</div>
-
-                <div className="flex justify-center mt-6 space-x-4">
-                  <div className="flex items-center">
-                    <span className="w-6 h-6 bg-white border mr-2 inline-block"></span>
-                    <span className="text-gray-400">Ghế Trống</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="w-6 h-6 bg-yellow-500 border mr-2 inline-block"></span>
-                    <span className="text-gray-400">Ghế Đã Đặt</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="w-6 h-6 bg-gray-300 border mr-2 inline-block"></span>
-                    <span className="text-gray-400">Ghế Đang Chọn</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-4">Chọn Combo</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <h3 className="font-bold">Combo 1</h3>
-              <p>Popcorn lớn + Nước ngọt 1L</p>
-              <p className="text-yellow-400">100,000 VND</p>
-              <button className="bg-yellow-500 text-black py-1 px-4 rounded mt-2">
-                Chọn
-              </button>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <h3 className="font-bold">Combo 2</h3>
-              <p>Khoai tây chiên + Nước ngọt 1L</p>
-              <p className="text-yellow-400">90,000 VND</p>
-              <button className="bg-yellow-500 text-black py-1 px-4 rounded mt-2">
-                Chọn
-              </button>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <h3 className="font-bold">Combo 3</h3>
-              <p>Gà rán + Nước ngọt 1L</p>
-              <p className="text-yellow-400">120,000 VND</p>
-              <button className="bg-yellow-500 text-black py-1 px-4 rounded mt-2">
-                Chọn
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
+
+      {/* Tổng tiền */}
+      <section className="mt-10">
+        <div className="flex justify-between items-center">
+          {/* Empty div to create space for centering */}
+          <div className="flex-grow"></div>
+          {/* Centered Heading */}
+          <h2 className="text-center text-[20px] font-bold flex-grow">
+            Tổng Tiền: {totalAmount.toLocaleString()} VNĐ
+          </h2>
+          {/* Continue Button */}
+          <button
+            onClick={handleContinue}
+            className="bg-[#F5CF49] text-black m-3 w-40 h-[40px] rounded hover:bg-[#FFD700]"
+          >
+            Tiếp tục
+          </button>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default MovieBookingPage;
+export default DatVe;

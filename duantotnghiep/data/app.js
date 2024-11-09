@@ -7,9 +7,9 @@ var cors = require('cors');
 var bcryptjs = require('bcryptjs');
 
 var indexRouter = require('./routes/index');
+var blogdetialRouter = require('./routes/blogdetail');
 var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
-var categoriesRouter = require('./routes/categories');
 var eventsRouter = require('./routes/events');
 var searchRouter = require('./routes/search');
 var sapchieuRouter = require('./routes/sapchieu');
@@ -24,12 +24,12 @@ var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
 var suatchieuRouter = require('./routes/suatchieu');
 var loaiveRouter = require('./routes/loaive');
-var veRouter = require('./routes/ve');
-var gheRouter = require('./routes/ghe');
-var lichchieuRouter = require('./routes/lichchieu');
-var phongRouter = require('./routes/phong');
-var xuatchieuRouter = require('./routes/xuatchieu');
-
+var doanhthuRouter = require('./routes/doanhthu');
+var commentRouter = require('./routes/comments');
+var checkoutRouter = require('./routes/checkout');
+var hoadonRouter = require('./routes/hoadon');
+var orderRouter = require('./routes/order');
+var adminRouter = require('./routes/admin');
 var app = express();
 
 // Cấu hình middleware CORS
@@ -55,11 +55,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
-app.use('/categories', categoriesRouter);
 app.use('/event', eventsRouter);
 app.use('/search', searchRouter);
+app.use('/blogdetail', blogdetialRouter);
 app.use('/sapchieu', sapchieuRouter);
-app.use('/lichchieu', lichchieuRouter);
 app.use('/employees', employeesRouter);
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/theloai', admin_theloaiRouter);
@@ -70,11 +69,13 @@ app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/suatchieu', suatchieuRouter);
-app.use('loaive', loaiveRouter);
-app.use('ve', veRouter);
-app.use('/phong', phongRouter);
-app.use('/xuatchieu', xuatchieuRouter);
-app.use('/ghe', gheRouter);
+app.use('/loaive', loaiveRouter);
+app.use('/doanhthu', doanhthuRouter);
+app.use('/comments', commentRouter);
+app.use('/checkout', checkoutRouter);
+app.use('/hoadon', hoadonRouter);
+app.use('/order', orderRouter);
+app.use('/admin', adminRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

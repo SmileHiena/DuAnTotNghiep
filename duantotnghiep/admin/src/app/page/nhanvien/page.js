@@ -18,7 +18,7 @@ const NhanVien = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch('http://localhost:3000/employees/');
+        const response = await fetch('http://localhost:3000/employees');
         const data = await response.json();
         setEmployees(data);
         setLoading(false);
@@ -185,7 +185,7 @@ const NhanVien = () => {
                     {employees.length > 0 ? (
                       employees.map((employee) => (
                         <tr key={employee._id}>
-                          <td>{employee.id}</td>
+                          <td>{employee._id}</td>
                           <td>{employee.HoTen}</td>
                           <td>{employee.TenDangNhap}</td>
                           <td><img className="img-card-person" src={employee.Anh} alt={employee.HoTen} /></td>
@@ -295,7 +295,7 @@ const NhanVien = () => {
         </div>
       </div>
 
-      <ToastContainer transition={Bounce} /> {/* Thêm ToastContainer để hiển thị thông báo */}
+      <ToastContainer transition={Bounce} /> 
     </>
   );
 };

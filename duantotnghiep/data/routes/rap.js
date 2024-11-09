@@ -1,30 +1,9 @@
-var express = require('express');
+// routes/rap.js
+var express = require("express");
 var router = express.Router();
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
 const connectDb = require('../models/db');
-const multer = require('multer');
 
-// Set up multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, (file.originalname));
-  },
-});
-
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-      return cb(new Error("Bạn chỉ được upload file ảnh"));
-    }
-    cb(null, true);
-  }
-});
-
-//Get id rap
 router.get('/:id', async (req, res) => {
     try {
         const db = await connectDb();
@@ -111,8 +90,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-
 // Sửa thông tin rạp bằng _id
 router.put('/:id', async (req, res) => {
     const { TenRap, ViTri } = req.body; // Bỏ SoLuongPhong
@@ -146,7 +123,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-
 // Xóa rạp
 router.delete('/:id', async (req, res) => {
     try {
@@ -162,6 +138,148 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi xóa rạp:', error);
         res.status(500).json({ message: 'Lỗi khi xóa rạp', error });
+    }
+});
+
+// Lấy danh sách phòng chiếu của rạp
+router.get('/:id/phong-chieu', async (req, res) => {
+    // Kiểm tra xem ID có hợp lệ không
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ message: 'ID không hợp lệ' });
+    }
+
+    try {
+        const db = await connectDb();
+        const rapCollection = db.collection('rap');
+
+        // Tìm rạp theo ID và lấy thông tin phòng chiếu
+        const rap = await rapCollection.findOne({ _id: new ObjectId(req.params.id) }, { projection: { PhongChieu: 1 } });
+
+        if (!rap) {
+            return res.status(404).json({ message: 'Rạp không tìm thấy' });
+        }
+
+        res.status(200).json(rap.PhongChieu); // Trả về danh sách phòng chiếu
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách phòng chiếu:', error);
+        res.status(500).json({ message: 'Lỗi khi lấy danh sách phòng chiếu', error });
+    }
+});
+
+router.post('/:id/phong-chieu', async (req, res) => {
+    const { TenPhongChieu, SoLuongGhe } = req.body;
+
+    if (!TenPhongChieu || !SoLuongGhe) {
+        return res.status(400).json({ message: 'Tên phòng chiếu và số lượng ghế không được để trống!' });
+    }
+
+    // Kiểm tra xem ID có hợp lệ không
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ message: 'ID không hợp lệ' });
+    }
+
+    try {
+        const db = await connectDb();
+        const rapCollection = db.collection('rap');
+
+        const result = await rapCollection.updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $push: { PhongChieu: { TenPhongChieu, SoLuongGhe } } }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ message: 'Rạp không tìm thấy hoặc không có thay đổi' });
+        }
+
+        res.status(200).json({ message: 'Phòng chiếu đã được thêm thành công!' });
+    } catch (error) {
+        console.error('Lỗi khi thêm phòng chiếu:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm phòng chiếu', error });
+    }
+});
+
+// Sửa thông tin phòng chiếu trong rạp
+router.put('/:id/phong-chieu/:phongId', async (req, res) => {
+    const { TenPhongChieu, SoLuongGhe } = req.body;
+
+    if (!TenPhongChieu || !SoLuongGhe) {
+        return res.status(400).json({ message: 'Tên phòng chiếu và số lượng ghế không được để trống!' });
+    }
+
+    // Kiểm tra xem ID có hợp lệ không
+    if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.params.phongId)) {
+        return res.status(400).json({ message: 'ID không hợp lệ' });
+    }
+
+    try {
+        const db = await connectDb();
+        const rapCollection = db.collection('rap');
+
+        const result = await rapCollection.updateOne(
+            { _id: new ObjectId(req.params.id), 'PhongChieu._id': new ObjectId(req.params.phongId) },
+            { $set: { 'PhongChieu.$.TenPhongChieu': TenPhongChieu, 'PhongChieu.$.SoLuongGhe': SoLuongGhe } }
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: 'Rạp hoặc phòng chiếu không tìm thấy' });
+        }
+
+        res.status(200).json({ message: 'Thông tin phòng chiếu đã được cập nhật thành công!' });
+    } catch (error) {
+        console.error('Lỗi khi sửa phòng chiếu:', error);
+        res.status(500).json({ message: 'Lỗi khi sửa phòng chiếu', error });
+    }
+});
+
+// Xóa phòng chiếu trong rạp
+router.delete('/:id/phong-chieu/:phongId', async (req, res) => {
+    // Kiểm tra xem ID có hợp lệ không
+    if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.params.phongId)) {
+        return res.status(400).json({ message: 'ID không hợp lệ' });
+    }
+
+    try {
+        const db = await connectDb();
+        const rapCollection = db.collection('rap');
+
+        const result = await rapCollection.updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $pull: { PhongChieu: { _id: new ObjectId(req.params.phongId) } } }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ message: 'Rạp hoặc phòng chiếu không tìm thấy' });
+        }
+
+        res.status(200).json({ message: 'Phòng chiếu đã được xóa thành công!' });
+    } catch (error) {
+        console.error('Lỗi khi xóa phòng chiếu:', error);
+        res.status(500).json({ message: 'Lỗi khi xóa phòng chiếu', error });
+    }
+});
+
+// In the `rapchieu` API file
+router.get('/phongchieu/:id', async (req, res) => {
+    const roomId = req.params.id;
+
+    try {
+        const db = await connectDb();
+        const cinemasCollection = db.collection('rap');
+
+        // Find the cinema that contains the requested screening room
+        const cinema = await cinemasCollection.findOne(
+            { "PhongChieu.id": parseInt(roomId) },
+            { projection: { "PhongChieu.$": 1 } } // Only return the specific screening room
+        );
+
+        if (cinema && cinema.PhongChieu.length > 0) {
+            res.status(200).json(cinema.PhongChieu[0]); // Return the screening room details
+        } else {
+            res.status(404).json({ message: 'Screening room not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching screening room:', error);
+        res.status(500).json({ message: 'Failed to fetch screening room' });
     }
 });
 

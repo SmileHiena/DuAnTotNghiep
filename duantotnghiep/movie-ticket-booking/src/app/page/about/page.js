@@ -8,7 +8,7 @@ const About = () => {
           Về <span className="text-yellow-400">Screen Time</span>
         </h1>
         <img
-          src={`/images/phim/cong-tu-bac-lieu.jpg`}
+          src={`/images/logo.png`}
           alt="Cinema"
           className="w-full h-64 object-cover rounded-md mb-6"
         />

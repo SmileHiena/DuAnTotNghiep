@@ -90,7 +90,7 @@ const AddRapChieu = () => {
                       <ErrorMessage name="ViTri" component="div" className="text-danger" />
                     </div>
                     <div className="form-group">
-                      <label className="mr-3">Danh Sách Phòng Chiếu</label>
+                      <label>Danh Sách Phòng Chiếu</label>
                       <FieldArray name="PhongChieu">
                         {({ remove, push }) => (
                           <>
@@ -147,34 +147,34 @@ const AddRapChieu = () => {
                                               />
                                               <ErrorMessage name={`PhongChieu.${index}.Ghe.${seatIndex}.TenGhe`} component="div" className="text-danger" />
                                             </div>
-                                            <button type="button" className="btn btn-cancel" onClick={() => removeSeat(seatIndex)}>
+                                            <button type="button" className="btn btn-danger" onClick={() => removeSeat(seatIndex)}>
                                               Xóa Ghế
                                             </button>
                                           </div>
                                         ))}
-                                        <button type="button" className="btn btn-save mr-3" onClick={() => pushSeat({ id: '', TenGhe: '' })}>
+                                        <button type="button" className="btn btn-success" onClick={() => pushSeat({ id: '', TenGhe: '' })}>
                                           Thêm Ghế
                                         </button>
                                       </>
                                     )}
                                   </FieldArray>
-                                  <button type="button" className="btn btn-cancel" onClick={() => remove(index)}>
+                                  <button type="button" className="btn btn-danger" onClick={() => remove(index)}>
                                     Xóa Phòng Chiếu
                                   </button>
                                 </div>
                               ))}
-                            <button type="button" className="btn btn-save" onClick={() => push({ TenPhongChieu: '', SoLuongGhe: '', Ghe: [{ id: '', TenGhe: '' }] })}>
+                            <button type="button" className="btn btn-success" onClick={() => push({ TenPhongChieu: '', SoLuongGhe: '', Ghe: [{ id: '', TenGhe: '' }] })}>
                               Thêm Phòng Chiếu
                             </button>
                           </>
                         )}
                       </FieldArray>
                     </div>
-                    <button className="btn btn-save mr-3" type="submit" disabled={isSubmitting}>
+                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
                       Lưu lại
                     </button>
                     <button
-                      className="btn btn-cancel"
+                      className="btn btn-secondary"
                       type="button"
                       onClick={() => router.push('/page/rap')}
                     >

@@ -142,15 +142,15 @@ const EventList = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <Button className="btn btn-add btn-sm" onClick={handleAddEvent}>
-                    <i className="fas fa-plus"></i> Tạo mới sự kiện
+                  <Button className="btn btn-add " onClick={handleAddEvent}>
+                    <i className="fas fa-plus"></i> Thêm mới
                   </Button>
                 </div>
               </div>
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>Mã sự kiện</th>
+                    <th>ID</th>
                     <th>Tên sự kiện</th>
                     <th>Ảnh</th>
                     <th>Ngày bắt đầu</th>
@@ -164,7 +164,7 @@ const EventList = () => {
                 <tbody>
                   {events.map((event) => (
                     <tr key={event._id}>
-                      <td>{event.id}</td>
+                      <td>{event._id}</td>
                       <td>{event.Ten}</td>
                       <td>
                         <img
@@ -180,20 +180,20 @@ const EventList = () => {
                       <td>{event.Luuy}</td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(event._id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                          className="btn btn-primary  edit"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditEvent(event)}
                         >
                           <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} />
+                        </button>
+                        <button
+                          className="btn btn-primary  trash"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(event._id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
                         </button>
                       </td>
                     </tr>
@@ -233,7 +233,7 @@ const EventList = () => {
           <div className="row">
             <div className="form-group col-md-6">
               <label className="control-label">Mã sự kiện</label>
-              <input className="form-control" type="text" value={editedEvent.id || ""} readOnly />
+              <input className="form-control" type="text" value={editedEvent._id || ""} readOnly />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Ảnh</label>
@@ -298,11 +298,11 @@ const EventList = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Hủy
+          <Button onClick={handleSaveChanges} className="btn btn-save">
+            Lưu lại
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu thay đổi
+          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel">
+            Hủy bỏ
           </Button>
         </Modal.Footer>
       </Modal>

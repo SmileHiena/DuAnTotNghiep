@@ -101,9 +101,6 @@ router.get("/dangchieu", async (req, res) => {
 
       // Find movies with the status "dangchieu"
       const phim = await phimCollection.find({ TrangThai: "dangchieu" }).toArray();
-
-      console.log("Fetched movies:", phim); // Log the fetched movies
-
       if (phim.length > 0) {
           res.status(200).json(phim);
       } else {
@@ -124,9 +121,6 @@ router.get("/sapchieu", async (req, res) => {
 
       // Find movies with the status "dangchieu"
       const phim = await phimCollection.find({ TrangThai: "sapchieu" }).limit(limit).toArray();
-
-      console.log("Fetched movies:", phim); // Log the fetched movies
-
       if (phim.length > 0) {
           res.status(200).json(phim);
       } else {
@@ -298,42 +292,5 @@ router.delete("/delete/:id", async (req, res) => {
       .json({ message: "Failed to delete blog", error: error.message });
   }
 });
-
-
-
-//lọc lịch chiếu theo phim
-
-router.get("/:id/phim", async (req, res) => {
-  const PhimId = parseInt(req.params.id); // Chuyển đổi ID từ chuỗi sang số
-  console.log(`Fetching details for schedule with ID: ${PhimId}`);
-
-  try {
-    const db = await connectDb(); // Kết nối đến MongoDB
-    const phimCollection = db.collection('phim');
-    const lichCollection = db.collection('Lichchieu'); // Chỉnh sửa tên biến từ lichDetailCollection thành lichCollection
-
-    // Tìm lịch theo ID
-    const lich = await phimCollection.findOne({ id: PhimId });
-    console.log('Schedule found:', lich);
-
-    if (lich) {
-      const phongDetails = await lichCollection.find({ idPhim: lich.id }).toArray(); // Sử dụng find và toArray để lấy tất cả
-
-      console.log('lịch details found:', phongDetails); 
-
-      if (phongDetails.length > 0) {
-        res.status(200).json(phongDetails); // Trả về mảng các chi tiết phòng
-      } else {
-        res.status(404).json({ message: "Chi tiết phòng không tìm thấy!" });
-      }
-    } else {
-      res.status(404).json({ message: "Lịch không tìm thấy!" });
-    }
-  } catch (error) {
-    console.error("Error fetching schedule detail:", error);
-    res.status(500).json({ message: "Lỗi server!" });
-  }
-});
-
 
 module.exports = router;
