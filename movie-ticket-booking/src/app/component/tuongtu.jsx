@@ -8,7 +8,7 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
 
     useEffect(() => {
         if (movieId) {
-            fetchCategoryId(movieId); 
+            fetchCategoryId(movieId);
         }
     }, [movieId]);
 
@@ -56,15 +56,23 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
                         <Link href={`/page/details/${movie.id}`} key={movie.id}>
                             <div className="relative w-64 h-80 m-2 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105">
                                 <img src={movie.Anh} alt={movie.Ten} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110" />
-                                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex flex-col justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-100 rounded-lg"></div>
+                                {/* Lớp phủ hiện thông tin phim khi hover */}
+                                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex flex-col justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-100 rounded-lg">
+                                    <h3 className="text-white text-lg font-semibold text-center mb-2 px-2">{movie.Ten}</h3>
+                                    <ul className="sap-chieu__info">
+                                        <li><i className="fa-solid fa-tag" style={{ color: "#FFD43B" }}></i>{" "}&nbsp; {movie.TheLoai.KieuPhim} </li>
+                                        <li><i className="fa-solid fa-clock" style={{ color: "#FFD43B" }}></i>{" "} &nbsp; {movie.TheLoai.ThoiLuong}</li>
+                                        <li><i className="fa-solid fa-earth-americas" style={{ color: "#FFD43B" }}></i>{" "} &nbsp; {movie.TheLoai.QuocGia}</li>
+                                        <li><i className="fa-solid fa-comment" style={{ color: "#FFD43B" }} ></i>{" "}&nbsp; {movie.TheLoai.NgonNgu}</li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div className="flex justify-center">
-                                <span className="block text-center max-w-[250px] mx-auto truncate">{movie.Ten}</span>
-                            </div>
+                            <div className="flex justify-center">  <span className="block text-center max-w-[250px] mx-auto truncate"> {movie.Ten} </span></div>
                         </Link>
                     ))}
                 </div>
             </div>
+
         </section>
     );
 };

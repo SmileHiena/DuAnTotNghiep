@@ -1,23 +1,31 @@
-'use client';
+'use client'; // Ensures that this component is client-side only
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import Router from "next/router"; // Import Router for navigation
+import { useRouter } from "next/navigation"; // Use the 'next/navigation' package
 
 const Profile = () => {
   const [accountInfo, setAccountInfo] = useState({});
-  const [invoices, setInvoices] = useState([]); // Chuyển từ comments sang invoices
+  const [invoices, setInvoices] = useState([]);
   const [showInvoiceDetails, setShowInvoiceDetails] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
-  const [message, setMessage] = useState(""); // Thêm state để hiển thị thông báo
+  const [message, setMessage] = useState("");
+  const [isClient, setIsClient] = useState(false); // Client-side check state
 
+  const router = useRouter(); // Initialize the router
+
+  useEffect(() => {
+    setIsClient(true); // Ensures router actions happen only after the component mounts on the client side
+  }, []);
+
+  // Toggle invoice details modal
   const toggleInvoiceDetails = (invoice) => {
     setSelectedInvoice(invoice);
     setShowInvoiceDetails(!showInvoiceDetails);
   };
 
-  // Hàm xử lý hủy hóa đơn
+  // Handle canceling the invoice
   const handleCancel = async () => {
     if (selectedInvoice.TrangThai !== "Đã Đặt") {
       setMessage("Chỉ có thể hủy các vé có trạng thái 'Đã Đặt'.");
@@ -41,14 +49,18 @@ const Profile = () => {
         }
 
         setMessage("Hóa đơn đã được hủy thành công!");
-        setInvoices(invoices.filter(invoice => invoice.id !== selectedInvoice.id)); // Cập nhật lại danh sách hóa đơn
-        setShowInvoiceDetails(false); // Đóng chi tiết hóa đơn sau khi hủy
+        setInvoices(invoices.filter(invoice => invoice.id !== selectedInvoice.id));
+        setShowInvoiceDetails(false); // Close the invoice details view after cancellation
       } catch (error) {
         console.error("Error canceling invoice: ", error);
         setMessage(error.message);
       }
     }
-    Router.push("page/hoadon"); // Quay về trang chủ
+
+    // Navigate to the invoice page only on the client side
+    if (isClient) {
+      router.push("/page/hoadon"); // Navigate to the invoice page
+    }
   };
 
   useEffect(() => {
@@ -71,8 +83,7 @@ const Profile = () => {
           if (response.ok) {
             const data = await response.json();
             setAccountInfo(data);
-            // Fetch invoices after getting user info
-            fetchInvoices(data.userId); // Sử dụng userId từ dữ liệu người dùng
+            fetchInvoices(data.userId); // Fetch invoices for the user after getting user info
           } else {
             console.error("Failed to fetch user data");
             alert("Vui lòng đăng nhập lại.");
@@ -86,7 +97,7 @@ const Profile = () => {
       const fetchInvoices = async (userId) => {
         try {
           const response = await fetch(
-            `http://localhost:3000/checkout?userId=${userId}`, // Thay đổi URL đến API hóa đơn
+            `http://localhost:3000/checkout?userId=${userId}`,
             {
               method: "GET",
               headers: {
@@ -147,11 +158,7 @@ const Profile = () => {
                     <tr className="bg-gray-700" key={invoice._id}>
                       <td className="text-center px-2 py-2">{invoice.TenPhim}</td>
                       <td className="text-center px-2 py-2">{new Date(invoice.NgayMua).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })}</td>
-                      <td className="text-center px-2 py-2">
-                        <button onClick={() => toggleInvoiceDetails(invoice)} className="w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid">
-                          Chi tiết
-                        </button>
-                      </td>
+                      <td className="text-center px-2 py-2"><button onClick={() => toggleInvoiceDetails(invoice)} className="w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"> Chi tiết </button></td>
                     </tr>
                   ))
                 ) : (
@@ -177,16 +184,14 @@ const Profile = () => {
                   <p><strong>Tổng số tiền:</strong> {selectedInvoice.TongTien} VND</p>
                   <p><strong>Trạng thái:</strong> {selectedInvoice.TrangThai}</p>
                   {selectedInvoice.TrangThai === "Đã Đặt" && (
-                    <button onClick={handleCancel} className="mt-4 bg-[#dc3545] text-white rounded px-4 py-2 hover:bg-white hover:text-red-500 transition-colors">
-                      Hủy đơn
-                    </button>
+                    <button onClick={handleCancel} className="mt-4 bg-[#dc3545] text-white rounded px-4 py-2 hover:bg-white hover:text-red-500 transition-colors mr-3">Hủy đơn</button>
                   )}
-                  <button onClick={() => toggleInvoiceDetails(null)} className="mt-4 bg-[#dc3545] text-white rounded px-4 py-2 hover:bg-white hover:text-red-500 transition-colors">Đóng lại</button>
+                  <button onClick={() => toggleInvoiceDetails(null)} className="mt-4 bg-[#6c757d] text-white rounded px-4 py-2 hover:bg-[#5a6268] hover:text-white transition-colors">Đóng lại</button>
                 </div>
               </div>
             )}
 
-            {message && <div className="mt-4 text-red-500">{message}</div>} {/* Hiển thị thông báo */}
+            {message && <div className="mt-4 text-red-500">{message}</div>}
           </div>
         </div>
       </div>

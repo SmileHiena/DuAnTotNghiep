@@ -18,8 +18,17 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
 
   return (
     <>
-      {pathname !== '/page/login' && <Headers />}
-      {children}
-    </>
+    {pathname === '/page/login' ? (
+      // Chỉ hiển thị children khi pathname là '/page/login'
+      <>{children}</>
+    ) : (
+      // Hiển thị cả Headers và children khi pathname khác '/page/login'
+      <div className="app sidebar-mini rtl">
+        <Headers />
+        {children}
+      </div>
+    )}
+  </>
+  
   );
 }

@@ -63,7 +63,7 @@ const PaymentSuccess = () => {
         // Nếu SoGhe không phải mảng hoặc chuỗi, báo lỗi
         setError("Dữ liệu ghế không hợp lệ.");
         return;
-      }   
+      }
 
       const invoiceData = {
         NgayMua: info.NgayMua,
@@ -144,15 +144,25 @@ const PaymentSuccess = () => {
 
   return (
     <>
-      <div className="container mx-auto my-10 flex justify-center items-center">
-        <div className="bg-green-500 text-white rounded-lg shadow-lg p-10 text-center max-w-lg w-full">
-          <h1 className="text-3xl font-bold mb-4">Thanh toán thành công!</h1>
-          <p className="text-lg">Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!</p>
+      <div className="container mx-auto my-10 flex justify-center items-center bg-[#212529] h-[500px]">
+        <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg shadow-2xl p-10 text-center max-w-lg w-full transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-3xl">
+
+          {/* Icon */}
+          <div className="text-6xl mb-6 animate-bounce hover:scale-110 transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> <path fillRule="evenodd" d="M8.293 13.293a1 1 0 011.414 0L12 16.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl font-bold mb-4 text-purple-100 drop-shadow-lg hover:text-purple-200 transition-all duration-300">Thanh toán thành công!</h1>
+
+          {/* Description */}
+          <p className="text-lg text-purple-200 opacity-90 hover:opacity-100 transition-all duration-300">Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!</p>
         </div>
       </div>
 
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
     </>
+
   );
 };
 

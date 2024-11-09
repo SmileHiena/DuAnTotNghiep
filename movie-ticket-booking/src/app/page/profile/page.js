@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEdit, } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const Profile = () => {
@@ -65,7 +65,7 @@ const Profile = () => {
             />
             <div className="flex justify-center mt-1">
               <h2 className="text-3xl text-center font-semibold text-white">
-                {accountInfo.Ten}
+                {accountInfo.Ten || "Chưa có tên"} {/* Hiển thị tên người dùng */}
               </h2>
             </div>
           </div>
@@ -107,8 +107,9 @@ const Profile = () => {
                   <label className="block mb-2">Họ và tên</label>
                   <input
                     type="text"
-                    defaultValue={accountInfo.Ten}
+                    defaultValue={accountInfo.Ten || ""}
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
+                    readOnly
                   />
                 </div>
                 <div>
@@ -117,34 +118,48 @@ const Profile = () => {
                     type="text"
                     defaultValue={
                       accountInfo.NgaySinh
-                        ? new Date(accountInfo.NgaySinh).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric", }) : ""}
+                        ? new Date(accountInfo.NgaySinh).toLocaleDateString(
+                            "vi-VN",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )
+                        : ""
+                    }
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
+                    readOnly
                   />
                 </div>
                 <div>
                   <label className="block mb-2">Số điện thoại</label>
                   <input
                     type="text"
-                    defaultValue={accountInfo.SDT}
+                    defaultValue={accountInfo.SDT || ""}
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
+                    readOnly
                   />
                 </div>
                 <div>
                   <label className="block mb-2">Email</label>
                   <input
                     type="text"
-                    defaultValue={accountInfo.Email}
+                    defaultValue={accountInfo.Email || ""}
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
+                    readOnly
                   />
                 </div>
-                <div className="flex justify-between mt-4 flex-col md:flex-row">
+              </div>
+            </div>
+
+            {/* Button to Edit Profile */}
+            <div className="flex justify-between mt-4 flex-col md:flex-row">
               <Link href="/page/editprofile">
-              <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+                <button className="bg-[#F5CF49] text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
                   <FontAwesomeIcon icon={faEdit} className="mr-1" style={{ width: '20px', height: '20px' }} /> Sửa
                 </button>
               </Link>
-            </div>
-              </div>
             </div>
           </div>
         </div>

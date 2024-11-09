@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faEdit, faUser, faArrowLeft, } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUser, faArrowLeft, } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const Profile = () => {
@@ -9,6 +9,7 @@ const Profile = () => {
   const [comments, setComments] = useState([]);
   const [showCommentDetails, setShowCommentDetails] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [expandedComments, setExpandedComments] = useState({});
 
   const toggleCommentDetails = (comment) => {
     setSelectedComment(comment);
@@ -77,21 +78,20 @@ const Profile = () => {
       getUserInfo();
     }
   }, []);
+  const toggleExpand = (id) => {
+    setExpandedComments((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the expanded state for the clicked comment
+    }));
+  };
 
   return (
     <section className="flex flex-col justify-center items-center w-full px-4">
       <div className="w-full max-w-[1410px]">
-        <div
-          className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4"
-          style={{ backgroundImage: "url('../images/background.png')" }}
-        ></div>
+        <div className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4" style={{ backgroundImage: "url('../images/background.png')" }} ></div>
         <div className="relative -mt-20 flex flex-col md:flex-row">
           <div className="flex flex-col items-center w-full md:w-1/4">
-            <img
-              src={`http://localhost:3000/images/${accountInfo.Anh}`} // Đường dẫn tới hình ảnh
-              alt="Profile"
-              className="rounded-full w-36 h-36 border-5 border-white object-cover"
-            />
+            <img src={`http://localhost:3000/images/${accountInfo.Anh}`} alt="Profile" className="rounded-full w-36 h-36 border-5 border-white object-cover" />
             <div className="flex justify-center mt-1">
               <h2 className="text-3xl text-center font-semibold text-white">
                 {accountInfo.Ten}
@@ -137,7 +137,12 @@ const Profile = () => {
                 {comments.length > 0 ? (
                   comments.map((comment) => (
                     <tr className="bg-gray-700" key={comment._id}>
-                      <td className="text-center px-2 py-2">{comment.content}</td>
+                      <td className="text-center px-2 py-2">
+                        {comment.content.length > 50
+                          ? `${comment.content.substring(0, 50)}...`
+                          : comment.content}
+                      </td>
+
                       <td className="text-center px-2 py-2">
                         {new Date(comment.timestamp).toLocaleDateString()}
                       </td>
@@ -164,9 +169,12 @@ const Profile = () => {
             {showCommentDetails && selectedComment && (
               <div className="mt-4 p-4 bg-gray-800 border border-[#F5CF49] rounded">
                 <h3 className="text-xl text-white">Chi tiết bình luận</h3>
-                <p className="text-white">
-                  <strong className="text-white">Nội dung:</strong> {selectedComment.content}
+
+                <p className="text-[18px] sm:text-[16px] text-white mb-2 break-words">
+                  <strong className="text-white inline whitespace-nowrap">Nội dung: </strong>
+                  <span className="inline">{selectedComment.content}</span>
                 </p>
+
                 <p className="text-white">
                   <strong className="text-white">Ngày bình luận:</strong>{" "}
                   {new Date(selectedComment.timestamp).toLocaleDateString("vi-VN", {
@@ -183,6 +191,7 @@ const Profile = () => {
                 </button>
               </div>
             )}
+
           </div>
         </div>
       </div>
