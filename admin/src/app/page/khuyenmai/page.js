@@ -21,7 +21,8 @@ const EventList = () => {
     NgayBatDau: "",
     NgayKetThuc: "",
     Luuy: "",
-    DieuKien: ""
+    DieuKien: "",
+    Giam: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -89,6 +90,7 @@ const EventList = () => {
       NgayKetThuc: editedEvent.NgayKetThuc || "",
       Luuy: editedEvent.Luuy || "",
       DieuKien: editedEvent.DieuKien || "",
+      Giam: editedEvent.Giam || "",
     }));
 
     if (selectedFile) {
@@ -157,6 +159,7 @@ const EventList = () => {
                     <th>Ngày kết thúc</th>
                     <th>Nội dung</th>
                     <th>Điều kiện</th>
+                    <th>Giảm giá %</th>
                     <th>Lưu ý</th>
                     <th>Tính năng</th>
                   </tr>
@@ -177,6 +180,7 @@ const EventList = () => {
                       <td>{event.NgayKetThuc}</td>
                       <td>{event.NoiDung}</td>
                       <td>{event.DieuKien}</td>
+                      <td>{event.Giam}%</td>
                       <td>{event.Luuy}</td>
                       <td className="table-td-center">
                         <button
@@ -293,6 +297,14 @@ const EventList = () => {
                 className="form-control"
                 value={editedEvent.DieuKien}
                 onChange={(e) => setEditedEvent({ ...editedEvent, DieuKien: e.target.value })}
+              />
+            </div>
+            <div className="form-group col-md-12">
+              <label className="control-label">Giảm giá</label>
+              <textarea
+                className="form-control"
+                value={editedEvent.Giam}
+                onChange={(e) => setEditedEvent({ ...editedEvent, Giam: e.target.value })}
               />
             </div>
           </div>

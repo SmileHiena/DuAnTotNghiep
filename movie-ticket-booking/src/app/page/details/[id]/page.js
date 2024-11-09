@@ -181,25 +181,17 @@ const Detail = () => {
               <div className="flex mt-7 space-x-2">
                 <div className="flex">
                   <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
-                    <FontAwesomeIcon
+                    <FontAwesomeIcon   onClick={handleToggle} 
                       icon={faPlay}
                       style={{
-                        color: "#DA70D6",
+                        color: "#F5CF49",
                         width: "12px",
                         height: "12px",
                       }}
                     />
                   </p>
-                  <button className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
-                    Xem trailer
-                  </button>
-                  {/* <button 
-                onClick={handleToggle} 
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
-            </button> */}
                   <button
-                    onClick={handleToggle} className="text-[20px] underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px]">
+                    onClick={handleToggle} className="text-[20px] no-underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px] mr-3  hover:text-yellow-600">
                     {isVisible ? 'Ẩn Trailer' : 'Xem Trailer'}
                   </button>
                 </div>

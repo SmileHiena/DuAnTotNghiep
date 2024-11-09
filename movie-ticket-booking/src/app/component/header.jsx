@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -14,6 +14,44 @@ function Header() {
   const dispatch = useDispatch();
   const menuRef = useRef(null);
   const router = useRouter();
+  const [input, setInput] = useState("");
+  const [results, setResults] = useState([]);
+
+  const fetchData = async (value) => {
+    // Kiểm tra nếu giá trị không hợp lệ (chẳng hạn giá trị trống)
+    if (!value.trim()) {
+      console.log("Search term is required");
+      setResults([]);  // Hoặc xử lý theo cách bạn muốn khi không có giá trị tìm kiếm
+      return;
+    }
+  
+    try {
+      const query = encodeURIComponent(value);  // Mã hóa giá trị tìm kiếm
+      const response = await fetch(`http://localhost:3000/search?name=${value}`);
+      
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
+  
+      const json = await response.json();
+      setResults(json);
+    } catch (error) {
+      console.error("Error in search:", error);
+      setResults([]);
+    }
+  };  
+
+  const handleSearch = (event) => {
+    if (event.key === 'Enter') {
+      router.push(`/page/searchResult?name=${input}`);
+    }
+  };
+
+  const handleChange = (value) => {
+    setInput(value);
+    fetchData(value);
+  };
 
   useEffect(() => {
     const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
@@ -117,15 +155,17 @@ function Header() {
           </ul>
         </nav>
 
-        {/* Search Area */}
-        <div className="ml-8 relative hidden lg:block">
-          <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-lg lg:max-w-md md:max-w-sm" style={{ height: '30px' }}>
-            <i className="fas fa-search text-white" style={{ fontSize: '14px', marginRight: '10px' }}></i>
+        {/* Search Bar */}
+        <div className="hidden lg:block relative ml-8">
+          <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-md">
+            <i className="fas fa-search text-white mr-2"></i>
             <input
               type="text"
               placeholder="Tìm kiếm..."
-              className="bg-transparent outline-none text-white w-full h-full text-left"
-              style={{ fontSize: '16px', paddingLeft: '2px' }}
+              value={input}
+              onChange={(e) => handleChange(e.target.value)}
+              onKeyDown={handleSearch}
+              className="bg-transparent text-white w-full outline-none"
             />
           </div>
         </div>

@@ -7,7 +7,7 @@ import https from 'https';
 
 const PaymentPage = () => {
   const router = useRouter();
-  const [bankCode, setBankCode] = useState("");
+  const [bankCode, setBankCode] = useState("VNBANK");
   const [language, setLanguage] = useState("vn");
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [selectedPaymentType, setSelectedPaymentType] = useState("bank");
@@ -103,118 +103,66 @@ const PaymentPage = () => {
 
   return (
     <>
-      <div>
-        <h1>Thanh toán cho hóa đơn  {paymentInfo.orderId}</h1>
-        
+ <div className="container mx-auto my-10 max-w-lg p-8 bg-white rounded-lg shadow-lg">
+  <h1 className="text-3xl font-bold text-center mb-6 text-blue-700">Thanh toán cho hóa đơn {paymentInfo.orderId}</h1>
 
-        <div>
-          <h3>Thông tin thanh toán:</h3>
-          <p>Phương thức thanh toán: {paymentInfo.PhuongThucThanhToan}</p>
-          <p>Số tiền: {paymentInfo.TongTien}</p>
-          <p>Tên khách hàng: {paymentInfo.TenKhachHang}</p>
-          <p>Email: {paymentInfo.Email}</p>
-        </div>
+  <div className="bg-gray-100 p-4 rounded mb-6">
+    <h3 className="text-xl font-semibold mb-2 text-blue-700">Thông tin thanh toán:</h3>
+    <p><span className="font-semibold text-gray-700">Tên khách hàng: {paymentInfo.TenKhachHang}</span></p>
+    <p><span className="font-semibold text-gray-700">Email: {paymentInfo.Email}</span></p>
+    <p><span className="font-semibold text-gray-700">Số diện thoại: {paymentInfo.SoDienThoai}</span></p>
+  </div>
+
+  <h3 className="text-2xl font-bold text-center mb-4 text-blue-700">Thanh toán</h3>
+  <form id="createOrder" onSubmit={handleSubmit} className="space-y-4">
+    <div className="form-group">
+      <label htmlFor="amount" className="block font-semibold mb-1 text-gray-600">Số tiền</label>
+      <input
+        className="w-full p-3 border border-gray-300 rounded-md bg-gray-100 text-gray-700"
+        id="amount"
+        name="amount"
+        placeholder="Số tiền"
+        value={paymentInfo.TongTien}
+        disabled
+      />
+    </div>
+
+    <div className="form-group">
+      <label className="block font-semibold mb-2 text-gray-600">Chọn Phương thức thanh toán:</label>
+      <div className="space-y-2">
+        {/* <label className="flex items-center space-x-2 text-gray-600">
+          <input type="radio" name="bankCode" value="VNPAYQR" checked={bankCode === "VNPAYQR"} onChange={() => { setBankCode("VNPAYQR"); setSelectedPaymentType("bank"); }} />
+          <span>Thanh toán qua ứng dụng hỗ trợ VNPAYQR</span>
+        </label> */}
+        <label className="flex items-center space-x-2 text-gray-600">
+          <input type="radio" name="bankCode" value="VNBANK" checked={selectedPaymentType === "bank" && bankCode === "VNBANK"} onChange={() => { setBankCode("VNBANK"); setSelectedPaymentType("bank"); }} />
+          <span>Thanh toán qua ATM-Tài khoản ngân hàng nội địa</span>
+        </label>
+        {/* <label className="flex items-center space-x-2 text-gray-600">
+          <input type="radio" name="bankCode" value="INTCARD" checked={bankCode === "INTCARD"} onChange={() => { setBankCode("INTCARD"); setSelectedPaymentType("card"); }} />
+          <span>Thanh toán qua thẻ quốc tế</span>
+        </label> */}
       </div>
+    </div>
 
-      <div className="container">
-        <h3>Thanh toán</h3>
-        <div className="table-responsive">
-          <form id="createOrder" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="amount">Số tiền</label>
-              <input
-                className="form-control"
-                id="amount"
-                name="amount"
-                placeholder="Số tiền"
-                value={paymentInfo.TongTien}
-                disabled
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Chọn Phương thức thanh toán:</label>
-              <div className="controls">
-                <label className="radio-inline">
-                  <input
-                    type="radio"
-                    name="bankCode"
-                    value="VNPAYQR"
-                    checked={bankCode === "VNPAYQR"}
-                    onChange={() => {
-                      setBankCode("VNPAYQR");
-                      setSelectedPaymentType("bank");
-                    }}
-                  />
-                  Thanh toán qua ứng dụng hỗ trợ VNPAYQR
-                </label>
-              </div>
-              <div className="controls">
-                <label className="radio-inline">
-                  <input
-                    type="radio"
-                    name="bankCode"
-                    value="VNBANK"
-                    checked={selectedPaymentType === "bank" && bankCode === "VNBANK"}
-                    onChange={() => {
-                      setBankCode("VNBANK");
-                      setSelectedPaymentType("bank");
-                    }}
-                  />
-                  Thanh toán qua ATM-Tài khoản ngân hàng nội địa
-                </label>
-              </div>
-              <div className="controls">
-                <label className="radio-inline">
-                  <input
-                    type="radio"
-                    name="bankCode"
-                    value="INTCARD"
-                    checked={bankCode === "INTCARD"}
-                    onChange={() => {
-                      setBankCode("INTCARD");
-                      setSelectedPaymentType("card");
-                    }}
-                  />
-                  Thanh toán qua thẻ quốc tế
-                </label>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Ngôn ngữ:</label>
-              <div className="controls">
-                <label className="radio-inline">
-                  <input
-                    type="radio"
-                    name="language"
-                    value="vn"
-                    checked={language === "vn"}
-                    onChange={() => setLanguage("vn")}
-                  />
-                  Tiếng việt
-                </label>
-              </div>
-              <div className="controls">
-                <label className="radio-inline">
-                  <input
-                    type="radio"
-                    name="language"
-                    value="en"
-                    checked={language === "en"}
-                    onChange={() => setLanguage("en")}
-                  />
-                  Tiếng anh
-                </label>
-              </div>
-            </div>
-
-            <button type="submit" className="btn btn-default" id="btnPopup">
-              Thanh toán
-            </button>
-          </form>
-        </div>
+    <div className="form-group">
+      <label className="block font-semibold mb-2 text-gray-600">Ngôn ngữ:</label>
+      <div className="space-y-2">
+        <label className="flex items-center space-x-2 text-gray-600">
+          <input type="radio" name="language" value="vn" checked={language === "vn"} onChange={() => setLanguage("vn")} />
+          <span>Tiếng Việt</span>
+        </label>
+        <label className="flex items-center space-x-2 text-gray-600">
+          <input type="radio" name="language" value="en" checked={language === "en"} onChange={() => setLanguage("en")} />
+          <span>Tiếng Anh</span>
+        </label>
       </div>
+    </div>
+
+    <button type="submit" className="w-full p-3 text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-md transition">Thanh toán</button>
+  </form>
+</div>
+
     </>
   );
 };
