@@ -7,9 +7,9 @@ import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
-  
-  // Kiểm tra và tự động đăng nhập lại người dùng khi trang tải lại
-  useEffect(() => {
+
+  // Hàm kiểm tra token
+  const checkToken = () => {
     const token = document.cookie
       .split('; ')
       .find(row => row.startsWith('token='))
@@ -19,7 +19,7 @@ const Login = () => {
       try {
         // Giải mã JWT để lấy thông tin user
         const payload = JSON.parse(atob(token.split('.')[1]));
-        
+
         // Kiểm tra tính hợp lệ của token và xác nhận quyền admin nếu cần
         if (payload) {
           if (payload.IsAdmin) {
@@ -32,7 +32,27 @@ const Login = () => {
         console.error("Token không hợp lệ hoặc đã hết hạn.");
       }
     }
-  }, [router]);
+  };
+
+  // Kiểm tra và tự động đăng nhập lại người dùng khi trang tải lại
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  // Theo dõi sự thay đổi của cookie
+  useEffect(() => {
+    const handleCookieChange = () => {
+      checkToken();
+    };
+
+    // Thêm sự kiện lắng nghe cookie
+    window.addEventListener('storage', handleCookieChange);
+
+    return () => {
+      // Xóa sự kiện lắng nghe khi component unmount
+      window.removeEventListener('storage', handleCookieChange);
+    };
+  }, []);
 
   const formik = useFormik({
     initialValues: { usernameOrEmail: "", MatKhau: "" },

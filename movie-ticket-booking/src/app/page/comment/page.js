@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faUser, faArrowLeft, } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUser  } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const Profile = () => {
@@ -44,6 +44,8 @@ const Profile = () => {
           } else {
             console.error("Failed to fetch user data");
             alert("Vui lòng đăng nhập lại.");
+            // Optionally, you can clear the cookie here if the response indicates an invalid token
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           }
         } catch (error) {
           console.error("An error occurred while fetching user data:", error);
@@ -76,8 +78,14 @@ const Profile = () => {
       };
 
       getUserInfo();
+    } else {
+      // If there's no token, you can redirect to the login page or show a message
+      alert("Vui lòng đăng nhập để tiếp tục.");
+      // Optionally redirect to login page
+      // window.location.href = "/login";
     }
   }, []);
+
   const toggleExpand = (id) => {
     setExpandedComments((prev) => ({
       ...prev,
@@ -93,7 +101,7 @@ const Profile = () => {
           <div className="flex flex-col items-center w-full md:w-1/4">
             <img src={`http://localhost:3000/images/${accountInfo.Anh}`} alt="Profile" className="rounded-full w-36 h-36 border-5 border-white object-cover" />
             <div className="flex justify-center mt-1">
-              <h2 className="text-3xl text-center font-semibold text-white">
+              <h2 className="text-3xl text-center font -semibold text-white">
                 {accountInfo.Ten}
               </h2>
             </div>
@@ -104,7 +112,7 @@ const Profile = () => {
           <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white h-[300px]">
             <nav className="space-y-4">
               <Link href="/page/profile" className="flex items-center text-lg text-white no-underline">
-                <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng
+                <FontAwesomeIcon icon={faUser } className="mr-2 w-4" /> Thông tin khách hàng
               </Link>
               <Link href="/page/comment" className="flex items-center text-lg text-white no-underline">
                 <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử bình luận
