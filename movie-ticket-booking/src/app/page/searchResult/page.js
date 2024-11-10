@@ -40,7 +40,7 @@ function SearchPage() {
         {results.length === 0 ? (
           <div className="text-gray-500 text-center">Không có kết quả tìm kiếm.</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {results.map((phim) => (
               <div key={phim._id} className="movie-card relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
                 <img src={phim.Anh} alt={phim.Ten} className="w-full h-100 object-cover" />
