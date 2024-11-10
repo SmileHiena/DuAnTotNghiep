@@ -165,6 +165,7 @@ const SanPham = () => {
 
     const newPhim = {
       Ten: editedProduct.Ten,
+      Trailer: editedProduct.Trailer,
       TrangThai: editedProduct.TrangThai,
       TheLoai: {
         KieuPhim: editedProduct.TheLoai?.KieuPhim,
@@ -209,6 +210,7 @@ const SanPham = () => {
       setEditedProduct({
         _id: "", // Resetting to initial state
         Ten: "",
+        Trailer: "",
         TrangThai: "",
         TheLoai: {
           KieuPhim: "",
@@ -322,6 +324,7 @@ const SanPham = () => {
                   <tr>
                     <th>ID</th>
                     <th>Tên phim</th>
+                    <th>Trailer</th>
                     <th>Ảnh phim</th>
                     <th>Thể loại</th>
                     <th>Thời lượng</th>
@@ -341,6 +344,7 @@ const SanPham = () => {
                     <tr key={product._id}>
                       <td>{product._id}</td>
                       <td>{product.Ten}</td>
+                      <td>{product.Trailer}</td>
                       <td>
                         <img
                           src={product.Anh}
@@ -463,6 +467,19 @@ const SanPham = () => {
                 value={editedProduct.Ten || ""}
                 onChange={(e) =>
                   setEditedProduct({ ...editedProduct, Ten: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="form-group col-md-6">
+              <label className="control-label">Trailer phim</label>
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.Trailer || ""}
+                onChange={(e) =>
+                  setEditedProduct({ ...editedProduct, Trailer: e.target.value })
                 }
               />
             </div>

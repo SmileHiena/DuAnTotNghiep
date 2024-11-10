@@ -50,6 +50,7 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
       _id: new ObjectId(),
       id: newId, // Set the new id
       Ten: newPhim.Ten,
+      Trailer: newPhim.Trailer,
       Anh: Anh,
       TrangThai: newPhim.TrangThai,
       TheLoai: newPhim.TheLoai,
@@ -147,8 +148,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-
-
 // Route to edit a movie
 router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
   const { id } = req.params;
@@ -157,6 +156,7 @@ router.put("/edit/:id", upload.single("Anh"), async (req, res) => {
     const updatedPhim = JSON.parse(req.body.newPhim);
     const updateData = {
       Ten: updatedPhim.Ten,
+      Trailer: updatedPhim.Trailer,
       TrangThai: updatedPhim.TrangThai,
       TheLoai: updatedPhim.TheLoai,
       MoTa: {

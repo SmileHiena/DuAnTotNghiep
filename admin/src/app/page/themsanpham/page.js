@@ -11,6 +11,7 @@ const ThemSanPham = () => {
   const [theloai, setTheloai] = useState([]);
   const [newPhim, setNewPhim] = useState({
     Ten: "",
+    Trailer: "",
     Anh: null,
     TrangThai: "Sắp chiếu",
     TheLoai: {
@@ -86,6 +87,7 @@ const ThemSanPham = () => {
       "newPhim",
       JSON.stringify({
         Ten: newPhim.Ten,
+        Trailer: newPhim.Trailer,
         TrangThai: newPhim.TrangThai,
         TheLoai: newPhim.TheLoai,
         MoTa: newPhim.MoTa,
@@ -158,6 +160,22 @@ const ThemSanPham = () => {
                       value={newPhim.Ten}
                       onChange={(e) =>
                         setNewPhim((prev) => ({ ...prev, Ten: e.target.value }))
+                      }
+                      required
+                    />
+                  </Form.Group>
+
+                  <Form.Group
+                    className="form-group col-md-4"
+                    controlId="formTrailer"
+                  >
+                    <Form.Label>Trailer phim</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="Trailer"
+                      value={newPhim.Trailer}
+                      onChange={(e) =>
+                        setNewPhim((prev) => ({ ...prev, Trailer: e.target.value }))
                       }
                       required
                     />
