@@ -31,43 +31,46 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 // Import model
 const connectDb = require("../models/db");
 
-// Đăng ký người dùng
 router.post("/register", upload.single("Anh"), async (req, res) => {
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
     const { Email, MatKhau, SDT, TenDangNhap, Ten, NgaySinh, DiaChi, GioiTinh } = req.body;
     const imagePath = req.file ? req.file.path : null;
-
-    // Kiểm tra nếu email hoặc tên đăng nhập đã tồn tại
-    const existingEmail = await userCollection.findOne({ Email });
-    const existingUsername = await userCollection.findOne({ TenDangNhap });
-    
-    if (existingEmail) {
+    const newId = (await userCollection.countDocuments()) + 1;
+    const { v4: uuidv4 } = require('uuid');
+    // Check if the email already exists
+    const existingUser = await userCollection.findOne({ Email });
+    const User = await userCollection.findOne({ TenDangNhap });
+    if (existingUser) {
       return res.status(400).json({ message: "Email đã tồn tại" });
+
+      // Hash the password
     }
-    if (existingUsername) {
+    if (User) {
       return res.status(400).json({ message: "Tên đăng nhập đã tồn tại" });
+
+      // Hash the password
     }
+    const hashPassword = await bcrypt.hash(MatKhau, 10);
 
-    // Mã hóa mật khẩu
-    const hashedPassword = await bcrypt.hash(MatKhau, 10);
-
-    // Tạo người dùng mới
+    // Create new user object
     const newUser = {
+      id: uuidv4(),
+      userId: newId,
       Email,
-      MatKhau: hashedPassword,
-      SDT,
-      TenDangNhap,
-      Ten,
       NgaySinh,
       DiaChi,
       GioiTinh,
+      MatKhau: hashPassword,
+      SDT,
+      TenDangNhap,
+      Ten,
       Anh: imagePath ? req.file.filename : null,
-      IsAdmin: 1, // Hoặc 0 tùy vào yêu cầu
+      IsAdmin: 1,
     };
 
-    // Thêm vào cơ sở dữ liệu
+    // Insert the new user into the collection
     const result = await userCollection.insertOne(newUser);
     if (result.insertedId) {
       return res.status(200).json({ message: "Đăng ký thành công" });
@@ -79,7 +82,6 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
     return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
   }
 });
-
 
 // Route cập nhật thông tin người dùng
 router.put("/updateUser/:id", async (req, res) => {
@@ -195,11 +197,9 @@ router.put("/updatepassword/:id", async (req, res) => {
 });
 
 // Đăng nhập người dùng
-
-// Đăng nhập người dùng
-// Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
   const { usernameOrEmail, MatKhau } = req.body;
+
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
@@ -221,7 +221,7 @@ router.post("/login", async (req, res, next) => {
       return res.status(403).json({ message: "Mật khẩu không chính xác." });
     }
 
-    // Tạo access token (ngắn hạn, ví dụ 15 phút)
+    // Tạo token JWT không có thời gian hết hạn
     const token = jwt.sign(
       {
         TenDangNhap: user.TenDangNhap,
@@ -230,31 +230,20 @@ router.post("/login", async (req, res, next) => {
         Ten: user.Ten,
         IsAdmin: user.IsAdmin,
       },
-      process.env.JWT_SECRET || "secretkey",
-      { expiresIn: '15m' } // access token có thời gian sống ngắn
+      process.env.JWT_SECRET || "secretkey" // Không cần `expiresIn`
     );
 
-    // Tạo refresh token (dài hạn, ví dụ 7 ngày)
-    const refreshToken = jwt.sign(
-      {
-        TenDangNhap: user.TenDangNhap,
-        Email: user.Email,
-        SDT: user.SDT,
-      },
-      process.env.JWT_REFRESH_SECRET || "refreshsecretkey",
-      { expiresIn: '7d' } // refresh token có thời gian sống dài hơn
-    );
-
-    // Lưu refresh token vào cookie HttpOnly (bảo mật hơn)
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true, // Giúp cookie không thể bị truy cập từ JavaScript (giảm tấn công XSS)
-      secure: process.env.NODE_ENV === "production", // Chỉ gửi cookie qua HTTPS trong môi trường production
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
+    // Gửi token qua cookie
+    res.cookie("authToken", token, {
+      httpOnly: true, // Chỉ có thể truy cập từ server
+      secure: process.env.NODE_ENV === "production", // Chỉ gửi qua HTTPS trong môi trường production
+      maxAge: 365 * 24 * 60 * 60 * 1000, // Cookie sẽ hết hạn sau 1 năm
     });
 
-    // Trả về access token và thông tin người dùng (không trả mật khẩu)
+    // Trả về thông tin người dùng mà không trả lại token trong body
     res.status(200).json({
-      token: token,
+      message: "Đăng nhập thành công",
+      token,
       TenDangNhap: user.TenDangNhap,
       Email: user.Email,
       SDT: user.SDT,
@@ -266,51 +255,6 @@ router.post("/login", async (req, res, next) => {
     res.status(500).json({ message: "Lỗi server, vui lòng thử lại." });
   }
 });
-
-
-// Refresh token
-router.post("/refresh-token", async (req, res) => {
-  const refreshToken = req.cookies.refreshToken; // Lấy refresh token từ cookie
-
-  if (!refreshToken) {
-    return res.status(401).json({ message: "Refresh token không tồn tại." });
-  }
-
-  try {
-    // Xác minh refresh token
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || "refreshsecretkey");
-
-    const db = await connectDb();
-    const userCollection = db.collection("taikhoan");
-
-    // Tìm người dùng dựa trên email hoặc tên đăng nhập trong refresh token
-    const user = await userCollection.findOne({ Email: decoded.Email });
-
-    if (!user) {
-      return res.status(403).json({ message: "Tài khoản không tồn tại." });
-    }
-
-    // Tạo lại access token (ngắn hạn)
-    const newAccessToken = jwt.sign(
-      {
-        TenDangNhap: user.TenDangNhap,
-        Email: user.Email,
-        SDT: user.SDT,
-        Ten: user.Ten,
-        IsAdmin: user.IsAdmin,
-      },
-      process.env.JWT_SECRET || "secretkey",
-      { expiresIn: '15m' } // Access token mới có thời gian sống ngắn
-    );
-
-    // Trả về access token mới
-    res.status(200).json({ token: newAccessToken });
-  } catch (error) {
-    console.error(error);
-    return res.status(403).json({ message: "Refresh token không hợp lệ hoặc đã hết hạn." });
-  }
-});
-
 
 
 router.get("/users", async (req, res, next) => {
@@ -387,46 +331,27 @@ router.get("/users/:id/Ten", async (req, res, next) => {
   }
 });
 
-
-
-// API lấy thông tin người dùng dựa trên token
-router.get("/detailuser", async (req, res, next) => {
-  // Lấy token từ header 'Authorization'
+// API để lấy thông tin người dùng chi tiết
+router.get('/detailuser', async (req, res, next) => {
   const token = req.headers.authorization;
 
-  // Kiểm tra xem có token không
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
-
-  // Tách token từ "Bearer <token>"
+  
   const bearerToken = token.split(' ')[1];
-
-  // Xác minh token
-  jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
-    }
-
-    // Nếu token hợp lệ, tiến hành truy vấn người dùng từ cơ sở dữ liệu
-    try {
+  jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
+      if (err) {
+          return res.status(401).json({ message: "Token không hợp lệ" });
+      }
       const db = await connectDb();
       const userCollection = db.collection('taikhoan');
-      
-      // Tìm người dùng dựa trên email trong token (decoded.Email)
-      const userInfo = await userCollection.findOne({ Email: decoded.Email });
-
+      const userInfo = await userCollection.findOne({ Email: user.Email });
       if (userInfo) {
-        // Trả về thông tin người dùng
-        return res.status(200).json(userInfo);
+          res.status(200).json(userInfo);
       } else {
-        // Nếu không tìm thấy người dùng
-        return res.status(404).json({ message: "Không tìm thấy người dùng với email này" });
+          res.status(404).json({ message: "Không tìm thấy người dùng" });
       }
-    } catch (dbError) {
-      console.error('Database error:', dbError);
-      return res.status(500).json({ message: 'Lỗi truy vấn cơ sở dữ liệu' });
-    }
   });
 });
 

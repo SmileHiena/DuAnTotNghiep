@@ -1,65 +1,19 @@
 "use client"; // Đảm bảo sử dụng "use client" cho component client
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation"; // Sử dụng useRouter để chuyển trang
 import Link from "next/link";
 
 const Login = () => {
-  const router = useRouter();
-
-  // Hàm kiểm tra token
-  const checkToken = () => {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('token='))
-      ?.split('=')[1];
-
-    if (token) {
-      try {
-        // Giải mã JWT để lấy thông tin user
-        const payload = JSON.parse(atob(token.split('.')[1]));
-
-        // Kiểm tra tính hợp lệ của token và xác nhận quyền admin nếu cần
-        if (payload) {
-          if (payload.IsAdmin) {
-            router.push("/"); // Điều hướng trang chủ cho Admin
-          } else {
-            router.push("/"); // Điều hướng trang chủ cho người dùng
-          }
-        }
-      } catch (error) {
-        console.error("Token không hợp lệ hoặc đã hết hạn.");
-      }
-    }
-  };
-
-  // Kiểm tra và tự động đăng nhập lại người dùng khi trang tải lại
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  // Theo dõi sự thay đổi của cookie
-  useEffect(() => {
-    const handleCookieChange = () => {
-      checkToken();
-    };
-
-    // Thêm sự kiện lắng nghe cookie
-    window.addEventListener('storage', handleCookieChange);
-
-    return () => {
-      // Xóa sự kiện lắng nghe khi component unmount
-      window.removeEventListener('storage', handleCookieChange);
-    };
-  }, []);
-
+  const router = useRouter(); // Tạo router để chuyển trang
   const formik = useFormik({
     initialValues: { usernameOrEmail: "", MatKhau: "" },
     validationSchema: Yup.object({
       usernameOrEmail: Yup.string().required("Bắt buộc"),
       MatKhau: Yup.string().required("Bắt buộc"),
     }),
+
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const res = await fetch('http://localhost:3000/users/login', {
@@ -67,28 +21,33 @@ const Login = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ usernameOrEmail: values.usernameOrEmail, MatKhau: values.MatKhau }),
         });
-
+        
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message || 'Đăng nhập thất bại');
         }
-
+        
+        // Kiểm tra response để xác nhận token
+        
+        
         // Lưu token vào cookie
         const data = await res.json();
+        console.log(data); // Kiểm tra token từ response
         if (!data.token) {
           throw new Error("Token không hợp lệ.");
         }
-        document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`; // Lưu token vào cookie
+
+        // Lưu token vào cookie mà không set thời gian (session cookie)
+        document.cookie = `token=${data.token}; path=/`; // Không set max-age hay expires => Session cookie
 
         // Kiểm tra và giải mã token
         const token = data.token;
         const payload = JSON.parse(atob(token.split(".")[1]));
 
-        // Chuyển hướng trang dựa trên quyền người dùng
-        if (payload.IsAdmin) {
-          window.location.href = "/";
+        if (payload.IsAdmin) { // Kiểm tra vai trò admin
+          window.location.href = "/"; // Điều hướng trang Admin
         } else {
-          router.push("/");
+          router.push("/"); // Điều hướng trang cho người dùng thông thường
         }
       } catch (error) {
         setFieldError('general', error.message); // Hiển thị lỗi chung
