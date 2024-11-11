@@ -1618,6 +1618,21 @@ const data = {
       Tinhtrang: "Hoạt động",
       IsAdmin: 0,
     },
+    {
+      id: 2,
+      Quyen: "NhanVien",
+      HoTen: "Nguyễn Thái Sơn",
+      TenDangNhap: "Sondev",
+      MatKhau: "12345678",
+      Anh: "/images/combo/combo4.jpg",
+      DiaChi: "Quận 12, TP. HCM",
+      NgaySinh: "29-09-2004",
+      GioTinh: "Nam",
+      SDT: "0395427399",
+      ChucVu: "Nhân viên",
+      Tinhtrang: "Hoạt động",
+      IsAdmin: 0,
+    },
   ],
 
   // ----- Sukien -----

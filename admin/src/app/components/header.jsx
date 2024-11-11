@@ -3,22 +3,21 @@ import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faSignOutAlt, faIdCard, faUser, faTags, faTasks, faTicketAlt, faCommentDots, faFilm, faCalendarCheck, faChartPie, faCog } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';  // Import useRouter hook
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const router = useRouter();  // Initialize router
+    const [isAdmin, setIsAdmin] = useState(false); // Thêm trạng thái để kiểm tra quyền admin
+    const router = useRouter();
 
     useEffect(() => {
-        const token = document.cookie.split(';').find(c => c.trim().startsWith('adminToken='));  // Changed to 'adminToken'
+        const token = document.cookie.split(';').find(c => c.trim().startsWith('adminToken='));
         const tokenValue = token?.split('=')[1];
 
-        // Nếu không có token, điều hướng về trang login
         if (!tokenValue) {
             router.push('/page/login');
-        }
-        else {
+        } else {
             setIsLoggedIn(true);
             const getUser = async () => {
                 try {
@@ -33,6 +32,7 @@ const Header = () => {
                     if (response.ok) {
                         const data = await response.json();
                         setUser(data);
+                        setIsAdmin(data.Quyen === 'Admin'); // Kiểm tra quyền admin
                     } else {
                         console.error('Failed to fetch user data');
                         setIsLoggedIn(false);
@@ -49,34 +49,28 @@ const Header = () => {
     }, [router]);
 
     const handleLogout = () => {
-        document.cookie = 'adminToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';  // Changed to 'adminToken'
+        document.cookie = 'adminToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
         setIsLoggedIn(false);
-        router.push('/page/login');  
+        router.push('/page/login');
     };
 
     return (
         <>
-            {/* Navbar */}
             <header className="app-header">
-                {/* Sidebar toggle button */}
                 <a className="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
-                {/* Navbar Right Menu */}
                 <ul className="app-nav">
-                    {/* User Menu */}
-                    <li>{/* nơi chứa  nút đăng xuất */}
+                    <li>
                         <button onClick={handleLogout} className="app-nav__item">
                             <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" />
                         </button>
                     </li>
                 </ul>
             </header>
-            {/* Sidebar menu */}
             <div className="app-sidebar__overlay" data-toggle="sidebar"></div>
             <aside className="app-sidebar">
-                {/* nơi hiện ảnh, tên admin */}
                 <Link href="/">
                     <div className="app-sidebar__user mb-2">
-                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/${user?.Anh}`} alt="User Image" />
+                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/${user?.Anh}`} alt="User  Image" />
                         <div>
                             <p className="app-sidebar__user-name"><b>{user?.HoTen || "Admin"}</b></p>
                             <p className="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
@@ -103,12 +97,14 @@ const Header = () => {
                             <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link className="app-menu__item" href="/page/nhanvien">
-                            <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lý nhân viên</span>
-                        </Link>
-                    </li>
+                    {isAdmin && ( // Kiểm tra nếu là admin thì mới hiển thị
+                        <li>
+                            <Link className="app-menu__item" href="/page/nhanvien">
+                                <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
+                                <span className="app-menu__label">Quản lý nhân viên</span>
+                            </Link>
+                        </li>
+                    )}
                     <li>
                         <Link className="app-menu__item" href="/page/khachhang">
                             <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />

@@ -68,6 +68,7 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
       Ten,
       Anh: imagePath ? req.file.filename : null,
       IsAdmin: 1,
+      IsLocked: false
     };
 
     // Insert the new user into the collection
@@ -212,6 +213,13 @@ router.post("/login", async (req, res, next) => {
     if (!user) {
       return res.status(403).json({
         message: "Tài khoản không tồn tại, vui lòng kiểm tra email hoặc tên đăng nhập.",
+      });
+    }
+
+     // Kiểm tra nếu tài khoản đã bị khóa
+     if (user.IsLocked) {
+      return res.status(403).json({
+        message: "Tài khoản của bạn đã bị khóa.",
       });
     }
 

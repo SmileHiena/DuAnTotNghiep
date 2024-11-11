@@ -6,6 +6,7 @@ import { faTrash, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icon
 import Link from 'next/link';
 import { ToastContainer, toast, Bounce } from 'react-toastify'; // Import Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS cho Toastify
+import Cookies from 'js-cookie';
 
 const NhanVien = () => {
   const [employees, setEmployees] = useState([]);
@@ -14,26 +15,68 @@ const NhanVien = () => {
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);  // State to store admin check result
 
   useEffect(() => {
-    const fetchEmployees = async () => {
+    const adminToken = Cookies.get('adminToken');
+    console.log('adminToken:', adminToken); // Kiểm tra giá trị của adminToken
+  
+    if (adminToken) {
       try {
-        const response = await fetch('http://localhost:3000/employees');
+        const decodedToken = JSON.parse(atob(adminToken.split('.')[1]));
+        console.log('Decoded token:', decodedToken);
+  
+        if (decodedToken.Quyen === 'Admin') {
+          console.log('Quyền của người dùng:', decodedToken.Quyen);
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (error) {
+        console.error('Lỗi giải mã token:', error);
+        setIsAdmin(false);
+      }
+    } else {
+      console.log('Không tìm thấy adminToken trong cookie');
+      setIsAdmin(false);
+    }
+  }, []);useEffect(() => {
+    const fetchEmployees = async () => {
+      if (!isAdmin) {
+        toast.error('Bạn không có quyền truy cập vào danh sách nhân viên.');
+        setLoading(false);
+        return;
+      }
+  
+      try {
+        const response = await fetch('http://localhost:3000/employees', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('adminToken')}`,
+          },
+          credentials: 'include'
+        });
+  
+        if (!response.ok) {
+          throw new Error('Có lỗi xảy ra khi lấy dữ liệu nhân viên.');
+        }
+  
         const data = await response.json();
         setEmployees(data);
-        setLoading(false);
       } catch (error) {
         console.error('Có lỗi xảy ra khi lấy dữ liệu nhân viên:', error);
+      } finally {
         setLoading(false);
       }
     };
-
-    fetchEmployees();
-  }, []);
-
-  if (loading) {
-    return <p>Đang tải dữ liệu...</p>;
-  }
+  
+    if (isAdmin) {
+      fetchEmployees();
+    }
+  }, [isAdmin]);
+  // if (loading) {
+  //   return <p>Đang tải dữ liệu...</p>;
+  // }
 
   const validatePhoneNumber = (phone) => {
     const phoneRegex = /^[0-9]{10}$/; // Kiểm tra số điện thoại có đúng 10 chữ số không
@@ -92,12 +135,19 @@ const NhanVien = () => {
       try {
         await fetch(`http://localhost:3000/employees/edit/${currentEmployee._id}`, {
           method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('adminToken')}`, // Sửa ở đây: dùng Cookies.get() thay vì Cookies.getItem()
+          },
           body: formData,
         });
 
         // Cập nhật danh sách nhân viên mà không cần tải lại trang
         setEmployees((prev) =>
-          prev.map((emp) => (emp._id === currentEmployee._id ? { ...currentEmployee, Anh: file ? `/images/${file.name}` : emp.Anh } : emp))
+          prev.map((emp) =>
+            emp._id === currentEmployee._id
+              ? { ...currentEmployee, Anh: file ? `/images/${file.name}` : emp.Anh }
+              : emp
+          )
         );
 
         toast.success('Cập nhật nhân viên thành công!', { // Thông báo thành công
@@ -127,6 +177,9 @@ const NhanVien = () => {
       try {
         await fetch(`http://localhost:3000/employees/delete/${employeeId}`, {
           method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('adminToken')}`, // Sử dụng đúng phương thức
+          },
         });
 
         setEmployees((prev) => prev.filter((emp) => emp._id !== employeeId));
@@ -160,15 +213,17 @@ const NhanVien = () => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
+                  {isAdmin && (
                     <Link href="/page/themnhanvien" className="btn btn-add">
                       <FontAwesomeIcon icon={faPlus} /> Thêm mới
                     </Link>
+                  )}
                   </div>
                 </div>
                 <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
                   <thead>
                     <tr>
-                      <th>ID </th>
+                      <th width="50">STT</th>
                       <th>Họ và tên</th>
                       <th>Tài khoản</th>
                       <th>Ảnh thẻ</th>
@@ -183,12 +238,12 @@ const NhanVien = () => {
                   </thead>
                   <tbody>
                     {employees.length > 0 ? (
-                      employees.map((employee) => (
+                      employees.map((employee, index) => (
                         <tr key={employee._id}>
-                          <td>{employee._id}</td>
+                          <td>{index + 1}</td>
                           <td>{employee.HoTen}</td>
                           <td>{employee.TenDangNhap}</td>
-                          <td><img className="img-card-person" src={employee.Anh} alt={employee.HoTen} /></td>
+                          <td><img className="w-12 h-12 rounded-full object-cover" src={`http://localhost:3000/${employee.Anh}`} alt={employee.HoTen} /></td>
                           <td>{employee.DiaChi}</td>
                           <td>{employee.NgaySinh}</td>
                           <td>{employee.GioTinh}</td>
@@ -295,7 +350,7 @@ const NhanVien = () => {
         </div>
       </div>
 
-      <ToastContainer transition={Bounce} /> 
+      <ToastContainer transition={Bounce} />
     </>
   );
 };

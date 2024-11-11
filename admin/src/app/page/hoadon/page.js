@@ -156,7 +156,7 @@ const HoaDon = () => {
                             <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th with="50">STT</th>
                                         <th>Ngày Mua/Suất Chiếu</th>
                                         <th>Tên Phim</th>
                                         <th>Ghế Ngồi</th>
@@ -169,9 +169,9 @@ const HoaDon = () => {
                                 </thead>
                                 <tbody>
                                     {filteredData.length > 0 ? (
-                                        filteredData.map((item) => (
+                                        filteredData.map((item, index) => (
                                             <tr key={item._id}>
-                                                <td>{item._id}</td>
+                                                <td>{index + 1}</td>
                                                 <td>{item.NgayMua || item.NgaySuatChieu}</td>
                                                 <td>{item.TenPhim || 'N/A'}</td>
                                                 <td>{item.GheNgoi || item.SoGhe}</td>

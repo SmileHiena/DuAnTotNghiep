@@ -159,7 +159,7 @@ function Header() {
 
         {/* Search Bar */}
         <div className="hidden lg:block relative ml-8">
-          <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full max-w-md">
+          <div className="flex items-center border-2 rounded px-3 w-full max-w-md">
             <i className="fas fa-search text-white mr-2"></i>
             <input
               type="text"
@@ -185,18 +185,17 @@ function Header() {
             <>
             <div className='flex gap-4 items-center'>
               <div className='text-center  border-solid'>
-                <Link className='no-underline text-white uppercase' href="/page/profile">
-                   <Image className='rounded-full' src={`http://localhost:3000/images/${user.Anh}`} width={30} height={30} />
-                    {/*Hoặc user.fullname {user.Anh}  */}
+                <Link className='no-underline uppercase' href="/page/profile">
+                   <Image className='rounded-full' src={`http://localhost:3000/images/${user.Anh}`} width={40} height={40} />
                 </Link>
               </div>
-              <button onClick={handleLogout} className=" w-[45px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"><FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" /></button>
+              <button onClick={handleLogout} className=" w-[45px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#2C2C2C] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"><FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" /></button>
             </div>
             </>
           ) : (
             <>
               <Link href="/page/login">
-                <button className="hidden sm:inline-block border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[117px] h-[30px] rounded hover:bg-[#F5CF49] hover:text-[#000000] hover:font-bold transition uppercase text-[14px]">
+                <button className="hidden sm:inline-block border-2 border-[#F5CF49] bg-[#2C2C2C] text-[#FFFFFF] font-semibold w-[117px] h-[30px] rounded hover:bg-[#F5CF49] hover:text-[#000000] hover:font-bold transition uppercase text-[14px]">
                   Đăng Nhập
                 </button>
               </Link>
