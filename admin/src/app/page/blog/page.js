@@ -2,7 +2,7 @@
 
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPenToSquare, faTimes,faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPenToSquare, faTimes, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -277,7 +277,7 @@ const Blog = () => {
                 <div className="absolute top-0 left-0 right-0 mx-auto max-w-4xl bg-white shadow-2xl rounded-lg z-10 overflow-y-auto max-h-[48rem] border border-green-200">
                   <div className="flex justify-between items-center  sticky top-0 bg-white py-4">
                     <button onClick={handleAddBlogDetail} className="ml-3 btn btn-add">
-                    <i className="fas fa-plus"></i> Thêm mới
+                      <i className="fas fa-plus"></i> Thêm mới
                     </button>
                     <FontAwesomeIcon
                       icon={faTimes}
@@ -289,25 +289,25 @@ const Blog = () => {
                   {lichchieu.map((lich) => (
                     <div key={lich.id} className="border-b-2 border-grey-300 pb-6  last:border-b-0  px-6">
                       <div className="mt-4 space-y-3">
-                        <h4 className="text-xl font-semibold text-green-800">{lich.NoiDung1 || "Detailed info line 1"}</h4>
-                        <p className="text-green-700">{lich.NoiDung2 || "Detailed info line 2"}</p>
-                        <p className="text-green-700">{lich.NoiDung4 || "Detailed info line 3"}</p>
-                        <p className="text-green-700">{lich.NoiDung5 || "Detailed info line 3"}</p>
-                        <p className="text-green-700">{lich.NoiDung6 || "Detailed info line 3"}</p>
+                        <h4 className="text-xl font-semibold text-black">{lich.NoiDung1 || "Detailed info line 1"}</h4>
+                        <p className="text-black">{lich.NoiDung2 || "Detailed info line 2"}</p>
+                        <p className="text-black">{lich.NoiDung4 || "Detailed info line 3"}</p>
+                        <p className="text-black">{lich.NoiDung5 || "Detailed info line 3"}</p>
+                        <p className="text-black">{lich.NoiDung6 || "Detailed info line 3"}</p>
                         <img
                           src={lich.Anh || ""}
                           alt="Showtimes image"
                           className="mt-4 w-full max-w-lg mx-auto rounded-md shadow-md border border-green-200"
                         />
                       </div>
-                      <div className="flex justify-between items-center mb-6">
+                      <div className="flex  items-center mb-6">
                         <button
                           onClick=
                           {() => {
                             setSelectededitblog(lich.id);
                             setShowShoweditblog(true)
                           }}
-                          className="btn mt-5 btn-save"
+                          className="btn mt-5 mr-3 btn-save"
                         >
                           Sửa
                         </button>
@@ -410,29 +410,22 @@ const Blog = () => {
                         </div>
                       </div>
 
-                      <div className="flex justify-between mt-8">
+                      <div className="flex  mt-8">
                         <button
                           type="submit"
-                          className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-500 focus:outline-none focus:ring-2 focus:ring-green-400"
+                          className="btn btn-save mr-3"
                         >
-                          Lưu Thay Đổi
+                          Lưu lại
                         </button>
                         <button
                           type="button"
                           onClick={() => setShowShoweditblog(false)}
-                          className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+                          className="btn btn-cancel"
                         >
-                          Hủy
+                          Hủy bỏ
                         </button>
                       </div>
                     </form>
-
-                    <button
-                      onClick={() => setShowShoweditblog(false)}
-                      className="mt-8 w-full py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
-                    >
-                      Đóng
-                    </button>
                   </div>
                 </div>
 
