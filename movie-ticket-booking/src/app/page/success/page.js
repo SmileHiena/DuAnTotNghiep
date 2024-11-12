@@ -144,7 +144,7 @@ const PaymentSuccess = () => {
 
   return (
     <>
-      <div className="container mx-auto my-10 flex justify-center items-center bg-[#212529] h-[500px]">
+      <div className="container mx-auto my-10 flex justify-center items-center  h-[500px]">
         <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg shadow-2xl p-10 text-center max-w-lg w-full transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-3xl">
 
           {/* Icon */}

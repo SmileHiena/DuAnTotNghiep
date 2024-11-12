@@ -219,19 +219,19 @@ const Suatchieu = () => {
                                 <table className="table table-hover table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th width="50">STT</th>
                                             <th>Thứ</th>
                                             <th>Ngày chiếu</th>
                                             <th>Giờ chiếu</th>
                                             <th>Tên phim</th>
                                             <th>Tên phòng</th>
                                             <th>Trạng thái</th>
-                                            <th>Tính năng</th>
+                                            <th width="130">Tính năng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {filteredShowtimes.length > 0 ? (
-                                            filteredShowtimes.map((showtime) => {
+                                            filteredShowtimes.map((showtime, index) => {
                                                 const [day, month, year] = showtime.NgayChieu.split('/');
                                                 const date = new Date(`${year}-${month}-${day}`);
                                                 const daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
@@ -239,7 +239,7 @@ const Suatchieu = () => {
 
                                                 return (
                                                     <tr key={showtime._id}>
-                                                        <td>{showtime._id}</td>
+                                                        <td>{index + 1}</td>
                                                         <td>{thuTrongTuan}</td>
                                                         <td>{showtime.NgayChieu}</td>
                                                         <td>{showtime.GioChieu}</td>

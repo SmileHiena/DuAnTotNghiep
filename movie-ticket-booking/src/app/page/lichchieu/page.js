@@ -69,13 +69,13 @@ const LichChieuPage = () => {
   );
 
   return (
-    <div className="text-white min-h-screen p-5 bg-[rgba(0,0,0,0.4)]">
+    <div className="text-white min-h-screen p-5 bg-[rgba(0,0,0,0.3)]">
       <div className="max-w-[1410px] mx-auto mb-10">
         <h1 className="text-3xl font-bold mb-10">Lịch Chiếu Phim</h1>
 
         <div className="grid grid-cols-1 gap-4">
           {filteredMovies.map((phim) => (
-            <div key={phim._id} className="p-4 rounded-lg shadow bg-[rgba(0,0,0,0.7)] flex flex-col md:flex-row md:items-start">
+            <div key={phim._id} className="p-4 rounded-lg shadow bg-[rgba(0,0,0,0.6)] flex flex-col md:flex-row md:items-start">
               {/* Bên trái chứa ảnh và thể loại */}
               <div className="flex-1 flex flex-col md:flex-row">
                 <div className="relative w-full md:w-[240px] h-[320px]">

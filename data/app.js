@@ -16,6 +16,7 @@ var employeesRouter = require('./routes/employees');
 var admin_sanphamRouter = require('./routes/admin_sanpham');
 var admin_theloaiRouter = require('./routes/admin_theloai');
 var blogRouter = require('./routes/blog');
+var blogdetailRouter = require('./routes/blogdetail');
 var dangchieuRouter = require('./routes/dangchieu');
 var taikhoanRouter = require('./routes/taikhoan');
 var authRouter = require('./routes/auth');
@@ -33,7 +34,7 @@ var app = express();
 
 // Cấu hình middleware CORS
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:3002'], // Cho phép truy cập từ các địa chỉ này
+  origin: '*', // Cho phép truy cập từ mọi địa chỉ
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
   credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
@@ -61,6 +62,7 @@ app.use('/employees', employeesRouter);
 app.use('/sanpham', admin_sanphamRouter);
 app.use('/theloai', admin_theloaiRouter);
 app.use('/blog', blogRouter);
+app.use('/blogdetail', blogdetailRouter);
 app.use('/dangchieu', dangchieuRouter);
 app.use('/taikhoan', taikhoanRouter);
 app.use('/auth', authRouter);

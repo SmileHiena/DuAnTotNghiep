@@ -1,4 +1,4 @@
-// employees.js ( api phía admin: http://localhost:3000/employees/login )
+// employees.js (phía admin)
 const express = require('express');
 const router = express.Router();
 const connectDb = require('../models/db');
@@ -30,12 +30,60 @@ function checkFileUpLoad(req, file, cb) {
 // Upload file
 let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 
+// Middleware kiểm tra quyền Admin
+const checkAdmin = (req, res, next) => {
+    const adminToken = req.headers.authorization;
+
+    if (!adminToken) {
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+
+    const bearerToken = adminToken.split(' ')[1];
+
+    // Kiểm tra nếu token không hợp lệ
+    // if (!bearerToken) {
+    //     return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    // }
+
+    jwt.verify(bearerToken, process.env.JWT_SECRET || 'secretkey', async (err, user) => {
+        if (err) {
+            return res.status(401).json({ message: 'Token không hợp lệ' });
+        }
+
+        const db = await connectDb();
+        const collection = db.collection('admin');
+        const employees = await collection.find({ Quyen: 'Admin' }).toArray();
+
+        // Kiểm tra quyền người dùng là Admin
+        if (user.Quyen !== 'Admin') {
+            return res.status(403).json({ message: 'Chỉ admin mới có quyền thực hiện thao tác này' });
+        }
+
+        req.user = employees; // Thêm thông tin user vào req để sử dụng sau
+        next(); // Tiếp tục xử lý request
+    });
+};
+
 // Lấy danh sách nhân viên theo quyền 'NhanVien'
-router.get('/', async (req, res) => {
+router.get('/', checkAdmin, async (req, res) => {
     try {
+        // Lấy token từ header
+        const adminToken = req.headers.authorization?.split(' ')[1];
+        if (!adminToken) {
+            return res.status(401).json({ message: 'Unauthorized: No adminToken provided' });
+        }
+
+        // Giải mã và kiểm tra adminToken
+        const decoded = jwt.verify(adminToken, process.env.JWT_SECRET || 'secretkey');
+        if (decoded.Quyen !== 'Admin') {
+            return res.status(403).json({ message: 'Chỉ admin mới có quyền thực hiện thao tác này' });
+        }
+
+        // Nếu là admin, truy vấn DB để lấy danh sách nhân viên
         const db = await connectDb();
         const collection = db.collection('admin');
         const employees = await collection.find({ Quyen: 'NhanVien' }).toArray();
+
         res.json(employees);
     } catch (error) {
         console.error(error);
@@ -87,6 +135,7 @@ router.post('/check-username', async (req, res) => {
     }
 });
 
+// Thêm nhân viên (Admin mới có quyền thêm)
 router.post('/add', upload.single('Anh'), async (req, res) => {
     try {
         const { HoTen, TenDangNhap, DiaChi, NgaySinh, GioTinh, SDT, ChucVu, Tinhtrang } = req.body;
@@ -132,7 +181,7 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
     }
 });
 
-// Sửa thông tin nhân viên
+// Sửa thông tin nhân viên (Chỉ Admin có quyền sửa)
 router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
     try {
         const { id } = req.params;
@@ -182,44 +231,35 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
     }
 });
 
-
-// Xóa nhân viên
+// Xóa nhân viên (Chỉ Admin có quyền xóa)
 router.delete('/delete/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const db = await connectDb();
         const collection = db.collection('admin');
 
-        const result = await collection.deleteOne({ _id: new ObjectId(id) });
-        if (result.deletedCount === 0) {
-            res.status(404).json({ message: 'Không tìm thấy nhân viên để xóa' });
-        } else {
-            res.json({ message: 'Nhân viên đã được xóa thành công' });
+        const employee = await collection.findOne({ _id: new ObjectId(id) });
+
+        if (!employee) {
+            return res.status(404).json({ message: 'Không tìm thấy nhân viên' });
         }
+
+        // Xóa ảnh nhân viên nếu có
+        if (employee.Anh) {
+            const imagePath = path.join(__dirname, '../public/images/', employee.Anh);
+            fs.unlink(imagePath, (err) => {
+                if (err) {
+                    console.error('Có lỗi khi xóa ảnh:', err);
+                }
+            });
+        }
+
+        await collection.deleteOne({ _id: new ObjectId(id) });
+        res.status(200).json({ message: 'Xóa nhân viên thành công' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
     }
 });
-
-// Khóa nhân viên
-router.put('/lock/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const db = await connectDb();
-        const collection = db.collection('admin');
-
-        const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { Tinhtrang: 'Đã khóa' } });
-        if (result.modifiedCount === 0) {
-            res.status(404).json({ message: 'Không tìm thấy nhân viên để khóa' });
-        } else {
-            res.json({ message: 'Nhân viên đã bị khóa' });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
-    }
-});
-
 
 module.exports = router;

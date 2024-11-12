@@ -31,7 +31,7 @@ const data = {
     {
       id: 2,
       Ten: "VENOM: KÈO CUỐI",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
+      Trailer: "https://www.youtube.com/embed/I1q-jmvPNn0",
       TheLoai: {
         KieuPhim: "Hành Động, Khoa Học Viễn Tưởng",
         ThoiLuong: "109'",
@@ -52,8 +52,8 @@ const data = {
     },
     {
       id: 3,
+      Trailer: "https://www.youtube.com/embed/3Q6ILUwMwM4",
       Ten: "NGÀY XƯA CÓ MỘT CHUYỆN TÌNH (T16)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Tình Cảm",
         ThoiLuong: "118'",
@@ -74,8 +74,8 @@ const data = {
     },
     {
       id: 4,
+      Trailer: "https://www.youtube.com/embed/G95mJ72aY28",
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Anime",
         ThoiLuong: "58'",
@@ -96,8 +96,8 @@ const data = {
     },
     {
       id: 5,
+      Trailer: "https://www.youtube.com/embed/MtZ_hf7tLxk",
       Ten: "LÀM GIÀU VỚI MA (T16)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Tâm Lý",
         ThoiLuong: "112'",
@@ -119,7 +119,7 @@ const data = {
     {
       id: 6,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
+      Trailer: "https://www.youtube.com/embed/hBbndPyAPeg",
       TheLoai: {
         KieuPhim: "Hài",
         ThoiLuong: "96'",
@@ -140,8 +140,8 @@ const data = {
     },
     {
       id: 7,
+      Trailer: "https://www.youtube.com/embed/QJ8E9R70csY",
       Ten: "CÔ DÂU HÀO MÔN (T18)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Tình Cảm, Tâm Lý",
         ThoiLuong: "114'",
@@ -161,8 +161,8 @@ const data = {
     },
     {
       id: 8,
+      Trailer: "https://www.youtube.com/embed/AfybuJ8zOAI",
       Ten: "VÂY HÃM TẠI ĐÀI BẮC (T18)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hồi Hộp, Tâm Lý",
         ThoiLuong: "100'",
@@ -182,8 +182,8 @@ const data = {
     },
     {
       id: 9,
+      Trailer: "https://www.youtube.com/embed/9tDZpBbg8Ow",
       Ten: "ELLI VÀ BÍ ẨN CHIẾC TÀU MA LT (P)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hoạt hình",
         ThoiLuong: "86'",
@@ -203,8 +203,8 @@ const data = {
     },
     {
       id: 10,
+      Trailer: "https://www.youtube.com/embed/O_JcwpDergM",
       Ten: "HỌC VIỆN ANH HÙNG: YOU'RE THE NEXT",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Anime",
         ThoiLuong: "99'",
@@ -224,8 +224,8 @@ const data = {
     },
     {
       id: 11,
+      Trailer: "https://www.youtube.com/embed/L8GYbHu20nQ",
       Ten: "NHỮNG NHÀ VÔ ĐỊCH (T16)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hoạt hình, Chính Kịch",
         ThoiLuong: "119'",
@@ -245,8 +245,8 @@ const data = {
     },
     {
       id: 12,
+      Trailer: "https://www.youtube.com/embed/jz-LPOpWBqM",
       Ten: "PHÒNG GIÁO VIÊN (T13)",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Chính Kịch",
         ThoiLuong: "98'",
@@ -266,8 +266,8 @@ const data = {
     },
     {
       id: 13,
+      Trailer: "https://www.youtube.com/embed/2T_mKyH17mY",
       Ten: "MẬT MÃ ĐỎ",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Phiêu Lưu, Hành Động",
         ThoiLuong: "99'",
@@ -287,8 +287,8 @@ const data = {
     },
     {
       id: 14,
+      Trailer: "https://www.youtube.com/embed/bmkR2EY_hcY",
       Ten: "CÔNG TỬ BẠC LIÊU",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Gia đình",
         ThoiLuong: "99'",
@@ -308,8 +308,8 @@ const data = {
     },
     {
       id: 15,
+      Trailer: "https://www.youtube.com/embed/ST08liEjNsw",
       Ten: "CHÚA TỂ CỦA NHỮNG CHIẾC NHẪN: CUỘC CHIẾN CỦA ROHIRRIM",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hoạt hình, Phiêu Lưu, Hành Động",
         ThoiLuong: "99'",
@@ -329,8 +329,8 @@ const data = {
     },
     {
       id: 16,
+      Trailer: "https://www.youtube.com/embed/T-aJxCFUN_8",
       Ten: "CAPTAIN AMERICA: THẾ GIỚI MỚI",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Phiêu Lưu, Siêu Anh Hùng, Hành Động",
         ThoiLuong: "99'",
@@ -350,8 +350,8 @@ const data = {
     },
     {
       id: 17,
+      Trailer: "https://www.youtube.com/embed/R4AFSgUGEEs",
       Ten: "VÕ SĨ GIÁC ĐẤU II",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Phiêu Lưu, Hành Động",
         ThoiLuong: "99'",
@@ -371,8 +371,8 @@ const data = {
     },
     {
       id: 18,
+      Trailer: "https://www.youtube.com/embed/-OV2Fv-shro",
       Ten: "TRANSFORMERS MỘT",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Gia đình, Hành động, Phiêu lưu, Hoạt hình, Khoa học - Viễn tưởng",
         ThoiLuong: "123 phút",
@@ -392,8 +392,8 @@ const data = {
     },
     {
       id: 19,
+      Trailer: "https://www.youtube.com/embed/CpcQcKIDYFs",
       Ten: "MỘ ĐOM ĐÓM",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Chiến tranh, Chính kịch, Hoạt hình",
         ThoiLuong: "89 phút",
@@ -413,8 +413,8 @@ const data = {
     },
     {
       id: 20,
+      Trailer: "https://www.youtube.com/embed/tp_borHTCKI",
       Ten: "GÃ TRÙM VÔ DANH",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Chính kịch, Hành động, Hình sự",
         ThoiLuong: "110 phút",
@@ -434,8 +434,8 @@ const data = {
     },
     {
       id: 21,
+      Trailer: "https://www.youtube.com/embed/LaHRWAsZNzs",
       Ten: "Biệt Đội Hot Girl",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Hành động, Hình sự, Lãng mạn",
         ThoiLuong: "110 phút",
@@ -455,8 +455,8 @@ const data = {
     },
     {
       id: 22,
+      Trailer: "https://www.youtube.com/embed/lbLk9PzHWfg",
       Ten: "NGÀY TA ĐÃ YÊU",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Tình Cảm, Tâm Lý",
         ThoiLuong: "104'",
@@ -476,8 +476,8 @@ const data = {
     },
     {
       id: 23,
+      Trailer: "https://www.youtube.com/embed/EIARKqcXILM",
       Ten: "ĐÔI BẠN HỌC YÊU",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Tình Cảm, Hài",
         ThoiLuong: "99'",
@@ -497,8 +497,8 @@ const data = {
     },
     {
       id: 24,
+      Trailer: "https://www.youtube.com/embed/4ALt4VT7grw",
       Ten: "CƯỜI XUYÊN BIÊN GIỚI",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài",
         ThoiLuong: "99'",
@@ -518,8 +518,8 @@ const data = {
     },
     {
       id: 25,
+      Trailer: "https://www.youtube.com/embed/gm8Y562kgfs",
       Ten: "HỘI CÁ VÀNG",
-      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Chính Kịch",
         ThoiLuong: "111'",
@@ -1582,8 +1582,6 @@ const data = {
       IdTaiKhoan: 1,
     },
   ],
-
-
 
   // ----- Hóa_Đơn -----
   HoaDon: [

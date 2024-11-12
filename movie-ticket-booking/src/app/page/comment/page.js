@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faUser  } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUser } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const Profile = () => {
@@ -109,10 +109,10 @@ const Profile = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
-          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white h-[300px]">
+          <div className="w-full md:w-1/4 p-6 bg-[rgba(0,0,0,0.6)] text-white h-[300px]">
             <nav className="space-y-4">
               <Link href="/page/profile" className="flex items-center text-lg text-white no-underline">
-                <FontAwesomeIcon icon={faUser } className="mr-2 w-4" /> Thông tin khách hàng
+                <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng
               </Link>
               <Link href="/page/comment" className="flex items-center text-lg text-white no-underline">
                 <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử bình luận
@@ -144,7 +144,7 @@ const Profile = () => {
               <tbody>
                 {comments.length > 0 ? (
                   comments.map((comment) => (
-                    <tr className="bg-gray-700" key={comment._id}>
+                    <tr className="bg-[rgba(0,0,0,0.6)] border-b border-gray-800" key={comment._id}>
                       <td className="text-center px-2 py-2">
                         {comment.content.length > 50
                           ? `${comment.content.substring(0, 50)}...`
@@ -157,7 +157,7 @@ const Profile = () => {
                       <td className="text-center px-2 py-2">
                         <button
                           onClick={() => toggleCommentDetails(comment)}
-                          className=" w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#212529] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"
+                          className=" w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#2C2C2C] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"
                         >
                           Xem chi tiết
                         </button>
@@ -175,7 +175,7 @@ const Profile = () => {
             </table>
 
             {showCommentDetails && selectedComment && (
-              <div className="mt-4 p-4 bg-gray-800 border border-[#F5CF49] rounded">
+              <div className="mt-4 p-4 bg-[rgba(0,0,0,0.6)] border border-[#F5CF49] rounded">
                 <h3 className="text-xl text-white">Chi tiết bình luận</h3>
 
                 <p className="text-[18px] sm:text-[16px] text-white mb-2 break-words">

@@ -152,7 +152,7 @@ const EventList = () => {
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th width="50">STT</th>
                     <th>Tên sự kiện</th>
                     <th>Ảnh</th>
                     <th>Ngày bắt đầu</th>
@@ -161,13 +161,13 @@ const EventList = () => {
                     <th>Điều kiện</th>
                     <th>Giảm giá %</th>
                     <th>Lưu ý</th>
-                    <th>Tính năng</th>
+                    <th width="120">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {events.map((event) => (
+                  {events.map((event, index) => (
                     <tr key={event._id}>
-                      <td>{event._id}</td>
+                      <td>{index + 1}</td>
                       <td>{event.Ten}</td>
                       <td>
                         <img
@@ -184,7 +184,7 @@ const EventList = () => {
                       <td>{event.Luuy}</td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary  edit"
+                          className="btn btn-primary  edit mr-3"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditEvent(event)}

@@ -169,15 +169,15 @@ const TheLoai = () => {
               >
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th width="50">STT</th>
                     <th>Tên thể loại</th>
-                    <th>Tính năng</th>
+                    <th width="120">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {theloai.map((item) => (
+                  {theloai.map((item, index) => (
                     <tr key={item._id}>
-                      <td>{item._id}</td>
+                      <td>{index + 1}</td>
                       <td>{item.Ten}</td>
                       <td className="table-td-center">
                       <button
@@ -192,7 +192,7 @@ const TheLoai = () => {
                           />
                         </button>
                         <button
-                          className="btn btn-primary  trash mr-3"
+                          className="btn btn-primary  trash "
                           type="button"
                           title="Xóa"
                           onClick={() => handleDelete(item._id)}

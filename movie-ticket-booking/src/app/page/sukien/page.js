@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const EventPage = () => {
-  const [events, setEvents] = useState([]); 
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -22,7 +22,7 @@ const EventPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#212529' }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#2C2C2C' }}>
       <div className="max-w-[1410px] w-full">
         <h1 className="text-3xl font-bold mt-10 mb-10 text-[#F5CF49]">Chương Trình Khuyến Mãi</h1>
         <div className="space-y-6 mb-4">
@@ -69,7 +69,7 @@ const EventPage = () => {
                     <h2 className="text-[32px] font-semibold text-[#F5CF49]">{event.Ten}</h2>
                     <p className="text-gray-300 mb-4">{event.NoiDung}</p>
                     <div className="text-white">
-                    <p>Ngày bắt đầu: <span className="font-medium">{event.NgayBatDau}</span></p>
+                      <p>Ngày bắt đầu: <span className="font-medium">{event.NgayBatDau}</span></p>
                       <p className="mb-5">Ngày kết thúc: <span className="font-medium">{event.NgayKetThuc}</span></p>
                       <p className="font-semibold">Lưu ý</p>
                       <span className="font-medium">{event.Luuy}</span>

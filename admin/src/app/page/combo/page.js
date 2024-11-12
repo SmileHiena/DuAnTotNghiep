@@ -159,23 +159,23 @@ const Combo = () => {
                 <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th width="50">STT</th>
                       <th>Tên combo</th>
                       <th>Nội dung</th>
                       <th>Giá</th>
                       <th>Ảnh</th>
-                      <th>Tính năng</th>
+                      <th width="130">Tính năng</th>
                     </tr>
                   </thead>
                   <tbody>
                     {combos.length > 0 ? (
-                      combos.map((combo) => (
+                      combos.map((combo, index) => (
                         <tr key={combo._id}>
-                          <td>{combo._id}</td>
+                          <td>{index + 1}</td>
                           <td>{combo.TenCombo}</td>
                           <td>{combo.NoiDung}</td>
                           <td>{formatCurrency(combo.Gia)}</td>
-                          <td><img className="img-card-person" src={combo.Anh} alt={combo.TenCombo} /></td>
+                          <td><img className="img-card-person" src={`http://localhost:3000/${combo.Anh}`} alt={combo.TenCombo} /></td>
                           <td>
                             <button className="btn btn-primary mr-3" type="button" onClick={() => handleEditClick(combo._id)}>
                               <FontAwesomeIcon icon={faPenToSquare} />
