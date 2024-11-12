@@ -1,61 +1,83 @@
 "use client";
-import React, { useEffect, useState } from "react"; // Import useEffect and useState
+import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import { useParams } from "next/navigation";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { QRCode } from 'react-qr-code';
 
 const ChiTietHoaDon = () => {
   const { id } = useParams();
   const router = useRouter();
-  const [hoaDon, setHoaDon] = useState(null); // Use null to indicate no data yet
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [error, setError] = useState(null); // State for error handling
-  const [message, setMessage] = useState(""); // State to show success/error messages
+  const [hoaDon, setHoaDon] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchInvoiceDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/checkout/${id}`);
+        const response = await fetch(`https://s9391bnm-3000.asse.devtunnels.ms/checkout/${id}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setHoaDon(data); // Set invoice data to state
-        console.log(data); // Debugging: log the data fetched
+        setHoaDon(data);
       } catch (error) {
         console.error("Error fetching invoice details: ", error);
-        setError(error.message); // Set the error message to state
+        setError(error.message);
       } finally {
-        setLoading(false); // Update loading state
+        setLoading(false);
       }
     };
 
-    fetchInvoiceDetails(); // Call the fetch function
-  }, [id]); // Runs when the component mounts or when the id changes
+    fetchInvoiceDetails();
+  }, [id]);
+
+  const handleShare = (method) => {
+    const urlToShare = `https://s9391bnm-3001.asse.devtunnels.ms/page/chitiethoadon/${id}`;
+
+    
+    if (method === 'facebook') {
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlToShare)}`;
+      window.open(facebookUrl, "_blank", "width=600,height=400");
+    } else if (method === 'twitter') {
+      const messageToShare = `Mời bạn xem chi tiết hóa đơn của tôi: ${urlToShare}`;
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(messageToShare)}&url=${encodeURIComponent(urlToShare)}`;
+      window.open(twitterUrl, "_blank", "width=600,height=400");
+    } else if (method === 'copy') {
+      navigator.clipboard.writeText(urlToShare).then(() => {
+        alert("Đã sao chép liên kết hóa đơn!");
+      }).catch((error) => {
+        console.error("Error copying to clipboard: ", error);
+      });
+    }
+    setIsModalOpen(false); // Đóng modal sau khi chia sẻ
+  };
 
   const handleDownload = () => {
     const input = document.getElementById("invoice");
     html2canvas(input)
       .then((canvas) => {
         const link = document.createElement("a");
-        link.download = "hoa_don.png"; // Set download filename
-        link.href = canvas.toDataURL(); // Convert canvas to image
-        link.click(); // Trigger the download
+        link.download = "hoa_don.png";
+        link.href = canvas.toDataURL();
+        link.click();
       })
       .catch((error) => {
         console.error("Error generating image: ", error);
       });
   };
+
   const handleCancel = async () => {
     if (confirm("Bạn có chắc chắn muốn hủy hóa đơn này không?")) {
       try {
         const response = await fetch(`http://localhost:3000/checkout/${id}`, {
-          method: "DELETE", // Use DELETE method
+          method: "DELETE",
           headers: {
-            // Remove Authorization header since we are not using tokens
-            "Content-Type": "application/json", // Optional: Set content type if needed
+            "Content-Type": "application/json",
           },
         });
 
@@ -63,99 +85,111 @@ const ChiTietHoaDon = () => {
           throw new Error("Hủy hóa đơn không thành công");
         }
 
-        setMessage("Hóa đơn đã được hủy thành công!"); // Success message
-        setHoaDon(null); // Clear invoice information
+        setMessage("Hóa đơn đã được hủy thành công!");
+        setHoaDon(null);
       } catch (error) {
         console.error("Error canceling invoice: ", error);
-        setMessage(error.message); // Display error message
+        setMessage(error.message);
       }
     }
     router.push("/");
   };
 
+
+
   if (loading) {
-    return <div className="text-white">Loading...</div>; // Display loading message
+    return <div className="text-white">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-red-500">{`Error: ${error}`}</div>; // Display error message
+    return <div className="text-red-500">{`Error: ${error}`}</div>;
   }
 
   if (!hoaDon) {
-    return <div className="text-white">No invoice details found.</div>; // Handle case where no invoice is found
+    return <div className="text-white">No invoice details found.</div>;
   }
 
   return (
-    <div className="max-w-full flex flex-col items-center justify-center mx-auto p-4 sm:p-6 bg-[rgba(0,0,0,0.3)]" style={{ maxWidth: "1410px" }} >
-      <h2 className="text-2xl sm:text-3xl font-semibold text-white text-center mb-4">CHI TIẾT HÓA ĐƠN </h2>
-      <div className="overflow-hidden shadow-lg rounded-lg border border-gray-700" style={{ width: "50%" }} id="invoice" >
-        <table className="min-w-full bg-[rgba(0,0,0,0.5)] mx-auto">
+    <div className="max-w-full flex flex-col items-center justify-center mx-auto p-4 sm:p-6 bg-[]" style={{ maxWidth: "1410px" }}>
+      <h2 className="text-3xl font-bold text-yellow-400 text-center mb-4">CHI TIẾT HÓA ĐƠN</h2>
+      <div className="overflow-hidden shadow-lg rounded-lg border border-gray-700 bg-gray-900 p-4" id="invoice">
+        <table className="min-w-full bg-gray-800 mx-auto">
           <thead>
-            <tr className="bg-gray-800 text-white">
+            <tr className="bg-gray-700 text-white">
               <th className="py-2 px-3 text-left text-sm">Thông tin</th>
               <th className="py-2 px-3 text-left text-sm">Chi tiết</th>
             </tr>
           </thead>
           <tbody className="text-white text-sm">
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Mã hóa đơn:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.id}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Ngày mua:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.NgayMua}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Rạp:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Rap}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Phương thức thanh toán:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.PhuongThucThanhToan}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Tên phim:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TenPhim}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Thời gian chiếu:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.ThoiGian}, {hoaDon.NgayChieu}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Số ghế:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.SoGhe}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Phòng chiếu:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.PhongChieu}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Giá vé:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.GiaVe}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Tổng tiền:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TongTien}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Tên khách hàng:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.TenKhachHang}</td>
-            </tr>
-            <tr className="hover:bg-gray-600 transition duration-200">
-              <td className="py-2 px-3 border-b border-gray-600">Email:</td>
-              <td className="py-2 px-3 border-b border-gray-600">{hoaDon.Email}</td>
-            </tr>
+            {/* Render invoice details */}
+            {Object.entries(hoaDon).map(([key, value]) => (
+              <tr className="hover:bg-gray-600 transition duration-200" key={key}>
+                <td className="py-2 px-3 border-b border-gray-600">{key}:</td>
+                <td className="py-2 px-3 border-b border-gray-600">{value}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <div className="mt-4 flex justify-center">
+          <QRCode value={`https://s9391bnm-3001.asse.devtunnels.ms/page/chitiethoadon/${hoaDon.id}`} size={128} />
+        </div>
       </div>
 
-      {message && <div className="text-green-500 mt-2">{message}</div>} {/* Hiển thị thông báo */}
+      {message && <div className="text-green-500 mt-2">{message}</div>}
 
       <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
-        <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200" onClick={handleDownload} >Tải Xuống</button>
-        <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200">Chia Sẻ</button>
+        <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200" onClick={handleDownload}>Tải Xuống</button>
+        {/* Nút Chia sẻ */}
+        <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
+          <button
+            style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }}
+            className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"
+            onClick={() => setIsModalOpen(true)} // Mở modal khi nhấn Chia Sẻ
+          >
+            Chia Sẻ
+          </button>
+        </div>
+
+        {/* Modal Chia sẻ */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-xl text-gray-800 font-bold mb-4">Chọn phương thức chia sẻ</h3>
+              <div className="flex flex-col space-y-4">
+                <button
+                  style={{ backgroundColor: "#F5CF49" }}
+                  className="hover:bg-yellow-600 text-black py-2 px-4 rounded transition duration-200"
+                  onClick={() => handleShare('facebook')}
+                >
+                  Chia sẻ trên Facebook
+                </button>
+                <button
+                  style={{ backgroundColor: "#F5CF49" }}
+                  className="hover:bg-yellow-600 text-black py-2 px-4 rounded transition duration-200"
+                  onClick={() => handleShare('twitter')}
+                >
+                  Chia sẻ trên Twitter
+                </button>
+                <button
+                  style={{ backgroundColor: "#F5CF49" }}
+                  className="hover:bg-yellow-600 text-black py-2 px-4 rounded transition duration-200"
+                  onClick={() => handleShare('copy')}
+                >
+                  Sao chép liên kết
+                </button>
+                <button
+                  className="mt-4 py-2 px-4 bg-red-500 text-white rounded"
+                  onClick={() => setIsModalOpen(false)} // Đóng modal
+                >
+                  Đóng
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200" onClick={handleCancel}>Hủy Đơn</button>
-        <Link href="/"><button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200"> Trang chủ</button></Link>
+        <Link href="/"><button style={{ backgroundColor: "#F5CF49", width: "150px", height: "40px" }} className="hover:bg-yellow-600 text-black py-1 px-3 rounded shadow-md transition duration-200">Trang chủ</button></Link>
       </div>
     </div>
   );

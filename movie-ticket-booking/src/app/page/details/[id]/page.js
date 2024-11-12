@@ -112,9 +112,9 @@ const Detail = () => {
   }
 
   return (
-    <div className="container mx-auto text-white">
+    <div className="mx-auto text-white">
       <div className="flex justify-center">
-        <div className="bg-[rgba(0,0,0,0.3)] shadow-lg w-full max-w-[1410px] mx-auto">
+        <div className="bg-[rgba(0,0,0,0.5)] shadow-lg w-full max-w-[1410px] mx-auto">
           <div className="flex flex-col md:flex-row items-start gap-10 mt-8">
             {/* Left box for image */}
             <div className="md:w-1/2 flex justify-end mb-8 md:mb-0"><img src={movie.Anh} alt={movie.Ten} className="object-cover" style={{ height: "650px", width: "auto" }} /></div>

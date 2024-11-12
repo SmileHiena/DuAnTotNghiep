@@ -115,7 +115,7 @@
     border: 2px solid;
 }
 .button-hover:hover {
-    background-color: #212529;
+    background-color: #2C2C2C;
     color: #ffffff;
     border: #f5cf49 2px solid;
     transition: background-color 0.5s ease;

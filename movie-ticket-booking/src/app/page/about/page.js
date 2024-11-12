@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#212529' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#2C2C2C' }}>
       <div className="max-w-[1410px] w-full p-8 rounded-lg transition-transform transform  duration-300" style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
         <h1 className="text-4xl font-bold text-center text-F5CF49 mb-6">
           Về <span className="text-yellow-400">Screen Time</span>

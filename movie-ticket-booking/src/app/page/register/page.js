@@ -73,34 +73,34 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-cover bg-center w-full h-full bg-[url('../../public/images/background.png')]">
+    <div className="flex justify-center items-center bg-cover bg-center py-4 w-full h-full bg-[url('../../public/images/10.jpg')]">
       <form
         className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }} onSubmit={handleRegister} >
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl mb-4">Đăng ký</h1>
 
         <label htmlFor="Ten" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">Họ và tên <span className="text-red">*</span></label>
-        <input type="text" id="Ten" placeholder="Họ và tên" required value={formData.Ten} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" />
+        <input type="text" id="Ten" placeholder="Họ và tên" required value={formData.Ten} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="Anh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]" >Chọn hình ảnh đại diện <span className="text-red">*</span> </label>
-        <input type="file" id="Anh" accept="image/*" onChange={handleFileChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] text-white" />
+        <input type="file" id="Anh" accept="image/*" onChange={handleFileChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="SDT" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]"> Số điện thoại <span className="text-red">*</span> </label>
-        <input type="text" id="SDT" placeholder="Số điện thoại" required value={formData.SDT} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" />
+        <input type="text" id="SDT" placeholder="Số điện thoại" required value={formData.SDT} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="Email" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]" > Email <span className="text-red">*</span></label>
-        <input type="email" id="Email" placeholder="email" required value={formData.Email} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" />
+        <input type="email" id="Email" placeholder="email" required value={formData.Email} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="TenDangNhap" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">  Tên đăng nhập <span className="text-red">*</span> </label>
-        <input type="text" id="TenDangNhap" placeholder="Tên đăng nhập" required value={formData.TenDangNhap} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" />
+        <input type="text" id="TenDangNhap" placeholder="Tên đăng nhập" required value={formData.TenDangNhap} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="NgaySinh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]" > Ngày sinh <span className="text-red">*</span> </label>
-        <input type="date" id="NgaySinh" placeholder="Ngày sinh" required value={formData.NgaySinh} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" />
+        <input type="date" id="NgaySinh" placeholder="Ngày sinh" required value={formData.NgaySinh} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="DiaChi" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">Địa chỉ <span className="text-red">*</span> </label>
-        <input type="text" id="DiaChi" placeholder="Địa chỉ" required value={formData.DiaChi} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" />
+        <input type="text" id="DiaChi" placeholder="Địa chỉ" required value={formData.DiaChi} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" />
 
         <label htmlFor="GioiTinh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]" > Giới tính <span className="text-red">*</span> </label>
-        <select id="GioiTinh" required value={formData.GioiTinh} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50" >
+        <select id="GioiTinh" required value={formData.GioiTinh} onChange={handleChange} className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black" >
           <option value="">Giới tính</option>
           <option value="Nam">Nam</option>
           <option value="Nu">Nữ</option>
@@ -108,14 +108,14 @@ const Register = () => {
 
         <label htmlFor="MatKhau" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative" > Mật khẩu <span className="text-red">*</span>  </label>
         <div className="relative w-full md:w-[520px]">
-          <input type={showPassword ? "text" : "password"} id="MatKhau" placeholder="Mật khẩu" required value={formData.MatKhau} onChange={handleChange} className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50 pr-10" />
-          <span className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer" onClick={() => setShowPassword(!showPassword)}><i className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true" ></i></span>
+          <input type={showPassword ? "text" : "password"} id="MatKhau" placeholder="Mật khẩu" required value={formData.MatKhau} onChange={handleChange} className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black pr-10" />
+          <span className="absolute right-3 top-[40%] transform -translate-y-1/2 text-black cursor-pointer" onClick={() => setShowPassword(!showPassword)}><i className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true" ></i></span>
         </div>
 
         <label htmlFor="confirmPassword" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative"> Nhập lại mật khẩu <span className="text-red">*</span></label>
         <div className="relative w-full md:w-[520px]">
-          <input type={showConfirmPassword ? "text" : "PassWord"} id="confirmPassword" placeholder="Nhập lại mật khẩu" required value={formData.confirmPassword} onChange={handleChange} className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#212529] placeholder-white placeholder-opacity-50 pr-10" />
-          <span className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className={`fa ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true" ></i></span>
+          <input type={showConfirmPassword ? "text" : "PassWord"} id="confirmPassword" placeholder="Nhập lại mật khẩu" required value={formData.confirmPassword} onChange={handleChange} className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black pr-10" />
+          <span className="absolute right-3 top-[40%] transform -translate-y-1/2 text-black cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className={`fa ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true" ></i></span>
         </div>
 
         <div className="flex items-center mb-4 w-full md:w-[520px]">
@@ -123,8 +123,8 @@ const Register = () => {
           <label htmlFor="agreeTerms" className="text-base sm:text-lg">Tôi đồng ý với{" "}<Link href="/terms" className="text-yellow">điều khoản sử dụng</Link></label>
         </div>
 
-        <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-[#F5CF49] rounded-full text-sm sm:text-lg font-bold hover:bg-yellow-300 cursor-pointer"> Đăng ký</button>
-        
+        <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"> Đăng ký</button>
+
         <div className="mt-4">
           <span className="text-sm"> Bạn đã có tài khoản?{" "} <Link href="/page/login" className="text-yellow"> Đăng nhập </Link> </span>
         </div>

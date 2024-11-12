@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faSignOutAlt, faIdCard, faUser, faTags, faTasks, faTicketAlt, faCommentDots, faFilm, faCalendarCheck, faChartPie, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,23 +26,23 @@ function Header() {
       setResults([]);  // Hoặc xử lý theo cách bạn muốn khi không có giá trị tìm kiếm
       return;
     }
-  
+
     try {
       const query = encodeURIComponent(value);  // Mã hóa giá trị tìm kiếm
       const response = await fetch(`http://localhost:3000/search?name=${value}`);
-      
+
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(errorMessage);
       }
-  
+
       const json = await response.json();
       setResults(json);
     } catch (error) {
       console.error("Error in search:", error);
       setResults([]);
     }
-  };  
+  };
 
   const handleSearch = (event) => {
     if (event.key === 'Enter') {
@@ -121,7 +121,7 @@ function Header() {
   }, [menuRef]);
 
   return (
-    <header className="bg-black relative z-10">
+    <header className="bg-[rgba(0,0,0,0.8)] relative z-10">
       <div className="max-w-[1410px] mx-auto flex items-center justify-between flex-wrap">
         <div className="flex items-center h-[100px]">
           <Link href="/">
@@ -139,9 +139,9 @@ function Header() {
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center">
             <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">Trang Chủ</Link></li>
             <li onMouseEnter={() => setIsSubMenuOpen(true)} // Show submenu on hover
-            onMouseLeave={() => setIsSubMenuOpen(false)} className="relative text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">
+              onMouseLeave={() => setIsSubMenuOpen(false)} className="relative text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">
 
-             Pages
+              Pages
               {isSubMenuOpen && (
                 <ul className="absolute top-10 left-0 mt-2 bg-white pl-0 rounded shadow-lg w-[200px] z-20">
                   <li><Link href="/page/lienhe" className="block no-underline py-2 pl-[2rem] text-black hover:bg-gray-200">Liên hệ</Link></li>
@@ -152,7 +152,7 @@ function Header() {
               )}
             </li>
             <li><Link href="/page/about" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Giới thiệu</Link></li>
-            <li><Link href="#" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Xem vé</Link></li>
+            <li><Link href="/page/lichchieu" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Lịch chiếu</Link></li>
             <li><Link href="/page/sukien" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300">Sự kiện</Link></li>
           </ul>
         </nav>
@@ -183,14 +183,14 @@ function Header() {
         <div className="ml-8">
           {isLoggedIn ? (
             <>
-            <div className='flex gap-4 items-center'>
-              <div className='text-center  border-solid'>
-                <Link className='no-underline uppercase' href="/page/profile">
-                   <Image className='rounded-full' src={`http://localhost:3000/images/${user.Anh}`} width={40} height={40} />
-                </Link>
+              <div className='flex gap-4 items-center'>
+                <div className='text-center  border-solid'>
+                  <Link className='no-underline uppercase' href="/page/profile">
+                    <Image className='rounded-full' src={`http://localhost:3000/images/${user.Anh}`} width={40} height={40} />
+                  </Link>
+                </div>
+                <button onClick={handleLogout} className=" w-[45px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#2C2C2C] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"><FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" /></button>
               </div>
-              <button onClick={handleLogout} className=" w-[45px] h-[30px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#2C2C2C] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"><FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" /></button>
-            </div>
             </>
           ) : (
             <>

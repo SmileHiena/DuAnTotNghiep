@@ -197,8 +197,8 @@ const EditProfile = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
-          <div className="w-full md:w-1/4 p-6 bg-gray-700 text-white">
-            <nav className="space-y-4">
+          <div className="w-full md:w-1/4 p-6 bg-[rgba(0,0,0,0.6)]  h-[300px] text-white">
+            <nav className="space-y-4 ">
               <Link
                 href="/page/profile"
                 className="flex items-center text-lg text-white no-underline"
@@ -230,9 +230,9 @@ const EditProfile = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-3/4 p-6 text-white">
+          <div className="w-full md:w-3/4 p-6  text-white">
             <h2 className="text-3xl font-bold mb-6">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h2>
-            <div className="bg-black bg-opacity-50 p-6 rounded-lg mb-6">
+            <div className="bg-[rgba(0,0,0,0.6)] p-6 rounded-lg mb-6">
               <h2 className="text-2xl font-semibold mb-4">Thông tin cá nhân</h2>
               <form onSubmit={handleSave}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -244,7 +244,7 @@ const EditProfile = () => {
                       id="Ten"
                       value={updatedInfo.Ten || ''}
                       onChange={handleChange}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded"
                       required
                     />
                   </div>
@@ -256,7 +256,7 @@ const EditProfile = () => {
                       id="sdt"
                       value={updatedInfo.SDT || ''}
                       onChange={handleChange}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>
@@ -268,7 +268,7 @@ const EditProfile = () => {
                       id="email"
                       value={updatedInfo.Email || ''}
                       onChange={handleChange}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>
@@ -280,7 +280,7 @@ const EditProfile = () => {
                       id="ngaysinh"
                       value={updatedInfo.NgaySinh ? new Date(updatedInfo.NgaySinh).toISOString().slice(0, 10) : ''}
                       onChange={handleChange}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>
@@ -292,7 +292,7 @@ const EditProfile = () => {
                       id="diachi"
                       value={updatedInfo.DiaChi || ''}
                       onChange={handleChange}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>
@@ -314,7 +314,7 @@ const EditProfile = () => {
                       id="oldPassword"
                       value={oldPassword}
                       onChange={(e) => setOldPassword(e.target.value)}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>
@@ -325,7 +325,7 @@ const EditProfile = () => {
                       id="newPassword"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>
@@ -336,7 +336,7 @@ const EditProfile = () => {
                       id="confirmPassword"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
+                      className="w-full p-2  bg-[#E8F0FE] text-black rounded text-white"
                       required
                     />
                   </div>

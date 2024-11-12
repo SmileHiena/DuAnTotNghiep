@@ -67,7 +67,7 @@ const BlogSection = () => {
         </div>
       </div>
       <div className="text-center mb-[20px]">
-        <button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">
+        <button className="border-2 font-bold hover:font-bold border-[#F5CF49] bg-[#2C2C2C] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000]  text-[16px]">
           Xem thêm
         </button>
       </div>

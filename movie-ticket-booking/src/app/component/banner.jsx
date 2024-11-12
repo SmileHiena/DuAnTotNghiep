@@ -39,16 +39,16 @@ const Banner = () => {
   if (!isMounted) return null; // Trả về null nếu chưa mounted
 
   return (
-    <section className="bg-[rgba(0,0,0,0.5)] py-6">
+    <section className="bg-[#2C2C2C] py-6">
       <div className="max-w-[1410px] mx-auto">
         <Slider {...settings}>
           {movies.map((movie) => (
-            <div key={movie._id} className="mx-auto bg-black py-6 rounded-lg h-[440px]">
+            <div key={movie._id} className="mx-auto bg-[rgba(0,0,0,0.6)] py-6 rounded-lg h-[440px]">
               <div className="flex flex-col md:flex-row items-center justify-between h-full">
                 <div className="textBox mb-4 md:mb-0 text-center md:text-left text-white ml-20">
                   <h2 className="text-2xl font-bold mb-2">{movie.Ten}</h2>
                   <div className="text-center mt-20">
-                    <Link href={`/page/details/${movie.id}`}><button className="border-2 border-[#F5CF49] bg-[#212529] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">Xem thêm</button></Link>
+                    <Link href={`/page/details/${movie.id}`}><button className="border-2 border-[#F5CF49] bg-[#2C2C2C] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">Xem thêm</button></Link>
                   </div>
                 </div>
                 <div className="imageBox flex justify-center mr-20"><img src={movie.Anh} alt={movie.Ten} className="w-[1000px] h-[392px]" /></div>
