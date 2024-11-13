@@ -34,7 +34,10 @@ var app = express();
 
 // Cấu hình middleware CORS
 app.use(cors({
-  origin: '*', // Cho phép truy cập từ mọi địa chỉ
+  origin: (origin, callback) => {
+    // Cho phép truy cập từ mọi nguồn gốc
+    callback(null, origin || true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
   credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
