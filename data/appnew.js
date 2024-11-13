@@ -9,6 +9,7 @@ const data = {
     {
       id: 1,
       Ten: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
+      Trailer: "https://www.youtube.com/embed/JgUWVooKSrA",
       TheLoai: {
         KieuPhim: "Hài, Hành Động",
         ThoiLuong: "118'",
@@ -30,6 +31,7 @@ const data = {
     {
       id: 2,
       Ten: "VENOM: KÈO CUỐI",
+      Trailer: "https://www.youtube.com/embed/I1q-jmvPNn0",
       TheLoai: {
         KieuPhim: "Hành Động, Khoa Học Viễn Tưởng",
         ThoiLuong: "109'",
@@ -50,6 +52,7 @@ const data = {
     },
     {
       id: 3,
+      Trailer: "https://www.youtube.com/embed/3Q6ILUwMwM4",
       Ten: "NGÀY XƯA CÓ MỘT CHUYỆN TÌNH (T16)",
       TheLoai: {
         KieuPhim: "Tình Cảm",
@@ -71,6 +74,7 @@ const data = {
     },
     {
       id: 4,
+      Trailer: "https://www.youtube.com/embed/G95mJ72aY28",
       Ten: "LOOK BACK: LIỆU TA CÓ DÁM NHÌN LẠI (T13)",
       TheLoai: {
         KieuPhim: "Anime",
@@ -92,6 +96,7 @@ const data = {
     },
     {
       id: 5,
+      Trailer: "https://www.youtube.com/embed/MtZ_hf7tLxk",
       Ten: "LÀM GIÀU VỚI MA (T16)",
       TheLoai: {
         KieuPhim: "Hài, Tâm Lý",
@@ -114,6 +119,7 @@ const data = {
     {
       id: 6,
       Ten: "ANH TRAI VƯỢT MỌI TAM TAI (T16)",
+      Trailer: "https://www.youtube.com/embed/hBbndPyAPeg",
       TheLoai: {
         KieuPhim: "Hài",
         ThoiLuong: "96'",
@@ -134,6 +140,7 @@ const data = {
     },
     {
       id: 7,
+      Trailer: "https://www.youtube.com/embed/QJ8E9R70csY",
       Ten: "CÔ DÂU HÀO MÔN (T18)",
       TheLoai: {
         KieuPhim: "Tình Cảm, Tâm Lý",
@@ -154,6 +161,7 @@ const data = {
     },
     {
       id: 8,
+      Trailer: "https://www.youtube.com/embed/AfybuJ8zOAI",
       Ten: "VÂY HÃM TẠI ĐÀI BẮC (T18)",
       TheLoai: {
         KieuPhim: "Hồi Hộp, Tâm Lý",
@@ -174,6 +182,7 @@ const data = {
     },
     {
       id: 9,
+      Trailer: "https://www.youtube.com/embed/9tDZpBbg8Ow",
       Ten: "ELLI VÀ BÍ ẨN CHIẾC TÀU MA LT (P)",
       TheLoai: {
         KieuPhim: "Hoạt hình",
@@ -194,6 +203,7 @@ const data = {
     },
     {
       id: 10,
+      Trailer: "https://www.youtube.com/embed/O_JcwpDergM",
       Ten: "HỌC VIỆN ANH HÙNG: YOU'RE THE NEXT",
       TheLoai: {
         KieuPhim: "Anime",
@@ -214,6 +224,7 @@ const data = {
     },
     {
       id: 11,
+      Trailer: "https://www.youtube.com/embed/L8GYbHu20nQ",
       Ten: "NHỮNG NHÀ VÔ ĐỊCH (T16)",
       TheLoai: {
         KieuPhim: "Hoạt hình, Chính Kịch",
@@ -234,6 +245,7 @@ const data = {
     },
     {
       id: 12,
+      Trailer: "https://www.youtube.com/embed/jz-LPOpWBqM",
       Ten: "PHÒNG GIÁO VIÊN (T13)",
       TheLoai: {
         KieuPhim: "Chính Kịch",
@@ -254,6 +266,7 @@ const data = {
     },
     {
       id: 13,
+      Trailer: "https://www.youtube.com/embed/2T_mKyH17mY",
       Ten: "MẬT MÃ ĐỎ",
       TheLoai: {
         KieuPhim: "Hài, Phiêu Lưu, Hành Động",
@@ -274,6 +287,7 @@ const data = {
     },
     {
       id: 14,
+      Trailer: "https://www.youtube.com/embed/bmkR2EY_hcY",
       Ten: "CÔNG TỬ BẠC LIÊU",
       TheLoai: {
         KieuPhim: "Hài, Gia đình",
@@ -294,6 +308,7 @@ const data = {
     },
     {
       id: 15,
+      Trailer: "https://www.youtube.com/embed/ST08liEjNsw",
       Ten: "CHÚA TỂ CỦA NHỮNG CHIẾC NHẪN: CUỘC CHIẾN CỦA ROHIRRIM",
       TheLoai: {
         KieuPhim: "Hoạt hình, Phiêu Lưu, Hành Động",
@@ -314,6 +329,7 @@ const data = {
     },
     {
       id: 16,
+      Trailer: "https://www.youtube.com/embed/T-aJxCFUN_8",
       Ten: "CAPTAIN AMERICA: THẾ GIỚI MỚI",
       TheLoai: {
         KieuPhim: "Phiêu Lưu, Siêu Anh Hùng, Hành Động",
@@ -334,6 +350,7 @@ const data = {
     },
     {
       id: 17,
+      Trailer: "https://www.youtube.com/embed/R4AFSgUGEEs",
       Ten: "VÕ SĨ GIÁC ĐẤU II",
       TheLoai: {
         KieuPhim: "Phiêu Lưu, Hành Động",
@@ -354,6 +371,7 @@ const data = {
     },
     {
       id: 18,
+      Trailer: "https://www.youtube.com/embed/-OV2Fv-shro",
       Ten: "TRANSFORMERS MỘT",
       TheLoai: {
         KieuPhim: "Gia đình, Hành động, Phiêu lưu, Hoạt hình, Khoa học - Viễn tưởng",
@@ -374,6 +392,7 @@ const data = {
     },
     {
       id: 19,
+      Trailer: "https://www.youtube.com/embed/CpcQcKIDYFs",
       Ten: "MỘ ĐOM ĐÓM",
       TheLoai: {
         KieuPhim: "Chiến tranh, Chính kịch, Hoạt hình",
@@ -394,6 +413,7 @@ const data = {
     },
     {
       id: 20,
+      Trailer: "https://www.youtube.com/embed/tp_borHTCKI",
       Ten: "GÃ TRÙM VÔ DANH",
       TheLoai: {
         KieuPhim: "Chính kịch, Hành động, Hình sự",
@@ -414,6 +434,7 @@ const data = {
     },
     {
       id: 21,
+      Trailer: "https://www.youtube.com/embed/LaHRWAsZNzs",
       Ten: "Biệt Đội Hot Girl",
       TheLoai: {
         KieuPhim: "Hài, Hành động, Hình sự, Lãng mạn",
@@ -434,6 +455,7 @@ const data = {
     },
     {
       id: 22,
+      Trailer: "https://www.youtube.com/embed/lbLk9PzHWfg",
       Ten: "NGÀY TA ĐÃ YÊU",
       TheLoai: {
         KieuPhim: "Tình Cảm, Tâm Lý",
@@ -454,6 +476,7 @@ const data = {
     },
     {
       id: 23,
+      Trailer: "https://www.youtube.com/embed/EIARKqcXILM",
       Ten: "ĐÔI BẠN HỌC YÊU",
       TheLoai: {
         KieuPhim: "Tình Cảm, Hài",
@@ -474,6 +497,7 @@ const data = {
     },
     {
       id: 24,
+      Trailer: "https://www.youtube.com/embed/4ALt4VT7grw",
       Ten: "CƯỜI XUYÊN BIÊN GIỚI",
       TheLoai: {
         KieuPhim: "Hài",
@@ -494,6 +518,7 @@ const data = {
     },
     {
       id: 25,
+      Trailer: "https://www.youtube.com/embed/gm8Y562kgfs",
       Ten: "HỘI CÁ VÀNG",
       TheLoai: {
         KieuPhim: "Chính Kịch",
@@ -519,27 +544,22 @@ const data = {
     {
       id: 1,
       Ten: "Tình Cảm",
-      Anh: "",
     },
     {
       id: 2,
       Ten: "Hành động",
-      Anh: "",
     },
     {
       id: 3,
       Ten: "Hài Hước",
-      Anh: "",
     },
     {
       id: 4,
       Ten: "Chính kịch",
-      Anh: "",
     },
     {
       id: 5,
       Ten: "Hoạt Hình - Phiêu lưu",
-      Anh: "",
     },
   ],
 
@@ -1563,20 +1583,6 @@ const data = {
     },
   ],
 
-  // ----- Chi Tiết Hóa Đơn -----
-  ChiTietHoaDon: [
-    {
-      id: 1,
-      IdTaiKhoan: 1,
-      IdHoaDon: 1,
-      NgayXuatHoaDon: "30/09/2024",
-      IdXuatChieu: 1,
-      SoGhe: 1,
-      NgayChieu: "30/09/2024",
-      TongTien: 175000,
-    },
-  ],
-
   // ----- Hóa_Đơn -----
   HoaDon: [
     {
@@ -1622,6 +1628,7 @@ const data = {
       NgayBatDau: "20/10/2024",
       NgayKetThuc: "22/10/2024",
       Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      Giam: "20%",
       DieuKien: "Áp dụng tại web 28 tháng 6.",
     },
     {
@@ -1632,6 +1639,7 @@ const data = {
       NgayBatDau: "05-10-2024",
       NgayKetThuc: "05-11-2024",
       Luuy: "Áp dụng vào ngày 28 tháng 6.",
+      Giam: "20%",
       DieuKien:
         "Áp dụng cho học sinh sinh viên xuất trình thẻ học sinh hoặc CCCD dưới 22 tuổi.",
     },
@@ -1643,6 +1651,7 @@ const data = {
       NgayBatDau: "01/12/2024",
       NgayKetThuc: "25/12/2024",
       Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      Giam: "20%",
       DieuKien: "Áp dụng khi mua trực tuyến qua ứng dụng ScreenTime.",
     },
     {
@@ -1653,6 +1662,7 @@ const data = {
       NgayBatDau: "01/02/2025",
       NgayKetThuc: "15/02/2025",
       Luuy: "Áp dụng trong dịp Tết Nguyên Đán.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho đơn hàng từ 2 vé trở lên.",
     },
     {
@@ -1663,6 +1673,7 @@ const data = {
       NgayBatDau: "28/11/2024",
       NgayKetThuc: "29/11/2024",
       Luuy: "Áp dụng cho tất cả các suất chiếu trong ngày.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho các giao dịch trực tuyến.",
     },
     {
@@ -1673,6 +1684,7 @@ const data = {
       NgayBatDau: "01/06/2025",
       NgayKetThuc: "30/06/2025",
       Luuy: "Áp dụng vào các ngày cuối tuần.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho tất cả thành viên ScreenTime.",
     },
     {
@@ -1683,6 +1695,7 @@ const data = {
       NgayBatDau: "25/10/2024",
       NgayKetThuc: "31/10/2024",
       Luuy: "Áp dụng cho phim thuộc thể loại kinh dị.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho học sinh, sinh viên xuất trình thẻ.",
     },
     {
@@ -1693,6 +1706,7 @@ const data = {
       NgayBatDau: "01/09/2025",
       NgayKetThuc: "02/09/2025",
       Luuy: "Áp dụng trong ngày lễ Quốc Khánh.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho tất cả các khách hàng.",
     },
     {
@@ -1703,6 +1717,7 @@ const data = {
       NgayBatDau: "14/02/2025",
       NgayKetThuc: "14/02/2025",
       Luuy: "Áp dụng cho các suất chiếu buổi tối.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
     },
     {
@@ -1713,6 +1728,7 @@ const data = {
       NgayBatDau: "08/03/2025",
       NgayKetThuc: "08/03/2025",
       Luuy: "Áp dụng cho khách hàng nữ.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho suất chiếu đầu tiên trong ngày.",
     },
     {
@@ -1723,6 +1739,7 @@ const data = {
       NgayBatDau: "10/05/2025",
       NgayKetThuc: "10/05/2025",
       Luuy: "Áp dụng cho tất cả các phim.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho khách hàng mua 2 vé trở lên.",
     },
     {
@@ -1733,6 +1750,7 @@ const data = {
       NgayBatDau: "27/11/2024",
       NgayKetThuc: "29/11/2024",
       Luuy: "Áp dụng cho tất cả các suất chiếu.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho giao dịch mua online.",
     },
     {
@@ -1743,6 +1761,7 @@ const data = {
       NgayBatDau: "15/09/2024",
       NgayKetThuc: "20/09/2024",
       Luuy: "Áp dụng cho phim thiếu nhi.",
+      Giam: "20%",
       DieuKien: "Áp dụng cho khách hàng dưới 12 tuổi.",
     },
   ],
@@ -1768,7 +1787,6 @@ async function main() {
       { name: "combo", data: data.Combo },
       { name: "taikhoan", data: data.TaiKhoan },
       { name: "binhluan", data: data.BinhLuan },
-      { name: "chitiethoadon", data: data.ChiTietHoaDon },
       { name: "admin", data: data.Admin },
       { name: "sukien", data: data.Sukien },
       { name: "blogdetial", data: data.Blogditals },

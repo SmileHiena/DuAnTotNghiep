@@ -1,10 +1,13 @@
+// users.js ( api phía người dùng: http://localhost:3000/users/login )
 var express = require("express");
 var router = express.Router();
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
-const { ObjectId } = require('mongodb'); // Import ObjectId để tìm kiếm theo ID
+const { ObjectId } = require('mongodb');
 const path = require('path');
+const nodemailer = require('nodemailer');
+
 // Thiết lập nơi lưu trữ và tên file
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -44,12 +47,12 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email đã tồn tại" });
 
-    // Hash the password
+      // Hash the password
     }
-    if ( User) {
+    if (User) {
       return res.status(400).json({ message: "Tên đăng nhập đã tồn tại" });
 
-    // Hash the password
+      // Hash the password
     }
     const hashPassword = await bcrypt.hash(MatKhau, 10);
 
@@ -66,7 +69,8 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
       TenDangNhap,
       Ten,
       Anh: imagePath ? req.file.filename : null,
-      isAdmin: 1,
+      IsAdmin: 1,
+      IsLocked: false
     };
 
     // Insert the new user into the collection
@@ -198,7 +202,7 @@ router.put("/updatepassword/:id", async (req, res) => {
 // Đăng nhập người dùng
 router.post("/login", async (req, res, next) => {
   const { usernameOrEmail, MatKhau } = req.body;
-     console.log(req.body)
+
   try {
     const db = await connectDb();
     const userCollection = db.collection("taikhoan");
@@ -209,11 +213,16 @@ router.post("/login", async (req, res, next) => {
     });
 
     if (!user) {
-      return res
-        .status(403)
-        .json({
-          message: "Tài khoản không tồn tại, vui lòng kiểm tra email hoặc tên đăng nhập.",
-        });
+      return res.status(403).json({
+        message: "Tài khoản không tồn tại, vui lòng kiểm tra email hoặc tên đăng nhập.",
+      });
+    }
+
+     // Kiểm tra nếu tài khoản đã bị khóa
+     if (user.IsLocked) {
+      return res.status(403).json({
+        message: "Tài khoản của bạn đã bị khóa.",
+      });
     }
 
     // So sánh mật khẩu không đồng bộ
@@ -222,33 +231,41 @@ router.post("/login", async (req, res, next) => {
       return res.status(403).json({ message: "Mật khẩu không chính xác." });
     }
 
-    // Tạo token JWT
+    // Tạo token JWT không có thời gian hết hạn
     const token = jwt.sign(
       {
         TenDangNhap: user.TenDangNhap,
         Email: user.Email,
         SDT: user.SDT,
         Ten: user.Ten,
-        isAdmin: user.isAdmin,
+        IsAdmin: user.IsAdmin,
       },
-      process.env.JWT_SECRET || "secretkey",
-      { expiresIn: "1h" }
+      process.env.JWT_SECRET || "secretkey" // Không cần `expiresIn`
     );
 
-    // Trả về thông tin người dùng và token
+    // Gửi token qua cookie
+    res.cookie("authToken", token, {
+      httpOnly: true, // Chỉ có thể truy cập từ server
+      secure: process.env.NODE_ENV === "production", // Chỉ gửi qua HTTPS trong môi trường production
+      maxAge: 365 * 24 * 60 * 60 * 1000, // Cookie sẽ hết hạn sau 1 năm
+    });
+
+    // Trả về thông tin người dùng mà không trả lại token trong body
     res.status(200).json({
-      token: token,
+      message: "Đăng nhập thành công",
+      token,
       TenDangNhap: user.TenDangNhap,
       Email: user.Email,
       SDT: user.SDT,
       Ten: user.Ten,
-      isAdmin: user.isAdmin,
+      IsAdmin: user.IsAdmin,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Lỗi server, vui lòng thử lại." });
   }
 });
+
 
 router.get("/users", async (req, res, next) => {
   const db = await connectDb();
@@ -275,6 +292,33 @@ router.get("/users/:id", async (req, res, next) => {
   }
 });
 
+
+
+router.get("/users", async (req, res, next) => {
+  const db = await connectDb();
+  const userCollection = db.collection("taikhoan");
+  const users = await userCollection.find().toArray();
+  if (users) {
+    res.status(200).json(users);
+  } else {
+    res.status(404).json({ message: "Not found" });
+  }
+});
+
+router.get("/users/:id", async (req, res, next) => {
+  const db = await connectDb();
+  const usersCollection = db.collection("taikhoan");
+  let id = req.params.id;
+
+  // Sử dụng ObjectId nếu id là ObjectId trong MongoDB
+  const users = await usersCollection.findOne({ _id: ObjectId(id) });
+  if (users) {
+    res.status(200).json(users);
+  } else {
+    res.status(404).json({ message: "Not found" });
+  }
+});
+
 // Thêm API để lấy tên người dùng theo ID
 router.get("/users/:id/Ten", async (req, res, next) => {
   const db = await connectDb();
@@ -285,7 +329,7 @@ router.get("/users/:id/Ten", async (req, res, next) => {
     const user = await userCollection.findOne(
       { _id: ObjectId(id) }, // Sử dụng ObjectId
       { projection: { Ten: 1 } } // Chỉ lấy trường Ten
-    ); 
+    );
     if (user) {
       res.status(200).json({ Ten: user.Ten });
     } else {
@@ -299,27 +343,167 @@ router.get("/users/:id/Ten", async (req, res, next) => {
 
 // API để lấy thông tin người dùng chi tiết
 router.get('/detailuser', async (req, res, next) => {
-    const token = req.headers.authorization;
+  const token = req.headers.authorization;
 
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    }
-    
-    const bearerToken = token.split(' ')[1];
-    jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
-        if (err) {
-            return res.status(401).json({ message: "Token không hợp lệ" });
-        }
-        const db = await connectDb();
-        const userCollection = db.collection('taikhoan');
-        const userInfo = await userCollection.findOne({ Email: user.Email });
-        if (userInfo) {
-            res.status(200).json(userInfo);
-        } else {
-            res.status(404).json({ message: "Không tìm thấy người dùng" });
-        }
-    });
+  if (!token) {
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
+  
+  const bearerToken = token.split(' ')[1];
+  jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
+      if (err) {
+          return res.status(401).json({ message: "Token không hợp lệ" });
+      }
+      const db = await connectDb();
+      const userCollection = db.collection('taikhoan');
+      const userInfo = await userCollection.findOne({ Email: user.Email });
+      if (userInfo) {
+          res.status(200).json(userInfo);
+      } else {
+          res.status(404).json({ message: "Không tìm thấy người dùng" });
+      }
+  });
 });
 
 
+
+
+module.exports = router;
+
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'toan2211w1@gmail.com',
+    pass: 'rqaq axfn avib gnut', 
+  },
+});
+
+// router.post("/forgot-password", async (req, res) => {
+//   const { Email } = req.body;
+
+//   try {
+//     const db = await connectDb();
+//     const userCollection = db.collection("taikhoan");
+
+//     // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+//     const user = await userCollection.findOne({ Email });
+//     if (!user) {
+//       return res.status(400).json({ message: "Email không tồn tại trong hệ thống" });
+//     }
+
+//     // Tạo mã xác thực 6 chữ số ngẫu nhiên
+//     const verificationCode = Math.floor(100000 + Math.random() * 900000); // Tạo mã 6 chữ số
+
+//     // Gửi email chứa mã xác thực (sử dụng Nodemailer)
+
+//     const mailOptions = {
+//       from: 'toan2211w1@gmail.com',
+//       to: Email,
+//       subject: 'Mã xác thực để đặt lại mật khẩu',
+//       text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
+//     };
+
+//     // Gửi email
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//         console.log('Lỗi khi gửi email:', error);
+//         return res.status(500).json({ message: "Gửi email thất bại" });
+//       }
+
+//       console.log('Email đã được gửi:', info.response);
+//       return res.status(200).json({ message: "Mã xác thực đã được gửi tới email của bạn", verificationCode }); // Không lưu mã nhưng trả lại để sử dụng trên frontend nếu cần
+//     });
+//   } catch (error) {
+//     console.error("Forgot password error:", error);
+//     return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+//   }
+// });
+
+const verificationCodes = {};
+
+router.post("/forgot-password", async (req, res) => {
+  const { Email } = req.body;
+
+  try {
+    const db = await connectDb();
+    const userCollection = db.collection("taikhoan");
+
+    // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+    const user = await userCollection.findOne({ Email });
+    if (!user) {
+      return res.status(400).json({ message: "Email không tồn tại trong hệ thống" });
+    }
+
+    // Tạo mã xác thực 6 chữ số ngẫu nhiên
+    const verificationCode = Math.floor(100000 + Math.random() * 999999); // Tạo mã 6 chữ số
+
+    // Lưu mã xác thực vào bộ nhớ (hoặc database, nếu cần)
+    verificationCodes[Email] = verificationCode;
+
+    // Gửi email chứa mã xác thực (sử dụng Nodemailer)
+    const mailOptions = {
+      from: 'toan2211w1@gmail.com',
+      to: Email,
+      subject: 'Mã xác thực để đặt lại mật khẩu',
+      text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
+    };
+
+    // Gửi email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log('Lỗi khi gửi email:', error);
+        return res.status(500).json({ message: "Gửi email thất bại" });
+      }
+
+      console.log('Email đã được gửi:', info.response);
+      return res.status(200).json({ message: "Mã xác thực đã được gửi tới email của bạn" }); // Không trả lại mã
+    });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+  }
+});
+
+router.post("/verify-code", async (req, res) => {
+  const { Email, verificationCode } = req.body;
+
+  if (verificationCodes[Email] === Number(verificationCode)) {
+    // Mã xác thực hợp lệ, tiến hành đổi mật khẩu
+    return res.status(200).json({ message: "Mã xác thực hợp lệ" });
+  } else {
+    return res.status(400).json({ message: "Mã xác thực không chính xác" });
+  }
+});
+
+
+router.post("/reset-password", async (req, res) => {
+  const { Email, newPassword } = req.body;
+
+  try {
+    const db = await connectDb();
+    const userCollection = db.collection("taikhoan");
+
+    // Kiểm tra xem email có tồn tại không
+    const user = await userCollection.findOne({ Email });
+    if (!user) {
+      return res.status(400).json({ message: "Email không tồn tại trong hệ thống" });
+    }
+
+    // Hash mật khẩu mới
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Cập nhật mật khẩu mới vào cơ sở dữ liệu
+    await userCollection.updateOne(
+      { Email },
+      { $set: { MatKhau: hashedPassword } }
+    );
+
+    return res.status(200).json({ message: "Mật khẩu đã được thay đổi thành công" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    return res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+  }
+});
 module.exports = router;

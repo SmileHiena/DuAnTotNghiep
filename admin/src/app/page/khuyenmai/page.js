@@ -21,7 +21,8 @@ const EventList = () => {
     NgayBatDau: "",
     NgayKetThuc: "",
     Luuy: "",
-    DieuKien: ""
+    DieuKien: "",
+    Giam: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -89,6 +90,7 @@ const EventList = () => {
       NgayKetThuc: editedEvent.NgayKetThuc || "",
       Luuy: editedEvent.Luuy || "",
       DieuKien: editedEvent.DieuKien || "",
+      Giam: editedEvent.Giam || "",
     }));
 
     if (selectedFile) {
@@ -142,29 +144,30 @@ const EventList = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <Button className="btn btn-add btn-sm" onClick={handleAddEvent}>
-                    <i className="fas fa-plus"></i> Tạo mới sự kiện
+                  <Button className="btn btn-add " onClick={handleAddEvent}>
+                    <i className="fas fa-plus"></i> Thêm mới
                   </Button>
                 </div>
               </div>
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>Mã sự kiện</th>
+                    <th width="50">STT</th>
                     <th>Tên sự kiện</th>
                     <th>Ảnh</th>
                     <th>Ngày bắt đầu</th>
                     <th>Ngày kết thúc</th>
                     <th>Nội dung</th>
                     <th>Điều kiện</th>
+                    <th>Giảm giá %</th>
                     <th>Lưu ý</th>
-                    <th>Tính năng</th>
+                    <th width="120">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {events.map((event) => (
+                  {events.map((event, index) => (
                     <tr key={event._id}>
-                      <td>{event.id}</td>
+                      <td>{index + 1}</td>
                       <td>{event.Ten}</td>
                       <td>
                         <img
@@ -177,23 +180,24 @@ const EventList = () => {
                       <td>{event.NgayKetThuc}</td>
                       <td>{event.NoiDung}</td>
                       <td>{event.DieuKien}</td>
+                      <td>{event.Giam}%</td>
                       <td>{event.Luuy}</td>
                       <td className="table-td-center">
                         <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(event._id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                          className="btn btn-primary  edit mr-3"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditEvent(event)}
                         >
                           <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} />
+                        </button>
+                        <button
+                          className="btn btn-primary  trash"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(event._id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />
                         </button>
                       </td>
                     </tr>
@@ -233,7 +237,7 @@ const EventList = () => {
           <div className="row">
             <div className="form-group col-md-6">
               <label className="control-label">Mã sự kiện</label>
-              <input className="form-control" type="text" value={editedEvent.id || ""} readOnly />
+              <input className="form-control" type="text" value={editedEvent._id || ""} readOnly />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Ảnh</label>
@@ -295,14 +299,22 @@ const EventList = () => {
                 onChange={(e) => setEditedEvent({ ...editedEvent, DieuKien: e.target.value })}
               />
             </div>
+            <div className="form-group col-md-12">
+              <label className="control-label">Giảm giá</label>
+              <textarea
+                className="form-control"
+                value={editedEvent.Giam}
+                onChange={(e) => setEditedEvent({ ...editedEvent, Giam: e.target.value })}
+              />
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Hủy
+          <Button onClick={handleSaveChanges} className="btn btn-save">
+            Lưu lại
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu thay đổi
+          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel">
+            Hủy bỏ
           </Button>
         </Modal.Footer>
       </Modal>

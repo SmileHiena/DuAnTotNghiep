@@ -80,22 +80,6 @@ const Event = () => {
         <h1 className='text-center uppercase text-[40px] text-[#FFFFFF] font-bold mb-8'>Khuyến mãi</h1>
       </div>
       <div className="mx-auto w-full" style={{ maxWidth: '1410px', paddingBottom: '80px' }}>
-        <style jsx>{`
-          .slick-dots li button {
-            background-color: #f5cf49; /* Màu vàng cho các dots */
-            width: 12px; /* Kích thước của dots */
-            height: 12px; /* Kích thước của dots */
-            border-radius: 50%; /* Bo tròn để tạo hình tròn */
-          }
-
-          .slick-dots li.slick-active button {
-            background-color: #d4a83d; /* Màu vàng đậm hơn cho dot đang hoạt động */
-          }
-
-          .slick-dots li button:before {
-            display: none; /* Ẩn pseudo-element before nếu không cần thiết */
-          }
-        `}</style>
         <Slider {...settings}>
           {events.map(item => (
             <div className="rounded-lg overflow-hidden" key={item.id}>

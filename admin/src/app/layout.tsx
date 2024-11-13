@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Headers from "./components/header";
+import ClientWrapper from "./components/ClientWrapper"; // Import ClientWrapper
 
 // Định nghĩa metadata cho ứng dụng
 export const metadata: Metadata = {
@@ -47,9 +47,8 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
       </head>
-      <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }} className="app sidebar-mini rtl">
-        <Headers />
-        {children}
+      <body style={{ backgroundColor: 'var(--background)', fontFamily: "'Open Sans', sans-serif" }}>
+        <ClientWrapper>{children}</ClientWrapper>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>

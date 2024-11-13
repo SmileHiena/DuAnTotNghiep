@@ -101,9 +101,6 @@ router.get("/dangchieu", async (req, res) => {
 
       // Find movies with the status "dangchieu"
       const phim = await phimCollection.find({ TrangThai: "dangchieu" }).toArray();
-
-      console.log("Fetched movies:", phim); // Log the fetched movies
-
       if (phim.length > 0) {
           res.status(200).json(phim);
       } else {
@@ -124,9 +121,6 @@ router.get("/sapchieu", async (req, res) => {
 
       // Find movies with the status "dangchieu"
       const phim = await phimCollection.find({ TrangThai: "sapchieu" }).limit(limit).toArray();
-
-      console.log("Fetched movies:", phim); // Log the fetched movies
-
       if (phim.length > 0) {
           res.status(200).json(phim);
       } else {

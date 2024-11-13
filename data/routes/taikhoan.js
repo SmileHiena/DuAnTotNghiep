@@ -153,18 +153,20 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
-// Khóa tài khoản
+// Khóa tài khoản (đóng băng tài khoản)
 router.put('/lock/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const db = await connectDb();
     const collection = db.collection('taikhoan');
 
-    const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { IsAdmin: 1 } }); // Hoặc một trường trạng thái khác
+    // Cập nhật trạng thái khóa tài khoản
+    const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { IsLocked: true } });
+
     if (result.modifiedCount === 0) {
       res.status(404).json({ message: 'Không tìm thấy tài khoản để khóa' });
     } else {
-      res.json({ message: 'Tài khoản đã bị khóa' });
+      res.json({ message: 'Tài khoản đã bị khóa và đóng băng' });
     }
   } catch (error) {
     console.error(error);
@@ -179,16 +181,23 @@ router.put('/unlock/:id', async (req, res) => {
     const db = await connectDb();
     const collection = db.collection('taikhoan');
 
-    const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { IsAdmin: 0 } }); // Hoặc trường trạng thái khác để mở khóa
+    // Cập nhật trạng thái mở khóa tài khoản
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) }, 
+      { $set: { IsLocked: false } }
+    );
+
     if (result.modifiedCount === 0) {
-      res.status(404).json({ message: 'Không tìm thấy tài khoản để mở khóa' });
+      return res.status(404).json({ message: 'Không tìm thấy tài khoản để mở khóa' });
     } else {
-      res.json({ message: 'Tài khoản đã được mở khóa' });
+      return res.json({ message: 'Tài khoản đã được mở khóa' });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
   }
 });
+
+
 
 module.exports = router;

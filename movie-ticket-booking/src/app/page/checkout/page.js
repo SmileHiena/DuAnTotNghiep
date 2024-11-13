@@ -2,118 +2,262 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
+import axios from 'axios';
+import https from 'https';
 
 const CheckoutPage = () => {
   const router = useRouter();
   const [buttonColor1, setButtonColor1] = useState('#F5CF49');
   const [buttonColor2, setButtonColor2] = useState('#F5CF49');
   const [bookingInfo, setBookingInfo] = useState(null);
-  const [userInfo, setUserInfo] = useState(null); 
+  const [userInfo, setUserInfo] = useState(null);
+  const [discountCode, setDiscountCode] = useState(''); // State for discount code
+  const [discountApplied, setDiscountApplied] = useState(false); // Check if discount is applied
+  const [discountAmount, setDiscountAmount] = useState(0);
   const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
-  const [paymentMethod, setPaymentMethod] = useState(null); // State for payment method selection
   const [error, setError] = useState(''); // State for error message
+  const [bankCode, setBankCode] = useState("VNBANK");
+  const [language, setLanguage] = useState("vn");
+  const [paymentInfo, setPaymentInfo] = useState(null);
+  const [selectedPaymentType, setSelectedPaymentType] = useState("bank");
+  const [paymentUrl, setPaymentUrl] = useState("");
+
+  const agent = new https.Agent({
+    rejectUnauthorized: false,
+  });
+
+  const axiosClient = axios.create({
+    baseURL: 'http://localhost:3000/order',
+    httpsAgent: agent,
+  });
+
+  axiosClient.interceptors.request.use((config) => {
+    config.headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+      "Access-Control-Max-Age": "1800",
+      "Access-Control-Allow-Headers": "content-type",
+      "Access-Control-Allow-Methods": "PUT, POST, GET, DELETE, PATCH, OPTIONS",
+      ...config.headers,
+    };
+    return config;
+  });
+
+  axiosClient.interceptors.response.use(
+    (response) => {
+      if (response.status === 200 && response.data) {
+        return response.data;
+      }
+      return response;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   useEffect(() => {
+    const paymentData = Cookies.get("paymentInfo");
+    if (paymentData) {
+      setPaymentInfo(JSON.parse(paymentData));
+    }
     const data = Cookies.get("bookingInfo");
     if (data) {
-        const info = JSON.parse(data);
-        setBookingInfo(info);
+      const info = JSON.parse(data);
+      setBookingInfo(info);
 
-        const tokenValue = Cookies.get("token");
-        if (tokenValue) {
-            fetchUserDetails(tokenValue);
+      const tokenValue = Cookies.get("token");
+      if (tokenValue) {
+        fetchUserDetails(tokenValue);
+      } else {
+        alert("Vui lòng đăng nhập lại.");
+      }
+      const currentTime = new Date().getTime();
+      const holdTimeInSeconds = 300; // 5 minutes
+      const expirationTime = currentTime + holdTimeInSeconds * 1000;
+
+      Cookies.set("holdExpiration", expirationTime);
+
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = expirationTime - now;
+
+        if (distance < 0) {
+          clearInterval(interval);
+          setRemainingTime(0);
+          Cookies.remove("holdExpiration");
         } else {
-            alert("Vui lòng đăng nhập lại.");
+          setRemainingTime(Math.floor(distance / 1000));
         }
-    }
-}, []);
-const tokenValue = Cookies.get("token"); // Ensure this cookie is set correctly
+      }, 1000);
 
-const fetchUserDetails = async (tokenValue) => {
-  try {
+      return () => clearInterval(interval);
+    }
+  }, []);
+
+  const fetchUserDetails = async (tokenValue) => {
+    try {
       const response = await fetch("http://localhost:3000/users/detailuser", {
-          method: "GET",
-          headers: {
-              Authorization: `Bearer ${tokenValue}`,
-              "Content-Type": "application/json",
-          },
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${tokenValue}`,
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {
-          const data1 = await response.json();
-          setUserInfo(data1);
+        const data1 = await response.json();
+        setUserInfo(data1);
       } else {
-          console.error("Failed to fetch user data", response.status, response.statusText);
-          alert("Vui lòng đăng nhập lại.");
+        console.error("Failed to fetch user data", response.status, response.statusText);
+        alert("Vui lòng đăng nhập lại.");
       }
-  } catch (error) {
+    } catch (error) {
       console.error("An error occurred while fetching user data:", error);
       alert("Có lỗi xảy ra, vui lòng thử lại.");
-  }
-};
-
-  // fetchUserDetails();
-
+    }
+  };
 
   const handlePayment = async () => {
     // Check if a payment method has been selected
-    const tokenValue = Cookies.get("token"); 
-    if (!paymentMethod) {
-        setError('Bạn phải chọn phương thức thanh toán.'); // Set error message if not selected
-        return;
+    const tokenValue = Cookies.get("token");
+    if (!bankCode) {
+      setError('Bạn phải chọn phương thức thanh toán.'); // Set error message if not selected
+      return;
     }
     setError(''); // Clear error message if a payment method is selected
 
     const paymentData = {
-        NgayMua: new Date().toISOString(), // Replace with actual purchase date if needed
-        Rap: "Ticket Quận 12",
-        userId:userInfo ? userInfo.userId  : 'Chưa có  thông tin',
-        PhuongThucThanhToan: paymentMethod, // Save selected payment method
-        TenPhim: bookingInfo ? bookingInfo.movieName : "Chưa có thông tin",
-        ThoiGian: bookingInfo ? bookingInfo.showtimeTime : "Chưa có thông tin",
-        NgayChieu: bookingInfo ? bookingInfo.showtimeDate : "Chưa có thông tin", // Ensure this field exists in bookingInfo
-        SoGhe: bookingInfo ? bookingInfo.selectedSeats.join(", ") : "chưa có thống tin", // Count of selected seats
-        PhongChieu: bookingInfo ? bookingInfo.room : "Chưa có thông tin",
-        GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0, // Sum of ticket prices
-        TongTien: bookingInfo ? bookingInfo.totalAmount : 0, // Total amount from bookingInfo
-        TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin", // Replace with actual customer name if needed
-        Email: userInfo ? userInfo.Email : "Chưa có thông tin", // Replace with actual customer email if needed
-        Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "", // Join combo names with commas
+      NgayMua: new Date().toISOString(),
+      orderId: Date.now(),
+      Rap: "Ticket Quận 12",
+      userId: userInfo ? userInfo.userId : 'Chưa có thông tin',
+      PhuongThucThanhToan: bankCode,
+      TenPhim: bookingInfo ? bookingInfo.movieName : "Chưa có thông tin",
+      ThoiGian: bookingInfo ? bookingInfo.showtimeTime : "Chưa có thông tin",
+      NgayChieu: bookingInfo ? bookingInfo.showtimeDate : "Chưa có thông tin",
+      SoGhe: bookingInfo ? bookingInfo.selectedSeats.join(", ") : "chưa có thống tin",
+      PhongChieu: bookingInfo ? bookingInfo.room : "Chưa có thông tin",
+      GiaVe: bookingInfo ? bookingInfo.ticketTypes.map(ticket => ticket.price).reduce((a, b) => a + b, 0) : 0,
+      TongTien: bookingInfo ? bookingInfo.totalAmount - discountAmount : 0,
+      TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
+      Email: userInfo ? userInfo.Email : "Chưa có thông tin",
+      Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null",
+      IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
     };
 
     try {
-        const response = await fetch('http://localhost:3000/checkout/', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${tokenValue}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(paymentData),
+      // Giả sử bạn sẽ gửi thông tin thanh toán đến server
+      const response = await fetch('http://localhost:3000/order/create_payment_url', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create invoice');
+      }
+
+      const result = await response.json();
+      console.log('Invoice created:', result);
+
+      // Lưu thông tin thanh toán vào token hoặc cookies
+      Cookies.set('paymentInfo', JSON.stringify(paymentData));  // Lưu thông tin thanh toán vào cookies
+
+      
+    } catch (error) {
+      console.error('Payment error:', error);
+      setError('Đã xảy ra lỗi khi thanh toán.');
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Đảm bảo thông tin thanh toán hợp lệ
+    if (!paymentInfo || !paymentInfo.TongTien || !paymentInfo.orderId) {
+      alert("Thông tin thanh toán không đầy đủ.");
+      return;
+    }
+
+    const amount = paymentInfo.TongTien;
+    const orderId = paymentInfo.orderId;
+
+    if (selectedPaymentType === "bank") {
+      try {
+        const response = await axiosClient.post("/create_payment_url", {
+          amount: amount,
+          orderId: orderId,
+          bankCode: bankCode,
+          language: language,
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to create invoice');
-        }
+        console.log("Response from API:", response); // Kiểm tra response trả về
 
-        const result = await response.json();
-        console.log('Invoice created:', result);
-
-        // Redirect to invoice details page using the id
-        if (result.id) { // Ensure that result.id exists
-            router.push(`/page/chitiethoadon/${result.id}`); // Redirect to the details page with the invoice ID
+        // Kiểm tra nếu response là một chuỗi URL
+        if (typeof response === 'string' && response.startsWith("http")) {
+          setPaymentUrl(response);  // Lưu URL thanh toán vào state
+          router.push(response);    // Chuyển hướng đến trang thanh toán
         } else {
-            setError('Không có ID hóa đơn để chuyển hướng.');
+          console.warn("paymentUrl không hợp lệ hoặc không có.");
+          alert("Lỗi khi tạo liên kết thanh toán");
         }
-    } catch (error) {
-        console.error('Payment error:', error);
-        setError('Đã xảy ra lỗi khi thanh toán.');
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Đã xảy ra lỗi khi thanh toán.");
+      }
     }
-};
+  };
+
+  const handlePaymentAndSubmit = (event) => {
+    event.preventDefault();
+
+    handlePayment();  // Call payment logic
+    handleSubmit(event);  // Call form submission logic
+  };
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+
+  const applyDiscountCode = async () => {
+    if (discountApplied) {
+      setError('Bạn chỉ có thể áp dụng một mã giảm giá.');
+      return;
+    }
+  
+    try {
+      // Gửi yêu cầu tới API để kiểm tra mã giảm giá
+      const response = await fetch(`http://localhost:3000/event/discount/${discountCode}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Mã giảm giá không hợp lệ.');
+      }
+  
+      const data = await response.json();
+  
+      // Kiểm tra nếu dữ liệu trả về có mã giảm giá và tỷ lệ giảm
+      if (data && data.MaGiamGia && data.discountPercent) {
+        const discountPercent = data.discountPercent;
+        setDiscountAmount(bookingInfo.totalAmount * (discountPercent / 100)); // Tính tiền giảm
+        setDiscountApplied(true);
+        setError('');
+      } else {
+        setError('Mã giảm giá không hợp lệ.');
+      }
+    } catch (error) {
+      console.error('Error fetching discount:', error);
+      setError('Mã giảm giá không hợp lệ.');
+    }
   };
 
   return (
@@ -126,7 +270,7 @@ const fetchUserDetails = async (tokenValue) => {
           <div>
             <div className="mb-4">
               <div className="flex justify-between p-4 bg-[rgba(0,0,0,0.7)]">
-              <div>
+                <div>
                   <p className="font-bold">Tên khách hàng</p>
                   <p>{userInfo ? userInfo.Ten : "Tạm chưa có thông tin"}</p> {/* Display user name */}
                 </div>
@@ -148,30 +292,18 @@ const fetchUserDetails = async (tokenValue) => {
                   {error && <span className="text-red-500 text-sm">{error}</span>} {/* Display error message if exists */}
                 </div>
                 <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
-                  <input className="mr-2 " name="payment" type="radio" onChange={() => setPaymentMethod('momo')} />
+                  <input className="mr-2" name="payment" type="radio" onChange={() => setBankCode('Momo')} />
                   <img alt="Momo logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/9wrjggel7jXQcCNtBhX99ZH3wSe0ZP3MLp2PuOTVD3jqJCnTA.jpg" width="24" />
                   <span>Thanh toán qua Momo</span>
                 </label>
                 <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
-                  <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('localCard')} />
-                  <img
-                    alt="Nội địa logo"
-                    className="mr-2"
-                    height="24"
-                    src="https://storage.googleapis.com/a1aa/image/BMhFtv7NofUuDyLI2zUYcccGbHCsByXh6jcSNVwWljV0EhzJA.jpg"
-                    width="24"
-                  />
+                  <input className="mr-2" type="radio" name="bankCode" value="VNBANK" checked={selectedPaymentType === "bank" && bankCode === "VNBANK"} onChange={() => { setBankCode("VNBANK"); setSelectedPaymentType("bank"); }} />
+                  <img alt="Nội địa logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/BMhFtv7NofUuDyLI2zUYcccGbHCsByXh6jcSNVwWljV0EhzJA.jpg" width="24" />
                   <span>Thanh toán qua Thẻ nội địa</span>
                 </label>
                 <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
-                  <input className="mr-2" name="payment" type="radio" onChange={() => setPaymentMethod('internationalCard')} />
-                  <img
-                    alt="Quốc tế logo"
-                    className="mr-2"
-                    height="24"
-                    src="https://storage.googleapis.com/a1aa/image/eSRLxk1FwCQlGS1yllkaauZIYG6KHdVRgAowAyn6rtn1EhzJA.jpg"
-                    width="24"
-                  />
+                  <input className="mr-2" name="payment" type="radio" onChange={() => setBankCode('internationalCard')} />
+                  <img alt="Quốc tế logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/eSRLxk1FwCQlGS1yllkaauZIYG6KHdVRgAowAyn6rtn1EhzJA.jpg" width="24" />
                   <span>Thanh toán qua thẻ quốc tế</span>
                 </label>
               </div>
@@ -184,28 +316,25 @@ const fetchUserDetails = async (tokenValue) => {
               <input
                 className="w-full mt-2 p-2 border border-gray-600 rounded bg-black text-white"
                 placeholder="Nhập mã giảm giá"
+                value={discountCode}
+                onChange={(e) => setDiscountCode(e.target.value)}
                 type="text"
               />
+              <button
+                className="mt-2 p-2 bg-[#F5CF49] text-black rounded"
+                onClick={applyDiscountCode}
+              >
+                Áp dụng
+              </button>
+              {discountApplied && (
+                <div className="text-green-500 mt-2">
+                  Đã áp dụng mã giảm giá. Số tiền được giảm: {discountAmount.toLocaleString()} VND
+                </div>
+              )}
             </div>
             <div className="flex justify-start mt-4 space-x-4">
-              <button
-                className="py-2 font-semibold rounded w-[150px]"
-                style={{ backgroundColor: buttonColor1, color: 'black' }}
-                onMouseOver={() => setButtonColor1('#FFD700')}
-                onMouseOut={() => setButtonColor1('#F5CF49')}
-                onClick={() => window.history.back()}
-              >
-                QUAY LẠI
-              </button>
-              <button
-                className="py-2 font-semibold rounded w-[150px]"
-                style={{ backgroundColor: buttonColor2, color: 'black' }}
-                onMouseOver={() => setButtonColor2('#FFD700')}
-                onMouseOut={() => setButtonColor2('#F5CF49')}
-                onClick={handlePayment}
-              >
-                THANH TOÁN
-              </button>
+              <button className="py-2 font-semibold rounded w-[150px]" style={{ backgroundColor: buttonColor1, color: 'black' }} onMouseOver={() => setButtonColor1('#FFD700')} onMouseOut={() => setButtonColor1('#F5CF49')} onClick={() => window.history.back()} >  QUAY LẠI </button>
+              <button className="py-2 font-semibold rounded w-[150px]" style={{ backgroundColor: buttonColor2, color: 'black' }} onMouseOver={() => setButtonColor2('#FFD700')} onMouseOut={() => setButtonColor2('#F5CF49')} onClick={handlePaymentAndSubmit}>THANH TOÁN</button>
             </div>
           </div>
           <div>
@@ -244,13 +373,17 @@ const fetchUserDetails = async (tokenValue) => {
                 </div>
                 <div>
                   <p className='font-bold'>Combo</p>
-                  <p>{bookingInfo ? bookingInfo.combos.map(ticket => `${ticket.name}`).join(", ") : "Tạm chưa có thống tin"}</p>
+                  <p>
+                    {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0
+                      ? bookingInfo.combos.map(ticket => ticket.name).join(", ")
+                      : "Tạm chưa có thông tin"}
+                  </p>
                 </div>
               </div>
               <hr className="border-gray-600 my-4" />
               <div className="flex justify-between items-center">
                 <span className="font-bold">SỐ TIỀN CẦN THANH TOÁN</span>
-                <span className="text-2xl font-bold">{bookingInfo ? bookingInfo.totalAmount.toLocaleString() : "Tạm chưa có thống tin"} VND</span>
+                <p>Tổng cộng: <span className="text-[#F5CF49]">{(bookingInfo ? bookingInfo.totalAmount - discountAmount : 0).toLocaleString()} VND</span></p>
               </div>
             </div>
           </div>

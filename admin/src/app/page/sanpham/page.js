@@ -1,13 +1,7 @@
 "use client";
-
 import Head from "next/head";
-import { FontAwesomeIcon, faPlus } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faPenToSquare,
-  faLock,
-  faUnlock,
-} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPenToSquare, faLock, faUnlock, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -171,6 +165,7 @@ const SanPham = () => {
 
     const newPhim = {
       Ten: editedProduct.Ten,
+      Trailer: editedProduct.Trailer,
       TrangThai: editedProduct.TrangThai,
       TheLoai: {
         KieuPhim: editedProduct.TheLoai?.KieuPhim,
@@ -215,6 +210,7 @@ const SanPham = () => {
       setEditedProduct({
         _id: "", // Resetting to initial state
         Ten: "",
+        Trailer: "",
         TrangThai: "",
         TheLoai: {
           KieuPhim: "",
@@ -249,62 +245,62 @@ const SanPham = () => {
 
   const toggleLockStatus = async (productId, isLocked) => {
     const confirmMessage = isLocked
-        ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
-        : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
+      ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
+      : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
 
     const confirmLock = window.confirm(confirmMessage);
 
     if (confirmLock) {
-        try {
-            const url = isLocked
-                ? `http://localhost:3000/sanpham/unlock/${productId}` // Unlock API
-                : `http://localhost:3000/sanpham/lock/${productId}`; // Lock API
+      try {
+        const url = isLocked
+          ? `http://localhost:3000/sanpham/unlock/${productId}` // Unlock API
+          : `http://localhost:3000/sanpham/lock/${productId}`; // Lock API
 
-            const response = await fetch(url, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-            if (!response.ok) {
-                throw new Error("Failed to update lock status");
-            }
-
-            const data = await response.json();
-
-            // Update the product list dynamically
-            setSanPhamList((prevProducts) =>
-                prevProducts.map((product) =>
-                    product._id === productId
-                        ? { ...product, locked: !isLocked }
-                        : product
-                )
-            );
-
-            // Trigger the correct toast notification based on the lock/unlock status
-            if (isLocked) {
-                notifyUnLocktSuccess(); // Show unlock success toast
-            } else {
-                notifyLocktSuccess(); // Show lock success toast
-            }
-        } catch (error) {
-            console.error("Error toggling lock status:", error);
-            alert("Error updating lock status. Please try again.");
+        if (!response.ok) {
+          throw new Error("Failed to update lock status");
         }
+
+        const data = await response.json();
+
+        // Update the product list dynamically
+        setSanPhamList((prevProducts) =>
+          prevProducts.map((product) =>
+            product._id === productId
+              ? { ...product, locked: !isLocked }
+              : product
+          )
+        );
+
+        // Trigger the correct toast notification based on the lock/unlock status
+        if (isLocked) {
+          notifyUnLocktSuccess(); // Show unlock success toast
+        } else {
+          notifyLocktSuccess(); // Show lock success toast
+        }
+      } catch (error) {
+        console.error("Error toggling lock status:", error);
+        alert("Error updating lock status. Please try again.");
+      }
     }
-};
+  };
 
 
   return (
     <main className="app-content">
       <Head>
-        <title>Danh sách sản phẩm</title>
+        <title>Danh sách phim</title>
       </Head>
       <div className="app-title">
         <ul className="app-breadcrumb breadcrumb side">
           <li className="breadcrumb-item active">
-            <b>Danh sách sản phẩm</b>
+            <b>Danh sách phim</b>
           </li>
         </ul>
       </div>
@@ -316,18 +312,19 @@ const SanPham = () => {
               <div className="row element-button">
                 <div className="col-sm-2">
                   <Button
-                    className="btn bg-[#F5CF49] font-bold"
+                    className="btn btn-add"
                     onClick={handleAddPhim}
                   >
-                    <FontAwesomeIcon icon={faPlus} /> Tạo mới sản phẩm
+                    <FontAwesomeIcon icon={faPlus} /> Thêm mới
                   </Button>
                 </div>
               </div>
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th width="50">STT</th>
                     <th>Tên phim</th>
+                    <th>Trailer</th>
                     <th>Ảnh phim</th>
                     <th>Thể loại</th>
                     <th>Thời lượng</th>
@@ -343,17 +340,12 @@ const SanPham = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {sanPhamList.map((product) => (
+                  {sanPhamList.map((product, index) => (
                     <tr key={product._id}>
-                      <td>{product._id}</td>
+                      <td>{index + 1}</td>
                       <td>{product.Ten}</td>
-                      <td>
-                        <img
-                          src={product.Anh}
-                          alt={product.Ten}
-                          style={{ width: "100px", height: "auto" }}
-                        />
-                      </td>
+                      <td>{product.Trailer && product.Trailer.length > 20 ? `${product.Trailer.slice(0, 10)}...` : product.Trailer || 'No trailer available'}</td>
+                      <td><img src={product.Anh} alt={product.Ten} style={{ width: "100px", height: "auto" }} /></td>
                       <td>{product.TheLoai.KieuPhim}</td>
                       <td>{product.TheLoai.ThoiLuong}</td>
                       <td>{product.TheLoai.QuocGia}</td>
@@ -377,19 +369,9 @@ const SanPham = () => {
                         </button>
                       </td>
                       <td className="table-td-center">
+
                         <button
-                          className="btn btn-primary btn-sm trash"
-                          type="button"
-                          title="Xóa"
-                          onClick={() => handleDelete(product._id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            style={{ color: "#de0400" }}
-                          />
-                        </button>
-                        <button
-                          className="btn btn-primary btn-sm edit"
+                          className="btn btn-primary edit"
                           type="button"
                           title="Sửa"
                           onClick={() => handleEditProduct(product)} // Open edit modal
@@ -399,18 +381,29 @@ const SanPham = () => {
                             style={{ color: "#f59d39" }}
                           />
                         </button>
+                        <button
+                          className="btn btn-primary trash"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(product._id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            style={{ color: "#de0400" }}
+                          />
+                        </button>
                         <Button
                           className={
                             product.locked
-                              ? "btn btn-warning btn-sm"
-                              : "btn btn-success btn-sm"
+                              ? "btn btn-warning"
+                              : "btn btn-success"
                           }
                           onClick={() =>
                             toggleLockStatus(product._id, product.locked)
                           } // Pass locked status to toggle
                         >
                           <FontAwesomeIcon
-                            icon={product.locked ? faLock : faUnlock }
+                            icon={product.locked ? faLock : faUnlock}
                           />{" "}
                           {product.locked ? "" : ""}
                         </Button>
@@ -446,12 +439,12 @@ const SanPham = () => {
       {/* Edit Product Modal */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Chỉnh sửa thông tin sản phẩm</Modal.Title>
+          <Modal.Title>Chỉnh sửa thông tin phim</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row">
             <div className="form-group col-md-6">
-              <label className="control-label">Mã sản phẩm</label>
+              <label className="control-label">Mã phim</label>
               <input
                 className="form-control"
                 type="text"
@@ -460,7 +453,7 @@ const SanPham = () => {
               />
             </div>
             <div className="form-group col-md-6">
-              <label className="control-label">Tên sản phẩm</label>
+              <label className="control-label">Tên phim</label>
               <input
                 className="form-control"
                 type="text"
@@ -468,6 +461,19 @@ const SanPham = () => {
                 value={editedProduct.Ten || ""}
                 onChange={(e) =>
                   setEditedProduct({ ...editedProduct, Ten: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="form-group col-md-6">
+              <label className="control-label">Trailer phim</label>
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.Trailer || ""}
+                onChange={(e) =>
+                  setEditedProduct({ ...editedProduct, Trailer: e.target.value })
                 }
               />
             </div>
@@ -486,9 +492,9 @@ const SanPham = () => {
                 }
               >
                 <option value="">Chọn trạng thái</option>
-                <option value="dangchieu">dangchieu</option>
-                <option value="sapchieu">sapchieu</option>
-                <option value="ngungchieu">ngungchieu</option>
+                <option value="dangchieu">Đang chiếu</option>
+                <option value="sapchieu">Sắp chiếu</option>
+                <option value="ngungchieu">Ngưng chiếu</option>
               </select>
             </div>
 
@@ -705,13 +711,14 @@ const SanPham = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Đóng
+          <Button onClick={handleSaveChanges} className="btn btn-save">
+            Lưu lại
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
-            Lưu thay đổi
+          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel">
+            hủy bỏ
           </Button>
         </Modal.Footer>
+
       </Modal>
       <ToastContainer />
     </main>
