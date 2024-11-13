@@ -1,13 +1,14 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const VerifyCode = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const email = localStorage.getItem('resetEmail'); // Retrieve the stored email
+  const searchParams = useSearchParams();
+  const email = searchParams.get('email'); // Get email from query
 
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
@@ -19,14 +20,12 @@ const VerifyCode = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          Email: email,
-          verificationCode: verificationCode,
-        }),
+        body: JSON.stringify({ Email: email, verificationCode }),
       });
 
       const data = await res.json();
       if (res.ok) {
+        localStorage.setItem('resetEmail', email); // Store email only after successful verification
         router.push('/page/reset-password'); // Redirect to reset password page
       } else {
         setMessage(data.message || 'Mã xác thực không chính xác');

@@ -293,7 +293,7 @@ const DatVe = () => {
 
 
   return (
-    <div className="flex mx-auto text-white bg-[rgba(0,0,0,0.5)] shadow-lg w-full max-w-[1410px] mx-auto">
+    <div className="flex mx-auto text-white bg-[rgba(0,0,0,0.7)] shadow-lg w-full max-w-[1410px] mx-auto">
       <section className="w-1/3 sticky top-0">
         <div className="flex justify-center  sticky top-6">
           <div className="flex flex-col md:flex-col items-center  gap-20  mt-8">
@@ -337,7 +337,7 @@ const DatVe = () => {
             <h2 className="text-[40px] font-bold mb-4 text-center mt-20 pb-3">DANH SÁCH PHÒNG CHIẾU</h2>
             <div className="flex flex-col items-center">
               {groupedRooms.map((room) => (
-                <div key={room.IdPhong} className="bg-[#2C2C2C] w-full max-w-[1035px] p-4 mb-4 rounded">
+                <div key={room.IdPhong} className="bg-[#1c1c1c] w-full max-w-[1035px] p-4 mb-4 rounded">
                   <div className="flex justify-between">
                     <h3 className="text-[28px] text-[#F5CF49] font-semibold hover:text-white">
                       {room.TenPhongChieu}
@@ -503,7 +503,7 @@ const DatVe = () => {
                 </h2>
                 <button
                   onClick={handleContinue}
-                  className="font-bold bg-[#F5CF49] text-black m-3 w-[150px] h-[40px] rounded hover:bg-[#FFD700]"
+                  className="font-bold bg-[#F5CF49] text-black m-3 w-[150px] h-[40px] rounded hover:bg-yellow-300"
                 >
                   Tiếp tục
                 </button>

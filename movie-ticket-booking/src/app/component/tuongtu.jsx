@@ -48,7 +48,7 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
 
     return (
         <section className="bg-[rgba(0,0,0,0.3)] py-8">
-            <h2 className="font-bold text-[#f5cf49] text-center text-4xl mb-8">Phim tương tự</h2>
+            <h2 className="font-bold text-[#f5cf49] text-center text-4xl mb-8">Phim cùng thể loại</h2>
             <div className="max-w-[1410px] mx-auto ">
                 {error && <p>{error}</p>}
                 <div className="flex flex-wrap justify-center">

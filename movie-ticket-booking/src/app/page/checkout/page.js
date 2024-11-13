@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import https from 'https';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTag } from '@fortawesome/free-solid-svg-icons';
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -166,7 +168,7 @@ const CheckoutPage = () => {
       // Lưu thông tin thanh toán vào token hoặc cookies
       Cookies.set('paymentInfo', JSON.stringify(paymentData));  // Lưu thông tin thanh toán vào cookies
 
-      
+
     } catch (error) {
       console.error('Payment error:', error);
       setError('Đã xảy ra lỗi khi thanh toán.');
@@ -229,7 +231,7 @@ const CheckoutPage = () => {
       setError('Bạn chỉ có thể áp dụng một mã giảm giá.');
       return;
     }
-  
+
     try {
       // Gửi yêu cầu tới API để kiểm tra mã giảm giá
       const response = await fetch(`http://localhost:3000/event/discount/${discountCode}`, {
@@ -238,13 +240,13 @@ const CheckoutPage = () => {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (!response.ok) {
         throw new Error('Mã giảm giá không hợp lệ.');
       }
-  
+
       const data = await response.json();
-  
+
       // Kiểm tra nếu dữ liệu trả về có mã giảm giá và tỷ lệ giảm
       if (data && data.MaGiamGia && data.discountPercent) {
         const discountPercent = data.discountPercent;
@@ -269,7 +271,7 @@ const CheckoutPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[1410px] mx-auto">
           <div>
             <div className="mb-4">
-              <div className="flex justify-between p-4 bg-[rgba(0,0,0,0.7)]">
+              <div className="flex justify-between p-4 bg-[rgba(0,0,0,0.6)]">
                 <div>
                   <p className="font-bold">Tên khách hàng</p>
                   <p>{userInfo ? userInfo.Ten : "Tạm chưa có thông tin"}</p> {/* Display user name */}
@@ -291,17 +293,17 @@ const CheckoutPage = () => {
                   <span className="font-bold">Chọn phương thức thanh toán</span>
                   {error && <span className="text-red-500 text-sm">{error}</span>} {/* Display error message if exists */}
                 </div>
-                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
+                <label className="w-full flex items-center p-3 bg-[#E8F0FE] text-black border border-gray-600 rounded-lg cursor-pointer mb-2">
                   <input className="mr-2" name="payment" type="radio" onChange={() => setBankCode('Momo')} />
                   <img alt="Momo logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/9wrjggel7jXQcCNtBhX99ZH3wSe0ZP3MLp2PuOTVD3jqJCnTA.jpg" width="24" />
                   <span>Thanh toán qua Momo</span>
                 </label>
-                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
+                <label className="w-full flex items-center p-3 bg-[#E8F0FE] text-black border border-gray-600 rounded-lg cursor-pointer mb-2">
                   <input className="mr-2" type="radio" name="bankCode" value="VNBANK" checked={selectedPaymentType === "bank" && bankCode === "VNBANK"} onChange={() => { setBankCode("VNBANK"); setSelectedPaymentType("bank"); }} />
                   <img alt="Nội địa logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/BMhFtv7NofUuDyLI2zUYcccGbHCsByXh6jcSNVwWljV0EhzJA.jpg" width="24" />
                   <span>Thanh toán qua Thẻ nội địa</span>
                 </label>
-                <label className="w-full flex items-center p-3 border border-gray-600 rounded-lg cursor-pointer mb-2">
+                <label className="w-full flex items-center p-3 bg-[#E8F0FE] text-black border border-gray-600 rounded-lg cursor-pointer mb-2">
                   <input className="mr-2" name="payment" type="radio" onChange={() => setBankCode('internationalCard')} />
                   <img alt="Quốc tế logo" className="mr-2" height="24" src="https://storage.googleapis.com/a1aa/image/eSRLxk1FwCQlGS1yllkaauZIYG6KHdVRgAowAyn6rtn1EhzJA.jpg" width="24" />
                   <span>Thanh toán qua thẻ quốc tế</span>
@@ -313,19 +315,22 @@ const CheckoutPage = () => {
                 <i className="fas fa-tag text-[#F5CF49] mr-2"></i>
                 <span className="font-bold">Chọn hoặc nhập mã giảm giá</span>
               </div>
-              <input
-                className="w-full mt-2 p-2 border border-gray-600 rounded bg-black text-white"
-                placeholder="Nhập mã giảm giá"
-                value={discountCode}
-                onChange={(e) => setDiscountCode(e.target.value)}
-                type="text"
-              />
-              <button
-                className="mt-2 p-2 bg-[#F5CF49] text-black rounded"
-                onClick={applyDiscountCode}
-              >
-                Áp dụng
-              </button>
+              <div className="flex items-center space-x-2">
+                <input
+                  className="w-full p-2 bg-[#E8F0FE] border border-gray-600 rounded text-black"
+                  placeholder="Nhập mã giảm giá"
+                  value={discountCode}
+                  onChange={(e) => setDiscountCode(e.target.value)}
+                  type="text"
+                />
+                <button
+                  className="p-2 bg-[#F5CF49] text-black rounded"
+                  onClick={applyDiscountCode}
+                >
+                 <FontAwesomeIcon icon={faTag} className="" />
+                </button>
+              </div>
+
               {discountApplied && (
                 <div className="text-green-500 mt-2">
                   Đã áp dụng mã giảm giá. Số tiền được giảm: {discountAmount.toLocaleString()} VND
@@ -338,7 +343,7 @@ const CheckoutPage = () => {
             </div>
           </div>
           <div>
-            <div className="bg-[rgba(0,0,0,0.7)] p-4 rounded-lg">
+            <div className="bg-[rgba(0,0,0,0.6)] p-4 ">
               <h2 className="font-bold text-lg">{bookingInfo ? bookingInfo.movieName : "Không có tên phim"}</h2>
               <div className="flex justify-between items-center">
                 <span className="text-[#F5CF49]">Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)</span>
