@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt, faFilter, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faFileAlt, faFilter,faTrash, faPrint } from "@fortawesome/free-solid-svg-icons";
 
 const Ve = () => {
   const [hoaDon, setHoaDon] = useState([]);
@@ -43,9 +43,60 @@ const Ve = () => {
     setSelectedHoaDon(invoice);
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrintCustom = () => {
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>In vé</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <style>
+            @media print {
+              body { margin: 0; padding: 0; }
+            }
+          </style>
+        </head>
+        <body class="bg-gray-100">
+          <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
+            <div class="text-center mb-6">
+              <h1 class="text-2xl font-bold text-gray-800">Chi tiết vé</h1>
+            </div>
+  
+            <div class="space-y-4">
+              <div>
+                <h3 class="font-semibold text-gray-700">Thông tin khách hàng</h3>
+                <p class="text-gray-600"><span class="font-bold">Khách hàng:</span> ${selectedHoaDon.TenKhachHang}</p>
+                <p class="text-gray-600"><span class="font-bold">Email:</span> ${selectedHoaDon.Email}</p>
+              </div>
+  
+              <div>
+                <h3 class="font-semibold text-gray-700">Thông tin vé</h3>
+                <p class="text-gray-600"><span class="font-bold">Phim:</span> ${selectedHoaDon.TenPhim}</p>
+                <p class="text-gray-600"><span class="font-bold">Rạp:</span> ${selectedHoaDon.Rap}</p>
+                <p class="text-gray-600"><span class="font-bold">Phòng chiếu:</span> ${selectedHoaDon.PhongChieu}</p>
+                <p class="text-gray-600"><span class="font-bold">Thời gian:</span> ${selectedHoaDon.ThoiGian}</p>
+                <p class="text-gray-600"><span class="font-bold">Ngày chiếu:</span> ${selectedHoaDon.NgayChieu}</p>
+                <p class="text-gray-600"><span class="font-bold">Ghế:</span> ${selectedHoaDon.SoGhe}</p>
+              </div>
+  
+              <div>
+                <h3 class="font-semibold text-gray-700">Thông tin thanh toán</h3>
+                <p class="text-gray-600"><span class="font-bold">Combo:</span> ${selectedHoaDon.Combo}</p>
+                <p class="text-gray-600"><span class="font-bold">Tổng tiền:</span> ${selectedHoaDon.TongTien} VND</p>
+                <p class="text-gray-600"><span class="font-bold">Trạng thái:</span> ${selectedHoaDon.TrangThai}</p>
+                <p class="text-gray-600"><span class="font-bold">Ngày tạo vé:</span> ${selectedHoaDon.createdAt}</p>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `);
+  
+    printWindow.document.close();
+    printWindow.print();
   };
+  
+  
 
   // Filter invoices based on selected date range and search query
   const handleFilter = () => {
@@ -55,24 +106,23 @@ const Ve = () => {
     const filtered = hoaDon.filter((item) => {
       const ngayMua = new Date(item.NgayMua);
       const matchesDateRange = (!start || ngayMua >= start) && (!end || ngayMua <= end);
-      const matchesSearchQuery = item.id.toString().includes(searchQuery) || item._id.toString().includes(searchQuery);
+      const matchesSearchQuery = item.Email && item.Email.includes(searchQuery);
       return matchesDateRange && matchesSearchQuery;
     });
 
     setFilteredHoaDon(filtered);
   };
 
-
   return (
     <main className="app-content">
       <Head>
-        <title>Danh sách Vé</title>
+        <title>Danh sách hóa đơn</title>
       </Head>
       <div className="app-title">
         <ul className="app-breadcrumb breadcrumb side">
           <li className="breadcrumb-item active">
             <a href="#">
-              <b>Danh sách Vé</b>
+              <b>Danh sách hóa đơn</b>
             </a>
           </li>
         </ul>
@@ -82,37 +132,57 @@ const Ve = () => {
         <div className="col-md-12">
           <div className="tile">
             <div className="tile-body">
-              <div className="row element-button">
-                {/* Search Input */}
-                <div className="col-sm-4 d-flex align-items-center">
-                  <label htmlFor="searchQuery" className="mr-3" style={{ whiteSpace: 'nowrap' }}>Tìm kiếm theo mã hóa đơn:</label>
-                  <input type="text" id="searchQuery" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="form-control" placeholder="Nhập Mã hóa đơn" />
-                </div>
+            <div className="row align-items-end element-button">
+  {/* Search Input */}
+  <div className="col-sm-3">
+    <label htmlFor="searchQuery">Tìm kiếm theo Email:</label>
+    <input
+      type="text"
+      id="searchQuery"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      className="form-control"
+      placeholder="Nhập Email"
+    />
+  </div>
 
-                {/* Date Filter Inputs */}
-                <div className="col-sm-4 d-flex align-items-center">
-                  <div className="d-flex align-items-center mr-3">
-                    <label htmlFor="startDate" className="mr-3" style={{ whiteSpace: 'nowrap' }}>Từ ngày:</label>
-                    <input type="date" id="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="form-control mr-3" />
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <label htmlFor="endDate" className="mr-3" style={{ whiteSpace: 'nowrap' }}>Đến ngày:</label>
-                    <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="form-control" />
-                  </div>
-                </div>
+  {/* Date Filter Inputs */}
+  <div className="col-sm-3">
+    <label htmlFor="startDate">Từ ngày:</label>
+    <input
+      type="date"
+      id="startDate"
+      value={startDate}
+      onChange={(e) => setStartDate(e.target.value)}
+      className="form-control"
+    />
+  </div>
+  
+  <div className="col-sm-3">
+    <label htmlFor="endDate">Đến ngày:</label>
+    <input
+      type="date"
+      id="endDate"
+      value={endDate}
+      onChange={(e) => setEndDate(e.target.value)}
+      className="form-control"
+    />
+  </div>
 
-                {/* Filter Button */}
-                <div className="col-sm-4 d-flex align-items-center justify-content-start">
-                  <button className="btn btn-save mt-0 ml-2" onClick={handleFilter}><FontAwesomeIcon icon={faFilter} /></button>
-                </div>
-              </div>
+  <div className="col-sm-3">
+    <button className="btn btn-success" onClick={handleFilter}>
+      <i className="fa fa-filter"></i>
+    </button>
+  </div>
+</div>
 
-              <table className="table table-hover table-bordered" cellPadding="0" cellSpacing="0" border="0" id="sampleTable">
+
+              <table className="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
                     <th width="50">STT</th>
                     <th>Tên Khách hàng</th>
-                    <th>Mã hóa đơn</th>
+                    <th>Email</th>
                     <th>Ngày Mua Vé</th>
                     <th>Ngày Tạo Vé</th>
                     <th>Phương thức thanh toán</th>
@@ -126,13 +196,23 @@ const Ve = () => {
                     <tr key={item.id}>
                       <td>{index + 1}</td>
                       <td>{item.TenKhachHang}</td>
-                      <td>{item._id}</td>
+                      <td>{item.Email}</td>
                       <td>{item.NgayMua}</td>
                       <td>{item.createdAt}</td>
                       <td>{item.PhuongThucThanhToan}</td>
-                      <td>{item.TongTien ? item.TongTien.toLocaleString() + " VND" : "N/A"}</td>
+                      <td>
+                        {item.TongTien
+                          ? item.TongTien.toLocaleString() + " VND"
+                          : "N/A"}
+                      </td>
                       <td>{item.TrangThai}</td>
-                      <td className="table-td-center"><button className="btn btn-info" type="button" onClick={() => handleViewDetails(item)}><FontAwesomeIcon icon={faFileAlt} /></button>
+                      <td className="table-td-center">
+                        <button
+                          className="btn btn-info"
+                          onClick={() => handleViewDetails(item)}
+                        >
+                          <FontAwesomeIcon icon={faFileAlt} />
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -144,51 +224,59 @@ const Ve = () => {
       </div>
 
       {/* Detail Box Modal */}
-      {
-        selectedHoaDon && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-            <div className="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="bg-gray-900 text-white p-4 flex justify-between items-center">
-                <h5 className="text-lg font-bold">Chi tiết vé</h5>
-                <button
-                  type="button"
-                  className="text-white text-2xl font-bold"
-                  onClick={() => setSelectedHoaDon(null)}
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between mb-4">
-                  <div>
-                    <p className="text-sm"><strong>Khách hàng:</strong> {selectedHoaDon.TenKhachHang}</p>
-                    <p className="text-sm"><strong>Email:</strong> {selectedHoaDon.Email}</p>
-                    <p className="text-sm"><strong>Phim:</strong> {selectedHoaDon.TenPhim}</p>
-                    <p className="text-sm"><strong>Rạp:</strong> {selectedHoaDon.Rap}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm"><strong>Phòng chiếu:</strong> {selectedHoaDon.PhongChieu}</p>
-                    <p className="text-sm"><strong>Thời gian:</strong> {selectedHoaDon.ThoiGian}</p>
-                    <p className="text-sm"><strong>Ngày chiếu:</strong> {selectedHoaDon.NgayChieu}</p>
-                    <p className="text-sm"><strong>Ghế:</strong> {selectedHoaDon.SoGhe}</p>
-                  </div>
+      {selectedHoaDon && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-gray-900 text-white p-4 flex justify-between items-center">
+              <h5 className="text-lg font-bold">Chi tiết vé</h5>
+              <button
+                type="button"
+                className="text-white text-2xl font-bold"
+                onClick={() => setSelectedHoaDon(null)}
+              >
+                &times;
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="flex justify-between mb-4">
+                <div>
+                  <p><strong>Khách hàng:</strong> {selectedHoaDon.TenKhachHang}</p>
+                  <p><strong>Email:</strong> {selectedHoaDon.Email}</p>
+                  <p><strong>Phim:</strong> {selectedHoaDon.TenPhim}</p>
+                  <p><strong>Rạp:</strong> {selectedHoaDon.Rap}</p>
+                  <p><strong>Phòng chiếu:</strong> {selectedHoaDon.PhongChieu}</p>
+                  <p><strong>Thời gian:</strong> {selectedHoaDon.ThoiGian}</p>
+                  <p><strong>Ngày chiếu:</strong> {selectedHoaDon.NgayChieu}</p>
+                  <p><strong>Ghế:</strong> {selectedHoaDon.SoGhe}</p>
                 </div>
-                <div className="border-t-2 border-dashed border-gray-300 my-4"></div>
-                <p className="text-sm"><strong>Combo:</strong> {selectedHoaDon.Combo}</p>
-                <p className="text-sm"><strong>Tổng tiền:</strong> {selectedHoaDon.TongTien} VND</p>
-                <p className="text-sm"><strong>Trạng thái:</strong> {selectedHoaDon.TrangThai}</p>
-                <p className="text-sm"><strong>Ngày tạo vé:</strong> {selectedHoaDon.createdAt}</p>
               </div>
-              <div className="bg-gray-100 p-4 flex justify-around">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} className="mr-2" /> In vé</button>
-                <button type="button" className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700" onClick={() => setSelectedHoaDon(null)}>Đóng</button>
+              <div className="flex justify-between mb-4">
+                <div>
+                  <p><strong>Combo:</strong> {selectedHoaDon.Combo}</p>
+                  <p><strong>Tổng tiền:</strong> {selectedHoaDon.TongTien} VND</p>
+                  <p><strong>Trạng thái:</strong> {selectedHoaDon.TrangThai}</p>
+                  <p><strong>Ngày tạo vé:</strong> {selectedHoaDon.createdAt}</p>
+                </div>
               </div>
             </div>
+            <div className="flex justify-end p-4">
+              <button
+                className="btn btn-info mr-3"
+                onClick={handlePrintCustom}
+              >
+                <FontAwesomeIcon icon={faPrint} /> In 
+              </button>
+              <button
+                className="btn btn-cancel"
+                onClick={() => handleDelete(selectedHoaDon.id)}
+              >
+                <FontAwesomeIcon icon={faTrash} /> Xóa 
+              </button>
+            </div>
           </div>
-        )
-      }
-
-    </main >
+        </div>
+      )}
+    </main>
   );
 };
 
