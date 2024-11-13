@@ -1,34 +1,33 @@
 .sap-chieu {
-    background-color: rgba(0, 0, 0, 0.75); /* Màu nền tối */
-    color: white; /* Màu chữ trắng */
-    padding: 2rem 0; /* Khoảng cách trên và dưới */
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 2rem 0;
 }
 .SapChieu-name {
-    text-align: center; /* Căn giữa tên phim */
-    font-size: 18px; /* Điều chỉnh kích thước chữ */
-    font-weight: bold; /* Chữ đậm */
-    margin-top: 10px; /* Khoảng cách với ảnh */
-    color: white; /* Màu chữ trắng */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: white;
 }
 
 .sap-chieu__title {
     font-weight: bold;
-
-    color: #f5cf49; /* Màu vàng */
+    color: #f5cf49;
     text-align: center;
-    margin-bottom: 2rem; /* Khoảng cách dưới tiêu đề */
+    margin-bottom: 2rem;
     font-size: 40px;
 }
 .sap-chieu__container {
-    width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
-    max-width: 1410px; /* Đặt giới hạn chiều rộng tối đa */
-    margin: 0 auto; /* Giữa trang */
-    padding: 0 1rem; /* Khoảng cách padding cho các thiết bị nhỏ */
+    width: 100%;
+    max-width: 1410px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .sap-chieu__row {
-    display: flex; /* Sử dụng Flexbox để tạo hàng */
-    justify-content: center; /* Căn giữa các phần tử */
+    display: flex;
+    justify-content: center;
 }
 .sap-chieu__card {
     position: relative;
@@ -60,8 +59,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* align-items: center; */
-    /* text-align: center; */
     padding: 20px;
     transition: opacity 0.3s ease;
     border-radius: 8px;
@@ -80,11 +77,9 @@
 }
 
 .sap-chieu__card-title {
-font-size: 16px;
-    /* font-size: 1.6rem; */
+    font-size: 16px;
     font-weight: 700;
     text-transform: uppercase;
-    /* width: 250px; */
 }
 
 .sap-chieu__info {
@@ -109,10 +104,9 @@ font-size: 16px;
     margin-top: 1.5rem;
     display: flex;
     justify-content: center;
-    
-    
 }
-.button-hover{
+
+.button-hover {
     background-color: #f5cf49;
     color: #000000;
     width: 150px;
@@ -121,86 +115,78 @@ font-size: 16px;
     border-radius: 8px;
     border: 2px solid;
 }
-.button-hover:hover{
-    background-color: #212529;
+.button-hover:hover {
+    background-color: #2C2C2C;
     color: #ffffff;
     border: #f5cf49 2px solid;
     transition: background-color 0.5s ease;
 }
 
-
-
-/* Responsive adjustments for tablets (screen width below 1200px) */
 @media (max-width: 1920px) {
     .sap-chieu__container {
-        width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
-        max-width: 1410px; /* Đặt giới hạn chiều rộng tối đa */
-        margin: 0 auto; /* Giữa trang */
-        padding: 0 1rem; /* Khoảng cách padding cho các thiết bị nhỏ */
+        width: 100%;
+        max-width: 1410px;
+        margin: 0 auto;
+        padding: 0 1rem;
     }    
 }
 
-/* Responsive adjustments for mobile (screen width below 768px) */
 @media (max-width: 1920px) and (min-width: 1440px) {
     .sap-chieu__container {
-        /* flex: 0 0 15%; */
         max-width: 85%;
         padding: 0 0.5rem;
-        /* max-width: 1440px;    */
     }
-    .sap-chieu__card{
+    .sap-chieu__card {
         height: fit-content;
     }
-   
 }
-@media (max-width: 1440px) and (min-width: 1024px) {
-    .sap-chieu__container{
 
+@media (max-width: 1440px) and (min-width: 1024px) {
+    .sap-chieu__container {
         padding: 0 0.5rem;
         max-width: 85%;
     }
-    .sap-chieu__card{
+    .sap-chieu__card {
         height: fit-content;
     }
     .sap-chieu__title {
-        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+        font-size: 1.5rem;
     }
 }
+
 @media (max-width: 1024px) and (min-width: 768px) {
-    .sap-chieu__container{
+    .sap-chieu__container {
         padding: 0 0.5rem;
         max-width: 85%;
     }
-    .sap-chieu__card{
+    .sap-chieu__card {
         height: fit-content;
     }
     .sap-chieu__title {
-        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+        font-size: 1.5rem;
     }
     .sap-chieu__row {
-        display: flex; /* Sử dụng Flexbox để tạo hàng */
+        display: flex;
         flex-wrap: wrap;
-        justify-content: center; /* Căn giữa các phần tử */
+        justify-content: center;
     }
 }
 
-/* Responsive adjustments for very small mobile screens (screen width below 480px) */
 @media (max-width: 768px)  {
     .sap-chieu__card {
-        width: calc(50% - 2rem); /* Độ rộng 50% cho điện thoại và tablet */
+        width: calc(50% - 2rem);
     }
     .sap-chieu__title {
-        font-size: 1.5rem; /* Giảm kích thước chữ tiêu đề */
+        font-size: 1.5rem;
     }
 
     .sap-chieu__image {
-        height: auto; /* Đặt chiều cao tự động cho ảnh */
+        height: auto;
     }
 
     .sap-chieu__row {
-        display: flex; /* Sử dụng Flexbox để tạo hàng */
+        display: flex;
         flex-wrap: wrap;
-        justify-content: center; /* Căn giữa các phần tử */
+        justify-content: center;
     }
 }
-

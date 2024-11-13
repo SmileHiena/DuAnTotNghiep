@@ -72,7 +72,6 @@ const BinhLuan = () => {
                     <th>Ngày bình luận</th>
                     <th>Tên phim</th>
                     <th>Tên người dùng</th>
-                    <th>Hình ảnh</th>
                     <th width="50">Tính năng</th>
                   </tr>
                 </thead>
@@ -84,9 +83,6 @@ const BinhLuan = () => {
                       <td>{new Date(binhluan.timestamp || binhluan.NgayBinhLuan).toLocaleString()}</td>
                       <td>{binhluan.movieName || binhluan.TenPhim}</td>
                       <td>{binhluan.username || binhluan.TenDangNhap}</td>
-                      <td>
-                        <img src={`http://localhost:3000/images/${binhluan.userImage || binhluan.Anh}`} alt="User" className="w-10 h-10 object-cover rounded-full" />
-                      </td>
                       <td className="table-td-center">
                         <button className="btn btn-primary mr-3 trash" type="button" title="Xóa" onClick={() => handleDelete(binhluan._id)}>
                           <FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} />

@@ -11,7 +11,7 @@ const SampleNextArrow = (props) => {
   const { onClick } = props;
   return (
     <div
-      className="absolute right-[-25px] top-1/2 transform -translate-y-1/2 bg-[#212529] border-2 border-[#F5CD49] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer z-10"
+      className="absolute right-[-25px] top-1/2 transform -translate-y-1/2 bg-[#2C2C2C] border-2 border-[#F5CD49] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer z-10"
       onClick={onClick}
       style={{ width: '40px', height: '40px' }}
     >
@@ -24,7 +24,7 @@ const SamplePrevArrow = (props) => {
   const { onClick } = props;
   return (
     <div
-      className="absolute left-[-25px] top-1/2 transform -translate-y-1/2 bg-[#212529] border-2 border-[#F5CD49] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer z-10"
+      className="absolute left-[-25px] top-1/2 transform -translate-y-1/2 bg-[#2C2C2C] border-2 border-[#F5CD49] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer z-10"
       onClick={onClick}
       style={{ width: '40px', height: '40px' }}
     >
@@ -46,14 +46,14 @@ const DangChieu = () => {
         if (!response.ok) throw new Error("Failed to fetch movies.");
 
         const data = await response.json();
-        console.log("Fetched data:", data); 
+        console.log("Fetched data:", data);
         setMovies(data);
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
-    fetchMovies(); 
+    fetchMovies();
   }, []);
 
   const settings = {

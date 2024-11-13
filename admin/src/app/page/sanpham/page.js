@@ -165,6 +165,7 @@ const SanPham = () => {
 
     const newPhim = {
       Ten: editedProduct.Ten,
+      Trailer: editedProduct.Trailer,
       TrangThai: editedProduct.TrangThai,
       TheLoai: {
         KieuPhim: editedProduct.TheLoai?.KieuPhim,
@@ -209,6 +210,7 @@ const SanPham = () => {
       setEditedProduct({
         _id: "", // Resetting to initial state
         Ten: "",
+        Trailer: "",
         TrangThai: "",
         TheLoai: {
           KieuPhim: "",
@@ -320,8 +322,9 @@ const SanPham = () => {
               <table className="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th width="50">STT</th>
                     <th>Tên phim</th>
+                    <th>Trailer</th>
                     <th>Ảnh phim</th>
                     <th>Thể loại</th>
                     <th>Thời lượng</th>
@@ -337,17 +340,12 @@ const SanPham = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {sanPhamList.map((product) => (
+                  {sanPhamList.map((product, index) => (
                     <tr key={product._id}>
-                      <td>{product._id}</td>
+                      <td>{index + 1}</td>
                       <td>{product.Ten}</td>
-                      <td>
-                        <img
-                          src={product.Anh}
-                          alt={product.Ten}
-                          style={{ width: "100px", height: "auto" }}
-                        />
-                      </td>
+                      <td>{product.Trailer && product.Trailer.length > 20 ? `${product.Trailer.slice(0, 10)}...` : product.Trailer || 'No trailer available'}</td>
+                      <td><img src={product.Anh} alt={product.Ten} style={{ width: "100px", height: "auto" }} /></td>
                       <td>{product.TheLoai.KieuPhim}</td>
                       <td>{product.TheLoai.ThoiLuong}</td>
                       <td>{product.TheLoai.QuocGia}</td>
@@ -463,6 +461,19 @@ const SanPham = () => {
                 value={editedProduct.Ten || ""}
                 onChange={(e) =>
                   setEditedProduct({ ...editedProduct, Ten: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="form-group col-md-6">
+              <label className="control-label">Trailer phim</label>
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.Trailer || ""}
+                onChange={(e) =>
+                  setEditedProduct({ ...editedProduct, Trailer: e.target.value })
                 }
               />
             </div>
