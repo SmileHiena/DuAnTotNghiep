@@ -132,7 +132,7 @@ const Login = () => {
           <label className="flex items-center">
             <input type="checkbox" className="mr-2" /> Nhớ tài khoản
           </label>
-          <Link href="#" className="text-[#F5CF49]">
+          <Link href="/page/forget-password" className="text-[#F5CF49]">
             Quên mật khẩu?
           </Link>
         </div>

@@ -62,7 +62,7 @@ function Profile() {
       <div className="w-full max-w-[1410px]">
         <div
           className="relative h-[300px] bg-cover bg-center border-3 border-white mb-4"
-          style={{ backgroundImage: "url('../images/background.png')" }}
+          style={{ backgroundImage: "url('../images/background1.jpg')" }}
         ></div>
         <div className="relative -mt-20 flex flex-col md:flex-row">
           <div className="flex flex-col items-center w-full md:w-1/4">
