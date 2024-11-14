@@ -4,27 +4,6 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { getUserFromToken } = require('./middleware');
-
-// // Thiết lập nơi lưu trữ và tên file
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//       cb(null, 'public/'); // Thư mục lưu trữ ảnh
-//   },
-//   filename: function (req, file, cb) {
-//       cb(null, Date.now() + '-' + file.originalname); // Tên file độc nhất
-//   }
-// });
-
-// // Kiểm tra file upload
-// function checkFileUpLoad(req, file, cb) {
-//   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-//     return cb(new Error('Bạn chỉ được upload file ảnh'));
-//   }
-//   cb(null, true);
-// }
-
-// // Upload file
-// let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 const connectDb = require('../models/db');
 
 // ---------------------------Products--------------------------------//

@@ -28,7 +28,7 @@ const BlogSection = () => {
   }, []);
 
   const handleBlogClick = (id) => {
-    router.push(`/page/blogdetail?id=${id}`); // Navigate to the blog detail page with the blog ID
+    router.push(`/blogdetail?id=${id}`); 
   };
 
   if (loading) {

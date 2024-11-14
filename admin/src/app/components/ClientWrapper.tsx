@@ -12,17 +12,17 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
     const adminToken = document.cookie.split(';').find(c => c.trim().startsWith('adminToken='));
     
     if (!adminToken) {
-      router.push('/page/login');
+      router.push('/login');
     }
   }, [router]);
 
   return (
     <>
-    {pathname === '/page/login' ? (
-      // Chỉ hiển thị children khi pathname là '/page/login'
+    {pathname === '/login' ? (
+      // Chỉ hiển thị children khi pathname là '/login'
       <>{children}</>
     ) : (
-      // Hiển thị cả Headers và children khi pathname khác '/page/login'
+      // Hiển thị cả Headers và children khi pathname khác '/login'
       <div className="app sidebar-mini rtl">
         <Headers />
         {children}
