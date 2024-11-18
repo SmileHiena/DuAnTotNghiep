@@ -83,12 +83,12 @@ const Event = () => {
         <Slider {...settings}>
           {events.map(item => (
             <div className="rounded-lg overflow-hidden" key={item.id}>
-              <Link href={"event"} >
-              <img
-                src={item.Anh}
-                className="w-full h-[212px] p-2 object-cover rounded-lg" // Thêm lớp rounded-lg
-                alt={`Image ${item.id}`}
-              />
+              <Link href={"/page/event"} >
+                <img
+                  src={item.Anh}
+                  className="w-full h-[212px] p-2 object-cover rounded-lg" // Thêm lớp rounded-lg
+                  alt={`Image ${item.id}`}
+                />
               </Link>
             </div>
           ))}

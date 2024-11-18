@@ -48,7 +48,7 @@ const Banner = () => {
                 <div className="textBox mb-4 md:mb-0 text-center md:text-left text-white ml-20">
                   <h2 className="text-2xl font-bold mb-2">{movie.Ten}</h2>
                   <div className="text-center mt-20">
-                    <Link href={`/details/${movie.id}`}><button className="border-2 border-[#F5CF49] bg-[#2C2C2C] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">Xem thêm</button></Link>
+                    <Link href={`/page/details/${movie.id}`}><button className="border-2 border-[#F5CF49] bg-[#2C2C2C] text-[#FFFFFF] font-semibold w-[150px] h-[40px] rounded hover:bg-[#F5CF49] hover:text-[#000000] transition uppercase text-[16px]">Xem thêm</button></Link>
                   </div>
                 </div>
                 <div className="imageBox flex justify-center mr-20"><img src={movie.Anh} alt={movie.Ten} className="w-[1000px] h-[392px]" /></div>

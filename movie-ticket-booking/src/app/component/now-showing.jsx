@@ -106,7 +106,7 @@ const DangChieu = () => {
           <div className="sap-chieu__slider">
             <Slider {...settings}>
               {movies.map((movie) => (
-                <Link href={`/details/${movie.id}`}>
+                <Link href={`/page/details/${movie.id}`}>
                   <div key={movie.id} className="sap-chieu__card mx-3">
                     <img
                       src={movie.Anh}

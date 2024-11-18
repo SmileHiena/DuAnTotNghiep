@@ -33,8 +33,8 @@ const Footer = () => {
           <div className="flex flex-col items-center mt-20">
             <h3 style={{ fontSize: "20px" }} className="font-bold mb-2 text-left ">XEM PHIM</h3>
             <ul className="space-y-1 text-center text-base">
-              <li><a href="/now-showing">Phim đang chiếu</a></li>
-              <li><a href="/coming-soon">Phim sắp chiếu</a></li>
+              <li><a href="/page/now-showing">Phim đang chiếu</a></li>
+              <li><a href="/page/coming-soon">Phim sắp chiếu</a></li>
               <li>Suất chiếu đặc biệt</li>
             </ul>
           </div>
@@ -42,8 +42,8 @@ const Footer = () => {
           <div className="flex flex-col items-center mt-20">
             <h3 style={{ fontSize: "20px" }} className="font-bold mb-2 text-left ">STICKER MAN</h3>
             <ul className="space-y-1 text-center text-base">
-              <li><a href="/about">Giới thiệu</a></li>
-              <li><a href="/contact">Liên hệ</a></li>
+              <li><a href="/page/about">Giới thiệu</a></li>
+              <li><a href="/page/contact">Liên hệ</a></li>
               <li>Tuyển dụng</li>
             </ul>
           </div>

@@ -53,7 +53,7 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
                 {error && <p>{error}</p>}
                 <div className="flex flex-wrap justify-center">
                     {similarMovies.map((movie) => (
-                        <Link href={`/details/${movie.id}`} key={movie.id}>
+                        <Link href={`/page/details/${movie.id}`} key={movie.id}>
                             <div className="relative w-64 h-80 m-2 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105">
                                 <img src={movie.Anh} alt={movie.Ten} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110" />
                                 {/* Lớp phủ hiện thông tin phim khi hover */}

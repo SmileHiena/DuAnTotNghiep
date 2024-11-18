@@ -130,7 +130,7 @@ const MovieList = ({ apiUrl, title }) => {
           {currentMovies.length > 0 ? (
             currentMovies.map((movie, index) => (
               <div key={index} className="text-center">
-                <Link href={`/details/${movie.id}`}>
+                <Link href={`/page/details/${movie.id}`}>
                   <img
                     src={`${movie.Anh}`}
                     alt={`Poster of ${movie.Ten}`}
@@ -179,7 +179,7 @@ const MovieList = ({ apiUrl, title }) => {
           </button>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
