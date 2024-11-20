@@ -1,16 +1,17 @@
-// pages/search.js
+// src/app/search.js
+"use client";
 import React from 'react';
-import { useRouter } from 'next/router';
-import MovieList from '../components/MovieList'; // Sử dụng MovieList để hiển thị kết quả
+import { useRouter } from 'next/navigation'; // Dùng đúng useRouter
+import MovieList from '../component/MovieList'; // MovieList component
 
 const SearchPage = () => {
   const router = useRouter();
-  const { name } = router.query; // Lấy từ khóa tìm kiếm từ query
+  const { query } = router;
 
   return (
     <div className="search-results">
-      <h2 className="text-center text-white mt-6">Kết quả tìm kiếm cho: {name}</h2>
-      <MovieList apiUrl={`http://localhost:3000/`} title={`Kết quả tìm kiếm cho "${name}"`} />
+      <h2>Kết quả tìm kiếm cho: {query.name}</h2>
+      <MovieList apiUrl={`http://localhost:3000/`} title={`Kết quả tìm kiếm cho "${query.name}"`} />
     </div>
   );
 };

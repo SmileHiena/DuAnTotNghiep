@@ -80,7 +80,7 @@ const SapChieu = () => {
         </div>
         <div className="button-container">
           <button className="button-hover">
-            <Link className="no-underline" href="coming-soon">Xem thêm</Link>
+            <Link className="no-underline" href="/coming-soon">Xem thêm</Link>
           </button>
         </div>
       </section>

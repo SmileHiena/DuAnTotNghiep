@@ -84,32 +84,41 @@ const Header = () => {
                             <span className="app-menu__label">POS Bán Hàng</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link className="app-menu__item" href="/revenuestatistics">
-                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Báo cáo doanh thu</span>
-                        </Link>
-                    </li>
+                    {isAdmin && (
+                        <li>
+                            <Link className="app-menu__item" href="/revenuestatistics">
+                                <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
+                                <span className="app-menu__label">Báo cáo doanh thu</span>
+                            </Link>
+                        </li>
+                    )}
                     <li>
                         <Link className="app-menu__item" href="/showtimes">
                             <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
                     </li>
-                    {isAdmin && ( // Kiểm tra nếu là admin thì mới hiển thị
-                        <li>
-                            <Link className="app-menu__item" href="/employee">
-                                <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
-                                <span className="app-menu__label">Quản lý nhân viên</span>
-                            </Link>
-                        </li>
+                    {isAdmin && (
+                        <>
+                            <li>
+                                <Link className="app-menu__item" href="/admin">
+                                    <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
+                                    <span className="app-menu__label">Quản lý admin</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="app-menu__item" href="/employee">
+                                    <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
+                                    <span className="app-menu__label">Quản lý nhân viên</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="app-menu__item" href="/customer">
+                                    <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />
+                                    <span className="app-menu__label">Quản lý khách hàng</span>
+                                </Link>
+                            </li></>
                     )}
-                    <li>
-                        <Link className="app-menu__item" href="/customer">
-                            <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lý khách hàng</span>
-                        </Link>
-                    </li>
                     <li>
                         <Link className="app-menu__item" href="/movie">
                             <FontAwesomeIcon icon={faTags} className="app-menu__icon w-4 h-4" />
@@ -125,7 +134,7 @@ const Header = () => {
                     <li>
                         <Link className="app-menu__item" href="/invoice">
                             <FontAwesomeIcon icon={faTicketAlt} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lý vé</span>
+                            <span className="app-menu__label">Quản lý hóa đơn</span>
                         </Link>
                     </li>
                     <li>

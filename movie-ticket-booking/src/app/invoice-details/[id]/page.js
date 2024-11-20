@@ -19,7 +19,7 @@ const ChiTietHoaDon = () => {
   useEffect(() => {
     const fetchInvoiceDetails = async () => {
       try {
-        const response = await fetch(`https://s9391bnm-3000.asse.devtunnels.ms/checkout/${id}`);
+        const response = await fetch(`http://localhost:3000/checkout/${id}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

@@ -179,7 +179,7 @@ const MovieList = ({ apiUrl, title }) => {
           </button>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

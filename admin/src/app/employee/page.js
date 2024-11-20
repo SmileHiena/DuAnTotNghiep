@@ -19,13 +19,13 @@ const NhanVien = () => {
 
   useEffect(() => {
     const adminToken = Cookies.get('adminToken');
-    console.log('adminToken:', adminToken); // Kiểm tra giá trị của adminToken
-  
+    // console.log('adminToken:', adminToken); 
+
     if (adminToken) {
       try {
         const decodedToken = JSON.parse(atob(adminToken.split('.')[1]));
         console.log('Decoded token:', decodedToken);
-  
+
         if (decodedToken.Quyen === 'Admin') {
           console.log('Quyền của người dùng:', decodedToken.Quyen);
           setIsAdmin(true);
@@ -40,14 +40,15 @@ const NhanVien = () => {
       console.log('Không tìm thấy adminToken trong cookie');
       setIsAdmin(false);
     }
-  }, []);useEffect(() => {
+  }, []);
+  useEffect(() => {
     const fetchEmployees = async () => {
       if (!isAdmin) {
         toast.error('Bạn không có quyền truy cập vào danh sách nhân viên.');
         setLoading(false);
         return;
       }
-  
+
       try {
         const response = await fetch('http://localhost:3000/employees', {
           method: 'GET',
@@ -56,11 +57,11 @@ const NhanVien = () => {
           },
           credentials: 'include'
         });
-  
+
         if (!response.ok) {
           throw new Error('Có lỗi xảy ra khi lấy dữ liệu nhân viên.');
         }
-  
+
         const data = await response.json();
         setEmployees(data);
       } catch (error) {
@@ -69,7 +70,7 @@ const NhanVien = () => {
         setLoading(false);
       }
     };
-  
+
     if (isAdmin) {
       fetchEmployees();
     }
@@ -213,11 +214,9 @@ const NhanVien = () => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
-                  {isAdmin && (
                     <Link href="/addemployee" className="btn btn-add">
                       <FontAwesomeIcon icon={faPlus} /> Thêm mới
                     </Link>
-                  )}
                   </div>
                 </div>
                 <table className="table table-hover table-bordered js-copytextarea" id="sampleTable">
