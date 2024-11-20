@@ -120,13 +120,13 @@ const Register = () => {
 
         <div className="flex items-center mb-4 w-full md:w-[520px]">
           <input type="checkbox" id="agreeTerms" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="mr-2" />
-          <label htmlFor="agreeTerms" className="text-base sm:text-lg">Tôi đồng ý với{" "}<Link href="/page/terms" className="text-yellow">điều khoản sử dụng</Link></label>
+          <label htmlFor="agreeTerms" className="text-base sm:text-lg">Tôi đồng ý với{" "}<Link href="/terms" className="text-yellow">điều khoản sử dụng</Link></label>
         </div>
 
         <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"> Đăng ký</button>
 
         <div className="mt-4">
-          <span className="text-sm"> Bạn đã có tài khoản?{" "} <Link href="/page/login" className="text-yellow"> Đăng nhập </Link> </span>
+          <span className="text-sm"> Bạn đã có tài khoản?{" "} <Link href="/login" className="text-yellow"> Đăng nhập </Link> </span>
         </div>
       </form>
     </div>

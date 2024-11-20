@@ -113,10 +113,10 @@ const LichChieuPage = () => {
                   {phim.gio.map((show, index) => (
                     <Link
                       key={index} // Sử dụng index cho key
-                      href={`/page/ticket-booking/${phim.IdPhim}`} // Điều hướng đến trang đặt vé
+                      href={`/ticket-booking/${phim.IdPhim}`} // Điều hướng đến trang đặt vé
                     >
                       <button
-                        className={`bg - [#F5CF49] hover:bg-[#e6b632] text-gray-900 py-2 px-4 rounded mr-2 mb-2`}
+                        className={`bg-[#F5CF49] hover:bg-[#e6b632] text-gray-900 py-2 px-4 rounded mr-2 mb-2`}
                       >
                         {show}
                       </button>
@@ -127,8 +127,8 @@ const LichChieuPage = () => {
             </div>
           ))}
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 

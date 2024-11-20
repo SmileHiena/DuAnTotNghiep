@@ -86,8 +86,8 @@ const Login = () => {
           placeholder="Tên đăng nhập hoặc email"
           required
           className={`w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 rounded-md text-sm sm:text-base ${formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
-              ? "border-red-500"
-              : "border-white"
+            ? "border-red-500"
+            : "border-white"
             } bg-[#E8F0FE] text-black `}
         />
         {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail && (
@@ -111,17 +111,17 @@ const Login = () => {
             placeholder="Mật khẩu"
             required
             className={`w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 rounded-md text-sm sm:text-base ${formik.touched.MatKhau && formik.errors.MatKhau
-                ? "border-red-500"
-                : "border-white"
+              ? "border-red-500"
+              : "border-white"
               } bg-[#E8F0FE] text-black `}
           />
           <button
             type="button"
-            onClick={() => setShowPassword(prev => !prev)} 
+            onClick={() => setShowPassword(prev => !prev)}
             className="absolute right-2 top-[40%] transform -translate-y-1/2 text-xl text-black"
           >
             {/* Sử dụng Font Awesome icons */}
-            {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />} 
+            {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
           </button>
         </div>
         {formik.touched.MatKhau && formik.errors.MatKhau && (
@@ -132,7 +132,7 @@ const Login = () => {
           <label className="flex items-center">
             <input type="checkbox" className="mr-2" /> Nhớ tài khoản
           </label>
-          <Link href="/page/forget-password" className="text-[#F5CF49]">
+          <Link href="/forget-password" className="text-[#F5CF49]">
             Quên mật khẩu?
           </Link>
         </div>
@@ -147,7 +147,7 @@ const Login = () => {
 
         <div className="flex justify-center items-center text-xs sm:text-sm">
           <p>Bạn chưa có tài khoản?</p>{" "}
-          <Link href="/page/register" className="text-[#F5CF49] ml-1">
+          <Link href="/register" className="text-[#F5CF49] ml-1">
             Đăng ký ngay!
           </Link>
         </div>

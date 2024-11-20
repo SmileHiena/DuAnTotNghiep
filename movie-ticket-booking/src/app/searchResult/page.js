@@ -54,7 +54,7 @@ function SearchPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {results.map((phim) => (
               <div key={phim._id} className="movie-card relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
-                <Link href={`/page/details/${phim.id}`}>
+                <Link href={`/details/${phim.id}`}>
                   <img src={phim.Anh} alt={phim.Ten} className="w-full h-100 object-cover" />
                   {/* Overlay that appears on hover */}
                   <div className="movie-overlay absolute inset-0 bg-black bg-opacity-75 opacity-0 hover:opacity-100 transition-opacity">

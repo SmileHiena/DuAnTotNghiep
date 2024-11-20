@@ -83,21 +83,21 @@ function Profile() {
           <div className="w-full md:w-1/4 p-6 bg-[rgba(0,0,0,0.6)] text-white h-[300px]">
             <nav className="space-y-4">
               <Link
-                href="/page/profile"
+                href="/profile"
                 className="flex items-center text-lg text-white no-underline"
               >
                 <FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin
                 khách hàng
               </Link>
               <Link
-                href="/page/comment"
+                href="/comment"
                 className="flex items-center text-lg text-white no-underline"
               >
                 <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử
                 bình luận
               </Link>
               <Link
-                href="/page/invoice"
+                href="/invoice"
                 className="flex items-center text-lg text-white no-underline"
               >
                 <FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử
@@ -164,7 +164,7 @@ function Profile() {
 
                   {/* Button to Edit Profile */}
                   <div className="flex justify-between mt-4 flex-col md:flex-row">
-                    <Link href="/page/editprofile">
+                    <Link href="/editprofile">
                       <button className="bg-[#F5CF49] font-bold text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
                         <FontAwesomeIcon
                           icon={faEdit}

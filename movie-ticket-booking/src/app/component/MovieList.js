@@ -130,7 +130,7 @@ const MovieList = ({ apiUrl, title }) => {
           {currentMovies.length > 0 ? (
             currentMovies.map((movie, index) => (
               <div key={index} className="text-center">
-                <Link href={`/page/details/${movie.id}`}>
+                <Link href={`/details/${movie.id}`}>
                   <img
                     src={`${movie.Anh}`}
                     alt={`Poster of ${movie.Ten}`}

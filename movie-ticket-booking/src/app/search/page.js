@@ -1,4 +1,4 @@
-// src/app/search/page.js
+// src/app/search.js
 "use client";
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Dùng đúng useRouter

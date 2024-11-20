@@ -32,7 +32,7 @@ const SapChieu = () => {
         <div className="sap-chieu__container">
           <div className="sap-chieu__row">
             {movies.map((movie) => (
-              <Link key={movie.id} href={`/page/details/${movie.id}`} passHref className="no-underline"> {/* Added class here */}
+              <Link key={movie.id} href={`/details/${movie.id}`} passHref className="no-underline"> {/* Added class here */}
                 <div className="sap-chieu__card cursor-pointer">
                   <img
                     src={movie.Anh}
@@ -80,7 +80,7 @@ const SapChieu = () => {
         </div>
         <div className="button-container">
           <button className="button-hover">
-            <Link className="no-underline" href="/page/coming-soon">Xem thêm</Link>
+            <Link className="no-underline" href="/coming-soon">Xem thêm</Link>
           </button>
         </div>
       </section>

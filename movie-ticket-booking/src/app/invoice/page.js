@@ -136,9 +136,9 @@ const Profile = () => {
         <div className="flex flex-col md:flex-row justify-between mt-5 mb-8 gap-4">
           <div className="w-full md:w-1/4 p-6 bg-[rgba(0,0,0,0.6)] text-white h-[300px]">
             <nav className="space-y-4">
-              <Link href="/page/profile" className="flex items-center text-lg text-white no-underline"><FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng</Link>
-              <Link href="/page/comment" className="flex items-center text-lg text-white no-underline"><FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử bình luận</Link>
-              <Link href="/page/invoice" className="flex items-center text-lg text-white no-underline"><FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử mua hàng</Link>
+              <Link href="/profile" className="flex items-center text-lg text-white no-underline"><FontAwesomeIcon icon={faUser} className="mr-2 w-4" /> Thông tin khách hàng</Link>
+              <Link href="/comment" className="flex items-center text-lg text-white no-underline"><FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử bình luận</Link>
+              <Link href="/invoice" className="flex items-center text-lg text-white no-underline"><FontAwesomeIcon icon={faEdit} className="mr-2 w-4" /> Lịch sử mua hàng</Link>
             </nav>
           </div>
 

@@ -147,7 +147,7 @@ const Detail = () => {
                     <FontAwesomeIcon onClick={handleToggle} icon={faPlay} style={{ color: "#F5CF49", width: "12px", height: "12px", }} /></p>
                   <button onClick={handleToggle} className="text-[20px] no-underline text-white font-light px-4 flex-1 max-w-[150px] h-[41px] md:max-w-[200px] mr-3  hover:text-yellow-300">Xem Trailer</button>
                 </div>
-                <Link href={`/page/ticket-booking/${movie.id}`}><button className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300" style={{ width: "150px", height: "40px" }}>Đặt vé</button></Link>
+                <Link href={`/ticket-booking/${movie.id}`}><button className="text-[20px] bg-[#F5CF49] text-[#000000] font-semibold rounded hover:bg-yellow-300" style={{ width: "150px", height: "40px" }}>Đặt vé</button></Link>
               </div>
             </div>
           </div>

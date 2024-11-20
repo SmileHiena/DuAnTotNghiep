@@ -55,7 +55,7 @@ const EventPage = () => {
                       <p className="mt-2 font-semibold">Điều kiện</p>
                       <span className="font-medium">{event.DieuKien}</span>
                     </div>
-                    <Link href="/page/movielist">
+                    <Link href="/movielist">
                       <button className="mt-6 bg-[#F5CF49] text-black py-2 px-4 rounded hover:bg-[#e0b52e] transition duration-200 text-lg font-semibold">
                         Đặt Vé Ngay
                       </button>
@@ -76,7 +76,7 @@ const EventPage = () => {
                       <p className="mt-2 font-semibold">Điều kiện</p>
                       <span className="font-medium">{event.DieuKien}</span>
                     </div>
-                    <Link href="/page/movielist">
+                    <Link href="/movielist">
                       <button className="mt-6 bg-[#F5CF49] text-black py-2 px-4 rounded hover:bg-[#e0b52e] transition duration-200 text-lg font-semibold">
                         Đặt Vé Ngay
                       </button>
