@@ -11,7 +11,7 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/blog/limit/?limit=9");
+        const response = await fetch("http://localhost:3000/blog/limit/?limit=10");
         if (!response.ok) {
           throw new Error("lỗi ở fetch blogs");
         }
@@ -28,7 +28,7 @@ const BlogSection = () => {
   }, []);
 
   const handleBlogClick = (id) => {
-    router.push(`/page/blogdetail?id=${id}`); // Navigate to the blog detail page with the blog ID
+    router.push(`/blogdetail?id=${id}`); 
   };
 
   if (loading) {
