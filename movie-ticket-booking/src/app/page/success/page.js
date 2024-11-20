@@ -11,59 +11,47 @@ const PaymentSuccess = () => {
   const [paymentInfo, setPaymentInfo] = useState({});
   const [error, setError] = useState("");
   const [hasSavedInvoice, setHasSavedInvoice] = useState(false);
-  const orderId = searchParams.get("vnp_OrderInfo");
-  const amount = searchParams.get("vnp_Amount");
-  const message = searchParams.get("message");
-  const code = searchParams.get("code");
+  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(true); // Trạng thái thành công/thất bại của thanh toán
 
   useEffect(() => {
-    let isInvoiceSaved = false; // Biến cờ để đảm bảo chỉ gửi một lần
-
     const saveInvoice = async () => {
-      if (isInvoiceSaved) return; // Nếu đã gửi thì dừng lại
-      isInvoiceSaved = true;
+      if (hasSavedInvoice) return;
+      setHasSavedInvoice(true);
 
-      // Lấy thông tin thanh toán từ cookie
       const tokenValue = Cookies.get("paymentInfo");
       if (!tokenValue) {
         setError("Không tìm thấy thông tin thanh toán.");
+        setIsPaymentSuccessful(false);
         return;
       }
 
       const info = JSON.parse(tokenValue);
       setPaymentInfo(info);
-      console.log("Payment Info:", info);
 
       if (!info) {
         setError("Thông tin thanh toán không hợp lệ.");
+        setIsPaymentSuccessful(false);
         return;
       }
 
       const token = Cookies.get("token");
       if (!token) {
         setError("Không tìm thấy token xác thực.");
+        setIsPaymentSuccessful(false);
         return;
       }
 
-      // Kiểm tra xem thông tin suất chiếu có đầy đủ không
       if (!info.PhongChieu || !info.ThoiGian || !info.SoGhe) {
         setError("Thông tin suất chiếu không hợp lệ.");
+        setIsPaymentSuccessful(false);
         return;
       }
 
-      // Chuyển đổi ghế thành định dạng mong muốn nếu cần
-      let formattedSeats = [];
-      if (Array.isArray(info.SoGhe)) {
-        // Nếu SoGhe là mảng, xử lý bình thường
-        formattedSeats = info.SoGhe.map(ghe => ghe.replace(/^[A-Za-z]-/, "").replace(/\s+/g, ""));
-      } else if (typeof info.SoGhe === "string") {
-        // Nếu SoGhe là chuỗi, chuyển đổi nó thành mảng
-        formattedSeats = info.SoGhe.split(",").map(ghe => ghe.replace(/^[A-Za-z]-/, "").replace(/\s+/g, ""));
-      } else {
-        // Nếu SoGhe không phải mảng hoặc chuỗi, báo lỗi
-        setError("Dữ liệu ghế không hợp lệ.");
-        return;
-      }
+      const formattedSeats = Array.isArray(info.SoGhe)
+        ? info.SoGhe.map(ghe => ghe.replace(/^[A-Za-z]-/, "").replace(/\s+/g, ""))
+        : typeof info.SoGhe === "string"
+        ? info.SoGhe.split(",").map(ghe => ghe.replace(/^[A-Za-z]-/, "").replace(/\s+/g, ""))
+        : setError("Dữ liệu ghế không hợp lệ.") && [];
 
       const invoiceData = {
         NgayMua: info.NgayMua,
@@ -74,7 +62,7 @@ const PaymentSuccess = () => {
         TenPhim: info.TenPhim,
         ThoiGian: info.ThoiGian,
         NgayChieu: info.NgayChieu,
-        SoGhe: formattedSeats, // Đảm bảo sử dụng ghế đã được định dạng lại
+        SoGhe: formattedSeats,
         PhongChieu: info.PhongChieu,
         GiaVe: info.GiaVe,
         TongTien: info.TongTien,
@@ -83,8 +71,6 @@ const PaymentSuccess = () => {
         Combo: info.Combo,
         IdPhong: info.IdPhong,
       };
-
-      console.log("Invoice Data:", invoiceData);
 
       try {
         const response = await fetch("http://localhost:3000/checkout/", {
@@ -96,24 +82,17 @@ const PaymentSuccess = () => {
           body: JSON.stringify(invoiceData),
         });
 
-        if (!response.ok) {
-          throw new Error("Không thể tạo hóa đơn.");
-        }
+        if (!response.ok) throw new Error("Không thể tạo hóa đơn.");
 
         const result = await response.json();
-        console.log("Hóa đơn đã được tạo:", result);
-
-        // Kiểm tra nếu có ID hóa đơn để chuyển hướng
         if (result.id) {
-          // Chuyển hướng sau 7 giây
           setTimeout(() => {
             router.push(`/page/chitiethoadon/${result.id}`);
-          }, 5000); // 5000ms = 5 giây
+          }, 5000);
         } else {
           setError("Không có ID hóa đơn để chuyển hướng.");
         }
 
-        // Gọi API cập nhật ghế đã đặt sau khi tạo hóa đơn thành công
         const updateSeatsResponse = await fetch("http://localhost:3000/suatchieu/capnhatghedadat", {
           method: "POST",
           headers: {
@@ -121,48 +100,54 @@ const PaymentSuccess = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            IdPhong: info.IdPhong,  // Đảm bảo IdPhong là đúng
-            GioChieu: info.ThoiGian,   // Đảm bảo GioChieu là đúng
-            SoGhe: formattedSeats,      // Đảm bảo SoGhe là mảng đã được xử lý
+            IdPhong: info.IdPhong,
+            GioChieu: info.ThoiGian,
+            SoGhe: formattedSeats,
           }),
         });
 
-        if (updateSeatsResponse.ok) {
-          console.log("Cập nhật ghế đã đặt thành công.");
-        } else {
-          console.error("Không thể cập nhật ghế.");
-        }
-
+        if (!updateSeatsResponse.ok) throw new Error("Không thể cập nhật ghế.");
+        
       } catch (error) {
         console.error("Lỗi thanh toán:", error);
         setError("Đã xảy ra lỗi khi thanh toán.");
+        setIsPaymentSuccessful(false);
+        setTimeout(() => {
+          router.push("/");
+        }, 5000); // Chuyển về trang chủ sau 5 giây
       }
     };
 
     saveInvoice();
-  }, []); // Chỉ chạy một lần khi component được mount
+  }, [hasSavedInvoice, router]);
 
   return (
-    <>
-      <div className="container mx-auto my-10 flex justify-center items-center  h-[500px]">
-        <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg shadow-2xl p-10 text-center max-w-lg w-full transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-3xl">
-
-          {/* Icon */}
-          <div className="text-6xl mb-6 animate-bounce hover:scale-110 transition-all duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> <path fillRule="evenodd" d="M8.293 13.293a1 1 0 011.414 0L12 16.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-4xl font-bold mb-4 text-purple-100 drop-shadow-lg hover:text-purple-200 transition-all duration-300">Thanh toán thành công!</h1>
-
-          {/* Description */}
-          <p className="text-lg text-purple-200 opacity-90 hover:opacity-100 transition-all duration-300">Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!</p>
+    <div className="container mx-auto my-10 flex justify-center items-center h-[500px]">
+      <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg shadow-2xl p-10 text-center max-w-lg w-full transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-3xl">
+        
+        {/* Icon */}
+        <div className={`text-6xl mb-6 ${isPaymentSuccessful ? "animate-bounce" : ""} transition-all duration-300`}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fillRule="evenodd" d="M8.293 13.293a1 1 0 011.414 0L12 16.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
         </div>
+
+        {/* Title and Description */}
+        {isPaymentSuccessful ? (
+          <>
+            <h1 className="text-4xl font-bold mb-4 text-purple-100 drop-shadow-lg hover:text-purple-200 transition-all duration-300">Thanh toán thành công!</h1>
+            <p className="text-lg text-purple-200 opacity-90 hover:opacity-100 transition-all duration-300">Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!</p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-4xl font-bold mb-4 text-red-100 drop-shadow-lg hover:text-red-200 transition-all duration-300">Thanh toán thất bại</h1>
+            <p className="text-lg text-red-200 opacity-90 hover:opacity-100 transition-all duration-300">Đã xảy ra lỗi khi thanh toán. Bạn sẽ được chuyển về trang chủ.</p>
+          </>
+        )}
       </div>
 
       {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
-    </>
-
+    </div>
   );
 };
 
