@@ -75,7 +75,7 @@ const QuanLyPhongChieu = ({ params }) => {
 
   const handleEditPhongChieu = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/phong-chieu/${currentPhong._id}`, {
+      const response = await fetch(`http://localhost:3000/rap/phong-chieu/${currentPhong._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

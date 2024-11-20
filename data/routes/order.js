@@ -91,32 +91,40 @@ router.post("/create_payment_url", function (req, res, next) {
   res.send(JSON.stringify(vnpUrl));
 });
 
-router.get("/vnpay_return", async function (req, res, next) {
+router.get('/vnpay_return', function (req, res, next) {
   let vnp_Params = req.query;
 
-  let secureHash = vnp_Params["vnp_SecureHash"];
-  delete vnp_Params["vnp_SecureHash"];
-  delete vnp_Params["vnp_SecureHashType"];
+  let secureHash = vnp_Params['vnp_SecureHash'];
+
+  delete vnp_Params['vnp_SecureHash'];
+  delete vnp_Params['vnp_SecureHashType'];
+
   vnp_Params = sortObject(vnp_Params);
 
-  let config = require("config");
-  let tmnCode = config.get("vnp_TmnCode");
-  let secretKey = config.get("vnp_HashSecret");
+  let config = require('config');
+  let tmnCode = config.get('vnp_TmnCode');
+  let secretKey = config.get('vnp_HashSecret');
 
-  let querystring = require("qs");
+  let querystring = require('qs');
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("crypto");
+  let crypto = require("crypto");     
   let hmac = crypto.createHmac("sha512", secretKey);
-  let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
+  let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");     
 
   if (secureHash === signed) {
-    if (vnp_Params["vnp_ResponseCode"] == "00") {
-      res.render("success", { code: "00" }); // Thanh cong
-    } else {
-      res.render("success", { code: vnp_Params["vnp_ResponseCode"] }); // Thanh cong
-    }
+      // Kiểm tra mã phản hồi (vnp_ResponseCode)
+      const responseCode = vnp_Params['vnp_ResponseCode'];
+
+      // Nếu mã phản hồi là 24 (hoặc mã tương ứng giao dịch hủy), chuyển hướng về trang chủ
+      if (responseCode === '24') {
+          return res.redirect('/');
+      }
+
+      // Nếu giao dịch thành công hoặc trạng thái khác, hiển thị thông báo thành công
+      res.render('success', { code: responseCode });
   } else {
-    res.render("success", { code: "97" }); // Mã lỗi nếu hash không hợp lệ
+      // Nếu mã hash không hợp lệ, hiển thị lỗi
+      res.render('success', { code: '97' });
   }
 });
 

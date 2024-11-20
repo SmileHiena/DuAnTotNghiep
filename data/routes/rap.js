@@ -207,7 +207,7 @@ router.put('/:id/phong-chieu/:phongId', async (req, res) => {
     }
 
     // Kiểm tra xem ID có hợp lệ không
-    if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.params.phongId)) {
+    if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'ID không hợp lệ' });
     }
 

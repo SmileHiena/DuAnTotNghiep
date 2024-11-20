@@ -4,9 +4,6 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { getUserFromToken } = require('./middleware');
-
-
-
 const connectDb = require('../models/db');
 
 // ---------------------------Products--------------------------------//

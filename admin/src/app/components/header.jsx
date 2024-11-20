@@ -15,7 +15,7 @@ const Header = () => {
         const tokenValue = token?.split('=')[1];
 
         if (!tokenValue) {
-            router.push('/page/login');
+            router.push('/login');
         } else {
             setIsLoggedIn(true);
             const getUser = async () => {
@@ -50,7 +50,7 @@ const Header = () => {
     const handleLogout = () => {
         document.cookie = 'adminToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
         setIsLoggedIn(false);
-        router.push('/page/login');
+        router.push('/login');
     };
 
 
@@ -85,6 +85,7 @@ const Header = () => {
                             <span className="app-menu__label">POS Bán Hàng</span>
                         </Link>
                     </li>
+<<<<<<< HEAD
                     <li>
                         <Link className="app-menu__item" href="/page/thongkedoanhthu">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
@@ -99,65 +100,89 @@ const Header = () => {
                         </Link>
                     </li>
                     {isAdmin && ( // Kiểm tra nếu là admin thì mới hiển thị
+=======
+                    {isAdmin && (
+>>>>>>> master
                         <li>
-                            <Link className="app-menu__item" href="/page/nhanvien">
-                                <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
-                                <span className="app-menu__label">Quản lý nhân viên</span>
+                            <Link className="app-menu__item" href="/revenuestatistics">
+                                <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
+                                <span className="app-menu__label">Báo cáo doanh thu</span>
                             </Link>
                         </li>
                     )}
                     <li>
-                        <Link className="app-menu__item" href="/page/khachhang">
-                            <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lý khách hàng</span>
+                        <Link className="app-menu__item" href="/showtimes">
+                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
+                            <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
                     </li>
+                    {isAdmin && (
+                        <>
+                            <li>
+                                <Link className="app-menu__item" href="/admin">
+                                    <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
+                                    <span className="app-menu__label">Quản lý admin</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="app-menu__item" href="/employee">
+                                    <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
+                                    <span className="app-menu__label">Quản lý nhân viên</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="app-menu__item" href="/customer">
+                                    <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />
+                                    <span className="app-menu__label">Quản lý khách hàng</span>
+                                </Link>
+                            </li></>
+                    )}
                     <li>
-                        <Link className="app-menu__item" href="/page/sanpham">
+                        <Link className="app-menu__item" href="/movie">
                             <FontAwesomeIcon icon={faTags} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý phim</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/theloai">
+                        <Link className="app-menu__item" href="/categories">
                             <FontAwesomeIcon icon={faTasks} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý thể loại</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/ve">
+                        <Link className="app-menu__item" href="/invoice">
                             <FontAwesomeIcon icon={faTicketAlt} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lý vé</span>
+                            <span className="app-menu__label">Quản lý hóa đơn</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/combo">
+                        <Link className="app-menu__item" href="/combo">
                             <FontAwesomeIcon icon={faTasks} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý Combo</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/binhluan">
+                        <Link className="app-menu__item" href="/comment">
                             <FontAwesomeIcon icon={faCommentDots} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý bình luận</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/rap">
+                        <Link className="app-menu__item" href="/theaterrooms">
                             <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý rạp</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/khuyenmai">
+                        <Link className="app-menu__item" href="/event">
                             <FontAwesomeIcon icon={faCalendarCheck} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lí khuyến mãi</span>
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/page/blog">
+                        <Link className="app-menu__item" href="/blog">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lí Blog</span>
+                            <span className="app-menu__label">Quản lí blog</span>
                         </Link>
                     </li>
                     <li>
