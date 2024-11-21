@@ -194,11 +194,9 @@ const Detail = () => {
                     </div>
                   ))}
                 </div>
-
               </div>
             </div>
           </div>
-
 
           {/* Similar Movies Section */}
           <TuongTu movieId={movie.id} />

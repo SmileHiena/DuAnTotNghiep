@@ -17,6 +17,7 @@ var blogRouter = require('./routes/blog');
 var blogdetailRouter = require('./routes/blogdetail');
 var accountRouter = require('./routes/account');
 var authRouter = require('./routes/auth');
+// var veRouter = require('./routes/ve');
 var comboRouter = require('./routes/combo');
 var rapRouter = require('./routes/rap');
 var showtimesRouter = require('./routes/showtimes');
@@ -26,9 +27,11 @@ var checkoutRouter = require('./routes/checkout');
 var invoiceRouter = require('./routes/invoice');
 var orderRouter = require('./routes/order');
 var adminRouter = require('./routes/admin');
+
 var app = express();
 
 // Cấu hình middleware CORS
+const allowedOrigins = ['http://localhost:3001', 'http://localhost:3002', 'http://example.com']; // Thêm các nguồn gốc bạn muốn cho phép
 app.use(cors({
   origin: (origin, callback) => {
     // Cho phép truy cập từ mọi nguồn gốc
@@ -37,6 +40,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
   credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
+
 
 // Serve the uploads folder as static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -62,6 +66,7 @@ app.use('/blog', blogRouter);
 app.use('/blogdetail', blogdetailRouter);
 app.use('/account', accountRouter);
 app.use('/auth', authRouter);
+// app.use('/ve', veRouter);
 app.use('/combo', comboRouter);
 app.use('/rap', rapRouter);
 app.use('/showtimes', showtimesRouter);

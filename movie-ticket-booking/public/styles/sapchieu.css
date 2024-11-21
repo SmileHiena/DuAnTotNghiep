@@ -91,6 +91,7 @@
 
 .sap-chieu__info li {
     margin-bottom: 0.3rem;
+    /* max-width: 80%; */
 }
 
 .sap-chieu__date {

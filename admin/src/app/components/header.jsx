@@ -53,6 +53,7 @@ const Header = () => {
         router.push('/login');
     };
 
+
     return (
         <>
             <header className="app-header">
@@ -84,7 +85,24 @@ const Header = () => {
                             <span className="app-menu__label">POS Bán Hàng</span>
                         </Link>
                     </li>
+<<<<<<< HEAD
+                    <li>
+                        <Link className="app-menu__item" href="/page/thongkedoanhthu">
+                            <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
+                            <span className="app-menu__label">Báo cáo doanh thu</span>
+                        </Link>
+                    </li>
+                    
+                    <li>
+                        <Link className="app-menu__item" href="/page/suatchieu">
+                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
+                            <span className="app-menu__label">Quản lý suất chiếu</span>
+                        </Link>
+                    </li>
+                    {isAdmin && ( // Kiểm tra nếu là admin thì mới hiển thị
+=======
                     {isAdmin && (
+>>>>>>> master
                         <li>
                             <Link className="app-menu__item" href="/revenuestatistics">
                                 <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />

@@ -1,8 +1,10 @@
 "use client"; // Đảm bảo đây là Client Component
+"use client"; // Đảm bảo đây là Client Component
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Sử dụng 'next/navigation' cho Next.js 13+
 
 const BlogSection = () => {
+
   const router = useRouter(); // Initialize useRouter
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,12 +26,14 @@ const BlogSection = () => {
       }
     };
 
+
     fetchBlogs();
   }, []);
 
   const handleBlogClick = (id) => {
     router.push(`/blogdetail?id=${id}`); 
   };
+
 
   if (loading) {
     return <p className="text-center">Loading blogs...</p>;
