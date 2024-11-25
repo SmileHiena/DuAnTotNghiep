@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 // Toast
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const QuanLyPhongChieu = ({ params }) => {
   const { id: rapId } = params;
@@ -21,7 +21,7 @@ const QuanLyPhongChieu = ({ params }) => {
   });
 
   const notifyXoa = () => {
-    toast.success('Xóa phòng thành công thành công!', {
+    toast.success("Xóa phòng thành công thành công!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -35,7 +35,7 @@ const QuanLyPhongChieu = ({ params }) => {
   };
 
   const notifyThem = () => {
-    toast.success('Thêm phòng thành công!', {
+    toast.success("Thêm phòng thành công!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -49,7 +49,7 @@ const QuanLyPhongChieu = ({ params }) => {
   };
 
   const notifySua = () => {
-    toast.success('Sửa phòng thành công!', {
+    toast.success("Sửa phòng thành công!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -250,6 +250,9 @@ const QuanLyPhongChieu = ({ params }) => {
                   <th className="border border-gray-300 px-4 py-2 text-left">
                     Số lượng ghế
                   </th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">
+                    Tên ghế
+                  </th>
                   <th className="border border-gray-300 px-4 py-2 text-center">
                     Hành động
                   </th>
@@ -271,6 +274,25 @@ const QuanLyPhongChieu = ({ params }) => {
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
                       {phong.SoLuongGhe}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {phong.Ghe.map((row, rowIndex) => (
+                        <div key={rowIndex} className="mb-2">
+                          <div className="flex flex-wrap gap-2">
+                            <strong className="block mb-1">
+                              {row.Hang} -{" "}
+                            </strong>
+                            {row.Ghe.map((ghe, gheIndex) => (
+                              <div
+                                key={gheIndex}
+                                className="px-2 py-1 bg-blue-500 text-white text-sm rounded shadow"
+                              >
+                                {ghe}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-center">
                       <button
@@ -336,60 +358,137 @@ const QuanLyPhongChieu = ({ params }) => {
                 }
               />
 
-              {/* Chỉnh sửa danh sách ghế */}
-              <div className="mb-4">
-                <h3 className="font-medium text-lg mb-2">
-                  Chỉnh sửa danh sách ghế
-                </h3>
-                {currentPhong?.Ghe?.map((hang, index) => (
-                  <div key={index} className="mb-4">
-                    <label className="block text-sm font-medium">
-                      Hàng: {hang.Hang}
-                    </label>
-                    <input
-                      type="text"
-                      className="border p-2 w-full rounded-md"
-                      value={
-                        hang.DanhSachGhe?.map((ghe) => ghe.tenGhe).join(", ") ||
-                        ""
-                      }
-                      onChange={(e) => {
-                        const newDanhSachGhe = e.target.value
-                          .split(",")
-                          .map((tenGhe, idx) => ({
-                            id: `${hang.Hang}${idx + 1}`,
-                            tenGhe: tenGhe.trim(),
-                          }));
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6">
+                  {/* Chỉnh sửa danh sách ghế */}
+                  <div className="mb-4">
+                    <h3 className="font-medium text-lg mb-2">
+                      Chỉnh sửa danh sách ghế
+                    </h3>
+                    {currentPhong?.Ghe?.map((hang, index) => (
+                      <div key={index} className="mb-6">
+                        {/* Hiển thị tên hàng */}
+                        <label className="block text-sm font-medium mb-2">
+                          Hàng: {hang.Hang} - Số ghế: {hang.Ghe.length}
+                        </label>
+                        {/* Hiển thị danh sách ghế */}
+                        <div className="flex flex-wrap gap-3">
+                          {hang.Ghe.map((ghe, gheIndex) => (
+                            <div
+                              key={gheIndex}
+                              className="flex items-center gap-2"
+                            >
+                              <input
+                                type="text"
+                                value={ghe}
+                                onChange={(e) => {
+                                  // Cập nhật ghế hiện tại
+                                  const updatedRow = hang.Ghe.map((g, i) =>
+                                    i === gheIndex ? e.target.value.trim() : g
+                                  );
 
-                        const updatedGhe = currentPhong.Ghe.map((h, i) =>
-                          i === index
-                            ? { ...h, DanhSachGhe: newDanhSachGhe }
-                            : h
-                        );
+                                  // Cập nhật hàng ghế
+                                  const updatedGhe = currentPhong.Ghe.map(
+                                    (h, i) =>
+                                      i === index
+                                        ? { ...h, Ghe: updatedRow }
+                                        : h
+                                  );
 
-                        setCurrentPhong({
-                          ...currentPhong,
-                          Ghe: updatedGhe,
-                        });
-                      }}
-                    />
+                                  // Cập nhật tổng số lượng ghế trong toàn bộ phòng
+                                  const updatedPhong = {
+                                    ...currentPhong,
+                                    Ghe: updatedGhe,
+                                    SoLuongGhe: updatedGhe.reduce(
+                                      (sum, h) => sum + h.Ghe.length,
+                                      0
+                                    ), // Cập nhật lại tổng số lượng ghế
+                                  };
+
+                                  setCurrentPhong(updatedPhong);
+                                }}
+                                className="block px-4 py-2 w-24 text-center text-sm bg-gray-100 border border-gray-300 rounded-md"
+                              />
+                              {/* Nút dấu trừ để xóa ghế */}
+                              <button
+                                onClick={() => {
+                                  // Xóa ghế tại vị trí gheIndex
+                                  const updatedRow = hang.Ghe.filter(
+                                    (g, i) => i !== gheIndex
+                                  );
+
+                                  // Cập nhật lại danh sách ghế và số lượng ghế
+                                  const updatedGhe = currentPhong.Ghe.map(
+                                    (h, i) =>
+                                      i === index
+                                        ? { ...h, Ghe: updatedRow }
+                                        : h
+                                  );
+
+                                  // Cập nhật tổng số lượng ghế trong toàn bộ phòng
+                                  const updatedPhong = {
+                                    ...currentPhong,
+                                    Ghe: updatedGhe,
+                                    SoLuongGhe: updatedGhe.reduce(
+                                      (sum, h) => sum + h.Ghe.length,
+                                      0
+                                    ), // Cập nhật lại tổng số lượng ghế
+                                  };
+
+                                  setCurrentPhong(updatedPhong);
+                                }}
+                                className="px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600"
+                              >
+                                -
+                              </button>
+                            </div>
+                          ))}
+                          {/* Nút thêm ghế */}
+                          <button
+                            onClick={() => {
+                              // Thêm ghế mới vào hàng
+                              const newGhe = [...hang.Ghe, ""]; // Thêm ghế trống
+                              const updatedGhe = currentPhong.Ghe.map((h, i) =>
+                                i === index ? { ...h, Ghe: newGhe } : h
+                              );
+
+                              // Cập nhật tổng số lượng ghế trong toàn bộ phòng
+                              const updatedPhong = {
+                                ...currentPhong,
+                                Ghe: updatedGhe,
+                                SoLuongGhe: updatedGhe.reduce(
+                                  (sum, h) => sum + h.Ghe.length,
+                                  0
+                                ), // Cập nhật lại tổng số lượng ghế
+                              };
+
+                              setCurrentPhong(updatedPhong);
+                            }}
+                            className="px-3 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              <div className="flex gap-2">
-                <button
-                  onClick={handleEditPhongChieu}
-                  className="btn btn-primary flex-1 py-2 rounded-md"
-                >
-                  Lưu
-                </button>
-                <button
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="btn btn-secondary flex-1 py-2 rounded-md"
-                >
-                  Đóng
-                </button>
+                  {/* Nút lưu và đóng */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleEditPhongChieu}
+                      className="btn btn-primary flex-1 py-2 rounded-md"
+                    >
+                      Lưu
+                    </button>
+                    <button
+                      onClick={() => setIsEditModalOpen(false)}
+                      className="btn btn-secondary flex-1 py-2 rounded-md"
+                    >
+                      Đóng
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -429,48 +528,6 @@ const QuanLyPhongChieu = ({ params }) => {
                   })
                 }
               />
-
-              {/* Add Row and Seats */}
-              <div className="mb-4">
-                <label className="block mb-2">Tên hàng ghế</label>
-                <input
-                  type="text"
-                  className="border p-2 mb-2 w-full"
-                  placeholder="Ví dụ: A, B"
-                  value={currentHang}
-                  onChange={(e) => setCurrentHang(e.target.value)}
-                />
-                <label className="block mb-2">Danh sách ghế</label>
-                <input
-                  type="text"
-                  className="border p-2 mb-2 w-full"
-                  placeholder="Ví dụ: 1,2,3"
-                  value={currentGhe}
-                  onChange={(e) => setCurrentGhe(e.target.value)}
-                />
-                <button
-                  onClick={() => {
-                    const gheArr = currentGhe.split(",").map((ghe, index) => ({
-                      id: `${currentHang}${index + 1}`, // ID ghế là Hàng + Số
-                      tenGhe: ghe.trim(),
-                    }));
-
-                    setNewPhongChieu((prev) => ({
-                      ...prev,
-                      Ghe: [
-                        ...prev.Ghe,
-                        { Hang: currentHang, DanhSachGhe: gheArr },
-                      ],
-                    }));
-                    setCurrentHang("");
-                    setCurrentGhe("");
-                  }}
-                  className="btn btn-primary"
-                >
-                  Thêm hàng ghế
-                </button>
-              </div>
-
               <button
                 onClick={handleAddPhongChieu}
                 className="btn btn-primary w-full mt-4"
