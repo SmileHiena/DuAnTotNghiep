@@ -167,10 +167,17 @@ router.get('/:id/phong-chieu', async (req, res) => {
 });
 
 router.post('/:id/phong-chieu', async (req, res) => {
-    const { TenPhongChieu, SoLuongGhe } = req.body;
+    let { TenPhongChieu, SoLuongGhe } = req.body;
 
     if (!TenPhongChieu || !SoLuongGhe) {
         return res.status(400).json({ message: 'Tên phòng chiếu và số lượng ghế không được để trống!' });
+    }
+
+    // Chuyển đổi SoLuongGhe sang kiểu số
+    SoLuongGhe = Number(SoLuongGhe);
+
+    if (isNaN(SoLuongGhe) || SoLuongGhe <= 0) {
+        return res.status(400).json({ message: 'Số lượng ghế phải là số hợp lệ lớn hơn 0!' });
     }
 
     // Kiểm tra xem ID có hợp lệ không
@@ -182,44 +189,95 @@ router.post('/:id/phong-chieu', async (req, res) => {
         const db = await connectDb();
         const rapCollection = db.collection('rap');
 
+        // Lấy danh sách các phòng chiếu hiện tại để xác định ID phòng tiếp theo
+        const rap = await rapCollection.findOne({ _id: new ObjectId(req.params.id) });
+        const nextPhongId = (rap?.PhongChieu?.length || 0) + 1;
+
+        // Tạo danh sách ghế
+        const gheData = generateGheData(TenPhongChieu, SoLuongGhe);
+
+        const newPhongChieu = {
+            id: nextPhongId, // ID phòng tăng dần
+            TenPhongChieu,
+            SoLuongGhe,
+            Ghe: gheData, // Danh sách ghế
+        };
+
         const result = await rapCollection.updateOne(
             { _id: new ObjectId(req.params.id) },
-            { $push: { PhongChieu: { TenPhongChieu, SoLuongGhe } } }
+            { $push: { PhongChieu: newPhongChieu } }
         );
 
         if (result.modifiedCount === 0) {
             return res.status(404).json({ message: 'Rạp không tìm thấy hoặc không có thay đổi' });
         }
 
-        res.status(200).json({ message: 'Phòng chiếu đã được thêm thành công!' });
+        res.status(200).json({ message: 'Phòng chiếu đã được thêm thành công!', newPhongChieu });
     } catch (error) {
         console.error('Lỗi khi thêm phòng chiếu:', error);
         res.status(500).json({ message: 'Lỗi khi thêm phòng chiếu', error });
     }
 });
 
+// Hàm tự động tạo dữ liệu ghế
+function generateGheData(TenPhongChieu, soLuongGhe) {
+    const gheData = [];
+    const prefix = TenPhongChieu.replace(/\D/g, ''); // Lấy số từ tên phòng chiếu (ví dụ: P1)
+    const soHang = Math.ceil(soLuongGhe / 10); // Mỗi hàng có tối đa 10 ghế
+    let gheIndex = 1;
+
+    for (let hang = 1; hang <= soHang; hang++) {
+        const hangLabel = String.fromCharCode(64 + hang); // A, B, C, ...
+        const danhSachGhe = [];
+
+        for (let i = 1; i <= 10 && gheIndex <= soLuongGhe; i++) {
+            danhSachGhe.push(`P${prefix}_${hangLabel}${i}`); // Ví dụ: P1_A1, P1_A2, ...
+            gheIndex++;
+        }
+
+        gheData.push({ Hang: hangLabel, Ghe: danhSachGhe });
+    }
+
+    return gheData;
+}
+
 // Sửa thông tin phòng chiếu trong rạp
 router.put('/:id/phong-chieu/:phongId', async (req, res) => {
-    const { TenPhongChieu, SoLuongGhe } = req.body;
+    const { TenPhongChieu, SoLuongGhe, Ghe } = req.body;
 
-    if (!TenPhongChieu || !SoLuongGhe) {
-        return res.status(400).json({ message: 'Tên phòng chiếu và số lượng ghế không được để trống!' });
+    // Kiểm tra thông tin yêu cầu không bị thiếu
+    if (!TenPhongChieu || !SoLuongGhe || !Ghe) {
+        return res.status(400).json({ message: 'Tên phòng chiếu, số lượng ghế và danh sách ghế không được để trống!' });
     }
 
     // Kiểm tra xem ID có hợp lệ không
-    if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.params.phongId)) {
-        return res.status(400).json({ message: 'ID không hợp lệ' });
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ message: 'ID rạp không hợp lệ' });
+    }
+
+    // Kiểm tra xem phongId có phải là số hợp lệ không
+    const phongId = Number(req.params.phongId);
+    if (isNaN(phongId) || phongId <= 0) {
+        return res.status(400).json({ message: 'ID phòng chiếu phải là một số hợp lệ' });
     }
 
     try {
         const db = await connectDb();
         const rapCollection = db.collection('rap');
 
+        // Cập nhật thông tin phòng chiếu
         const result = await rapCollection.updateOne(
-            { _id: new ObjectId(req.params.id), 'PhongChieu._id': new ObjectId(req.params.phongId) },
-            { $set: { 'PhongChieu.$.TenPhongChieu': TenPhongChieu, 'PhongChieu.$.SoLuongGhe': SoLuongGhe } }
+            { _id: new ObjectId(req.params.id), 'PhongChieu.id': phongId },
+            {
+                $set: {
+                    'PhongChieu.$.TenPhongChieu': TenPhongChieu,
+                    'PhongChieu.$.SoLuongGhe': SoLuongGhe,
+                    'PhongChieu.$.Ghe': Ghe,
+                },
+            }
         );
 
+        // Nếu không tìm thấy phòng chiếu hoặc rạp
         if (result.matchedCount === 0) {
             return res.status(404).json({ message: 'Rạp hoặc phòng chiếu không tìm thấy' });
         }
@@ -231,20 +289,26 @@ router.put('/:id/phong-chieu/:phongId', async (req, res) => {
     }
 });
 
+
 // Xóa phòng chiếu trong rạp
 router.delete('/:id/phong-chieu/:phongId', async (req, res) => {
-    // Kiểm tra xem ID có hợp lệ không
-    if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.params.phongId)) {
-        return res.status(400).json({ message: 'ID không hợp lệ' });
-    }
+    const { id, phongId } = req.params; // Get the ID of the theater and the room
+    console.log('Theater ID:', id); // Log the theater ID
+    console.log('Room ID:', phongId); // Log the room ID
 
     try {
         const db = await connectDb();
         const rapCollection = db.collection('rap');
 
+        // Kiểm tra xem phongId có phải là số hợp lệ không
+        if (isNaN(phongId)) {
+            return res.status(400).json({ message: 'ID phòng chiếu không hợp lệ' });
+        }
+
+        // Nếu phongId hợp lệ, tiếp tục xử lý
         const result = await rapCollection.updateOne(
-            { _id: new ObjectId(req.params.id) },
-            { $pull: { PhongChieu: { _id: new ObjectId(req.params.phongId) } } }
+            { _id: new ObjectId(id) }, // Tìm rạp theo _id (vẫn là ObjectId)
+            { $pull: { PhongChieu: { id: Number(phongId) } } } // Pull phòng chiếu theo id (là số)
         );
 
         if (result.modifiedCount === 0) {
@@ -258,6 +322,8 @@ router.delete('/:id/phong-chieu/:phongId', async (req, res) => {
     }
 });
 
+
+
 // In the `rapchieu` API file
 router.get('/phongchieu/:id', async (req, res) => {
     const roomId = req.params.id;
@@ -265,7 +331,7 @@ router.get('/phongchieu/:id', async (req, res) => {
     try {
         const db = await connectDb();
         const cinemasCollection = db.collection('rap');
-
+ 
         // Find the cinema that contains the requested screening room
         const cinema = await cinemasCollection.findOne(
             { "PhongChieu.id": parseInt(roomId) },

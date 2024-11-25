@@ -31,6 +31,7 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 // Import model
 const connectDb = require("../models/db");
 
+// api:http://localhost:3000/admin/login 
 router.post("/login", async (req, res, next) => {
     const { usernameOrEmail, MatKhau } = req.body;
 
@@ -64,12 +65,12 @@ router.post("/login", async (req, res, next) => {
                 Quyen: user.Quyen,
             },
             process.env.JWT_SECRET || "secretkey",
-            { expiresIn: "1h" }
+            // { expiresIn: "1h" }
         );
 
         // Trả về thông tin nhân viên và adminToken
         res.status(200).json({
-            adminToken: adminToken,
+            adminToken,
             TenDangNhap: user.TenDangNhap,
             Email: user.Email,
             SDT: user.SDT,

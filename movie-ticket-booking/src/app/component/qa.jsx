@@ -24,8 +24,7 @@ const QA = () => {
                     <div className="mb-8 md:mb-0 text-center md:text-left">
                         <h1 className="text-4xl font-bold text-[#F5CF49]">Bạn hỏi, chúng tôi trả lời</h1>
                         <p className="mt-4 text-gray-300">
-                            Không tìm thấy câu hỏi của bạn. Vui lòng xem thêm 
-                            <a href="#" className="underline text-[#F5CF49]"> tại đây</a>
+                            Không tìm thấy câu hỏi của bạn. Vui lòng xem thêm <a href="#" className="underline text-[#F5CF49]">tại đây</a>
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 md:ml-8">
