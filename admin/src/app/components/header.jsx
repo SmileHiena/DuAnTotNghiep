@@ -168,7 +168,7 @@ const Header = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link className="app-menu__item" href="/theaterrooms">
+                        <Link className="app-menu__item" href="/theater">
                             <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý rạp</span>
                         </Link>

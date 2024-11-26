@@ -392,7 +392,7 @@ const CheckoutPage = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="font-bold">Số Lượng Combo</p>
+                  <p className='font-bold'>Số Lượng Combo</p>
                   <p>
                     {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0
                       ? bookingInfo.combos.map(ticket => ticket.quantity).join(", ")
