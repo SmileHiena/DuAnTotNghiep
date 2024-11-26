@@ -549,7 +549,8 @@ const DatVe = () => {
                 </h2>
                 <button
                   onClick={handleContinue}
-                  className="font-bold bg-[#F5CF49] text-black m-3 w-[150px] h-[40px] rounded hover:bg-yellow-300"
+                  className={`font-bold m-3 w-[150px] h-[40px] rounded hover:bg-yellow-300 ${Object.values(ticketQuantities).some(quantity => quantity > 0) && selectedSeats.length > 0 ? 'bg-[#F5CF49] text-black' : 'bg-gray-500 text-gray-300 cursor-not-allowed'}`}
+                  disabled={!(Object.values(ticketQuantities).some(quantity => quantity > 0) && selectedSeats.length > 0)}
                 >
                   Tiếp tục
                 </button>
