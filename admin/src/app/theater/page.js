@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPenToSquare, faCogs, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
 const RapChieu = () => {
@@ -76,9 +76,9 @@ const RapChieu = () => {
   const handleManagePhongChieu = (rap) => {
     setCurrentRap(rap);
     // Sử dụng chuỗi URL thay vì đối tượng
-    router.push(`/page/PhongChieu/${rap._id}`); // Cập nhật đường dẫn tương ứng
+    router.push(`/theaterrooms/${rap._id}`); // Cập nhật đường dẫn tương ứng
   };
-  
+
   if (loading) {
     return <p>Đang tải dữ liệu...</p>;
   }
@@ -103,21 +103,18 @@ const RapChieu = () => {
           <div className="col-md-12">
             <div className="tile">
               <div className="tile-body">
-                <div className="row element-button">
+                {/* <div className="row element-button">
                   <div className="col-sm-2">
-                    <button
-                      className="btn btn-add"
-                      onClick={() => router.push("/page/themrap")}
-                    >
-                      <FontAwesomeIcon icon={faPlus} /> Thêm rạp chiếu mới
+                    <button className="btn btn-add" onClick={() => router.push("/addtheater")}>
+                      <FontAwesomeIcon icon={faPlus} /> Thêm mới
                     </button>
                   </div>
-                </div>
+                </div> */}
 
                 <table className="table table-hover table-bordered js-copytextarea">
                   <thead>
                     <tr>
-                      <th>Mã rạp</th>
+                      <th>STT</th>
                       <th>Tên Rạp</th>
                       <th>Vị Trí</th>
                       <th>Số Phòng Chiếu</th>
@@ -126,37 +123,17 @@ const RapChieu = () => {
                   </thead>
                   <tbody>
                     {raps.length > 0 ? (
-                      raps.map((rap) => (
+                      raps.map((rap, index) => (
                         <tr key={rap._id}>
-                          <td>{rap._id}</td>
+                          <td>{index + 1}</td>
                           <td>{rap.TenRap}</td>
                           <td>{rap.ViTri}</td>
-                          <td>{rap.PhongChieu.length}</td>
+                          <td>{rap.PhongChieu?.length || 0}</td>
+
                           <td>
-                            <button
-                              className="btn btn-primary btn-sm mr-3"
-                              type="button"
-                              onClick={() => {
-                                setCurrentRap({ ...rap });
-                                setIsEditModalOpen(true);
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faPenToSquare} />
-                            </button>
-                            <button
-                              className="btn btn-danger btn-sm"
-                              type="button"
-                              onClick={() => handleDelete(rap._id)}
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                            <button
-                              className="btn btn-info btn-sm"
-                              type="button"
-                              onClick={() => handleManagePhongChieu(rap)} // Gọi hàm quản lý phòng chiếu
-                            >
-                              <FontAwesomeIcon icon={faPenToSquare} /> Quản lý phòng chiếu
-                            </button>
+                            <button className="btn btn-primary mr-3" type="button" onClick={() => { setCurrentRap({ ...rap }); setIsEditModalOpen(true); }}><FontAwesomeIcon icon={faPenToSquare} /></button>
+                            <button className="btn btn-danger mr-3 " type="button" onClick={() => handleDelete(rap._id)}><FontAwesomeIcon icon={faTrash} /></button>
+                            <button className="btn btn-info " type="button" onClick={() => handleManagePhongChieu(rap)} > <FontAwesomeIcon icon={faCogs} /> Phòng chiếu</button>
                           </td>
                         </tr>
                       ))
@@ -178,40 +155,41 @@ const RapChieu = () => {
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-body">
-              <h5>Sửa Thông Tin Rạp Chiếu</h5>
-              {currentRap && (
-                <div className="row">
-                  <div className="form-group col-md-6">
-                    <label className="control-label">Tên Rạp</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="TenRap"
-                      value={currentRap.TenRap}
-                      onChange={handleEditInputChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <label className="control-label">Vị Trí</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="ViTri"
-                      value={currentRap.ViTri}
-                      onChange={handleEditInputChange}
-                    />
-                  </div>
+              <div className="row">
+                <div className="form-group col-md-12">
+                  <h5>Sửa Thông Tin Rạp Chiếu</h5>
                 </div>
+              </div>
+
+              {currentRap && (
+                <>
+                  <div className="row">
+                    <div className="form-group col-md-6">
+                      <label className="control-label">Tên Rạp</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="TenRap"
+                        value={currentRap.TenRap}
+                        onChange={handleEditInputChange}
+                      />
+                    </div>
+                    <div className="form-group col-md-6">
+                      <label className="control-label">Vị Trí</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="ViTri"
+                        value={currentRap.ViTri}
+                        onChange={handleEditInputChange}
+                      />
+                    </div> </div>
+                  <button className="btn btn-save mr-3" onClick={handleEditSubmit}>Lưu lại</button>
+                  <button className="btn btn-cancel" onClick={() => setIsEditModalOpen(false)}>Hủy bỏ</button>
+                </>
               )}
             </div>
-            <div className="modal-footer">
-              <button className="btn btn-primary" onClick={handleEditSubmit}>
-                Lưu
-              </button>
-              <button className="btn btn-danger" onClick={() => setIsEditModalOpen(false)}>
-                Đóng
-              </button>
-            </div>
+
           </div>
         </div>
       </div>

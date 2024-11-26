@@ -144,7 +144,9 @@ const CheckoutPage = () => {
       TongTien: bookingInfo ? bookingInfo.totalAmount - discountAmount : 0,
       TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
       Email: userInfo ? userInfo.Email : "Chưa có thông tin",
-      Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null",
+      Combo:  bookingInfo 
+      ? bookingInfo.combos.map(combo => `${combo.name} (${combo.quantity})`).join(", ") 
+      : "null",
       IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
     };
 
@@ -381,6 +383,14 @@ const CheckoutPage = () => {
                   <p>
                     {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0
                       ? bookingInfo.combos.map(ticket => ticket.name).join(", ")
+                      : "Tạm chưa có thông tin"}
+                  </p>
+                </div>
+                <div>
+                  <p className='font-bold'>Số Lượng Combo</p>
+                  <p>
+                    {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0
+                      ? bookingInfo.combos.map(ticket => ticket.quantity).join(", ")
                       : "Tạm chưa có thông tin"}
                   </p>
                 </div>
