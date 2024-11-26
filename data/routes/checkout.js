@@ -110,7 +110,7 @@ const transporter = nodemailer.createTransport({
           Email: ${invoiceData.Email}
           Combo: ${invoiceData.Combo || "Không có"}
           Phòng Số: ${invoiceData.IdPhong}
-          Trạng thái: ${status}  <!-- Add status here -->
+          Trạng thái: ${status}
         `;
     
         // Generate the QR code buffer

@@ -128,6 +128,8 @@ const CheckoutPage = () => {
       return;
     }
     setError(''); // Clear error message if a payment method is selected
+    
+
 
     const paymentData = {
       NgayMua: new Date().toISOString(),
@@ -144,7 +146,9 @@ const CheckoutPage = () => {
       TongTien: bookingInfo ? bookingInfo.totalAmount - discountAmount : 0,
       TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
       Email: userInfo ? userInfo.Email : "Chưa có thông tin",
-      Combo: bookingInfo ? bookingInfo.combos.map(combo => combo.name).join(", ") : "null",
+      Combo:  bookingInfo 
+      ? bookingInfo.combos.map(combo => `${combo.name} (${combo.quantity})`).join(", ") 
+      : "null",
       IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
     };
 
@@ -159,8 +163,11 @@ const CheckoutPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create invoice');
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to create invoice');
+        return;
       }
+      
 
       const result = await response.json();
       console.log('Invoice created:', result);
@@ -381,6 +388,14 @@ const CheckoutPage = () => {
                   <p>
                     {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0
                       ? bookingInfo.combos.map(ticket => ticket.name).join(", ")
+                      : "Tạm chưa có thông tin"}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-bold">Số Lượng Combo</p>
+                  <p>
+                    {bookingInfo && bookingInfo.combos && bookingInfo.combos.length > 0
+                      ? bookingInfo.combos.map(ticket => ticket.quantity).join(", ")
                       : "Tạm chưa có thông tin"}
                   </p>
                 </div>
