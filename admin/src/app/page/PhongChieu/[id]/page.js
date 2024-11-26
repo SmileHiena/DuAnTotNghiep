@@ -296,11 +296,11 @@ const QuanLyPhongChieu = ({ params }) => {
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-center">
                       <button
-                        className="px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600 mr-2"
                         onClick={() => {
+                          setCurrentPhong(phong); 
                           setIsEditModalOpen(true);
-                          setCurrentPhong(phong);
                         }}
+                        className="px-3 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600"
                       >
                         Sửa
                       </button>
