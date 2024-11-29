@@ -100,12 +100,12 @@ const Header = () => {
                     </li>
                     {isAdmin && (
                         <>
-                            <li>
+                            {/* <li>
                                 <Link className="app-menu__item" href="/admin">
                                     <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
                                     <span className="app-menu__label">Quản lý admin</span>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link className="app-menu__item" href="/employee">
                                     <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
