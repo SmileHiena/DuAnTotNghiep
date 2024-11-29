@@ -1,13 +1,12 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRaindrops } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
+// Bọc trang chi tiết bài viết trong Suspense
 const BlogDetailPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const blogId = searchParams.get('id');
+  const blogId = searchParams.get("id");
   const [blogDetail, setBlogDetail] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,7 +58,7 @@ const BlogDetailPage = () => {
 
     fetchBlogDetails();
   }, [blogId]);
-    
+
   if (loading) return <p className="text-center">Đang tải chi tiết blog...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
   if (blogDetail.length === 0) return <p className="text-center">Không tìm thấy chi tiết blog.</p>;
@@ -79,8 +78,7 @@ const BlogDetailPage = () => {
         <div className="mt-5">
           <h1 className="text-3xl font-bold">{blogs?.TenBlog}</h1>
           <p className="text-lg mt-2">{blogs?.Titil}</p>
-          <FontAwesomeIcon icon={faRaindrops} size="4x" className="text-center text-[#f5cf49]" />
-        </div>   
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-8 mt-8 justify-between">
           <div className="flex-col max-w-[1000px]">
@@ -108,14 +106,12 @@ const BlogDetailPage = () => {
           <aside className="lg:w-1/3 bg-[#181616] rounded-lg shadow p-4 h-full sticky top-4">
             <h2 className="text-2xl font-semibold text-[#F5CF49] mb-4">Mục Lục</h2>
             {blogDetail.map((blog1) => (
-            <ul className='mt-6'>
-              
-                <li key={blog1._id} className="text-wight-500 hover:underline  text-xlcursor-pointer">
+              <ul className="mt-6">
+                <li key={blog1._id} className="text-wight-500 hover:underline text-xlcursor-pointer">
                   {blog1.NoiDung1}
                 </li>
-             
-            </ul>
-             ))}
+              </ul>
+            ))}
           </aside>
         </div>
 

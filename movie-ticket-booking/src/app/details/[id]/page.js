@@ -205,7 +205,7 @@ const Detail = () => {
           <DangChieu />
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

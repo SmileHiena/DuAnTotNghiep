@@ -42,23 +42,11 @@ router.get('/', async (req, res) => {
 
 // Tạo mới rạp
 router.post('/', async (req, res) => {
-    const { TenRap, ViTri, PhongChieu } = req.body; // Nhận thêm PhongChieu từ request body
+    const { TenRap, ViTri } = req.body; // Loại bỏ PhongChieu khỏi body để mặc định
 
     // Kiểm tra tính hợp lệ của dữ liệu
     if (!TenRap || !ViTri) {
         return res.status(400).json({ message: 'Tên rạp và vị trí không được để trống!' });
-    }
-
-    // Kiểm tra tính hợp lệ của phòng chiếu
-    if (!PhongChieu || !Array.isArray(PhongChieu) || PhongChieu.length === 0) {
-        return res.status(400).json({ message: 'Danh sách phòng chiếu không được để trống!' });
-    }
-
-    // Kiểm tra từng phòng chiếu trong danh sách
-    for (const phong of PhongChieu) {
-        if (!phong.TenPhongChieu || !phong.SoLuongGhe) {
-            return res.status(400).json({ message: 'Tên phòng chiếu và số lượng ghế không được để trống!' });
-        }
     }
 
     try {
@@ -68,27 +56,27 @@ router.post('/', async (req, res) => {
         const newRap = {
             TenRap,
             ViTri,
-            PhongChieu // Gửi danh sách phòng chiếu vào database
+            PhongChieu: [] // Đặt mặc định PhongChieu là một mảng trống
         };
 
         const result = await rapCollection.insertOne(newRap);
-        const createdRap = result.ops[0]; // Lấy thông tin rạp vừa tạo
 
         // Kiểm tra xem rạp đã được tạo thành công chưa
-        if (!createdRap) {
-            return res.status(404).json({ message: 'Rạp không tìm thấy' });
+        if (!result.insertedId) {
+            return res.status(500).json({ message: 'Rạp không thể được tạo' });
         }
 
         // Trả về thông điệp thành công và thông tin rạp
-        res.status(500).json({
+        res.status(201).json({
             message: 'Rạp chiếu đã được tạo thành công!',
-            rap: createdRap // Gửi thông tin rạp vừa tạo
+            rap: { _id: result.insertedId, ...newRap }
         });
     } catch (error) {
         console.error('Lỗi khi tạo rạp:', error);
-        res.status(201).json({ message: 'Lỗi khi tạo rạp', error });
+        res.status(500).json({ message: 'Lỗi khi tạo rạp', error });
     }
 });
+
 
 // Sửa thông tin rạp bằng _id
 router.put('/:id', async (req, res) => {

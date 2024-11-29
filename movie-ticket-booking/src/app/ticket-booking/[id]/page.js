@@ -308,29 +308,95 @@ const DatVe = () => {
       <div className="w-2/3 mr-8">
         {/* Suất Chiếu Section */}
         <section className="pb-10">
+         <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
+  <div className="flex justify-center gap-4 mt-6">
+    {Object.entries(
+      showtimes
+        .reduce((acc, showtime) => {
+          const key = showtime.NgayChieu;
+          if (!acc[key]) {
+            acc[key] = { ...showtime };
+          }
+          return acc;
+        }, {})
+    )
+      .sort(([dateA], [dateB]) => {
+        const [dayA, monthA, yearA] = dateA.split("/").map(Number);
+        const [dayB, monthB, yearB] = dateB.split("/").map(Number);
+        return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+      })
+      .map(([_, showtime], index) => {
+        // Check if the showtime is in the past
+        const [day, month, year] = showtime.NgayChieu.split("/").map(Number);
+        const showtimeDate = new Date(year, month - 1, day);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const isPast = showtimeDate < today;
+
+        return (
+          <div
+            key={index}
+            onClick={isPast ? null : () => { handleSuatChieuClick(showtime); }} // Disable click for past showtimes
+            className={`h-[95px] w-[110px] border-2 text-center flex flex-col justify-center items-center rounded transition duration-300 group mr-3 
+              ${isPast ? "opacity-50 cursor-not-allowed" : "border-[#F5CF49] hover:bg-[#F5CF49]"}`}
+          >
+            <h2 className={`font-bold ${isPast ? "text-gray-500" : "text-[#F5CF49]"} transition duration-300 group-hover:text-white`}>
+              {showtime.NgayChieu}
+            </h2>
+            <p className={`font-semibold text-[18px] ${isPast ? "text-gray-500" : "text-[#F5CF49]"} transition duration-300 group-hover:text-black`}>
+              {getDayOfWeek(showtime.NgayChieu)}
+            </p>
+          </div>
+        );
+      })}
+  </div>
+</section>
+        {/* Suất Chiếu Section */}
+        {/* <section className="pb-10">
           <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
           <div className="flex justify-center gap-4 mt-6">
             {Object.entries(
-              showtimes.reduce((acc, showtime) => {
-                const key = showtime.NgayChieu;
-                if (!acc[key]) {
-                  acc[key] = { ...showtime };
-                }
-                return acc;
-              }, {})
-            ).sort(([dateA], [dateB]) => {
-              const [dayA, monthA, yearA] = dateA.split("/").map(Number);
-              const [dayB, monthB, yearB] = dateB.split("/").map(Number);
-              return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
-            })
-              .map(([_, showtime], index) => (
-                <div key={index} onClick={() => { handleSuatChieuClick(showtime); }} className="h-[95px] w-[110px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group  hover:bg-[#F5CF49] mr-3" >
-                  <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white"> {showtime.NgayChieu}</h2>
-                  <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black"> {getDayOfWeek(showtime.NgayChieu)} </p>
-                </div>
-              ))}
+              showtimes
+                .reduce((acc, showtime) => {
+                  const key = showtime.NgayChieu;
+                  if (!acc[key]) {
+                    acc[key] = { ...showtime };
+                  }
+                  return acc;
+                }, {})
+            )
+              .sort(([dateA], [dateB]) => {
+                const [dayA, monthA, yearA] = dateA.split("/").map(Number);
+                const [dayB, monthB, yearB] = dateB.split("/").map(Number);
+                return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+              })
+              .map(([_, showtime], index) => {
+                // Check if the showtime is in the past
+                const [day, month, year] = showtime.NgayChieu.split("/").map(Number);
+                const showtimeDate = new Date(year, month - 1, day);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const isPast = showtimeDate < today;
+
+                return (
+                  <div
+                    key={index}
+                    onClick={isPast ? null : () => { handleSuatChieuClick(showtime); }} // Disable click for past showtimes
+                    className={`h-[95px] w-[110px] border-2 text-center flex flex-col justify-center items-center rounded transition duration-300 group mr-3 
+              ${isPast ? "opacity-50 cursor-not-allowed" : "border-[#F5CF49] hover:bg-[#F5CF49]"}`}
+                  >
+                    <h2 className={`font-bold ${isPast ? "text-gray-500" : "text-[#F5CF49]"} transition duration-300 group-hover:text-white`}>
+                      {showtime.NgayChieu}
+                    </h2>
+                    <p className={`font-semibold text-[18px] ${isPast ? "text-gray-500" : "text-[#F5CF49]"} transition duration-300 group-hover:text-black`}>
+                      {getDayOfWeek(showtime.NgayChieu)}
+                    </p>
+                  </div>
+                );
+              })}
           </div>
-        </section>
+        </section> */}
+
 
         {showCinema && selectedDate && ( // Hiển thị danh sách phòng chiếu nếu đã chọn Ngày
           <section className="mt-10">
@@ -503,7 +569,8 @@ const DatVe = () => {
                 </h2>
                 <button
                   onClick={handleContinue}
-                  className="font-bold bg-[#F5CF49] text-black m-3 w-[150px] h-[40px] rounded hover:bg-yellow-300"
+                  className={`font-bold m-3 w-[150px] h-[40px] rounded hover:bg-yellow-300 ${Object.values(ticketQuantities).some(quantity => quantity > 0) && selectedSeats.length > 0 ? 'bg-[#F5CF49] text-black' : 'bg-gray-500 text-gray-300 cursor-not-allowed'}`}
+                  disabled={!(Object.values(ticketQuantities).some(quantity => quantity > 0) && selectedSeats.length > 0)}
                 >
                   Tiếp tục
                 </button>
