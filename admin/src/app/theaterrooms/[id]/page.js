@@ -76,7 +76,7 @@ const QuanLyPhongChieu = ({ params }) => {
   useEffect(() => {
     const fetchRaps = async () => {
       try {
-        const response = await fetch("http://localhost:3000/rap");
+        const response = await fetch("http://localhost:3000/theater");
         const data = await response.json();
         setRaps(data);
         setLoading(false);
@@ -94,7 +94,7 @@ const QuanLyPhongChieu = ({ params }) => {
       if (rapId) {
         try {
           const response = await fetch(
-            `http://localhost:3000/rap/${rapId}/phong-chieu`
+            `http://localhost:3000/theater/${rapId}/phong-chieu`
           );
           const data = await response.json();
           console.log("Phong Chieu Data:", data); // Log the data
@@ -110,7 +110,7 @@ const QuanLyPhongChieu = ({ params }) => {
   }, [rapId]); const handleAddPhongChieu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/rap/${rapId}/phong-chieu`,
+        `http://localhost:3000/theater/${rapId}/phong-chieu`,
         {
           method: "POST",
           headers: {
@@ -155,7 +155,7 @@ const QuanLyPhongChieu = ({ params }) => {
   const handleEditPhongChieu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/rap/${rapId}/phong-chieu/${currentPhong.id}`,
+        `http://localhost:3000/theater/${rapId}/phong-chieu/${currentPhong.id}`,
         {
           method: "PUT",
           headers: {
@@ -198,7 +198,7 @@ const QuanLyPhongChieu = ({ params }) => {
     if (confirmDelete) {
       try {
         const response = await fetch(
-          `http://localhost:3000/rap/${rapId}/phong-chieu/${phongId}`,
+          `http://localhost:3000/theater/${rapId}/phong-chieu/${phongId}`,
           {
             method: "DELETE",
           }
