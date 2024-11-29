@@ -81,7 +81,7 @@ const Header = () => {
                     <li>
                         <Link className="app-menu__item" href="/">
                             <FontAwesomeIcon icon={faCartShopping} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">POS Bán Hàng</span>
+                            <span className="app-menu__label">Bảng điều khiển</span>
                         </Link>
                     </li>
                     {isAdmin && (
