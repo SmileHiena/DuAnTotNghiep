@@ -15,7 +15,7 @@ const RapChieu = () => {
   useEffect(() => {
     const fetchRaps = async () => {
       try {
-        const response = await fetch("http://localhost:3000/rap");
+        const response = await fetch("http://localhost:3000/theater");
         const data = await response.json();
         setRaps(data);
         setLoading(false);
@@ -32,7 +32,7 @@ const RapChieu = () => {
     const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa rạp này không?");
     if (confirmDelete) {
       try {
-        await fetch(`http://localhost:3000/rap/${rapId}`, {
+        await fetch(`http://localhost:3000/theater/${rapId}`, {
           method: "DELETE",
         });
         setRaps((prev) => prev.filter((rap) => rap._id !== rapId));
@@ -49,7 +49,7 @@ const RapChieu = () => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/rap/${currentRap._id}`, {
+      const response = await fetch(`http://localhost:3000/theater/${currentRap._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

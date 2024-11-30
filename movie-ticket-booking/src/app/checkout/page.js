@@ -144,9 +144,9 @@ const CheckoutPage = () => {
       TongTien: bookingInfo ? bookingInfo.totalAmount - discountAmount : 0,
       TenKhachHang: userInfo ? userInfo.Ten : "Chưa có thông tin",
       Email: userInfo ? userInfo.Email : "Chưa có thông tin",
-      Combo:  bookingInfo 
-      ? bookingInfo.combos.map(combo => `${combo.name} (${combo.quantity})`).join(", ") 
-      : "null",
+      Combo: bookingInfo
+        ? bookingInfo.combos.map(combo => `${combo.name} (${combo.quantity})`).join(", ")
+        : "null",
       IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
     };
 
@@ -167,8 +167,8 @@ const CheckoutPage = () => {
       const result = await response.json();
       console.log('Invoice created:', result);
 
-      // Lưu thông tin thanh toán vào token hoặc cookies
-      Cookies.set('paymentInfo', JSON.stringify(paymentData));  // Lưu thông tin thanh toán vào cookies
+      // Lưu thông tin thanh toán vào token hoặc cookies với thời hạn 1 ngày
+      Cookies.set('paymentInfo', JSON.stringify(paymentData), { expires: 1 });
 
 
     } catch (error) {
@@ -329,7 +329,7 @@ const CheckoutPage = () => {
                   className="p-2 bg-[#F5CF49] text-black rounded"
                   onClick={applyDiscountCode}
                 >
-                 <FontAwesomeIcon icon={faTag} className="" />
+                  <FontAwesomeIcon icon={faTag} className="" />
                 </button>
               </div>
 

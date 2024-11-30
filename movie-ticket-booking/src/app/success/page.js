@@ -146,6 +146,7 @@ const PaymentSuccess = () => {
         setError("Đã xảy ra lỗi khi thanh toán.");
       }
     };
+
     const sendEmail = async (email, invoiceData) => {
       try {
         const response = await fetch("http://localhost:3000/checkout/send-email", {
@@ -174,39 +175,34 @@ const PaymentSuccess = () => {
   }, [vnp_ResponseCode]); // Chạy lại khi vnp_ResponseCode thay đổi
 
   return (
-    <>
-      <div className="container mx-auto my-10 flex justify-center items-center h-[500px]">
-  <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg shadow-2xl p-10 text-center max-w-lg w-full transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-3xl">
+    <div className="container mx-auto my-10 flex justify-center items-center h-[500px]">
+      <div className="bg-gray-100 p-10 rounded-lg shadow-xl text-center w-full max-w-xl transition-all duration-300 hover:shadow-2xl">
+        {/* Icon */}
+        <div className="text-6xl mb-6">
+          {error ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fillRule="evenodd" d="M5.293 4.293a1 1 0 011.414 0L10 7.586l3.293-3.293a1 1 0 111.414 1.414L11.414 9l3.293 3.293a1 1 0 01-1.414 1.414L10 10.414l-3.293 3.293a1 1 0 11-1.414-1.414L8.586 9 5.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-green-500 mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fillRule="evenodd" d="M8.293 13.293a1 1 0 011.414 0L12 16.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          )}
+        </div>
 
-    {/* Icon */}
-    <div className="text-6xl mb-6 animate-bounce hover:scale-110 transition-all duration-300">
-      {error ? (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fillRule="evenodd" d="M5.293 4.293a1 1 0 011.414 0L10 7.586l3.293-3.293a1 1 0 111.414 1.414L11.414 9l3.293 3.293a1 1 0 01-1.414 1.414L10 10.414l-3.293 3.293a1 1 0 11-1.414-1.414L8.586 9 5.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-        </svg>
-      ) : (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fillRule="evenodd" d="M8.293 13.293a1 1 0 011.414 0L12 16.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-        </svg>
-      )}
+        {/* Title */}
+        <h1 className="text-3xl font-semibold text-gray-800 mb-4">
+          {error ? "Thanh toán thất bại!" : "Thanh toán thành công!"}
+        </h1>
+
+        {/* Description */}
+        <p className="text-lg text-gray-600">
+          {error ? "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại." : "Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!"}
+        </p>
+      </div>
+
+      {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
     </div>
-
-    {/* Title */}
-    <h1 className="text-4xl font-bold mb-4 text-purple-100 drop-shadow-lg hover:text-purple-200 transition-all duration-300">
-      {error ? "Thanh toán thất bại!" : "Thanh toán thành công!"}
-    </h1>
-
-    {/* Description */}
-    <p className="text-lg text-purple-200 opacity-90 hover:opacity-100 transition-all duration-300">
-      {error ? "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại." : "Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!"}
-    </p>
-  </div>
-</div>
-
-{error && <p className="text-red-500 mt-4 text-center">{error}</p>}
-
-    </>
-
   );
 };
 
