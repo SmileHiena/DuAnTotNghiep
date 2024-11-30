@@ -105,6 +105,15 @@ const RevenueStatistics = () => {
         setDatasets(chartData);
     };
 
+    const formatDate = (isoString) => {
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (bắt đầu từ 0, cần +1)
+        const year = date.getFullYear(); // Lấy năm
+        return `${day}/${month}/${year}`;
+    };
+
+
 
 
     return (
@@ -158,7 +167,7 @@ const RevenueStatistics = () => {
                                 <thead>
                                     <tr>
                                         <th with="50">STT</th>
-                                        <th>Ngày Mua/Suất Chiếu</th>
+                                        <th>Ngày Mua</th>
                                         <th>Tên Phim</th>
                                         <th>Ghế Ngồi</th>
                                         <th>Phòng Chiếu</th>
@@ -173,7 +182,7 @@ const RevenueStatistics = () => {
                                         filteredData.map((item, index) => (
                                             <tr key={item._id}>
                                                 <td>{index + 1}</td>
-                                                <td>{item.NgayMua || item.NgaySuatChieu}</td>
+                                                <td>{item.NgayMua ? formatDate(item.NgayMua) : formatDate(item.NgaySuatChieu)}</td>
                                                 <td>{item.TenPhim || 'N/A'}</td>
                                                 <td>{item.GheNgoi || item.SoGhe}</td>
                                                 <td>{item.TenPhong || item.PhongChieu}</td>
