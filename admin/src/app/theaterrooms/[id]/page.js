@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import { use } from 'react';
 // Toast
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const QuanLyPhongChieu = ({ params }) => {
-  const { id: rapId } = params;
+  const { id: rapId } = use(params);
   // const { name: tenRap } = params;
   const [raps, setRaps] = useState([]);
   const [phongChieu, setPhongChieu] = useState([]);
@@ -24,7 +25,7 @@ const QuanLyPhongChieu = ({ params }) => {
   });
   const tenRaps = raps.map(rap => rap.TenRap);
 
-  console.log(tenRaps);
+  // console.log(tenRaps);
 
 
   const notifyXoa = () => {

@@ -172,8 +172,9 @@ const CheckoutPage = () => {
       const result = await response.json();
       console.log('Invoice created:', result);
 
-      // Lưu thông tin thanh toán vào token hoặc cookies
-      Cookies.set('paymentInfo', JSON.stringify(paymentData));  // Lưu thông tin thanh toán vào cookies
+      // Lưu thông tin thanh toán vào token hoặc cookies với thời hạn 1 ngày
+      Cookies.set('paymentInfo', JSON.stringify(paymentData), { expires: 1 });
+
 
 
     } catch (error) {
