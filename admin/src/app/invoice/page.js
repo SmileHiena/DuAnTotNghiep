@@ -113,6 +113,15 @@ const Ve = () => {
     setFilteredHoaDon(filtered);
   };
 
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (bắt đầu từ 0, cần +1)
+    const year = date.getFullYear(); // Lấy năm
+    return `${day}/${month}/${year}`;
+  };
+
+
   return (
     <main className="app-content">
       <Head>
@@ -180,15 +189,15 @@ const Ve = () => {
               <table className="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th width="50">STT</th>
-                    <th>Tên Khách hàng</th>
-                    <th>Email</th>
-                    <th>Ngày Mua Vé</th>
-                    <th>Ngày Tạo Vé</th>
-                    <th>Phương thức thanh toán</th>
-                    <th>Tổng tiền (VND)</th>
-                    <th>Tình trạng</th>
-                    <th width="100">Tính năng</th>
+                    <th style={{verticalAlign: 'middle' }} width="50">STT</th>
+                    <th style={{verticalAlign: 'middle' }}>Tên Khách hàng</th>
+                    <th style={{verticalAlign: 'middle' }}>Email</th>
+                    <th style={{verticalAlign: 'middle' }}>Ngày Mua Vé</th>
+                    <th style={{verticalAlign: 'middle' }}>Ngày Tạo Vé</th>
+                    <th style={{verticalAlign: 'middle' }} width="150">Phương thức thanh toán</th>
+                    <th style={{verticalAlign: 'middle' }}>Tổng tiền (VND)</th>
+                    <th style={{verticalAlign: 'middle' }}>Tình trạng</th>
+                    <th style={{verticalAlign: 'middle' }} width="70">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -197,8 +206,8 @@ const Ve = () => {
                       <td>{index + 1}</td>
                       <td>{item.TenKhachHang}</td>
                       <td>{item.Email}</td>
-                      <td>{item.NgayMua}</td>
-                      <td>{item.createdAt}</td>
+                      <td>{new Date(item.NgayMua).toLocaleDateString("vi-VN", { year: "numeric", month: "2-digit", day: "2-digit", })}</td>
+                      <td>{new Date(item.createdAt).toLocaleDateString("vi-VN", { year: "numeric", month: "2-digit", day: "2-digit", })}</td>
                       <td>{item.PhuongThucThanhToan}</td>
                       <td>
                         {item.TongTien
