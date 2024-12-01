@@ -63,7 +63,6 @@ const DatVe = () => {
         }, {});
         setComboQuantities(initialComboQuantities);
 
-
         const showtimeResponse = await fetch(`http://localhost:3000/showtimes/phim/${id}`);
         const showtimesData = await showtimeResponse.json();
         setShowtimes(showtimesData);
@@ -113,12 +112,30 @@ const DatVe = () => {
     }
   };
 
+  // const handleGioChieuClick = async (showtime) => {
+  //   setSelectedShowtime(showtime);
+  //   setSelectedRoomId(showtime.IdPhong);
+  //   // Fetch ghế tương ứng với giờ chiếu
+  //   try {
+  //     const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
+  //     const seatsData = await seatsResponse.json();
+  //     setSeats(seatsData);
+
+  //     // Cập nhật trạng thái ghế đã đặt
+  //     const bookedSeats = seatsData.flatMap(row =>
+  //       row.Ghe.filter(seat => seat.DaDat).map(seat => `${row.Hang}-${seat.Ghe}`)
+  //     );
+  //     setDaDatGhe(bookedSeats);
+  //   } catch (error) {
+  //     console.error("Error fetching seats:", error);
+  //   }
+  // };
   const handleGioChieuClick = async (showtime) => {
     setSelectedShowtime(showtime);
     setSelectedRoomId(showtime.IdPhong);
     // Fetch ghế tương ứng với giờ chiếu
     try {
-      const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
+      const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}/${id}`); // Thêm IdPhim vào URL
       const seatsData = await seatsResponse.json();
       setSeats(seatsData);
 
@@ -273,6 +290,7 @@ const DatVe = () => {
 
     // Save necessary information to cookie
     Cookies.set("bookingInfo", JSON.stringify({
+      IdPhim: Number(id),
       selectedSeats: selectedSeats.map(seatCode => seatCode.split('-')[1]),      // List of selected seats
       ticketQuantities,    // Ticket quantities
       combos: selectedCombos || null, // Combo quantities
@@ -290,8 +308,6 @@ const DatVe = () => {
     router.push("/checkout");
   };
 
-
-
   return (
     <div className="flex mx-auto text-white bg-[rgba(0,0,0,0.7)] shadow-lg w-full max-w-[1410px] mx-auto">
       <section className="w-1/3 sticky top-0">
@@ -306,31 +322,6 @@ const DatVe = () => {
       </section>
 
       <div className="w-2/3 mr-8">
-        {/* Suất Chiếu Section */}
-        {/* <section className="pb-10">
-          <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
-          <div className="flex justify-center gap-4 mt-6">
-            {Object.entries(
-              showtimes.reduce((acc, showtime) => {
-                const key = showtime.NgayChieu;
-                if (!acc[key]) {
-                  acc[key] = { ...showtime };
-                }
-                return acc;
-              }, {})
-            ).sort(([dateA], [dateB]) => {
-              const [dayA, monthA, yearA] = dateA.split("/").map(Number);
-              const [dayB, monthB, yearB] = dateB.split("/").map(Number);
-              return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
-            })
-              .map(([_, showtime], index) => (
-                <div key={index} onClick={() => { handleSuatChieuClick(showtime); }} className="h-[95px] w-[110px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group  hover:bg-[#F5CF49] mr-3" >
-                  <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white"> {showtime.NgayChieu}</h2>
-                  <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black"> {getDayOfWeek(showtime.NgayChieu)} </p>
-                </div>
-              ))}
-          </div>
-        </section> */}
         {/* Suất Chiếu Section */}
         <section className="pb-10">
           <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>

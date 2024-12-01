@@ -6,7 +6,7 @@ import Link from "next/link";
 import { QRCode } from "react-qr-code";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faClipboard, faXmark } from '@fortawesome/free-solid-svg-icons'; 
+import { faClipboard, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 
 const ChiTietHoaDon = () => {
@@ -35,7 +35,6 @@ const ChiTietHoaDon = () => {
         const res = await fetch(`http://localhost:3000/checkout/${id}`);
         if (!res.ok) throw new Error("Không thể tải hóa đơn.");
         const data = await res.json();
-        console.log("Dữ liệu hóa đơn:", data);
         setHoaDon(data);
       } catch (err) {
         setError(err.message);
@@ -72,16 +71,43 @@ const ChiTietHoaDon = () => {
   };
 
   const handleCancel = async () => {
+    // Kiểm tra trạng thái hóa đơn trước khi hủy
+    if (hoaDon.TrangThai !== "Đã Đặt") {
+      setMessage("Chỉ có thể hủy các hóa đơn có trạng thái 'Đã Đặt'.");
+      return;
+    }
+
     if (confirm("Bạn có chắc chắn muốn hủy hóa đơn này không?")) {
       try {
-        const res = await fetch(`http://localhost:3000/checkout/${id}`, { method: "DELETE" });
-        if (!res.ok) throw new Error("Không thể hủy hóa đơn.");
-        setMessage("Hóa đơn đã được hủy.");
-        setHoaDon(null);
+        const token = document.cookie
+          .split(";")
+          .find((c) => c.trim().startsWith("token="));
+        const tokenValue = token?.split("=")[1];
+
+        const res = await fetch(`http://localhost:3000/showtimes/huyghedadat`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${tokenValue}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            IdPhong: hoaDon.IdPhong,  // Thay thế bằng thuộc tính tương ứng trong hoaDon
+            GioChieu: hoaDon.ThoiGian,   // Thay thế bằng thuộc tính tương ứng trong hoaDon
+            IdPhim: hoaDon.IdPhim,  // Thay thế bằng thuộc tính tương ứng trong hoaDon
+            SoGhe: hoaDon.SoGhe, // Thay thế bằng thuộc tính tương ứng trong hoaDon
+            NgayChieu: hoaDon.NgayChieu, // Thay thế bằng thuộc tính tương ứng trong hoaDon
+            InvoiceId: hoaDon.id
+          }),
+        });
+
+        if (!res.ok) throw new Error("Hủy hóa đơn không thành công");
+
+        setMessage("Hóa đơn đã được hủy thành công!");
+        setHoaDon(null); // Cập nhật trạng thái hóa đơn
       } catch (err) {
         setMessage(err.message);
       }
-      router.push("/");
+      router.push("/"); // Chuyển hướng về trang chủ
     }
   };
 
@@ -102,6 +128,10 @@ const ChiTietHoaDon = () => {
           </thead>
           <tbody className="text-gray-800 font-semibold">
             {/* Render các thông tin cần thiết */}
+            <tr className="border-t hover:bg-gray-100">
+              <td className="py-2 px-4">Mã hóa đơn</td>
+              <td className="py-2 px-4">{hoaDon._id}</td>
+            </tr>
             <tr className="border-t hover:bg-gray-100">
               <td className="py-2 px-4">Tên Khách Hàng</td>
               <td className="py-2 px-4">{hoaDon.TenKhachHang}</td>
@@ -132,7 +162,7 @@ const ChiTietHoaDon = () => {
             </tr>
             <tr className="border-t hover:bg-gray-100">
               <td className="py-2 px-4">Phòng Chiếu & Số Ghế</td>
-              <td className="py-2 px-4">{hoaDon.PhongChieu} {hoaDon.SoGhe.join(", ")}</td>
+              <td className="py-2 px-4">{hoaDon.PhongChieu} | {hoaDon.SoGhe.join(", ")}</td>
             </tr>
             <tr className="border-t hover:bg-gray-100">
               <td className="py-2 px-4">Tổng Tiền</td>
@@ -188,7 +218,7 @@ const ChiTietHoaDon = () => {
               <button
                 className="text-black bg-[#F5CF49] hover:bg-[#f0b741] rounded-lg p-3 py-2 px-4 flex items-center justify-center w-full transition-all duration-300 ease-in-out"
                 onClick={() => handleShare("copy")}>
-                  <FontAwesomeIcon icon={faClipboard} size="lg" />
+                <FontAwesomeIcon icon={faClipboard} size="lg" />
                 <span className="ml-2">Sao chép liên kết</span>
               </button>
               <button

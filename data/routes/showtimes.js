@@ -365,9 +365,9 @@ router.get('/phim/:IdPhim/dangchieu', async (req, res) => {
   }
 });
 
-router.get('/ghe/:IdPhong/:GioChieu', async (req, res) => {
+router.get('/ghe/:IdPhong/:GioChieu/:IdPhim', async (req, res) => {
   try {
-    const { IdPhong, GioChieu } = req.params;
+    const { IdPhong, GioChieu, IdPhim } = req.params;
     const db = await connectDb();
 
     // Lấy thông tin rạp và phòng chiếu theo IdPhong
@@ -382,15 +382,16 @@ router.get('/ghe/:IdPhong/:GioChieu', async (req, res) => {
       return res.status(404).json({ message: 'Không tìm thấy phòng chiếu' });
     }
 
-    // Lấy danh sách suất chiếu cho phòng và giờ chiếu
+    // Lấy danh sách suất chiếu theo IdPhim, IdPhong và GioChieu
     const suatChieuCollection = db.collection('suatchieu');
     const suatChieu = await suatChieuCollection.findOne({
       IdPhong: parseInt(IdPhong),
-      GioChieu: GioChieu
+      GioChieu: GioChieu,
+      IdPhim: parseInt(IdPhim)
     });
 
     if (!suatChieu) {
-      return res.status(404).json({ message: 'Không tìm thấy suất chiếu cho phòng và giờ này' });
+      return res.status(404).json({ message: 'Không tìm thấy suất chiếu cho phim, phòng và giờ này' });
     }
 
     // Dữ liệu ghế theo phòng chiếu
@@ -415,15 +416,16 @@ router.get('/ghe/:IdPhong/:GioChieu', async (req, res) => {
   }
 });
 
+
 router.post('/capnhatghedadat', async (req, res) => {
   try {
-    const { IdPhong, GioChieu, SoGhe } = req.body;
+    const { IdPhong, GioChieu, IdPhim, SoGhe } = req.body;
 
     // Kết nối đến database
     const db = await connectDb();
 
     // Kiểm tra và xác thực dữ liệu đầu vào
-    if (!IdPhong || !GioChieu || !SoGhe || !Array.isArray(SoGhe)) {
+    if (!IdPhong || !GioChieu || !IdPhim || !SoGhe || !Array.isArray(SoGhe)) {
       return res.status(400).json({ message: 'Dữ liệu không hợp lệ' });
     }
 
@@ -432,8 +434,9 @@ router.post('/capnhatghedadat', async (req, res) => {
 
     // Tìm suất chiếu tương ứng
     const suatChieu = await suatChieuCollection.findOne({
-      IdPhong: IdPhong,
-      GioChieu: GioChieu
+      IdPhong: parseInt(IdPhong),
+      GioChieu: GioChieu,
+      IdPhim: parseInt(IdPhim)
     });
 
     if (!suatChieu) {
@@ -443,8 +446,9 @@ router.post('/capnhatghedadat', async (req, res) => {
     // Cập nhật danh sách ghế đã đặt
     const updatedResult = await suatChieuCollection.updateOne(
       {
-        IdPhong: IdPhong,
-        GioChieu: GioChieu
+        IdPhong: parseInt(IdPhong),
+        GioChieu: GioChieu,
+        IdPhim: parseInt(IdPhim)
       },
       {
         $addToSet: {
@@ -471,6 +475,87 @@ router.post('/capnhatghedadat', async (req, res) => {
   }
 });
 
+router.post('/huyghedadat', async (req, res) => {
+  try {
+    const { IdPhong, GioChieu, IdPhim, NgayChieu, SoGhe, InvoiceId } = req.body;
 
+    // Kết nối đến database
+    const db = await connectDb();
+
+    // Kiểm tra và xác thực dữ liệu đầu vào
+    if (!IdPhong || !GioChieu || !IdPhim || !NgayChieu || !SoGhe || !Array.isArray(SoGhe) || !InvoiceId) {
+      return res.status(400).json({ message: 'Dữ liệu không hợp lệ' });
+    }
+
+    // 1. **Cập nhật trạng thái hóa đơn**
+    const invoicesCollection = db.collection('hoadon');
+
+    // Lấy và kiểm tra ID hóa đơn
+    const invoiceId = parseInt(InvoiceId, 10);
+    if (isNaN(invoiceId) || invoiceId <= 0) {
+      return res.status(400).json({ message: 'ID hóa đơn không hợp lệ' });
+    }
+
+    // Cập nhật trạng thái hóa đơn
+    const invoiceResult = await invoicesCollection.updateOne(
+      { id: invoiceId },
+      { $set: { TrangThai: "Đã Hủy" } }
+    );
+
+    if (invoiceResult.matchedCount === 0) {
+      return res.status(404).json({ message: 'Không tìm thấy hóa đơn' });
+    }
+
+    console.log(`Cập nhật trạng thái hóa đơn thành công: ID ${InvoiceId}`);
+
+    // 2. **Hủy ghế đã đặt**
+    const suatChieuCollection = db.collection('suatchieu');
+
+    // Tìm suất chiếu tương ứng
+    const suatChieu = await suatChieuCollection.findOne({
+      IdPhong: parseInt(IdPhong),
+      GioChieu: GioChieu,
+      IdPhim: parseInt(IdPhim),
+      NgayChieu: NgayChieu
+    });
+
+    if (!suatChieu) {
+      return res.status(404).json({ message: 'Không tìm thấy suất chiếu' });
+    }
+
+    // Xóa ghế đã đặt
+    const updatedResult = await suatChieuCollection.updateOne(
+      {
+        IdPhong: parseInt(IdPhong),
+        GioChieu: GioChieu,
+        IdPhim: parseInt(IdPhim),
+        NgayChieu: NgayChieu
+      },
+      {
+        $pullAll: { DaDatGhe: SoGhe }
+      }
+    );
+
+    if (updatedResult.modifiedCount === 0) {
+      return res.status(500).json({ message: 'Không thể hủy ghế đã đặt' });
+    }
+
+    console.log(`Hủy ghế thành công: ${SoGhe}`);
+
+    // 3. **Trả về phản hồi thành công**
+    res.status(200).json({
+      message: 'Hủy ghế và cập nhật trạng thái hóa đơn thành công',
+      canceledSeats: SoGhe,
+      invoiceId: InvoiceId
+    });
+
+  } catch (error) {
+    console.error('Lỗi khi hủy ghế và cập nhật hóa đơn:', error);
+    res.status(500).json({
+      message: 'Có lỗi xảy ra trong quá trình xử lý',
+      error: error.message
+    });
+  }
+});
 
 module.exports = router;
