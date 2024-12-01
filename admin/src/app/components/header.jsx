@@ -82,7 +82,7 @@ const Header = () => {
                     <li>
                         <Link className="app-menu__item" href="/">
                             <FontAwesomeIcon icon={faCartShopping} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">POS Bán Hàng</span>
+                            <span className="app-menu__label">Bảng điều khiển</span>
                         </Link>
                     </li>
                     <li>
@@ -92,12 +92,12 @@ const Header = () => {
                         </Link>
                     </li>
                     
-                    <li>
+                    {/* <li>
                         <Link className="app-menu__item" href="/page/suatchieu">
                             <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý suất chiếu</span>
                         </Link>
-                    </li>
+                    </li> */}
                     {isAdmin && ( // Kiểm tra nếu là admin thì mới hiển thị
 
                         <li>
@@ -115,12 +115,12 @@ const Header = () => {
                     </li>
                     {isAdmin && (
                         <>
-                            <li>
+                            {/* <li>
                                 <Link className="app-menu__item" href="/admin">
                                     <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
                                     <span className="app-menu__label">Quản lý admin</span>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link className="app-menu__item" href="/employee">
                                     <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />

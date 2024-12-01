@@ -34,7 +34,7 @@ const Login = () => {
         }
 
         const data = await res.json();
-        console.log(data); // Kiểm tra token từ response
+        // console.log(data); // Kiểm tra token từ response
         if (!data.token) {
           throw new Error("Token không hợp lệ.");
         }

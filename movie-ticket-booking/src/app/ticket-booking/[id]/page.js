@@ -63,7 +63,6 @@ const DatVe = () => {
         }, {});
         setComboQuantities(initialComboQuantities);
 
-
         const showtimeResponse = await fetch(`http://localhost:3000/showtimes/phim/${id}`);
         const showtimesData = await showtimeResponse.json();
         setShowtimes(showtimesData);
@@ -113,12 +112,30 @@ const DatVe = () => {
     }
   };
 
+  // const handleGioChieuClick = async (showtime) => {
+  //   setSelectedShowtime(showtime);
+  //   setSelectedRoomId(showtime.IdPhong);
+  //   // Fetch ghế tương ứng với giờ chiếu
+  //   try {
+  //     const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
+  //     const seatsData = await seatsResponse.json();
+  //     setSeats(seatsData);
+
+  //     // Cập nhật trạng thái ghế đã đặt
+  //     const bookedSeats = seatsData.flatMap(row =>
+  //       row.Ghe.filter(seat => seat.DaDat).map(seat => `${row.Hang}-${seat.Ghe}`)
+  //     );
+  //     setDaDatGhe(bookedSeats);
+  //   } catch (error) {
+  //     console.error("Error fetching seats:", error);
+  //   }
+  // };
   const handleGioChieuClick = async (showtime) => {
     setSelectedShowtime(showtime);
     setSelectedRoomId(showtime.IdPhong);
     // Fetch ghế tương ứng với giờ chiếu
     try {
-      const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
+      const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}/${id}`); // Thêm IdPhim vào URL
       const seatsData = await seatsResponse.json();
       setSeats(seatsData);
 
@@ -273,6 +290,7 @@ const DatVe = () => {
 
     // Save necessary information to cookie
     Cookies.set("bookingInfo", JSON.stringify({
+      IdPhim: Number(id),
       selectedSeats: selectedSeats.map(seatCode => seatCode.split('-')[1]),      // List of selected seats
       ticketQuantities,    // Ticket quantities
       combos: selectedCombos || null, // Combo quantities
@@ -311,31 +329,6 @@ const DatVe = () => {
           <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
           <div className="flex justify-center gap-4 mt-6">
             {Object.entries(
-              showtimes.reduce((acc, showtime) => {
-                const key = showtime.NgayChieu;
-                if (!acc[key]) {
-                  acc[key] = { ...showtime };
-                }
-                return acc;
-              }, {})
-            ).sort(([dateA], [dateB]) => {
-              const [dayA, monthA, yearA] = dateA.split("/").map(Number);
-              const [dayB, monthB, yearB] = dateB.split("/").map(Number);
-              return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
-            })
-              .map(([_, showtime], index) => (
-                <div key={index} onClick={() => { handleSuatChieuClick(showtime); }} className="h-[95px] w-[110px] border-2 border-[#F5CF49] text-center flex flex-col justify-center items-center rounded transition duration-300 group  hover:bg-[#F5CF49] mr-3" >
-                  <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white"> {showtime.NgayChieu}</h2>
-                  <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black"> {getDayOfWeek(showtime.NgayChieu)} </p>
-                </div>
-              ))}
-          </div>
-        </section>
-        {/* Suất Chiếu Section */}
-        {/* <section className="pb-10">
-          <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
-          <div className="flex justify-center gap-4 mt-6">
-            {Object.entries(
               showtimes
                 .reduce((acc, showtime) => {
                   const key = showtime.NgayChieu;
@@ -345,37 +338,42 @@ const DatVe = () => {
                   return acc;
                 }, {})
             )
+              .filter(([date]) => {
+                // Lọc chỉ các suất chiếu trong tương lai
+                const [day, month, year] = date.split("/").map(Number);
+                const showtimeDate = new Date(year, month - 1, day);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Đặt thời gian về đầu ngày
+                return showtimeDate >= today; // Chỉ giữ ngày hiện tại hoặc tương lai
+              })
               .sort(([dateA], [dateB]) => {
+                // Sắp xếp ngày
                 const [dayA, monthA, yearA] = dateA.split("/").map(Number);
                 const [dayB, monthB, yearB] = dateB.split("/").map(Number);
                 return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
               })
               .map(([_, showtime], index) => {
-                // Check if the showtime is in the past
                 const [day, month, year] = showtime.NgayChieu.split("/").map(Number);
                 const showtimeDate = new Date(year, month - 1, day);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const isPast = showtimeDate < today;
 
                 return (
                   <div
                     key={index}
-                    onClick={isPast ? null : () => { handleSuatChieuClick(showtime); }} // Disable click for past showtimes
-                    className={`h-[95px] w-[110px] border-2 text-center flex flex-col justify-center items-center rounded transition duration-300 group mr-3 
-              ${isPast ? "opacity-50 cursor-not-allowed" : "border-[#F5CF49] hover:bg-[#F5CF49]"}`}
+                    onClick={() => handleSuatChieuClick(showtime)}
+                    className={`h-[95px] w-[110px] border-2 text-center flex flex-col justify-center items-center rounded transition duration-300 group mr-3 border-[#F5CF49] hover:bg-[#F5CF49]`}
                   >
-                    <h2 className={`font-bold ${isPast ? "text-gray-500" : "text-[#F5CF49]"} transition duration-300 group-hover:text-white`}>
+                    <h2 className="font-bold text-[#F5CF49] transition duration-300 group-hover:text-white">
                       {showtime.NgayChieu}
                     </h2>
-                    <p className={`font-semibold text-[18px] ${isPast ? "text-gray-500" : "text-[#F5CF49]"} transition duration-300 group-hover:text-black`}>
+                    <p className="font-semibold text-[18px] text-[#F5CF49] transition duration-300 group-hover:text-black">
                       {getDayOfWeek(showtime.NgayChieu)}
                     </p>
                   </div>
                 );
               })}
           </div>
-        </section> */}
+        </section>
+
 
 
         {showCinema && selectedDate && ( // Hiển thị danh sách phòng chiếu nếu đã chọn Ngày
