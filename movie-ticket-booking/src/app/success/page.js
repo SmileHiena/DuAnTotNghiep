@@ -89,6 +89,7 @@ const PaymentSuccess = () => {
         Email: info.Email,
         Combo: info.Combo,
         IdPhong: info.IdPhong,
+        IdPhim: info.IdPhim,
       };
 
       console.log("Invoice Data:", invoiceData);
@@ -131,6 +132,7 @@ const PaymentSuccess = () => {
           body: JSON.stringify({
             IdPhong: info.IdPhong,  // Đảm bảo IdPhong là đúng
             GioChieu: info.ThoiGian,   // Đảm bảo GioChieu là đúng
+            IdPhim: info.IdPhim,  // Thêm IdPhim nếu cần
             SoGhe: formattedSeats,      // Đảm bảo SoGhe là mảng đã được xử lý
           }),
         });

@@ -128,6 +128,8 @@ const CheckoutPage = () => {
       return;
     }
     setError(''); // Clear error message if a payment method is selected
+    
+
 
     const paymentData = {
       NgayMua: new Date().toISOString(),
@@ -148,6 +150,7 @@ const CheckoutPage = () => {
         ? bookingInfo.combos.map(combo => `${combo.name} (${combo.quantity})`).join(", ")
         : "null",
       IdPhong: bookingInfo ? bookingInfo.IdPhong : "null",
+      IdPhim: bookingInfo ? bookingInfo.IdPhim : "null",
     };
 
     try {
@@ -161,8 +164,11 @@ const CheckoutPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create invoice');
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to create invoice');
+        return;
       }
+      
 
       const result = await response.json();
       console.log('Invoice created:', result);
