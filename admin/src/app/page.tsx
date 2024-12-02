@@ -229,29 +229,30 @@ export default function Home() {
         const currentMonth = now.getMonth(); // Tháng hiện tại (0-11)
         const currentYear = now.getFullYear(); // Năm hiện tại
 
-        // Khởi tạo mảng doanh thu theo tháng
+        // Khởi tạo mảng doanh thu cho 6 tháng qua
         const sixMonthRevenue = Array.from({ length: 6 }, () => 0);
 
-        // Lọc hóa đơn trong 6 tháng qua và tính doanh thu theo tháng
+        // Lặp qua từng hóa đơn và tính toán doanh thu cho 6 tháng qua
         data.forEach((invoice) => {
           const invoiceDate = new Date(invoice.NgayMua);
-          const invoiceMonth = invoiceDate.getMonth();
-          const invoiceYear = invoiceDate.getFullYear();
+          const invoiceMonth = invoiceDate.getMonth(); // Tháng của hóa đơn (0-11)
+          const invoiceYear = invoiceDate.getFullYear(); // Năm của hóa đơn
 
-          // Kiểm tra nếu hóa đơn nằm trong 6 tháng qua bao gồm tháng hiện tại
-          if (invoiceYear === currentYear && invoiceMonth >= currentMonth - 5 && invoiceMonth <= currentMonth) {
-            const monthIndex = (currentMonth - invoiceMonth + 6) % 6; // Tính chỉ số tháng trong mảng
+          // Kiểm tra xem hóa đơn có nằm trong 6 tháng qua không và có trạng thái "Đã Đặt"
+          if (invoice.TrangThai === "Đã Đặt" &&
+            ((invoiceYear === currentYear && invoiceMonth >= currentMonth - 5 && invoiceMonth <= currentMonth) ||
+              (invoiceYear === currentYear - 1 && currentMonth === 0 && invoiceMonth === 11))) {
+
+            const monthIndex = (currentMonth - invoiceMonth + 6) % 6; // Tính chỉ số cho mảng doanh thu
             sixMonthRevenue[monthIndex] += invoice.TongTien; // Cộng doanh thu vào tháng tương ứng
           }
         });
 
-        setSixMonthRevenueData(sixMonthRevenue); // Cập nhật doanh thu theo tháng
+        setSixMonthRevenueData(sixMonthRevenue); // Cập nhật trạng thái với doanh thu đã tính toán
       } catch (error) {
-        console.error("Error fetching six month revenue data:", error);
+        console.error("Lỗi khi lấy dữ liệu doanh thu 6 tháng:", error);
       }
     };
-
-
 
     fetchAccounts();
     fetchInvoices();
@@ -289,7 +290,7 @@ export default function Home() {
   };
 
   // Cập nhật tiêu đề để hiển thị tháng
-  const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+  const monthNames = ["tháng 1", "tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12"];
   const currentMonthName = monthNames[currentMonth];
 
   // Cập nhật nhãn cho biểu đồ
@@ -342,9 +343,9 @@ export default function Home() {
               <div className="widget-small info coloured-icon">
                 <i className="icon bx bxs-data fa-3x"></i>
                 <div className="info">
-                  <h4>Tổng sản phẩm hiện có</h4>
-                  <p><b>{totalMovies} sản phẩm</b></p>
-                  <p className="info-tong">Tổng số sản phẩm được quản lý.</p>
+                  <h4>Tổng bộ phim hiện có</h4>
+                  <p><b>{totalMovies} bộ phim</b></p>
+                  <p className="info-tong">Tổng số bộ phim được quản lý.</p>
                 </div>
               </div>
             </div>
@@ -424,13 +425,13 @@ export default function Home() {
             {/* Biểu đồ */}
             <div className="col-md-12">
               <div className="tile">
-                <h3 className="tile-title">Thống kê doanh thu {currentMonthName}</h3>
+                <h3 className="tile-title">Thống kê doanh thu {currentMonthName} năm {now.getFullYear()}</h3>
                 <Line data={monthlyRevenueChartData} options={options} />
               </div>
             </div>
             <div className="col-md-12">
               <div className="tile">
-                <h3 className="tile-title">Thống kê 6 tháng doanh thu</h3>
+                <h3 className="tile-title">Thống kê 6 tháng doanh thu năm {now.getFullYear()}</h3>
                 <Line data={sixMonthRevenueChartData} options={options} />
               </div>
             </div>
