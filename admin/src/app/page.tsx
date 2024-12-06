@@ -206,8 +206,8 @@ export default function Home() {
         // Lọc hóa đơn trong tháng hiện tại và tính doanh thu theo ngày
         data.forEach((invoice) => {
           const invoiceDate = new Date(invoice.NgayMua);
-          // Kiểm tra trạng thái hóa đơn là "Đã Đặt"
-          if (invoiceDate.getMonth() === currentMonth && invoiceDate.getFullYear() === currentYear && invoice.TrangThai === "Đã Đặt") {
+          // Kiểm tra trạng thái hóa đơn là "Đã Thanh Toán"
+          if (invoiceDate.getMonth() === currentMonth && invoiceDate.getFullYear() === currentYear && invoice.TrangThai === "Đã Thanh Toán") {
             const day = invoiceDate.getDate() - 1; // Giảm 1 vì mảng bắt đầu từ 0
             dailyRevenue[day] += invoice.TongTien;
           }
@@ -238,8 +238,8 @@ export default function Home() {
           const invoiceMonth = invoiceDate.getMonth(); // Tháng của hóa đơn (0-11)
           const invoiceYear = invoiceDate.getFullYear(); // Năm của hóa đơn
 
-          // Kiểm tra xem hóa đơn có nằm trong 6 tháng qua không và có trạng thái "Đã Đặt"
-          if (invoice.TrangThai === "Đã Đặt" &&
+          // Kiểm tra xem hóa đơn có nằm trong 6 tháng qua không và có trạng thái "Đã Thanh Toán"
+          if (invoice.TrangThai === "Đã Thanh Toán" &&
             ((invoiceYear === currentYear && invoiceMonth >= currentMonth - 5 && invoiceMonth <= currentMonth) ||
               (invoiceYear === currentYear - 1 && currentMonth === 0 && invoiceMonth === 11))) {
 

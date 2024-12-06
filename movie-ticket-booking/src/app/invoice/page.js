@@ -5,7 +5,7 @@ import { faUser, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { QRCode } from "react-qr-code";
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faClipboard, faXmark } from '@fortawesome/free-solid-svg-icons'; 
+import { faClipboard, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/navigation"; // Use the 'next/navigation' package
 
 const Profile = () => {
@@ -29,8 +29,8 @@ const Profile = () => {
   };
   useEffect(() => {
     setIsClient(true); // Ensures router actions happen only after the component mounts on the client side
-   
-    
+
+
   }, []);
 
   // Toggle invoice details modal
@@ -71,8 +71,8 @@ const Profile = () => {
       .find((c) => c.trim().startsWith("token="));
     const tokenValue = token?.split("=")[1];
 
-    if (selectedInvoice.TrangThai !== "Đã Đặt") {
-      setMessage("Chỉ có thể hủy các vé có trạng thái 'Đã Đặt'.");
+    if (selectedInvoice.TrangThai !== "Đã Thanh Toán") {
+      setMessage("Chỉ có thể hủy các vé có trạng thái 'Đã Thanh Toán'.");
       return;
     }
 
@@ -84,22 +84,22 @@ const Profile = () => {
             method: "POST",
             headers: { Authorization: `Bearer ${tokenValue}`, "Content-Type": "application/json" },
             body: JSON.stringify({
-              IdPhong: selectedInvoice.IdPhong,  
-              GioChieu: selectedInvoice.ThoiGian,   
-              IdPhim: selectedInvoice.IdPhim,  
+              IdPhong: selectedInvoice.IdPhong,
+              GioChieu: selectedInvoice.ThoiGian,
+              IdPhim: selectedInvoice.IdPhim,
               SoGhe: selectedInvoice.SoGhe,
               NgayChieu: selectedInvoice.NgayChieu,
               InvoiceId: selectedInvoice.id
             }),
-            
-            }
-          
+
+          }
+
         );
 
         if (!response.ok) {
           throw new Error("Hủy hóa đơn không thành công");
         }
-        
+
         setMessage("Hóa đơn đã được hủy thành công!");
         setInvoices(invoices.filter(invoice => invoice.id !== selectedInvoice.id));
         setShowInvoiceDetails(false); // Close the invoice details view after cancellation
@@ -288,35 +288,35 @@ const Profile = () => {
                           <td className="py-2 px-4">Ngày Tạo</td>
                           <td className="py-2 px-4">{formatDate(selectedInvoice.createdAt)}</td>
                         </tr>
-            
+
                       </tbody>
                     </table>
                     <div className="mt-4 flex justify-center">
                       <QRCode value={`https://s9391bnm-3001.asse.devtunnels.ms/invoice-details/${selectedInvoice.id}`} size={128} />
                     </div>
                   </div>
-            
+
                   {message && <div className="mt-2 text-green-500">{message}</div>}
-            
+
                   <div className="flex justify-center space-x-4 mt-6">
                     <button className="text-black bg-gray-50 shadow-md rounded-lg p-3 font-bold w-[200px]" onClick={handleDownload}>Tải Xuống</button>
                     <button className="text-black bg-gray-50 shadow-md rounded-lg p-3 font-bold w-[200px]" onClick={() => setIsModalOpen(true)}>Chia Sẻ</button>
-                    {selectedInvoice.TrangThai === "Đã Đặt" && (
+                    {selectedInvoice.TrangThai === "Đã Thanh Toán" && (
                       <button onClick={handleCancel} className="w-[200px] bg-[#dc3545] font-bold text-white rounded hover:bg-white hover:text-red-500 transition-colors">
                         Hủy đơn
                       </button>
                     )}
                     {selectedInvoice.TrangThai === "Đã Hủy" && (
-                      <button 
-                        disabled 
+                      <button
+                        disabled
                         className="w-[200px] bg-gray-400 font-bold text-white rounded cursor-not-allowed">
                         Đã Hủy
                       </button>
                     )}
                     <button onClick={() => toggleInvoiceDetails(null)} className="w-[200px] bg-[#dc3545] font-bold text-white rounded hover:bg-white hover:text-red-500 transition-colors">Đóng lại</button>
                   </div>
-            
-            
+
+
                   {isModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                       <div className="text-black bg-white p-6 rounded-lg shadow-2xl w-[400px] h-[300px] border-2 border-white transition-transform transform ">
@@ -337,7 +337,7 @@ const Profile = () => {
                           <button
                             className="text-black bg-[#F5CF49] hover:bg-[#f0b741] rounded-lg p-3 py-2 px-4 flex items-center justify-center w-full transition-all duration-300 ease-in-out"
                             onClick={() => handleShare("copy")}>
-                              <FontAwesomeIcon icon={faClipboard} size="lg" />
+                            <FontAwesomeIcon icon={faClipboard} size="lg" />
                             <span className="ml-2">Sao chép liên kết</span>
                           </button>
                           <button
@@ -350,8 +350,8 @@ const Profile = () => {
                       </div>
                     </div>
                   )}
-            
-            
+
+
                 </div>
               </div>
             )}

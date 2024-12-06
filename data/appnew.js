@@ -1266,39 +1266,66 @@ const data = {
       id: 1,
       TenRap: "Rạp ScreenTime Quận 12",
       ViTri: "Vincom Center, Quận 12, TP.HCM",
-      // Phòng trong rạp
       PhongChieu: [
-        // phòng 1
         {
           id: 1,
-          TenPhongChieu: "Phòng chiếu 1",
-          SoLuongGhe: 10,
-          // Thêm danh sách ghế
+          TenPhongChieu: "Phòng 1",
+          SoLuongGhe: 50,
           Ghe: [
-            { Hang: "A", Ghe: ["P1_A01", "P1_A02", "P1_A03", "P1_A04", "P1_A05"] },
-            { Hang: "B", Ghe: ["P1_B01", "P1_B02", "P1_B03", "P1_B04", "P1_B05"] },
-          ],
+            { Hang: "A", Ghe: ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"] },
+            { Hang: "B", Ghe: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"] },
+            { Hang: "C", Ghe: ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"] },
+            { Hang: "D", Ghe: ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"] },
+            { Hang: "E", Ghe: ["E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10"] }
+          ]
         },
-        // phòng 2
         {
           id: 2,
-          TenPhongChieu: "Phòng chiếu 2",
-          SoLuongGhe: 10,
-          // Thêm danh sách ghế
+          TenPhongChieu: "Phòng 2",
+          SoLuongGhe: 50,
           Ghe: [
-            { Hang: "C", Ghe: ["P2_C01", "P2_C02", "P2_C03", "P2_C04", "P2_C05"] },
-            { Hang: "D", Ghe: ["P2_D01", "P2_D02", "P2_D03", "P2_D04", "P2_D05"] },
-          ],
+            { Hang: "A", Ghe: ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"] },
+            { Hang: "B", Ghe: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"] },
+            { Hang: "C", Ghe: ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"] },
+            { Hang: "D", Ghe: ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"] },
+            { Hang: "E", Ghe: ["E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10"] }
+          ]
+        },
+        {
+          id: 3,
+          TenPhongChieu: "Phòng 3",
+          SoLuongGhe: 50,
+          Ghe: [
+            { Hang: "A", Ghe: ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"] },
+            { Hang: "B", Ghe: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"] },
+            { Hang: "C", Ghe: ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"] },
+            { Hang: "D", Ghe: ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"] },
+            { Hang: "E", Ghe: ["E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10"] }
+          ]
+        },
+        {
+          id: 4,
+          TenPhongChieu: "Phòng 4",
+          SoLuongGhe: 50,
+          Ghe: [
+            { Hang: "A", Ghe: ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"] },
+            { Hang: "B", Ghe: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"] },
+            { Hang: "C", Ghe: ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"] },
+            { Hang: "D", Ghe: ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"] },
+            { Hang: "E", Ghe: ["E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10"] }
+          ]
         }
-      ],
-    },
+        // Tiếp tục cho các phòng 5 đến 10
+      ]
+    }
   ],
+
 
   // ----- Suất Chiếu -----
   SuatChieu: [
     // Ngày 26/09/2024
-    { id: 1, IdPhim: 1, IdPhong: 1, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 2, IdPhim: 1, IdPhong: 2, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] }
+    { id: 1, IdPhim: 1, IdPhong: 1, NgayChieu: "25/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 2, IdPhim: 1, IdPhong: 2, NgayChieu: "25/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] }
   ],
 
   // ----- Loại Vé -----
@@ -1312,11 +1339,6 @@ const data = {
       id: 2,
       TenVe: "HSSV-Người Cao Tuổi",
       GiaVe: 45000,
-    },
-    {
-      id: 3,
-      TenVe: "Người Lớn - Đôi",
-      GiaVe: 155000,
     },
   ],
 
@@ -1390,44 +1412,54 @@ const data = {
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
     {
-      id: 1,
-      Ten: "Nguyen Thai Son",
-      SDT: "0987654321",
-      NgaySinh: "1990-10-10",
+      userId: 1,
+      Email: "truonghoai28@gmail.com",
+      NgaySinh: "2024-12-04",
+      DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
       GioiTinh: "Nam",
-      Anh: "path/to/son_image.jpg",
-      TenDangNhap: "NguyenThaiSon",
-      MatKhau: "12345678",
-      Email: "nguyenthaison@example.com",
-      IsAdmin: 0,
-      DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
-    },
+      MatKhau: "$2b$10$Dss8U4/VT81o0r6jMs.a/uj9A4oSbYsSDerm24VchshlNYqUIXmRm",
+      SDT: "0395428360",
+      TenDangNhap: "hoaidev33",
+      Ten: "Trương Quang Hoài",
+      Anh: "1733282666752-banner_event.jpg",
+      IsAdmin: 1,
+      IsLocked: false
+    }
   ],
 
   // ----- BÌNH_LUẬN -----
   BinhLuan: [
     {
-      id: 1,
-      NoiDung: "Phim hay",
-      NgayBinhLuan: "26-09-2024",
-      IdPhim: 1,
-      IdTaiKhoan: 1,
-    },
+      movieId: "1",
+      userId: "1",
+      content: "hehehe",
+      username: "hoaidev33",
+      userImage: "1733282666752-banner_event.jpg",
+    }
   ],
 
   // ----- Hóa_Đơn -----
   HoaDon: [
     {
       id: 1,
-      NgaySuatChieu: "29/10 - T6",
-      GheNgoi: "A01",
-      TenPhong: 1,
-      GiaVe: 200000,
-      SoLuongVe: 1,
-      TrangThai: "Đã thanh toán",
-      IdSuatChieu: 1,
-      IdTaiKhoan: 1,
-      IdCombo: 1,
+      userId: 1,
+      NgayMua: "2024-12-04T03:26:20.484Z",
+      Rap: "Ticket Quận 12",
+      PhuongThucThanhToan: "VNBANK",
+      TenPhim: "ĐỐ ANH CỒNG ĐƯỢC TÔI",
+      ThoiGian: "15:00",
+      NgayChieu: "25/12/2024",
+      SoGhe: "A01",
+      PhongChieu: "Phòng 1",
+      GiaVe: 75000,
+      TongTien: 105000,
+      TenKhachHang: "Trương Quang Hoài",
+      Email: "truonghoai28@gmail.com",
+      Combo: "COCACOLA (1)",
+      IdPhong: 1,
+      IdPhim: 1,
+      TrangThai: "Đã Thanh Toán",
+      createdAt: "2024-12-04T03:26:49.650+00:00",
     },
   ],
 
@@ -1435,19 +1467,34 @@ const data = {
   Admin: [
     {
       id: 1,
-      Quyen: "Admin",
-      HoTen: "Nguyễn Thái Sơn",
-      TenDangNhap: "Sondev",
-      MatKhau: "12345678",
-      Anh: "/images/combo/combo4.jpg",
+      HoTen: "Trương Quang Hoài ",
+      TenDangNhap: "hoaidev112",
+      MatKhau: "$2a$10$vhG9IbXGoqYhVqmyAugEfeQ26pP5Z7fhO/Ap1v1aN0V.C52TAGQWW",
+      Anh: "/images/register.png",
       DiaChi: "Quận 12, TP. HCM",
       NgaySinh: "29-09-2004",
       GioTinh: "Nam",
-      SDT: "0395427399",
+      SDT: "0395428360",
       ChucVu: "Nhân viên",
       Tinhtrang: "Hoạt động",
-      IsAdmin: 0,
+      Quyen: "NhanVien",
+      IsAdmin: 0
     },
+    {
+      id: 2,
+      HoTen: "Trương Quang Hoài ",
+      TenDangNhap: "hoaidev1122",
+      MatKhau: "$2a$10$meC9k9P5igoEyGCkezsr2u8VDNeZb6tTypQvcDJKJWrmXqOtdDGUC",
+      Anh: "/images/register.png",
+      DiaChi: "Quận 12, TP. HCM",
+      NgaySinh: "29-09-2004",
+      GioTinh: "Nam",
+      SDT: "0395428362",
+      ChucVu: "Quản lý",
+      Tinhtrang: "Hoạt động",
+      Quyen: "Admin",
+      IsAdmin: 0
+    }
   ],
 
   // ----- Sukien -----

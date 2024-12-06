@@ -28,6 +28,8 @@ const QuanLyPhongChieu = ({ params }) => {
     Ghe: [],
   });
   const tenRaps = raps.map((rap) => rap.TenRap);
+  const [showtimes, setShowtimes] = useState([]);
+  const [selectedShowtime, setSelectedShowtime] = useState(null);
 
   console.log(tenRaps);
 
@@ -73,8 +75,36 @@ const QuanLyPhongChieu = ({ params }) => {
     });
   };
 
-  const [currentHang, setCurrentHang] = useState(""); // State for the current row name
-  const [currentGhe, setCurrentGhe] = useState(""); // State for the current seat list
+
+  const notifyTrungThem = () => {
+    toast.error("Thêm phòng trùng tên, hãy thử lại!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
+  const notifyTrungSua = () => {
+    toast.error("Sửa phòng trùng phòng, hãy thử lại!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
+  const [currentHang, setCurrentHang] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -91,6 +121,21 @@ const QuanLyPhongChieu = ({ params }) => {
     };
 
     fetchRaps();
+  }, []);
+
+  useEffect(() => {
+    const fetchShowtimes = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/showtimes");
+        if (!response.ok) throw new Error("Không thể tải dữ liệu suất chiếu");
+        const data = await response.json();
+        setShowtimes(data);
+      } catch (error) {
+        console.error("Lỗi khi tải suất chiếu:", error);
+      }
+    };
+
+    fetchShowtimes();
   }, []);
 
   useEffect(() => {
@@ -112,7 +157,20 @@ const QuanLyPhongChieu = ({ params }) => {
     };
     fetchPhongChieu();
   }, [rapId]);
+
   const handleAddPhongChieu = async () => {
+    // Kiểm tra trùng lặp tên phòng chiếu trước khi gửi yêu cầu
+    const isDuplicate = phongChieu.some(
+      (phong) =>
+        phong.TenPhongChieu.trim().toLowerCase() ===
+        newPhongChieu.TenPhongChieu.trim().toLowerCase()
+    );
+
+    if (isDuplicate) {
+      notifyTrungThem();
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:3000/theater/${rapId}/phong-chieu`,
@@ -184,7 +242,17 @@ const QuanLyPhongChieu = ({ params }) => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Lỗi từ API:", errorData);
-        alert("Cập nhật không thành công! Vui lòng thử lại.");
+
+        // Kiểm tra lỗi cụ thể và hiển thị thông báo phù hợp
+        if (
+          errorData.message ===
+          "Tên phòng chiếu đã tồn tại. Vui lòng chọn tên khác!"
+        ) {
+          notifyTrungSua();
+        } else {
+          alert("Cập nhật không thành công! Vui lòng thử lại.");
+        }
+
         return;
       }
 
@@ -296,20 +364,38 @@ const QuanLyPhongChieu = ({ params }) => {
                           <td>
                             {phong.Ghe.map((row, rowIndex) => (
                               <div key={rowIndex} className="mb-4">
-                                <div className="mb-2">
-                                  <strong className="block mb-1">
-                                    {row.Hang}
-                                  </strong>
-                                </div>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2">
-                                  {row.Ghe.map((ghe, gheIndex) => (
-                                    <div
-                                      key={gheIndex}
-                                      className="px-2 py-2 bg-blue-500 text-white text-center text-sm rounded"
-                                    >
-                                      {ghe}
-                                    </div>
-                                  ))}
+                                <div className="flex">
+                                  <div className="mb-2">
+                                    <strong className="block mb-1 mr-7">
+                                      {row.Hang}
+                                    </strong>
+                                  </div>
+                                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2">
+                                    {row.Ghe.map((ghe, gheIndex) => {
+                                      const isBooked = showtimes.some(
+                                        (showtime) =>
+                                          showtime.IdPhong === phong.id &&
+                                          showtime.DaDatGhe.includes(ghe)
+                                      );
+
+                                      return (
+                                        <div
+                                          key={gheIndex}
+                                          className={`px-4 py-3 text-center text-sm rounded ${isBooked
+                                              ? "bg-red-500 text-white cursor-not-allowed"
+                                              : "bg-blue-500 text-white"
+                                            }`}
+                                          title={
+                                            isBooked
+                                              ? "Ghế đã đặt - Không thể chỉnh sửa"
+                                              : ""
+                                          }
+                                        >
+                                          {ghe}
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
                                 </div>
                               </div>
                             ))}
@@ -414,14 +500,14 @@ const QuanLyPhongChieu = ({ params }) => {
                                     String.fromCharCode(65 + rowIndex); // A, B, C...
                                   const gheCountForRow = Math.min(
                                     newSoLuongGhe -
-                                      rowIndex * defaultSeatsPerRow,
+                                    rowIndex * defaultSeatsPerRow,
                                     defaultSeatsPerRow
                                   );
                                   const ghe = Array.from(
                                     { length: gheCountForRow },
                                     (_, seatIndex) =>
                                       currentSeats[rowIndex]?.Ghe?.[
-                                        seatIndex
+                                      seatIndex
                                       ] || `${hang}${seatIndex + 1}`
                                   );
                                   return { Hang: hang, Ghe: ghe };

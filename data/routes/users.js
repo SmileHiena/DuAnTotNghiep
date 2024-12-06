@@ -218,8 +218,8 @@ router.post("/login", async (req, res, next) => {
       });
     }
 
-     // Kiểm tra nếu tài khoản đã bị khóa
-     if (user.IsLocked) {
+    // Kiểm tra nếu tài khoản đã bị khóa
+    if (user.IsLocked) {
       return res.status(403).json({
         message: "Tài khoản của bạn đã bị khóa.",
       });
@@ -282,7 +282,7 @@ router.get("/users/:id", async (req, res, next) => {
   const db = await connectDb();
   const usersCollection = db.collection("taikhoan");
   let id = req.params.id;
-  
+
   // Sử dụng ObjectId nếu id là ObjectId trong MongoDB
   const users = await usersCollection.findOne({ _id: ObjectId(id) });
   if (users) {
@@ -346,22 +346,22 @@ router.get('/detailuser', async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
-  
+
   const bearerToken = token.split(' ')[1];
   jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
-      if (err) {
-          return res.status(401).json({ message: "Token không hợp lệ" });
-      }
-      const db = await connectDb();
-      const userCollection = db.collection('taikhoan');
-      const userInfo = await userCollection.findOne({ Email: user.Email });
-      if (userInfo) {
-          res.status(200).json(userInfo);
-      } else {
-          res.status(404).json({ message: "Không tìm thấy người dùng" });
-      }
+    if (err) {
+      return res.status(401).json({ message: "Token không hợp lệ" });
+    }
+    const db = await connectDb();
+    const userCollection = db.collection('taikhoan');
+    const userInfo = await userCollection.findOne({ Email: user.Email });
+    if (userInfo) {
+      res.status(200).json(userInfo);
+    } else {
+      res.status(404).json({ message: "Không tìm thấy người dùng" });
+    }
   });
 });
 
@@ -374,8 +374,8 @@ module.exports = router;
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'toan2211w1@gmail.com',
-    pass: 'rqaq axfn avib gnut', 
+    user: 'screntime12@gmail.com',
+    pass: 'cxgd hlre chto yjbz',
   },
 });
 
@@ -398,7 +398,7 @@ const transporter = nodemailer.createTransport({
 //     // Gửi email chứa mã xác thực (sử dụng Nodemailer)
 
 //     const mailOptions = {
-//       from: 'toan2211w1@gmail.com',
+//       from: 'screntime12@gmail.com',
 //       to: Email,
 //       subject: 'Mã xác thực để đặt lại mật khẩu',
 //       text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
@@ -443,7 +443,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // Gửi email chứa mã xác thực (sử dụng Nodemailer)
     const mailOptions = {
-      from: 'toan2211w1@gmail.com',
+      from: 'screntime12@gmail.com',
       to: Email,
       subject: 'Mã xác thực để đặt lại mật khẩu',
       text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
