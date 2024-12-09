@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt");
 const { ObjectId } = require('mongodb');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 // Thiết lập nơi lưu trữ và tên file
 let storage = multer.diskStorage({
@@ -32,6 +34,131 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 
 // Import model
 const connectDb = require("../models/db");
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'toan2211w1@gmail.com',
+    pass: 'rqaq axfn avib gnut', 
+  },
+});
+const verificationCodesemail = {};
+const generateVerificationCode = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+router.post("/users/send-code", async (req, res) => {
+  const { Email } = req.body;
+
+  if (!Email) {
+    return res.status(400).json({ success: false, message: "Email là bắt buộc!" });
+  }
+
+  // Connect to the database
+  const db = await connectDb();
+  const userCollection = db.collection("taikhoan");
+
+  // Check if the email already exists in the database
+  const existingUser = await userCollection.findOne({ Email });
+  if (existingUser) {
+    // Email exists, return error message
+    return res.status(400).json({ success: false, message: "Email đã tồn tại xin nhập Email khác!" });
+  }
+
+  const verificationCode = generateVerificationCode();
+
+  try {
+    verificationCodesemail[Email] = verificationCode;
+    await transporter.sendMail({
+      from: 'toan2211w1@gmail.com',
+      to: Email, // Địa chỉ người nhận
+      subject: 'Mã xác nhận của bạn',
+      html: `
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                margin: 0;
+                padding: 0;
+              }
+              .email-container {
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+              .header {
+                text-align: center;
+                color: #333;
+              }
+              .verification-code {
+                font-size: 24px;
+                font-weight: bold;
+                color: #007BFF;
+                margin: 20px 0;
+                text-align: center;
+              }
+              .footer {
+                text-align: center;
+                font-size: 12px;
+                color: #aaa;
+                margin-top: 30px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="email-container">
+              <h1 class="header">Xác thực tài khoản của bạn</h1>
+              <p>Chào bạn,</p>
+              <p>Cảm ơn bạn đã đăng ký tài khoản với chúng tôi. Vui lòng nhập mã xác nhận dưới đây để hoàn tất quá trình đăng ký:</p>
+              <div class="verification-code">
+                Mã xác nhận của bạn là: <strong>${verificationCode}</strong>
+              </div>
+              <p>Chúng tôi sẽ luôn sẵn sàng hỗ trợ bạn nếu có bất kỳ thắc mắc nào.</p>
+              <div class="footer">
+                <p>Trân trọng,</p>
+                <p>Đội ngũ hỗ trợ của chúng tôi</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `
+    });
+    
+
+    res.json({ success: true, message: 'Mã xác nhận đã được gửi!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Có lỗi xảy ra khi gửi mã xác nhận!' });
+  }
+});
+
+
+router.post("/users/verify-code", async (req, res) => {
+  const { Email, verificationCode } = req.body;  // Changed 'email' to 'Email'
+
+  if (!Email || !verificationCode) {
+    return res.status(400).json({ success: false, message: "Email và mã xác nhận là bắt buộc!" });
+  }
+
+  try {
+    const storedCode = verificationCodesemail[Email];  // Changed 'verificationCodes[email]' to 'verificationCodesemail[Email]'
+
+    if (!storedCode || storedCode !== verificationCode) {
+      return res.status(400).json({ success: false, message: "Mã xác nhận không đúng!" });
+    }
+
+    // Xóa mã sau khi xác thực
+    delete verificationCodesemail[Email];  // Changed to use 'verificationCodesemail[Email]'
+
+    res.json({ success: true, message: "Xác thực thành công!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Có lỗi xảy ra khi xác thực mã!" });
+  }
+});
 
 router.post("/register", upload.single("Anh"), async (req, res) => {
   try {
@@ -86,7 +213,6 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
   }
 });
 
-// Route cập nhật thông tin người dùng
 router.put("/updateUser/:id", async (req, res) => {
   try {
     const db = await connectDb();
@@ -371,13 +497,6 @@ router.get('/detailuser', async (req, res, next) => {
 module.exports = router;
 
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'toan2211w1@gmail.com',
-    pass: 'rqaq axfn avib gnut', 
-  },
-});
 
 // router.post("/forgot-password", async (req, res) => {
 //   const { Email } = req.body;
@@ -446,8 +565,27 @@ router.post("/forgot-password", async (req, res) => {
       from: 'toan2211w1@gmail.com',
       to: Email,
       subject: 'Mã xác thực để đặt lại mật khẩu',
-      text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; color: #333;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 8px;">
+            <h2 style="color: #4CAF50; text-align: center;">Đặt lại mật khẩu</h2>
+            <p style="font-size: 16px; line-height: 1.6;">
+              Chào bạn, <br><br>
+              Để đảm bảo tính bảo mật, chúng tôi đã nhận được yêu cầu đặt lại mật khẩu của bạn. Vui lòng sử dụng mã xác thực dưới đây để hoàn tất quá trình đặt lại mật khẩu.
+            </p>
+            <h3 style="color: #4CAF50; text-align: center; font-size: 22px; font-weight: bold;">${verificationCode}</h3>
+            <p style="font-size: 16px; line-height: 1.6;">
+              <strong>Lưu ý:</strong> Mã xác thực này không chia sẽ ra bên ngoài. Nếu bạn không yêu cầu thay đổi mật khẩu, vui lòng bỏ qua email này.
+            </p>
+            <p style="font-size: 16px; line-height: 1.6;">
+              Trân trọng,<br>
+              Đội ngũ hỗ trợ khách hàng
+            </p>
+          </div>
+        </div>
+      `,
     };
+    
 
     // Gửi email
     transporter.sendMail(mailOptions, (error, info) => {

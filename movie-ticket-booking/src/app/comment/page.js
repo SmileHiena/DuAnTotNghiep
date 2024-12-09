@@ -39,13 +39,11 @@ const Profile = () => {
           if (response.ok) {
             const data = await response.json();
             setAccountInfo(data);
-            // Fetch comments after getting user info
-            fetchComments(data.userId); // Use userId from user data
+            fetchComments(data.userId);
           } else {
-            console.error("Failed to fetch user data");
             alert("Vui lòng đăng nhập lại.");
-            // Optionally, you can clear the cookie here if the response indicates an invalid token
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+              "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           }
         } catch (error) {
           console.error("An error occurred while fetching user data:", error);
@@ -67,8 +65,20 @@ const Profile = () => {
           );
 
           if (response.ok) {
-            const data = await response.json();
-            setComments(data);
+            const commentsData = await response.json();
+            const commentsWithMovies = await Promise.all(
+              commentsData.map(async (comment) => {
+                const movieResponse = await fetch(
+                  `http://localhost:3000/movie/${comment.movieId}`
+                );
+                const movieData = await movieResponse.json();
+                return {
+                  ...comment,
+                  movieName: movieData?.Ten || "Không xác định",
+                };
+              })
+            );
+            setComments(commentsWithMovies);
           } else {
             console.error("Failed to fetch comments");
           }
@@ -79,10 +89,7 @@ const Profile = () => {
 
       getUserInfo();
     } else {
-      // If there's no token, you can redirect to the login page or show a message
       alert("Vui lòng đăng nhập để tiếp tục.");
-      // Optionally redirect to login page
-      // window.location.href = "/login";
     }
   }, []);
 
@@ -128,55 +135,55 @@ const Profile = () => {
               LỊCH SỬ BÌNH LUẬN
             </h2>
             <table className="w-full border-collapse bg-gray-800 text-white">
-              <thead>
-                <tr>
-                  <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">
-                    Nội dung
-                  </th>
-                  <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">
-                    Ngày bình luận
-                  </th>
-                  <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">
-                    Chi tiết
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {comments.length > 0 ? (
-                  comments.map((comment) => (
-                    <tr className="bg-[rgba(0,0,0,0.6)] border-b border-gray-800" key={comment._id}>
-                      <td className="text-center px-2 py-2">
-                        {comment.content.length > 50
-                          ? `${comment.content.substring(0, 50)}...`
-                          : comment.content}
-                      </td>
-
-                      <td className="text-center px-2 py-2">
-                        {new Date(comment.timestamp).toLocaleDateString()}
-                      </td>
-                      <td className="text-center px-2 py-2">
-                        <button
-                          onClick={() => toggleCommentDetails(comment)}
-                          className=" w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#2C2C2C] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"
-                        >
-                          Xem chi tiết
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="3" className="text-center px-2 py-2">
-                      Không có bình luận nào.
+            <thead>
+              <tr>
+                <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">Tên phim</th>
+                <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">Nội dung</th>
+                <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">Ngày bình luận</th>
+                <th className="bg-[#F5CF49] text-[#000000] px-2 py-2">Chi tiết</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comments.length > 0 ? (
+                comments.map((comment) => (
+                  <tr className="bg-[rgba(0,0,0,0.6)] border-b border-gray-800" key={comment._id}>
+                    <td className="text-center px-2 py-2">{comment.movieName}</td>
+                    <td className="text-center px-2 py-2">
+                      {comment.content.length > 50
+                        ? `${comment.content.substring(0, 50)}...`
+                        : comment.content}
+                    </td>
+                    <td className="text-center px-2 py-2">
+                      {new Date(comment.timestamp).toLocaleDateString()}
+                    </td>
+                    <td className="text-center px-2 py-2">
+                      <button
+                        onClick={() => toggleCommentDetails(comment)}
+                        className="w-[117px] h-[35px] bg-[#F5CF49] text-[#000000] rounded hover:bg-[#2C2C2C] hover:text-[#ffffff] hover:border-2 hover:border-[#F5CF49] hover:border-solid"
+                      >
+                        Xem chi tiết
+                      </button>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center px-2 py-2">
+                    Không có bình luận nào.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
 
             {showCommentDetails && selectedComment && (
               <div className="mt-4 p-4 bg-[rgba(0,0,0,0.6)] border border-[#F5CF49] rounded">
                 <h3 className="text-xl text-white">Chi tiết bình luận</h3>
+
+                <p className="text-[18px] sm:text-[16px] text-white mb-2 break-words">
+                  <strong className="text-white inline whitespace-nowrap">Tên phim: </strong>
+                  <span className="inline">{selectedComment.movieName}</span>
+                </p>
 
                 <p className="text-[18px] sm:text-[16px] text-white mb-2 break-words">
                   <strong className="text-white inline whitespace-nowrap">Nội dung: </strong>

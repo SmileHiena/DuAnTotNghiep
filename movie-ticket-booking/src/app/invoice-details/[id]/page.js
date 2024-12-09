@@ -72,8 +72,8 @@ const ChiTietHoaDon = () => {
 
   const handleCancel = async () => {
     // Kiểm tra trạng thái hóa đơn trước khi hủy
-    if (hoaDon.TrangThai !== "Đã Đặt") {
-      setMessage("Chỉ có thể hủy các hóa đơn có trạng thái 'Đã Đặt'.");
+    if (hoaDon.TrangThai !== "Đã Thanh Toán") {
+      setMessage("Chỉ có thể hủy các hóa đơn có trạng thái 'Đã Thanh Toán'.");
       return;
     }
 
