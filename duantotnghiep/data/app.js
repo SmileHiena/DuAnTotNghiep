@@ -8,33 +8,32 @@ var bcryptjs = require('bcryptjs');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var moviesRouter = require('./routes/movies');
 var eventsRouter = require('./routes/events');
 var searchRouter = require('./routes/search');
-var sapchieuRouter = require('./routes/sapchieu');
 var employeesRouter = require('./routes/employees');
-var admin_sanphamRouter = require('./routes/admin_sanpham');
-var admin_theloaiRouter = require('./routes/admin_theloai');
+var movieRouter = require('./routes/movie');
+var categoriesRouter = require('./routes/categories');
 var blogRouter = require('./routes/blog');
-var dangchieuRouter = require('./routes/dangchieu');
-var taikhoanRouter = require('./routes/taikhoan');
+var blogdetailRouter = require('./routes/blogdetail');
+var accountRouter = require('./routes/account');
 var authRouter = require('./routes/auth');
 var comboRouter = require('./routes/combo');
-var rapRouter = require('./routes/rap');
-var suatchieuRouter = require('./routes/suatchieu');
-var loaiveRouter = require('./routes/loaive');
-var doanhthuRouter = require('./routes/doanhthu');
+var theaterRouter = require('./routes/theater');
+var showtimesRouter = require('./routes/showtimes');
+var tickettypesRouter = require('./routes/ticket-types');
 var commentRouter = require('./routes/comments');
 var checkoutRouter = require('./routes/checkout');
-var hoadonRouter = require('./routes/hoadon');
+var invoiceRouter = require('./routes/invoice');
 var orderRouter = require('./routes/order');
 var adminRouter = require('./routes/admin');
-var blogdetailRouter = require('./routes/blogdetail');
 var app = express();
 
 // Cấu hình middleware CORS
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:3002'], // Cho phép truy cập từ các địa chỉ này
+  origin: (origin, callback) => {
+    // Cho phép truy cập từ mọi nguồn gốc
+    callback(null, origin || true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức được phép
   credentials: true // Cho phép cookie và các thông tin xác thực khác
 }));
@@ -54,26 +53,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/movies', moviesRouter);
 app.use('/event', eventsRouter);
 app.use('/search', searchRouter);
-app.use('/sapchieu', sapchieuRouter);
 app.use('/employees', employeesRouter);
-app.use('/sanpham', admin_sanphamRouter);
-app.use('/theloai', admin_theloaiRouter);
+app.use('/movie', movieRouter);
+app.use('/categories', categoriesRouter);
 app.use('/blog', blogRouter);
 app.use('/blogdetail', blogdetailRouter);
-app.use('/dangchieu', dangchieuRouter);
-app.use('/taikhoan', taikhoanRouter);
+app.use('/account', accountRouter);
 app.use('/auth', authRouter);
 app.use('/combo', comboRouter);
-app.use('/rap', rapRouter);
-app.use('/suatchieu', suatchieuRouter);
-app.use('/loaive', loaiveRouter);
-app.use('/doanhthu', doanhthuRouter);
+app.use('/theater', theaterRouter);
+app.use('/showtimes', showtimesRouter);
+app.use('/ticket-types', tickettypesRouter);
 app.use('/comments', commentRouter);
 app.use('/checkout', checkoutRouter);
-app.use('/hoadon', hoadonRouter);
+app.use('/invoice', invoiceRouter);
 app.use('/order', orderRouter);
 app.use('/admin', adminRouter);
 
