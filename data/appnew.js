@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const url = "mongodb://localhost:27017";
+const url = "mongodb+srv://screntime12:Y3PO2213Sq4kcmlM@cluster0.zv8zx.mongodb.net/";
 const dbName = "Ticker_Movie";
 
 const data = {
@@ -614,88 +614,7 @@ const data = {
             { Hang: "C", Ghe: ["P2_C01", "P2_C02", "P2_C03", "P2_C04", "P2_C05"] },
             { Hang: "D", Ghe: ["P2_D01", "P2_D02", "P2_D03", "P2_D04", "P2_D05"] },
           ],
-        },
-        // phòng 3
-        {
-          id: 3,
-          TenPhongChieu: "Phòng chiếu 3",
-          SoLuongGhe: 10,
-          // Thêm danh sách ghế
-          Ghe: [
-            { Hang: "E", Ghe: ["P3_E01", "P3_E02", "P3_E03", "P3_E04", "P3_E05"] },
-            { Hang: "F", Ghe: ["P3_F01", "P3_F02", "P3_F03", "P3_F04", "P3_F05"] },
-          ],
-        },
-        // phòng 4
-        {
-          id: 4,
-          TenPhongChieu: "Phòng chiếu 4",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "G", Ghe: ["P4_G01", "P4_G02", "P4_G03", "P4_G04", "P4_G05"] },
-            { Hang: "H", Ghe: ["P4_H01", "P4_H02", "P4_H03", "P4_H04", "P4_H05"] },
-          ],
-        },
-        // phòng 5
-        {
-          id: 5,
-          TenPhongChieu: "Phòng chiếu 5",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "I", Ghe: ["P5_I01", "P5_I02", "P5_I03", "P5_I04", "P5_I05"] },
-            { Hang: "J", Ghe: ["P5_J01", "P5_J02", "P5_J03", "P5_J04", "P5_J05"] },
-          ],
-        },
-        // phòng 6
-        {
-          id: 6,
-          TenPhongChieu: "Phòng chiếu 6",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "K", Ghe: ["P6_K01", "P6_K02", "P6_K03", "P6_K04", "P6_K05"] },
-            { Hang: "L", Ghe: ["P6_L01", "P6_L02", "P6_L03", "P6_L04", "P6_L05"] },
-          ],
-        },
-        // phòng 7
-        {
-          id: 7,
-          TenPhongChieu: "Phòng chiếu 7",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "M", Ghe: ["P7_M01", "P7_M02", "P7_M03", "P7_M04", "P7_M05"] },
-            { Hang: "N", Ghe: ["P7_N01", "P7_N02", "P7_N03", "P7_N04", "P7_N05"] },
-          ],
-        },
-        // phòng 8
-        {
-          id: 8,
-          TenPhongChieu: "Phòng chiếu 8",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "O", Ghe: ["P8_O01", "P8_O02", "P8_O03", "P8_O04", "P8_O05"] },
-            { Hang: "P", Ghe: ["P8_P01", "P8_P02", "P8_P03", "P8_P04", "P8_P05"] },
-          ],
-        },
-        // phòng 9
-        {
-          id: 9,
-          TenPhongChieu: "Phòng chiếu 9",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "Q", Ghe: ["P9_Q01", "P9_Q02", "P9_Q03", "P9_Q04", "P9_Q05"] },
-            { Hang: "R", Ghe: ["P9_R01", "P9_R02", "P9_R03", "P9_R04", "P9_R05"] },
-          ],
-        },
-        // phòng 10
-        {
-          id: 10,
-          TenPhongChieu: "Phòng chiếu 10",
-          SoLuongGhe: 10,
-          Ghe: [
-            { Hang: "S", Ghe: ["P10_S01", "P10_S02", "P10_S03", "P10_S04", "P10_S05"] },
-            { Hang: "T", Ghe: ["P10_T01", "P10_T02", "P10_T03", "P10_T04", "P10_T05"] },
-          ],
-        },
+        }
       ],
     },
   ],
@@ -704,94 +623,7 @@ const data = {
   SuatChieu: [
     // Ngày 26/09/2024
     { id: 1, IdPhim: 1, IdPhong: 1, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 2, IdPhim: 1, IdPhong: 2, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 3, IdPhim: 1, IdPhong: 3, NgayChieu: "26/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 4, IdPhim: 2, IdPhong: 4, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 5, IdPhim: 2, IdPhong: 5, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 6, IdPhim: 2, IdPhong: 6, NgayChieu: "26/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 7, IdPhim: 3, IdPhong: 7, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 8, IdPhim: 3, IdPhong: 8, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 9, IdPhim: 3, IdPhong: 9, NgayChieu: "26/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 10, IdPhim: 4, IdPhong: 10, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 27/09/2024
-    { id: 11, IdPhim: 4, IdPhong: 1, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 12, IdPhim: 4, IdPhong: 2, NgayChieu: "27/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 13, IdPhim: 5, IdPhong: 3, NgayChieu: "27/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 14, IdPhim: 5, IdPhong: 4, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 15, IdPhim: 5, IdPhong: 5, NgayChieu: "27/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 16, IdPhim: 6, IdPhong: 6, NgayChieu: "27/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 17, IdPhim: 6, IdPhong: 7, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 18, IdPhim: 6, IdPhong: 8, NgayChieu: "27/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 19, IdPhim: 7, IdPhong: 9, NgayChieu: "27/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 20, IdPhim: 7, IdPhong: 10, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 28/09/2024
-    { id: 21, IdPhim: 7, IdPhong: 1, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 22, IdPhim: 8, IdPhong: 2, NgayChieu: "28/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 23, IdPhim: 8, IdPhong: 3, NgayChieu: "28/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 24, IdPhim: 8, IdPhong: 4, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 25, IdPhim: 9, IdPhong: 5, NgayChieu: "28/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 26, IdPhim: 9, IdPhong: 6, NgayChieu: "28/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 27, IdPhim: 9, IdPhong: 7, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 28, IdPhim: 10, IdPhong: 8, NgayChieu: "28/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 29, IdPhim: 10, IdPhong: 9, NgayChieu: "28/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 30, IdPhim: 10, IdPhong: 10, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 29/09/2024
-    { id: 31, IdPhim: 11, IdPhong: 1, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 32, IdPhim: 11, IdPhong: 2, NgayChieu: "29/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 33, IdPhim: 11, IdPhong: 3, NgayChieu: "29/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 34, IdPhim: 12, IdPhong: 4, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 35, IdPhim: 12, IdPhong: 5, NgayChieu: "29/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 36, IdPhim: 12, IdPhong: 6, NgayChieu: "29/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 37, IdPhim: 13, IdPhong: 7, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 38, IdPhim: 13, IdPhong: 8, NgayChieu: "29/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 39, IdPhim: 13, IdPhong: 9, NgayChieu: "29/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 40, IdPhim: 14, IdPhong: 10, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 30/09/2024
-    { id: 41, IdPhim: 14, IdPhong: 1, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 42, IdPhim: 14, IdPhong: 2, NgayChieu: "30/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 43, IdPhim: 15, IdPhong: 3, NgayChieu: "30/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 44, IdPhim: 15, IdPhong: 4, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 45, IdPhim: 15, IdPhong: 5, NgayChieu: "30/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 46, IdPhim: 16, IdPhong: 6, NgayChieu: "30/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 47, IdPhim: 16, IdPhong: 7, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 48, IdPhim: 16, IdPhong: 8, NgayChieu: "30/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 49, IdPhim: 17, IdPhong: 9, NgayChieu: "30/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 50, IdPhim: 17, IdPhong: 10, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 01/10/2024
-    { id: 51, IdPhim: 17, IdPhong: 1, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 52, IdPhim: 18, IdPhong: 2, NgayChieu: "01/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 53, IdPhim: 18, IdPhong: 3, NgayChieu: "01/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 54, IdPhim: 18, IdPhong: 4, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 55, IdPhim: 19, IdPhong: 5, NgayChieu: "01/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 56, IdPhim: 19, IdPhong: 6, NgayChieu: "01/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 57, IdPhim: 19, IdPhong: 7, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 58, IdPhim: 20, IdPhong: 8, NgayChieu: "01/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 59, IdPhim: 20, IdPhong: 9, NgayChieu: "01/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 60, IdPhim: 20, IdPhong: 10, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 02/10/2024
-    { id: 61, IdPhim: 21, IdPhong: 1, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 62, IdPhim: 21, IdPhong: 2, NgayChieu: "02/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 63, IdPhim: 21, IdPhong: 3, NgayChieu: "02/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 64, IdPhim: 22, IdPhong: 4, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 65, IdPhim: 22, IdPhong: 5, NgayChieu: "02/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 66, IdPhim: 22, IdPhong: 6, NgayChieu: "02/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 67, IdPhim: 23, IdPhong: 7, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 68, IdPhim: 23, IdPhong: 8, NgayChieu: "02/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 69, IdPhim: 23, IdPhong: 9, NgayChieu: "02/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 70, IdPhim: 24, IdPhong: 10, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 03/10/2024
-    { id: 71, IdPhim: 24, IdPhong: 1, NgayChieu: "03/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 72, IdPhim: 24, IdPhong: 2, NgayChieu: "03/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 73, IdPhim: 25, IdPhong: 3, NgayChieu: "03/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 74, IdPhim: 25, IdPhong: 4, NgayChieu: "03/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 75, IdPhim: 25, IdPhong: 5, NgayChieu: "03/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] }
+    { id: 2, IdPhim: 1, IdPhong: 2, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] }
   ],
 
   // ----- Loại Vé -----

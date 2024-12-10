@@ -115,7 +115,7 @@ const PaymentSuccess = () => {
         if (result.id) {
           // Chuyển hướng sau 7 giây
           setTimeout(() => {
-            router.push(`/invoice-details/${result.id}`);
+            // router.push(`/invoice-details/${result.id}`);
           }, 5000); // 5000ms = 5 giây
           await sendEmail(info.Email, invoiceData);
         } else {

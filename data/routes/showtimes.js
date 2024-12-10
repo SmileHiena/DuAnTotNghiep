@@ -381,7 +381,6 @@ router.get('/ghe/:IdPhong/:GioChieu/:IdPhim', async (req, res) => {
     if (!phongChieu) {
       return res.status(404).json({ message: 'Không tìm thấy phòng chiếu' });
     }
-
     // Lấy danh sách suất chiếu theo IdPhim, IdPhong và GioChieu
     const suatChieuCollection = db.collection('suatchieu');
     const suatChieu = await suatChieuCollection.findOne({
@@ -417,8 +416,10 @@ router.get('/ghe/:IdPhong/:GioChieu/:IdPhim', async (req, res) => {
 });
 
 
+
 router.post('/capnhatghedadat', async (req, res) => {
   try {
+
     const { IdPhong, GioChieu, IdPhim, SoGhe } = req.body;
 
     // Kết nối đến database

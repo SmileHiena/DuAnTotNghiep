@@ -308,8 +308,6 @@ const DatVe = () => {
     router.push("/checkout");
   };
 
-
-
   return (
     <div className="flex mx-auto text-white bg-[rgba(0,0,0,0.7)] shadow-lg w-full max-w-[1410px] mx-auto">
       <section className="w-1/3 sticky top-0">

@@ -184,7 +184,7 @@ const Detail = () => {
                     <div key={comment._id} className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300">
                       {comment.userImage && (<img src={`http://localhost:3000/images/${comment.userImage}`} alt={`${comment.username}'s avatar`} className="w-14 h-14 rounded-full border-2 border-white" />)}
                       <div className="flex flex-col flex-1 w-[80%] md:max-w-[1100px] p-4 sm:p-2">
-                        <span className="font-semibold text-[20px] text-white mb-2">{comment.username}</span>
+                        <span className="font-semibold text-[20px] text-white mb-2">{comment.fullname}</span>
                         <div className="border-b border-white opacity-20 w-full mb-2"></div>
                         <p className="text-[18px] text-white mb-2 break-words"> {comment.content.length > 100 ? (expandedComments[comment._id] ? comment.content : `${comment.content.substring(0, 250)}...`) : comment.content} </p>
 

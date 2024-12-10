@@ -6,8 +6,13 @@ import { use } from 'react';
 // Toast
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPenToSquare, faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faPenToSquare,
+  faPlus,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 const QuanLyPhongChieu = ({ params }) => {
   const { id: rapId } = use(params);
@@ -23,10 +28,9 @@ const QuanLyPhongChieu = ({ params }) => {
     SoLuongGhe: "",
     Ghe: [],
   });
-  const tenRaps = raps.map(rap => rap.TenRap);
+  const tenRaps = raps.map((rap) => rap.TenRap);
 
   // console.log(tenRaps);
-
 
   const notifyXoa = () => {
     toast.success("Xóa phòng thành công thành công!", {
@@ -108,7 +112,8 @@ const QuanLyPhongChieu = ({ params }) => {
       }
     };
     fetchPhongChieu();
-  }, [rapId]); const handleAddPhongChieu = async () => {
+  }, [rapId]);
+  const handleAddPhongChieu = async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/theater/${rapId}/phong-chieu`,
@@ -203,7 +208,8 @@ const QuanLyPhongChieu = ({ params }) => {
           {
             method: "DELETE",
           }
-        ); if (response.ok) {
+        );
+        if (response.ok) {
           // Cập nhật danh sách phòng chiếu trong state
           setPhongChieu((prev) =>
             prev.filter((phong) => phong._id !== phongId)
@@ -234,7 +240,9 @@ const QuanLyPhongChieu = ({ params }) => {
         <div className="app-title">
           <ul className="app-breadcrumb breadcrumb side">
             <li className="breadcrumb-item active">
-              <a href="#"><b>Quản lý phòng chiếu cho {tenRaps}</b></a>
+              <a href="#">
+                <b>Quản lý phòng chiếu cho {tenRaps}</b>
+              </a>
             </li>
           </ul>
         </div>
@@ -245,7 +253,13 @@ const QuanLyPhongChieu = ({ params }) => {
               <div className="tile-body">
                 <div className="row element-button">
                   <div className="col-sm-2">
-                    <button onClick={() => setIsAddModalOpen(true)} className="btn btn-add"><FontAwesomeIcon icon={faPlus} />Thêm mới</button>
+                    <button
+                      onClick={() => setIsAddModalOpen(true)}
+                      className="btn btn-add"
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                      Thêm mới
+                    </button>
                   </div>
                 </div>
 
@@ -266,25 +280,42 @@ const QuanLyPhongChieu = ({ params }) => {
                           <td>{index + 1}</td>
                           <td>{phong.TenPhongChieu}</td>
                           <td>{phong.SoLuongGhe}</td>
-                          <td>{phong.Ghe.map((row, rowIndex) => (<div key={rowIndex} className="mb-2">
-                            <div className="flex flex-wrap gap-2">
-                              <strong className="block mb-1"> {row.Hang} -{" "}
-                              </strong>
-                              {row.Ghe.map((ghe, gheIndex) => (
-                                <div
-                                  key={gheIndex}
-                                  className="px-2 py-2 w-[65px] bg-blue-500 text-white text-center text-sm rounded "
-                                >
-                                  {ghe}
+                          <td>
+                            {phong.Ghe.map((row, rowIndex) => (
+                              <div key={rowIndex} className="mb-2">
+                                <div className="flex flex-wrap gap-2">
+                                  <strong className="block mb-1">
+                                    {" "}
+                                    {row.Hang} -{" "}
+                                  </strong>
+                                  {row.Ghe.map((ghe, gheIndex) => (
+                                    <div
+                                      key={gheIndex}
+                                      className="px-2 py-2 w-[65px] bg-blue-500 text-white text-center text-sm rounded "
+                                    >
+                                      {ghe}
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          </div>
-                          ))}
+                              </div>
+                            ))}
                           </td>
                           <td>
-                            <button className="btn btn-primary mr-3" onClick={() => { setIsEditModalOpen(true); setCurrentPhong(phong); }}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                            <button className="btn btn-danger" onClick={() => handleDeletePhongChieu(phong.id)}                            ><FontAwesomeIcon icon={faTrash} /></button>
+                            <button
+                              className="btn btn-primary mr-3"
+                              onClick={() => {
+                                setIsEditModalOpen(true);
+                                setCurrentPhong(phong);
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faPenToSquare} />
+                            </button>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => handleDeletePhongChieu(phong.id)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -294,7 +325,13 @@ const QuanLyPhongChieu = ({ params }) => {
                   <p>Không có phòng chiếu nào được tìm thấy.</p>
                 )}
 
-                <button onClick={() => router.back()} className="btn btn-danger"><FontAwesomeIcon icon={faArrowLeft} className="mr-2" />Trở về</button>
+                <button
+                  onClick={() => router.back()}
+                  className="btn btn-danger"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+                  Trở về
+                </button>
 
                 {isEditModalOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -308,12 +345,119 @@ const QuanLyPhongChieu = ({ params }) => {
                       {/* Chỉnh sửa thông tin phòng chiếu */}
                       <div className="row">
                         <div className="form-group col-md-6">
-                          <label className="control-label">Tên phòng chiếu</label>
-                          <input type="text" className="form-control" value={currentPhong?.TenPhongChieu || ""} onChange={(e) => setCurrentPhong({ ...currentPhong, TenPhongChieu: e.target.value, })} />
+                          <label className="control-label">
+                            Tên phòng chiếu
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={currentPhong?.TenPhongChieu || ""}
+                            onChange={(e) =>
+                              setCurrentPhong({
+                                ...currentPhong,
+                                TenPhongChieu: e.target.value,
+                              })
+                            }
+                          />
                         </div>
                         <div className="form-group col-md-6">
                           <label className="control-label">Số lượng ghế</label>
-                          <input type="number" className="form-control" value={currentPhong?.SoLuongGhe || ""} onChange={(e) => setCurrentPhong({ ...currentPhong, SoLuongGhe: parseInt(e.target.value, 10), })} />
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={currentPhong?.SoLuongGhe || ""}
+                            onChange={(e) => {
+                              const newSoLuongGhe = parseInt(
+                                e.target.value,
+                                10
+                              );
+
+                              // Tạo bản sao danh sách ghế hiện tại
+                              let updatedGhe = [...currentPhong.Ghe];
+
+                              // Tính tổng số ghế hiện tại
+                              const currentTotalSeats = updatedGhe.reduce(
+                                (sum, hang) => sum + hang.Ghe.length,
+                                0
+                              );
+
+                              if (newSoLuongGhe > currentTotalSeats) {
+                                // Thêm ghế nếu số lượng mới lớn hơn hiện tại
+                                const seatsToAdd =
+                                  newSoLuongGhe - currentTotalSeats;
+                                let remainingSeats = seatsToAdd;
+
+                                // Thêm ghế vào các hàng hiện có
+                                updatedGhe = updatedGhe.map((hang) => {
+                                  if (remainingSeats > 0) {
+                                    const currentSeatCount = hang.Ghe.length;
+                                    const newSeats = Array(
+                                      Math.min(remainingSeats, 10)
+                                    )
+                                      .fill("")
+                                      .map(
+                                        (_, i) =>
+                                          `${hang.Hang}${
+                                            currentSeatCount + i + 1
+                                          }`
+                                      ); // Tên ghế: A1, A2...
+                                    remainingSeats -= newSeats.length;
+                                    return {
+                                      ...hang,
+                                      Ghe: [...hang.Ghe, ...newSeats],
+                                    };
+                                  }
+                                  return hang;
+                                });
+
+                                // Nếu còn ghế cần thêm, tạo thêm hàng mới
+                                while (remainingSeats > 0) {
+                                  const newRowIndex = updatedGhe.length;
+                                  const newHang = String.fromCharCode(
+                                    65 + newRowIndex
+                                  ); // A, B, C...
+                                  const newSeats = Array(
+                                    Math.min(remainingSeats, 10)
+                                  )
+                                    .fill("")
+                                    .map((_, i) => `${newHang}${i + 1}`);
+                                  updatedGhe.push({
+                                    Hang: newHang,
+                                    Ghe: newSeats,
+                                  });
+                                  remainingSeats -= newSeats.length;
+                                }
+                              } else if (newSoLuongGhe < currentTotalSeats) {
+                                // Xóa ghế nếu số lượng mới nhỏ hơn hiện tại
+                                let seatsToRemove =
+                                  currentTotalSeats - newSoLuongGhe;
+
+                                updatedGhe = updatedGhe
+                                  .map((hang) => {
+                                    if (seatsToRemove > 0) {
+                                      const remainingSeats =
+                                        hang.Ghe.length - seatsToRemove;
+                                      const newGhe =
+                                        remainingSeats > 0
+                                          ? hang.Ghe.slice(0, remainingSeats)
+                                          : [];
+                                      seatsToRemove -=
+                                        hang.Ghe.length - newGhe.length;
+                                      return { ...hang, Ghe: newGhe };
+                                    }
+                                    return hang;
+                                  })
+                                  .filter((hang) => hang.Ghe.length > 0); // Loại bỏ các hàng không còn ghế
+                              }
+
+                              // Cập nhật state
+                              setCurrentPhong({
+                                ...currentPhong,
+                                Ghe: updatedGhe,
+                                SoLuongGhe: newSoLuongGhe,
+                              });
+                            }}
+                          />
                         </div>
                       </div>
                       <div className="row">
@@ -327,61 +471,141 @@ const QuanLyPhongChieu = ({ params }) => {
                           <div key={index} className="mb-6">
                             {/* Tên hàng */}
                             <div className="form-group col-md-12">
-                              <label className="control-label">Hàng: {hang.Hang} - Số ghế: {hang.Ghe.length}</label>
+                              <label className="control-label">
+                                Hàng: {hang.Hang} - Số ghế: {hang.Ghe.length}
+                              </label>
 
                               {/* Danh sách ghế */}
                               <div className="flex flex-wrap gap-3">
                                 {hang.Ghe.map((ghe, gheIndex) => (
-                                  <div key={gheIndex} className="flex items-center gap-2">
-                                    <input type="text" value={ghe} onChange={(e) => {
-                                      // Cập nhật ghế hiện tại
-                                      const updatedRow = hang.Ghe.map((g, i) => i === gheIndex ? e.target.value.trim() : g);
+                                  <div
+                                    key={gheIndex}
+                                    className="flex items-center gap-2"
+                                  >
+                                    <input
+                                      type="text"
+                                      value={ghe}
+                                      onChange={(e) => {
+                                        // Cập nhật ghế hiện tại
+                                        const updatedRow = hang.Ghe.map(
+                                          (g, i) =>
+                                            i === gheIndex
+                                              ? e.target.value.trim()
+                                              : g
+                                        );
 
-                                      // Cập nhật hàng ghế
-                                      const updatedGhe = currentPhong.Ghe.map((h, i) => i === index ? { ...h, Ghe: updatedRow } : h);
+                                        // Cập nhật hàng ghế
+                                        const updatedGhe = currentPhong.Ghe.map(
+                                          (h, i) =>
+                                            i === index
+                                              ? { ...h, Ghe: updatedRow }
+                                              : h
+                                        );
 
-                                      // Cập nhật tổng số lượng ghế
-                                      const updatedPhong = { ...currentPhong, Ghe: updatedGhe, SoLuongGhe: updatedGhe.reduce((sum, h) => sum + h.Ghe.length, 0), }; setCurrentPhong(updatedPhong);
-                                    }} className="form-control"  />
+                                        // Cập nhật tổng số lượng ghế
+                                        const updatedPhong = {
+                                          ...currentPhong,
+                                          Ghe: updatedGhe,
+                                          SoLuongGhe: updatedGhe.reduce(
+                                            (sum, h) => sum + h.Ghe.length,
+                                            0
+                                          ),
+                                        };
+                                        setCurrentPhong(updatedPhong);
+                                      }}
+                                      className="form-control"
+                                    />
                                     {/* Nút xóa ghế */}
-                                    <button onClick={() => {
-                                      // Xóa ghế tại vị trí gheIndex
-                                      const updatedRow = hang.Ghe.filter((g, i) => i !== gheIndex);
+                                    <button
+                                      onClick={() => {
+                                        // Xóa ghế tại vị trí gheIndex
+                                        const updatedRow = hang.Ghe.filter(
+                                          (g, i) => i !== gheIndex
+                                        );
 
-                                      // Cập nhật hàng ghế
-                                      const updatedGhe = currentPhong.Ghe.map((h, i) => i === index ? { ...h, Ghe: updatedRow } : h);
+                                        // Cập nhật hàng ghế
+                                        const updatedGhe = currentPhong.Ghe.map(
+                                          (h, i) =>
+                                            i === index
+                                              ? { ...h, Ghe: updatedRow }
+                                              : h
+                                        );
 
-                                      // Cập nhật tổng số lượng ghế
-                                      const updatedPhong = { ...currentPhong, Ghe: updatedGhe, SoLuongGhe: updatedGhe.reduce((sum, h) => sum + h.Ghe.length, 0), }; setCurrentPhong(updatedPhong);
-                                    }} className="btn btn-danger">-</button>
+                                        // Cập nhật tổng số lượng ghế
+                                        const updatedPhong = {
+                                          ...currentPhong,
+                                          Ghe: updatedGhe,
+                                          SoLuongGhe: updatedGhe.reduce(
+                                            (sum, h) => sum + h.Ghe.length,
+                                            0
+                                          ),
+                                        };
+                                        setCurrentPhong(updatedPhong);
+                                      }}
+                                      className="btn btn-danger"
+                                    >
+                                      -
+                                    </button>
                                   </div>
                                 ))}
 
                                 {/* Nút thêm ghế */}
-                                <button onClick={() => {
-                                  // Thêm ghế mới
-                                  const newGhe = [...hang.Ghe, ""]; const updatedGhe = currentPhong.Ghe.map((h, i) => i === index ? { ...h, Ghe: newGhe } : h);
+                                <button
+                                  onClick={() => {
+                                    // Thêm ghế mới
+                                    const newGhe = [...hang.Ghe, ""];
+                                    const updatedGhe = currentPhong.Ghe.map(
+                                      (h, i) =>
+                                        i === index ? { ...h, Ghe: newGhe } : h
+                                    );
 
-                                  // Cập nhật tổng số lượng ghế
-                                  const updatedPhong = { ...currentPhong, Ghe: updatedGhe, SoLuongGhe: updatedGhe.reduce((sum, h) => sum + h.Ghe.length, 0), }; setCurrentPhong(updatedPhong);
-                                }} className="btn btn-add">+</button>
+                                    // Cập nhật tổng số lượng ghế
+                                    const updatedPhong = {
+                                      ...currentPhong,
+                                      Ghe: updatedGhe,
+                                      SoLuongGhe: updatedGhe.reduce(
+                                        (sum, h) => sum + h.Ghe.length,
+                                        0
+                                      ),
+                                    };
+                                    setCurrentPhong(updatedPhong);
+                                  }}
+                                  className="btn btn-add"
+                                >
+                                  +
+                                </button>
                               </div>
-                            </div></div>
+                            </div>
+                          </div>
                         ))}
-
                       </div>
 
-                      <button onClick={handleEditPhongChieu} className="btn btn-save mr-3">Lưu lại</button>
-                      <button onClick={() => setIsEditModalOpen(false)} className="btn btn-cancel">Hủy bỏ</button>
+                      <button
+                        onClick={handleEditPhongChieu}
+                        className="btn btn-save mr-3"
+                      >
+                        Lưu lại
+                      </button>
+                      <button
+                        onClick={() => setIsEditModalOpen(false)}
+                        className="btn btn-cancel"
+                      >
+                        Hủy bỏ
+                      </button>
                     </div>
                   </div>
                 )}
 
-
                 {/* Modal thêm phòng chiếu */}
                 {isAddModalOpen && (
-                  <div className="modal fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center" style={{ display: isAddModalOpen ? "block" : "none" }}                  >
-                    <div className="modal-dialog modal-dialog-centered" role="document">
+                  <div
+                    className="modal fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center"
+                    style={{ display: isAddModalOpen ? "block" : "none" }}
+                  >
+                    <div
+                      className="modal-dialog modal-dialog-centered"
+                      role="document"
+                    >
                       <div className="modal-content">
                         <div className="modal-body">
                           <div className="row">
@@ -391,28 +615,64 @@ const QuanLyPhongChieu = ({ params }) => {
                           </div>
                           <div className="row">
                             <div className="form-group col-md-6">
-                              <label className="control-label">Tên phòng chiếu</label>
-                              <input type="text" className="form-control" placeholder="Tên phòng chiếu" value={newPhongChieu.TenPhongChieu} onChange={(e) => setNewPhongChieu({ ...newPhongChieu, TenPhongChieu: e.target.value, })} />
+                              <label className="control-label">
+                                Tên phòng chiếu
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Tên phòng chiếu"
+                                value={newPhongChieu.TenPhongChieu}
+                                onChange={(e) =>
+                                  setNewPhongChieu({
+                                    ...newPhongChieu,
+                                    TenPhongChieu: e.target.value,
+                                  })
+                                }
+                              />
                             </div>
                             <div className="form-group col-md-6">
-                              <label className="control-label">Số lượng ghế</label>
-                              <input type="number" className="form-control" placeholder="Số lượng ghế" value={newPhongChieu.SoLuongGhe} onChange={(e) => setNewPhongChieu({ ...newPhongChieu, SoLuongGhe: e.target.value, })} />
+                              <label className="control-label">
+                                Số lượng ghế
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control"
+                                placeholder="Số lượng ghế"
+                                value={newPhongChieu.SoLuongGhe}
+                                onChange={(e) =>
+                                  setNewPhongChieu({
+                                    ...newPhongChieu,
+                                    SoLuongGhe: e.target.value,
+                                  })
+                                }
+                              />
                             </div>
                           </div>
-                          <button onClick={handleAddPhongChieu} className="btn btn-save mr-3">Lưu lại</button>
-                          <button onClick={() => setIsAddModalOpen(false)} className="btn btn-cancel">Hủy bỏ</button>
+                          <button
+                            onClick={handleAddPhongChieu}
+                            className="btn btn-save mr-3"
+                          >
+                            Lưu lại
+                          </button>
+                          <button
+                            onClick={() => setIsAddModalOpen(false)}
+                            className="btn btn-cancel"
+                          >
+                            Hủy bỏ
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 )}
                 <ToastContainer />
-
               </div>
             </div>
           </div>
         </div>
-      </main >
+      </main>
     </>
   );
-}; export default QuanLyPhongChieu;
+};
+export default QuanLyPhongChieu;
