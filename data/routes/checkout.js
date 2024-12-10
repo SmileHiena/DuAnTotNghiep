@@ -80,6 +80,8 @@ const transporter = nodemailer.createTransport({
     user: 'screntime12@gmail.com',
     pass: 'cxgd hlre chto yjbz', // Thay thế bằng mật khẩu app hoặc OAuth token khi triển khai thật
   },
+  logger: true,
+  debug: true,
 });
 
 router.post('/send-email', async (req, res) => {
@@ -116,13 +118,13 @@ router.post('/send-email', async (req, res) => {
 
     // Generate the QR code buffer
     const qrCode = await QRCode.toBuffer(qrData);
-
+    const logo = fs.readFileSync(path.join(__dirname, '../public/images/logo.png'));
     // Create the HTML content for the email
     const emailContent = `
        <div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f4f7fc; border-radius: 10px; max-width: 600px; margin: auto; border: 2px solid #F5CF49;">
   <!-- Logo và Tiêu đề -->
   <div style="text-align: center; margin-bottom: 20px;">
-   <img src="https://photos.google.com/photo/AF1QipOgN79GmYRfqPdJh0mMxSykLRJU82rpvsGswQrO" alt="ScreenTime Logo" style="width: 150px; height: auto;" />
+   <img src="cid:logo" alt="ScreenTime Logo" style="width: 150px; height: auto; background: black;" />
     <h1 style="font-size: 24px; color: #F5CF49; margin-top: 10px;">ScreenTime - Bán vé xem phim trực tuyến</h1>
     <h3 style="color: #4a4a4a; margin-bottom: 5px;">CHÚC MỪNG QUÝ KHÁCH ĐÃ THANH TOÁN VÀ ĐẶT VÉ THÀNH CÔNG!</h3>
   </div>
@@ -158,7 +160,7 @@ router.post('/send-email', async (req, res) => {
   <!-- QR Code -->
   <div style="text-align: center; padding: 30px 0;">
     <h4 style="font-size: 20px; color: #4a4a4a; margin-bottom: 15px;">Mã QR của bạn:</h4>
-    <img src="cid:qrCode" alt="QR Code" style="box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);" />
+    <img src="cid:qrCode" alt="QR Code" style="box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); width: 200px; height: auto;" />
   </div>
 
   <!-- Footer -->
@@ -176,11 +178,18 @@ router.post('/send-email', async (req, res) => {
       to: email, // Recipient email address
       subject: `Xác nhận đặt vé - ${invoiceData.TenPhim}`, // Subject of the email
       html: emailContent, // HTML email content
-      attachments: [{
-        filename: 'qr-code.png',
-        content: qrCode, // QR code content
-        cid: 'qrCode', // Content-ID for the QR code in the email
-      }],
+      attachments: [
+        {
+          filename: 'qr-code.png',
+          content: qrCode, // QR code content
+          cid: 'qrCode', // Content-ID for the QR code in the email
+        },
+        {
+          filename: 'logo.png',
+          content: logo,
+          cid: 'logo',
+        }
+      ],
     };
 
     // Configure Nodemailer transporter
