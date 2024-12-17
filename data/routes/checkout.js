@@ -57,6 +57,7 @@ router.post('/', getUserFromToken, async (req, res) => {
       TongTien,
       TenKhachHang,
       Email,
+      TrangThaiVe: "Chưa xuất vé", 
       Combo: Combo || null,
       IdPhong: IdPhong,
       IdPhim: IdPhim,
@@ -70,6 +71,37 @@ router.post('/', getUserFromToken, async (req, res) => {
   } catch (error) {
     console.error('Error creating invoice:', error);
     res.status(500).json({ message: 'Failed to create invoice' });
+  }
+});
+router.put('/update-status/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { TrangThaiVe } = req.body;
+
+    if (!TrangThaiVe) {
+      return res.status(400).json({ message: 'Missing required field: TrangThaiVe' });
+    }
+
+    // Kết nối vào database
+    const db = await connectDb();
+    const invoicesCollection = db.collection('hoadon');
+
+    // Cập nhật trạng thái vé
+    const result = await invoicesCollection.updateOne(
+      { id: parseInt(id) },  // Sử dụng id từ URL
+      { $set: { TrangThaiVe: TrangThaiVe } }  // Cập nhật trạng thái
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: 'Invoice not found' });
+    }
+
+    // Trả về thông tin vé sau khi cập nhật
+    const updatedInvoice = await invoicesCollection.findOne({ id: parseInt(id) });
+    res.status(200).json(updatedInvoice);
+  } catch (error) {
+    console.error('Error updating invoice status:', error);
+    res.status(500).json({ message: 'Failed to update invoice status' });
   }
 });
 

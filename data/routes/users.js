@@ -71,59 +71,164 @@ router.post("/users/send-code", async (req, res) => {
       to: Email, // Địa chỉ người nhận
       subject: 'Mã xác nhận của bạn',
       html: `
-        <html>
-          <head>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f9;
-                margin: 0;
-                padding: 0;
-              }
-              .email-container {
-                width: 100%;
-                max-width: 600px;
-                margin: 0 auto;
-                background-color: #ffffff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-              }
-              .header {
-                text-align: center;
-                color: #333;
-              }
-              .verification-code {
-                font-size: 24px;
-                font-weight: bold;
-                color: #007BFF;
-                margin: 20px 0;
-                text-align: center;
-              }
-              .footer {
-                text-align: center;
-                font-size: 12px;
-                color: #aaa;
-                margin-top: 30px;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="email-container">
-              <h1 class="header">Xác thực tài khoản của bạn</h1>
-              <p>Chào bạn,</p>
-              <p>Cảm ơn bạn đã đăng ký tài khoản với chúng tôi. Vui lòng nhập mã xác nhận dưới đây để hoàn tất quá trình đăng ký:</p>
-              <div class="verification-code">
-                Mã xác nhận của bạn là: <strong>${verificationCode}</strong>
-              </div>
-              <p>Chúng tôi sẽ luôn sẵn sàng hỗ trợ bạn nếu có bất kỳ thắc mắc nào.</p>
-              <div class="footer">
-                <p>Trân trọng,</p>
-                <p>Đội ngũ hỗ trợ của chúng tôi</p>
-              </div>
-            </div>
-          </body>
-        </html>
+     
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xác Thực Tài Khoản</title>
+    <style>
+      /* Reset CSS */
+      body,
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f4f8;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+
+      .email-wrapper {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .header {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .content {
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .content p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #555555;
+      }
+
+      .verification-code {
+        display: inline-block;
+        font-size: 32px;
+        font-weight: bold;
+        color: #6a11cb;
+        background-color: #f0f4ff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        letter-spacing: 3px;
+      }
+
+      .cta-button {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        background-color: #2575fc;
+        color: #ffffff;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(37, 117, 252, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .cta-button:hover {
+        background-color: #1a5fb4;
+        transform: translateY(-3px);
+      }
+
+      .footer {
+        background-color: #f9f9f9;
+        padding: 15px 20px;
+        text-align: center;
+        color: #777;
+        font-size: 12px;
+      }
+
+      .footer a {
+        color: #6a11cb;
+        text-decoration: none;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .header h1 {
+          font-size: 24px;
+        }
+        .content p {
+          font-size: 14px;
+        }
+        .verification-code {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <!-- Header -->
+      <div class="header">
+        <h1>Xác Thực Tài Khoản</h1>
+      </div>
+
+      <!-- Body Content -->
+      <div class="content">
+        <p>Xin chào bạn,</p>
+        <p>
+          Cảm ơn bạn đã đăng ký tài khoản! Để hoàn tất quá trình, vui lòng sử
+          dụng mã xác nhận dưới đây:
+        </p>
+
+        <!-- Verification Code -->
+        <div class="verification-code">${verificationCode}</div>
+
+        <!-- CTA Button -->
+       
+
+        <p style="margin-top: 20px">
+          Nếu bạn không yêu cầu hành động này, vui lòng bỏ qua email này.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>Trân trọng,</p>
+        <p>Đội ngũ hỗ trợ của chúng tôi</p>
+        <p>
+          <a href="mailto:supportScreenTime@example.com">supportScreenTime@example.com</a> |
+    
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
       `
     });
 

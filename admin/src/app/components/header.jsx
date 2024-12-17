@@ -100,12 +100,6 @@ const Header = () => {
                     </li>
                     {isAdmin && (
                         <>
-                            {/* <li>
-                                <Link className="app-menu__item" href="/admin">
-                                    <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
-                                    <span className="app-menu__label">Quản lý admin</span>
-                                </Link>
-                            </li> */}
                             <li>
                                 <Link className="app-menu__item" href="/employee">
                                     <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
@@ -149,12 +143,14 @@ const Header = () => {
                             <span className="app-menu__label">Quản lý bình luận</span>
                         </Link>
                     </li>
+                    {isAdmin && (
                     <li>
                         <Link className="app-menu__item" href="/theater">
                             <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lý rạp</span>
                         </Link>
                     </li>
+                    )}
                     <li>
                         <Link className="app-menu__item" href="/event">
                             <FontAwesomeIcon icon={faCalendarCheck} className="app-menu__icon w-4 h-4" />
@@ -165,12 +161,6 @@ const Header = () => {
                         <Link className="app-menu__item" href="/blog">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lí blog</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="app-menu__item" href="#">
-                            <FontAwesomeIcon icon={faCog} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Cài đặt hệ thống</span>
                         </Link>
                     </li>
                 </ul>
