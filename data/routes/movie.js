@@ -70,6 +70,7 @@ router.get('/movies', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch movies' });
   }
 });
+
 // POST route to add a new movie
 router.post("/add", upload.single("Anh"), async (req, res) => {
   try {
@@ -86,6 +87,7 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
       _id: new ObjectId(),
       id: newId, // Set the new id
       Ten: newPhim.Ten,
+      Trailer: newPhim.Trailer,
       Anh: Anh,
       TrangThai: newPhim.TrangThai,
       TheLoai: newPhim.TheLoai,
@@ -108,8 +110,6 @@ router.post("/add", upload.single("Anh"), async (req, res) => {
     });
   }
 });
-
-
 
 //Get phim data
 router.get("/", async (req, res) => {

@@ -55,7 +55,7 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
                     {similarMovies.map((movie) => (
                         <Link href={`/details/${movie.id}`} key={movie.id}>
                             <div className="relative w-64 h-80 m-2 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105">
-                                <img src={movie.Anh} alt={movie.Ten} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110" />
+                                <img src={`http://localhost:3000${movie.Anh}`}  alt={movie.Ten} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110" />
                                 {/* Lớp phủ hiện thông tin phim khi hover */}
                                 <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex flex-col justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-100 rounded-lg">
                                     <h3 className="text-white text-lg font-semibold text-center mb-2 px-2">{movie.Ten}</h3>
