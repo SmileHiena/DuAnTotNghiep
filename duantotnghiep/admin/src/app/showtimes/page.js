@@ -15,13 +15,7 @@ const Suatchieu = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [movies, setMovies] = useState([]);
     const [rooms, setRooms] = useState([]);
-
-    // Bộ lọc
-    const [filters, setFilters] = useState({
-        date: '',
-        room: '',
-        status: '',
-    });
+    const [filters, setFilters] = useState({ date: '', room: '', status: '', });
 
     useEffect(() => {
         const fetchShowtimes = async () => {

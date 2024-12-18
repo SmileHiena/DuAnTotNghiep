@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAlt, faFilter, faTrash, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Ve = () => {
   const [hoaDon, setHoaDon] = useState([]);
@@ -26,6 +29,50 @@ const Ve = () => {
     };
     fetchData();
   }, []);
+
+  const handchangestate = async (id) => {
+    try {
+      console.log("ID được nhấn:", id);
+
+      const isConfirmed = window.confirm('Bạn có chắc chắn muốn thay đổi trạng thái vé này?');
+
+      if (!isConfirmed) {
+        return;
+      }
+
+      const newStatus = "Đã xuất vé";
+      const response = await fetch(`http://localhost:3000/checkout/update-status/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ TrangThaiVe: newStatus }),
+      });
+
+      if (response.ok) {
+        const updatedTicket = await response.json();
+
+        setHoaDon(prevTickets =>
+          prevTickets.map(ticket =>
+            ticket.id === id ? { ...ticket, TrangThaiVe: newStatus } : ticket
+          )
+        );
+
+        setTimeout(() => {
+          window.location.reload(); // Reload lại trang
+        }, 3000);
+        toast.success(`Cập nhật trạng thái thành công`);
+      } else {
+        console.error("Lỗi khi cập nhật trạng thái:", await response.json());
+        toast.error("Cập nhật trạng thái thất bại.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái vé:", error);
+      toast.error("Cập nhật trạng thái thất bại.");
+    }
+  };
+
+
 
   const handleDelete = async (id) => {
     try {
@@ -81,10 +128,10 @@ const Ve = () => {
   
               <div>
                 <h3 class="font-semibold text-gray-700">Thông tin thanh toán</h3>
-                <p class="text-gray-600"><span class="font-bold">Combo:</span> ${selectedHoaDon.Combo}</p>
+                <p class="text-gray-600"><span class="font-bold">Combo:</span> ${selectedHoaDon.Combo ? selectedHoaDon.Combo : "Không"}</p>
                 <p class="text-gray-600"><span class="font-bold">Tổng tiền:</span> ${selectedHoaDon.TongTien} VND</p>
                 <p class="text-gray-600"><span class="font-bold">Trạng thái:</span> ${selectedHoaDon.TrangThai}</p>
-                <p class="text-gray-600"><span class="font-bold">Ngày tạo vé:</span> ${selectedHoaDon.createdAt}</p>
+                <p class="text-gray-600"><span class="font-bold">Ngày tạo vé:</span>${new Date(selectedHoaDon.createdAt).toLocaleDateString('vi-VN')}</p>                
               </div>
             </div>
           </div>
@@ -189,15 +236,16 @@ const Ve = () => {
               <table className="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th style={{verticalAlign: 'middle' }} width="50">STT</th>
-                    <th style={{verticalAlign: 'middle' }}>Tên Khách hàng</th>
-                    <th style={{verticalAlign: 'middle' }}>Email</th>
-                    <th style={{verticalAlign: 'middle' }}>Ngày Mua Vé</th>
-                    <th style={{verticalAlign: 'middle' }}>Ngày Tạo Vé</th>
-                    <th style={{verticalAlign: 'middle' }} width="150">Phương thức thanh toán</th>
-                    <th style={{verticalAlign: 'middle' }}>Tổng tiền (VND)</th>
-                    <th style={{verticalAlign: 'middle' }}>Tình trạng</th>
-                    <th style={{verticalAlign: 'middle' }} width="70">Tính năng</th>
+                    <th style={{ verticalAlign: 'middle' }} width="50">STT</th>
+                    <th style={{ verticalAlign: 'middle' }}>Tên Khách hàng</th>
+                    <th style={{ verticalAlign: 'middle' }}>Email</th>
+                    <th style={{ verticalAlign: 'middle' }}>Ngày Mua Vé</th>
+                    <th style={{ verticalAlign: 'middle' }}>Ngày Tạo Vé</th>
+                    <th style={{ verticalAlign: 'middle' }} width="150">Phương thức thanh toán</th>
+                    <th style={{ verticalAlign: 'middle' }}>Tổng tiền (VND)</th>
+                    <th style={{ verticalAlign: 'middle' }}>Tình trạng</th>
+                    <th style={{ verticalAlign: 'middle' }}>Trang thái Đơn vé</th>
+                    <th style={{ verticalAlign: 'middle' }} width="70">Tính năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -215,6 +263,13 @@ const Ve = () => {
                           : "N/A"}
                       </td>
                       <td>{item.TrangThai}</td>
+                      <td>  <button
+                        onClick={() => handchangestate(item.id)} // Nhấn để gọi hàm cập nhật
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:border-2 focus:border-white"
+                      >
+                        {item.TrangThaiVe === "Chưa xuất vé" ? "Xuất Vé" : "Đã Xuất"}
+                      </button></td>
+                      {/* <toast.Container /> */}
                       <td className="table-td-center">
                         <button
                           className="btn btn-info"
@@ -262,9 +317,10 @@ const Ve = () => {
               <div className="flex justify-between mb-4">
                 <div>
                   <p><strong>Combo:</strong> {selectedHoaDon.Combo}</p>
-                  <p><strong>Tổng tiền:</strong> {selectedHoaDon.TongTien} VND</p>
-                  <p><strong>Trạng thái:</strong> {selectedHoaDon.TrangThai}</p>
-                  <p><strong>Ngày tạo vé:</strong> {selectedHoaDon.createdAt}</p>
+                  <p><strong>Tổng tiền: </strong> {selectedHoaDon.TongTien} VND</p>
+                  <p><strong>Trạng thái: </strong> {selectedHoaDon.TrangThai}</p>
+                  <p><strong>Ngày tạo vé: </strong>{new Date(selectedHoaDon.createdAt).toLocaleDateString('vi-VN')}</p>
+
                 </div>
               </div>
             </div>
@@ -285,6 +341,7 @@ const Ve = () => {
           </div>
         </div>
       )}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable pauseOnFocusLoss />
     </main>
   );
 };

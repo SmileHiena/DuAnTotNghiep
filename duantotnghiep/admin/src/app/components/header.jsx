@@ -69,7 +69,7 @@ const Header = () => {
             <aside className="app-sidebar">
                 <Link href="/">
                     <div className="app-sidebar__user mb-2">
-                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/${user?.Anh}`} alt="User   Image" />
+                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/images/${user?.Anh}`} alt="User Image" onError={(e) => { e.target.onerror = null; e.target.src = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"; }} />
                         <div>
                             <p className="app-sidebar__user-name"><b>{user?.HoTen || "Admin"}</b></p>
                             <p className="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
@@ -100,12 +100,6 @@ const Header = () => {
                     </li>
                     {isAdmin && (
                         <>
-                            {/* <li>
-                                <Link className="app-menu__item" href="/admin">
-                                    <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
-                                    <span className="app-menu__label">Quản lý admin</span>
-                                </Link>
-                            </li> */}
                             <li>
                                 <Link className="app-menu__item" href="/employee">
                                     <FontAwesomeIcon icon={faIdCard} className="app-menu__icon w-4 h-4" />
@@ -117,7 +111,8 @@ const Header = () => {
                                     <FontAwesomeIcon icon={faUser} className="app-menu__icon w-4 h-4" />
                                     <span className="app-menu__label">Quản lý khách hàng</span>
                                 </Link>
-                            </li></>
+                            </li>
+                        </>
                     )}
                     <li>
                         <Link className="app-menu__item" href="/movie">
@@ -149,12 +144,14 @@ const Header = () => {
                             <span className="app-menu__label">Quản lý bình luận</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link className="app-menu__item" href="/theater">
-                            <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Quản lý rạp</span>
-                        </Link>
-                    </li>
+                    {isAdmin && (
+                        <li>
+                            <Link className="app-menu__item" href="/theater">
+                                <FontAwesomeIcon icon={faFilm} className="app-menu__icon w-4 h-4" />
+                                <span className="app-menu__label">Quản lý rạp</span>
+                            </Link>
+                        </li>
+                    )}
                     <li>
                         <Link className="app-menu__item" href="/event">
                             <FontAwesomeIcon icon={faCalendarCheck} className="app-menu__icon w-4 h-4" />
@@ -165,12 +162,6 @@ const Header = () => {
                         <Link className="app-menu__item" href="/blog">
                             <FontAwesomeIcon icon={faChartPie} className="app-menu__icon w-4 h-4" />
                             <span className="app-menu__label">Quản lí blog</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="app-menu__item" href="#">
-                            <FontAwesomeIcon icon={faCog} className="app-menu__icon w-4 h-4" />
-                            <span className="app-menu__label">Cài đặt hệ thống</span>
                         </Link>
                     </li>
                 </ul>

@@ -51,24 +51,24 @@ const Register = () => {
   }, [step]); // Only run the effect when the step changes
   const handleChange = (e, index) => {
     const { value } = e.target;
-  
+
     // Kiểm tra giá trị nhập vào, chỉ cho phép số từ 0-9
     if (/^\d?$/.test(value)) {
       const newCode = [...verificationCode];
       newCode[index] = value;
       setVerificationCode(newCode);
-  
+
       // Tự động chuyển sang ô tiếp theo nếu người dùng nhập một số
       if (value && index < verificationCode.length - 1) {
         document.getElementById(`verificationCode${index + 1}`).focus();
       }
     }
   };
-  
+
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       const newCode = [...verificationCode];
-  
+
       // Nếu ô hiện tại rỗng, chuyển về ô trước đó và xóa ký tự
       if (verificationCode[index] === "" && index > 0) {
         document.getElementById(`verificationCode${index - 1}`).focus();
@@ -76,21 +76,21 @@ const Register = () => {
       } else {
         newCode[index] = "";
       }
-  
+
       setVerificationCode(newCode);
     }
-  
+
     // Điều hướng qua các ô bằng phím mũi tên
     if (e.key === "ArrowLeft" && index > 0) {
       document.getElementById(`verificationCode${index - 1}`).focus();
     }
-  
+
     if (e.key === "ArrowRight" && index < verificationCode.length - 1) {
       document.getElementById(`verificationCode${index + 1}`).focus();
     }
   };
-  
-  
+
+
 
 
   const handleEmailSubmit = async (e) => {
@@ -151,8 +151,8 @@ const Register = () => {
 
     // Validate all required fields
     if (!formData.Ten || !formData.SDT || !formData.NgaySinh || !formData.DiaChi || !formData.TenDangNhap) {
-        alert("Tất cả các trường là bắt buộc!");
-        return;
+      alert("Tất cả các trường là bắt buộc!");
+      return;
     }
 
     // Check password match and terms agreement
@@ -168,41 +168,41 @@ const Register = () => {
 
     // Password validation logic
     if (formData.MatKhau.length < 6) {
-        alert("Mật khẩu phải có ít nhất 6 ký tự.");
-        return;
+      alert("Mật khẩu phải có ít nhất 6 ký tự.");
+      return;
     }
 
     const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/;
     if (!passwordRegex.test(formData.MatKhau)) {
-        alert("Mật khẩu phải chứa ít nhất một số, một chữ hoa và một ký tự đặc biệt.");
-        return;
+      alert("Mật khẩu phải chứa ít nhất một số, một chữ hoa và một ký tự đặc biệt.");
+      return;
     }
 
     try {
-        setIsSubmitting(true); // Set loading state
-        const formDataToSend = new FormData();
-        Object.keys(formData).forEach((key) => {
-            formDataToSend.append(key, formData[key]);
-        });
+      setIsSubmitting(true); // Set loading state
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach((key) => {
+        formDataToSend.append(key, formData[key]);
+      });
 
-        const response = await axios.post(
-            "http://localhost:3000/users/register",
-            formDataToSend,
-            { headers: { "Content-Type": "multipart/form-data" } }
-        );
+      const response = await axios.post(
+        "http://localhost:3000/users/register",
+        formDataToSend,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
-        if (response) {
-          alert("Bạn đã đăng ký thành công!"); window.location.href = "http://localhost:3001/login";
-        } else {
-            alert(response.data.message || "Đăng ký thất bại!");
-        }
+      if (response) {
+        alert("Bạn đã đăng ký thành công!"); window.location.href = "http://localhost:3001/login";
+      } else {
+        alert(response.data.message || "Đăng ký thất bại!");
+      }
     } catch (error) {
-        alert("Có lỗi xảy ra khi đăng ký tài khoản.");
-        console.error("Registration error:", error);
+      alert("Có lỗi xảy ra khi đăng ký tài khoản.");
+      console.error("Registration error:", error);
     } finally {
-        setIsSubmitting(false); // Reset loading state
+      setIsSubmitting(false); // Reset loading state
     }
-};
+  };
 
 
   const handleFileChange = (e) => {
@@ -212,13 +212,13 @@ const Register = () => {
   return (
     <div className="flex justify-center items-center bg-cover bg-center py-4 w-full h-full bg-[url('../../public/images/10.jpg')]">
       <form
-         className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+        className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
         onSubmit={
           step === 1
             ? handleEmailSubmit
             : step === 2
-            ? handleVerificationSubmit
-            : handleRegistrationSubmit
+              ? handleVerificationSubmit
+              : handleRegistrationSubmit
         }
       >
         {step === 1 && (
@@ -234,217 +234,210 @@ const Register = () => {
               value={Email}
               onChange={(e) => setEmail(e.target.value)}
               required
-             className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
             />
-<button
-  type="submit"
-  className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"
->
-  Gửi mã xác nhận
-</button>
-
-
+            <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer">Gửi mã xác nhận</button>
           </>
         )}
 
         {step === 2 && (
-         <>
-         <h1 className="text-xl font-semibold mb-4">Xác nhận mã</h1>
-         <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+          <>
+            <h1 className="text-xl font-semibold mb-4">Xác nhận mã</h1>
+            <div className="text-red-500 text-center mb-4">{errorMessage}</div>
 
-         <div className="flex justify-center space-x-2 mb-4">
-  {verificationCode.map((value, index) => (
-    <input
-      key={index}
-      type="text"
-      id={`verificationCode${index}`}
-      value={value}
-      onChange={(e) => handleChange(e, index)}
-      onKeyDown={(e) => handleKeyDown(e, index)}
-      maxLength="1"
-      inputMode="numeric" // Gợi ý bàn phím số trên các thiết bị di động
-      pattern="[0-9]*" // Chỉ cho phép số
-      className="p-2 border rounded text-black w-12 text-center"
-      autoFocus={index === 0}
-    />
-  ))}
-</div>
+            <div className="flex justify-center space-x-2 mb-4">
+              {verificationCode.map((value, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  id={`verificationCode${index}`}
+                  value={value}
+                  onChange={(e) => handleChange(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  maxLength="1"
+                  inputMode="numeric" // Gợi ý bàn phím số trên các thiết bị di động
+                  pattern="[0-9]*" // Chỉ cho phép số
+                  className="p-2 border rounded text-black w-12 text-center"
+                  autoFocus={index === 0}
+                />
+              ))}
+            </div>
 
-         {/* Display the countdown timer */}
-         <div className="text-center mb-4">
-           <p className="text-red-500">
-             Thời gian còn lại: {Math.floor(timer / 60)}:
-             {timer % 60 < 10 ? `0${timer % 60}` : timer % 60}
-           </p>
-         </div>
-       
-         <button
-           type="submit"
-           className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"
-           disabled={isVerifying}
-         >
-           {isVerifying ? "Đang xác thực..." : "Xác thực"}
-         </button>
-       </>
-       
+            {/* Display the countdown timer */}
+            <div className="text-center mb-4">
+              <p className="text-red-500">
+                Thời gian còn lại: {Math.floor(timer / 60)}:
+                {timer % 60 < 10 ? `0${timer % 60}` : timer % 60}
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"
+              disabled={isVerifying}
+            >
+              {isVerifying ? "Đang xác thực..." : "Xác thực"}
+            </button>
+          </>
+
         )}
 
         {step === 3 && (
           <>
-  <h1 className="text-xl font-semibold mb-4 text-center">Đăng ký tài khoản</h1>
+            <h1 className="text-xl font-semibold mb-4 text-center">Đăng ký tài khoản</h1>
 
-  <label htmlFor="Ten" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Họ và tên <span className="text-red">*</span>
-  </label>
-  <input
-    type="text"
-    id="Ten"
-    value={formData.Ten}
-    onChange={(e) => setFormData({ ...formData, Ten: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
+            <label htmlFor="Ten" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Họ và tên <span className="text-red">*</span>
+            </label>
+            <input
+              type="text"
+              id="Ten"
+              value={formData.Ten}
+              onChange={(e) => setFormData({ ...formData, Ten: e.target.value })}
+              required
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            />
 
-  <label htmlFor="Anh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Chọn hình ảnh đại diện <span className="text-red">*</span>
-  </label>
-  <input
-    type="file"
-    id="Anh"
-    accept="image/*"
-    onChange={handleFileChange}
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
+            <label htmlFor="Anh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Chọn hình ảnh đại diện <span className="text-red">*</span>
+            </label>
+            <input
+              type="file"
+              id="Anh"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            />
 
-  <label htmlFor="Email" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Email <span className="text-red">*</span>
-  </label>
-  <input
-    type="email"
-    id="Email"
-    value={Email}
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-    readOnly
-  />
+            <label htmlFor="Email" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Email <span className="text-red">*</span>
+            </label>
+            <input
+              type="email"
+              id="Email"
+              value={Email}
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+              readOnly
+            />
 
-  <label htmlFor="SDT" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Số điện thoại <span className="text-red">*</span>
-  </label>
-  <input
-    type="text"
-    id="SDT"
-    value={formData.SDT}
-    onChange={(e) => setFormData({ ...formData, SDT: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
+            <label htmlFor="SDT" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Số điện thoại <span className="text-red">*</span>
+            </label>
+            <input
+              type="text"
+              id="SDT"
+              value={formData.SDT}
+              onChange={(e) => setFormData({ ...formData, SDT: e.target.value })}
+              required
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            />
 
-  <label htmlFor="TenDangNhap" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Tên đăng nhập <span className="text-red">*</span>
-  </label>
-  <input
-    type="text"
-    id="TenDangNhap"
-    value={formData.TenDangNhap}
-    onChange={(e) => setFormData({ ...formData, TenDangNhap: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
+            <label htmlFor="TenDangNhap" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Tên đăng nhập <span className="text-red">*</span>
+            </label>
+            <input
+              type="text"
+              id="TenDangNhap"
+              value={formData.TenDangNhap}
+              onChange={(e) => setFormData({ ...formData, TenDangNhap: e.target.value })}
+              required
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            />
 
-  <label htmlFor="NgaySinh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Ngày sinh <span className="text-red">*</span>
-  </label>
-  <input
-    type="date"
-    id="NgaySinh"
-    value={formData.NgaySinh}
-    onChange={(e) => setFormData({ ...formData, NgaySinh: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
+            <label htmlFor="NgaySinh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Ngày sinh <span className="text-red">*</span>
+            </label>
+            <input
+              type="date"
+              id="NgaySinh"
+              value={formData.NgaySinh}
+              onChange={(e) => setFormData({ ...formData, NgaySinh: e.target.value })}
+              required
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            />
 
-  <label htmlFor="DiaChi" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Địa chỉ <span className="text-red">*</span>
-  </label>
-  <input
-    type="text"
-    id="DiaChi"
-    value={formData.DiaChi}
-    onChange={(e) => setFormData({ ...formData, DiaChi: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
+            <label htmlFor="DiaChi" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Địa chỉ <span className="text-red">*</span>
+            </label>
+            <input
+              type="text"
+              id="DiaChi"
+              value={formData.DiaChi}
+              onChange={(e) => setFormData({ ...formData, DiaChi: e.target.value })}
+              required
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            />
 
-  <label htmlFor="GioiTinh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Giới tính <span className="text-red">*</span>
-  </label>
-  <select
-    id="GioiTinh"
-    value={formData.GioiTinh}
-    onChange={(e) => setFormData({ ...formData, GioiTinh: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  >
-    <option value="Nam">Nam</option>
-    <option value="Nữ">Nữ</option>
-  </select>
+            <label htmlFor="GioiTinh" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Giới tính <span className="text-red">*</span>
+            </label>
+            <select
+              id="GioiTinh"
+              value={formData.GioiTinh}
+              onChange={(e) => setFormData({ ...formData, GioiTinh: e.target.value })}
+              required
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+            >
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </select>
 
-  <label htmlFor="MatKhau" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative">
-    Mật khẩu
-  </label>
-  <div className="relative w-full md:w-[520px]">
-    <input
-      type={showPassword ? "text" : "password"}
-      id="MatKhau"
-      value={formData.MatKhau}
-      onChange={(e) => setFormData({ ...formData, MatKhau: e.target.value })}
-      required
-      className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black pr-10"
-    />
-    <span
-      className="absolute right-3 top-[40%] transform -translate-y-1/2 text-black cursor-pointer"
-      onClick={() => setShowPassword(!showPassword)}
-    >
-      <i className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true"></i>
-    </span>
-  </div>
+            <label htmlFor="MatKhau" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px] relative">
+              Mật khẩu
+            </label>
+            <div className="relative w-full md:w-[520px]">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="MatKhau"
+                value={formData.MatKhau}
+                onChange={(e) => setFormData({ ...formData, MatKhau: e.target.value })}
+                required
+                className="w-full h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black pr-10"
+              />
+              <span
+                className="absolute right-3 top-[40%] transform -translate-y-1/2 text-black cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <i className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true"></i>
+              </span>
+            </div>
 
-  <label htmlFor="confirmPassword" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
-    Xác nhận mật khẩu
-  </label>
-  <div className="relative w-full md:w-[520px]">
-  <input
-    type={showConfirmPassword ? "text" : "password"}
-    id="confirmPassword"
-    value={formData.confirmPassword}
-    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-    required
-    className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
-  />
-          <span className="absolute right-3 top-[40%] transform -translate-y-1/2 text-black cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className={`fa ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true" ></i></span>
-          </div>
-  <div className="flex items-center mb-4 w-full md:w-[520px]">
-    <input
-      type="checkbox"
-      id="agreeTerms"
-      checked={agreeTerms}
-      onChange={(e) => setAgreeTerms(e.target.checked)}
-      className="mr-2"
-    />
-    <label htmlFor="agreeTerms" className="text-base sm:text-lg">
-      Tôi đồng ý với{" "}
-      <Link href="/terms" className="text-yellow">
-        điều khoản sử dụng
-      </Link>
-    </label>
-  </div>
+            <label htmlFor="confirmPassword" className="block mb-2 text-base sm:text-lg text-left w-full md:w-[520px]">
+              Xác nhận mật khẩu
+            </label>
+            <div className="relative w-full md:w-[520px]">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                required
+                className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
+              />
+              <span className="absolute right-3 top-[40%] transform -translate-y-1/2 text-black cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className={`fa ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`} aria-hidden="true" ></i></span>
+            </div>
+            <div className="flex items-center mb-4 w-full md:w-[520px]">
+              <input
+                type="checkbox"
+                id="agreeTerms"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+                className="mr-2"
+              />
+              <label htmlFor="agreeTerms" className="text-base sm:text-lg">
+                Tôi đồng ý với{" "}
+                <Link href="/terms" className="text-yellow">
+                  điều khoản sử dụng
+                </Link>
+              </label>
+            </div>
 
-  <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"> Đăng ký</button>
+            <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"> Đăng ký</button>
 
-<div className="mt-4">
-  <span className="text-sm"> Bạn đã có tài khoản?{" "} <Link href="/login" className="text-yellow"> Đăng nhập </Link> </span>
-</div>
-</>
+            <div className="mt-4">
+              <span className="text-sm"> Bạn đã có tài khoản?{" "} <Link href="/login" className="text-yellow"> Đăng nhập </Link> </span>
+            </div>
+          </>
 
         )}
       </form>

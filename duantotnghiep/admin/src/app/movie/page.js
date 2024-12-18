@@ -335,7 +335,7 @@ const SanPham = () => {
                       <td>{index + 1}</td>
                       <td>{product.Ten}</td>
                       <td>{product.Trailer && product.Trailer.length > 20 ? `${product.Trailer.slice(0, 10)}...` : product.Trailer || 'No trailer available'}</td>
-                      <td><img src={product.Anh} alt={product.Ten} style={{ width: "100px", height: "auto" }} /></td>
+                      <td><img src={`http://localhost:3000${product.Anh}`} alt={product.Ten} style={{ width: "100px", height: "auto" }} /></td>
                       <td>{product.TheLoai.KieuPhim}</td>
                       <td>{product.TheLoai.ThoiLuong}</td>
                       <td>{product.TheLoai.QuocGia}</td>
@@ -373,7 +373,8 @@ const SanPham = () => {
         <Modal.Body>
           {selectedPhim && (
             <div>
-              <img src={selectedPhim.Anh} alt={selectedPhim.Ten} style={{ width: "100%", height: "auto" }} />
+              <img src={`http://localhost:3000${selectedPhim.Anh}`}  alt={selectedPhim.Ten} style={{ width: "100%", height: "auto" }} />
+           
               <p>{selectedPhim.ThongTinPhim}</p>
             </div>
           )}

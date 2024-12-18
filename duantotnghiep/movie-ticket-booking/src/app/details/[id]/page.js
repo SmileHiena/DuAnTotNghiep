@@ -117,7 +117,7 @@ const Detail = () => {
         <div className="bg-[rgba(0,0,0,0.5)] shadow-lg w-full max-w-[1410px] mx-auto">
           <div className="flex flex-col md:flex-row items-start gap-10 mt-8">
             {/* Left box for image */}
-            <div className="md:w-1/2 flex justify-end mb-8 md:mb-0"><img src={movie.Anh} alt={movie.Ten} className="object-cover" style={{ height: "650px", width: "auto" }} /></div>
+            <div className="md:w-1/2 flex justify-end mb-8 md:mb-0"><img src={`http://localhost:3000${movie.Anh}`}  alt={movie.Ten} className="object-cover" style={{ height: "650px", width: "auto" }} /></div>
 
             {/* Right box for movie information */}
             <div className="md:w-[65%] flex flex-col">
@@ -181,15 +181,43 @@ const Detail = () => {
                 {/* Displaying Comments */}
                 <div className="w-full max-w-[1200px] mt-4">
                   {comments.map((comment) => (
-                    <div key={comment._id} className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300">
-                      {comment.userImage && (<img src={`http://localhost:3000/images/${comment.userImage}`} alt={`${comment.username}'s avatar`} className="w-14 h-14 rounded-full border-2 border-white" />)}
+                    <div
+                      key={comment._id}
+                      className="mb-6 p-6 bg-[#2D2D2D] rounded-lg flex items-start gap-6 w-full border border-gray-700 hover:shadow-lg transition-all duration-300"
+                    >
+                      <img
+                        src={`http://localhost:3000/images/${comment.userImage}`}
+                        alt={`${comment.username || "Default"}'s avatar`}
+                        className="w-14 h-14 rounded-full border-2 border-white"
+                        onError={(e) => {
+                          e.target.onerror = null; // Ngăn vòng lặp vô hạn
+                          e.target.src = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"; // Đường dẫn ảnh mặc định
+                        }}
+                      />
                       <div className="flex flex-col flex-1 w-[80%] md:max-w-[1100px] p-4 sm:p-2">
-                        <span className="font-semibold text-[20px] text-white mb-2">{comment.username}</span>
+                        <span className="font-semibold text-[20px] text-white mb-2">
+                          {comment.fullname}
+                        </span>
                         <div className="border-b border-white opacity-20 w-full mb-2"></div>
-                        <p className="text-[18px] text-white mb-2 break-words"> {comment.content.length > 100 ? (expandedComments[comment._id] ? comment.content : `${comment.content.substring(0, 250)}...`) : comment.content} </p>
+                        <p className="text-[18px] text-white mb-2 break-words">
+                          {comment.content.length > 100
+                            ? expandedComments[comment._id]
+                              ? comment.content
+                              : `${comment.content.substring(0, 250)}...`
+                            : comment.content}
+                        </p>
 
-                        {comment.content.length > 100 && (<button onClick={() => toggleExpand(comment._id)} className="text-[#F5CF49] underline mt-2 hover:text-[#F1D600]"> {expandedComments[comment._id] ? "Ẩn bớt" : "Xem thêm"}</button>)}
-                        <p className="text-xs text-gray-400 mt-2">{new Date(comment.timestamp).toLocaleString()}</p>
+                        {comment.content.length > 100 && (
+                          <button
+                            onClick={() => toggleExpand(comment._id)}
+                            className="text-[#F5CF49] underline mt-2 hover:text-[#F1D600]"
+                          >
+                            {expandedComments[comment._id] ? "Ẩn bớt" : "Xem thêm"}
+                          </button>
+                        )}
+                        <p className="text-xs text-gray-400 mt-2">
+                          {new Date(comment.timestamp).toLocaleString()}
+                        </p>
                       </div>
                     </div>
                   ))}

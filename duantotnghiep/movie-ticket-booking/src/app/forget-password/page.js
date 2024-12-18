@@ -58,7 +58,7 @@ const ForgotPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors">
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer mt-5">
           {loading ? 'Đang gửi...' : 'Gửi mã xác thực'}
         </button>
       </form>

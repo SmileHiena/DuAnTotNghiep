@@ -132,7 +132,7 @@ const MovieList = ({ apiUrl, title }) => {
               <div key={index} className="text-center">
                 <Link href={`/details/${movie.id}`}>
                   <img
-                    src={`${movie.Anh}`}
+                    src={`http://localhost:3000${movie.Anh}`}
                     alt={`Poster of ${movie.Ten}`}
                     className="w-full h-auto max-w-[250px] max-h-[350px] mx-auto rounded"
                   />

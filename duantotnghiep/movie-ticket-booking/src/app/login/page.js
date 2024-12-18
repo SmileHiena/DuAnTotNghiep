@@ -39,15 +39,15 @@ const Login = () => {
           throw new Error("Token không hợp lệ.");
         }
 
-        document.cookie = `token=${data.token}; path=/`; // Không set max-age hay expires => Session cookie
+        document.cookie = `token=${data.token}; path=/`; 
 
         const token = data.token;
         const payload = JSON.parse(atob(token.split(".")[1]));
 
         if (payload.IsAdmin) {
-          window.location.href = "/"; // Điều hướng trang Admin
+          window.location.href = "/"; 
         } else {
-          router.push("/"); // Điều hướng trang cho người dùng thông thường
+          router.push("/");
         }
       } catch (error) {
         setFieldError('general', error.message); // Hiển thị lỗi chung
@@ -139,7 +139,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"
         >
           Đăng nhập
         </button>

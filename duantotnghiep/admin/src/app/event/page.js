@@ -171,9 +171,9 @@ const EventList = () => {
                       <td>{event.Ten}</td>
                       <td>
                         <img
-                          src={event.Anh}
+                          src={`http://localhost:3000${event.Anh}`}
                           alt={event.Ten}
-                          style={{ width: "100px", height: "auto" }}
+                          style={{ width: "80px", height: "80px" }}
                         />
                       </td>
                       <td>{event.NgayBatDau}</td>
