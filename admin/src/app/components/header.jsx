@@ -69,7 +69,7 @@ const Header = () => {
             <aside className="app-sidebar">
                 <Link href="/">
                     <div className="app-sidebar__user mb-2">
-                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/${user?.Anh}`} alt="User   Image" />
+                        <img className="app-sidebar__user-avatar mb-2" src={`http://localhost:3000/images/${user?.Anh}`} alt="User Image" />
                         <div>
                             <p className="app-sidebar__user-name"><b>{user?.HoTen || "Admin"}</b></p>
                             <p className="app-sidebar__user-designation">Chào mừng bạn trở lại</p>

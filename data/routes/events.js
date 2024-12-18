@@ -63,7 +63,7 @@ router.get('/:id', async (req, res) => {
 router.post("/add", upload.single('Anh'), async (req, res) => {
   try {
     const newEvent = JSON.parse(req.body.newEvent);
-    let Anh = req.file ? `/images/event/${req.file.filename}` : ""; 
+    let Anh = req.file ? `/images/${req.file.filename}` : ""; 
 
     const eventId = new ObjectId(); 
 
@@ -108,7 +108,7 @@ router.put("/edit/:id", upload.single('Anh'), async (req, res) => {
     };
 
     if (req.file) {
-      updateData.Anh = `/images/event/${req.file.filename}`;
+      updateData.Anh = `/images/${req.file.filename}`;
     }
 
     const db = await connectDb();
