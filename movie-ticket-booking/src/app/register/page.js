@@ -236,14 +236,7 @@ const Register = () => {
               required
               className="w-full md:w-[520px] h-[40px] sm:h-[45px] p-2 mb-3 border-2 border-white rounded-md text-sm sm:text-base bg-[#E8F0FE] text-black"
             />
-            <button
-              type="submit"
-              className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"
-            >
-              Gửi mã xác nhận
-            </button>
-
-
+            <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer">Gửi mã xác nhận</button>
           </>
         )}
 
@@ -280,7 +273,7 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"
+              className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"
               disabled={isVerifying}
             >
               {isVerifying ? "Đang xác thực..." : "Xác thực"}
@@ -439,7 +432,7 @@ const Register = () => {
               </label>
             </div>
 
-            <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"> Đăng ký</button>
+            <button type="submit" className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer"> Đăng ký</button>
 
             <div className="mt-4">
               <span className="text-sm"> Bạn đã có tài khoản?{" "} <Link href="/login" className="text-yellow"> Đăng nhập </Link> </span>
