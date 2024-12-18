@@ -373,7 +373,8 @@ const SanPham = () => {
         <Modal.Body>
           {selectedPhim && (
             <div>
-              <img src={selectedPhim.Anh} alt={selectedPhim.Ten} style={{ width: "100%", height: "auto" }} />
+              <img src={`http://localhost:3000${selectedPhim.Anh}`}  alt={selectedPhim.Ten} style={{ width: "100%", height: "auto" }} />
+           
               <p>{selectedPhim.ThongTinPhim}</p>
             </div>
           )}

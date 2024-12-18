@@ -117,7 +117,7 @@ const Detail = () => {
         <div className="bg-[rgba(0,0,0,0.5)] shadow-lg w-full max-w-[1410px] mx-auto">
           <div className="flex flex-col md:flex-row items-start gap-10 mt-8">
             {/* Left box for image */}
-            <div className="md:w-1/2 flex justify-end mb-8 md:mb-0"><img src={movie.Anh} alt={movie.Ten} className="object-cover" style={{ height: "650px", width: "auto" }} /></div>
+            <div className="md:w-1/2 flex justify-end mb-8 md:mb-0"><img src={`http://localhost:3000${movie.Anh}`}  alt={movie.Ten} className="object-cover" style={{ height: "650px", width: "auto" }} /></div>
 
             {/* Right box for movie information */}
             <div className="md:w-[65%] flex flex-col">

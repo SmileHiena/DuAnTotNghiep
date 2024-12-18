@@ -120,6 +120,12 @@ router.post('/send-email', async (req, res) => {
   try {
     const { email, invoiceData } = req.body;
 
+    const ngayMuaFormatted = new Date(invoiceData.NgayMua).toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+
     // Parse the showtime and show date into a Date object
     const showDateTime = new Date(`${invoiceData.ThoiGian}`);
     const currentDateTime = new Date();
@@ -165,7 +171,7 @@ router.post('/send-email', async (req, res) => {
   <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
     <h3 style="text-align: center; color: #F04C41; font-weight: bold; margin-bottom: 15px;">THÔNG TIN VÉ</h3>
     <ul style="list-style: none; padding: 0; font-size: 16px; color: #4a4a4a;">
-      <li style="padding: 10px 0;"><b>Ngày mua:</b> <span style="color: #F04C41;">${invoiceData.NgayMua}</span></li>
+      <li style="padding: 10px 0;"><b>Ngày mua:</b> <span style="color: #F04C41;">${ngayMuaFormatted}</span></li>
       <li style="padding: 10px 0;"><b>Rạp:</b> <span style="color: #F04C41;">${invoiceData.Rap}</span></li>
       <li style="padding: 10px 0;"><b>Phương thức thanh toán:</b> ${invoiceData.PhuongThucThanhToan}</li>
       <li style="padding: 10px 0; font-weight: bold; color: #F04C41;"><b>Tên phim:</b> ${invoiceData.TenPhim}</li>

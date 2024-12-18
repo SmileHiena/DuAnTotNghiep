@@ -109,7 +109,7 @@ const DangChieu = () => {
                 <Link href={`/details/${movie.id}`}>
                   <div key={movie.id} className="sap-chieu__card mx-3">
                     <img
-                      src={movie.Anh}
+                    src={`http://localhost:3000${movie.Anh}`} 
                       alt={movie.Ten}
                       className="w-full max-w-[250px] h-auto cursor-pointer"
                     />
