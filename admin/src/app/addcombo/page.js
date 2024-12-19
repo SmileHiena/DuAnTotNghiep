@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react'; // Thêm useEffect
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
@@ -14,7 +14,7 @@ const AddCombo = () => {
     Anh: null,
   });
 
-  const [existingCombos, setExistingCombos] = useState([]); // Danh sách combo hiện tại
+  const [existingCombos, setExistingCombos] = useState([]); 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -95,12 +95,10 @@ const AddCombo = () => {
         autoClose: 3000,
       });
 
-      // Chuyển hướng về trang danh sách combo sau khi lưu thành công
       setTimeout(() => {
         router.push('/combo');
-      }, 3000); // Đợi 3 giây trước khi chuyển hướng
+      }, 3000);
 
-      // Reset form sau khi thành công
       setFormData({
         TenCombo: '',
         NoiDung: '',
@@ -160,8 +158,7 @@ const AddCombo = () => {
             </div>
           </div>
         </div>
-
-        {/* Thông báo Toast */}
+        
         <ToastContainer transition={Bounce} />
       </main>
     </>

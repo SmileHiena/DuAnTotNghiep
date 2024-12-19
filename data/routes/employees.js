@@ -40,11 +40,6 @@ const checkAdmin = (req, res, next) => {
 
     const bearerToken = adminToken.split(' ')[1];
 
-    // Kiểm tra nếu token không hợp lệ
-    // if (!bearerToken) {
-    //     return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    // }
-
     jwt.verify(bearerToken, process.env.JWT_SECRET || 'secretkey', async (err, user) => {
         if (err) {
             return res.status(401).json({ message: 'Token không hợp lệ' });
@@ -59,8 +54,8 @@ const checkAdmin = (req, res, next) => {
             return res.status(403).json({ message: 'Chỉ admin mới có quyền thực hiện thao tác này' });
         }
 
-        req.user = employees; // Thêm thông tin user vào req để sử dụng sau
-        next(); // Tiếp tục xử lý request
+        req.user = employees;
+        next(); 
     });
 };
 

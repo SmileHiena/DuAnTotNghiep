@@ -166,7 +166,7 @@ export default function Home() {
         const customerPurchaseCount: { [key: string]: number } = {};
 
         invoiceData.forEach((invoice) => {
-          const customerEmail = invoice.Email; // Dùng Email để đếm số lượng hóa đơn
+          const customerEmail = invoice.Email; 
           customerPurchaseCount[customerEmail] = (customerPurchaseCount[customerEmail] || 0) + 1;
         });
 
@@ -182,9 +182,9 @@ export default function Home() {
             };
           })
           .sort((a, b) => b.SoLuongHoaDon - a.SoLuongHoaDon)
-          .slice(0, 5); // Lấy top 5 khách hàng mua nhiều nhất
+          .slice(0, 5); 
 
-        setTopCustomers(sortedCustomers); // Lưu vào state top 5 khách hàng
+        setTopCustomers(sortedCustomers); 
       } catch (error) {
         console.error("Error fetching top customers:", error);
       }
@@ -206,49 +206,47 @@ export default function Home() {
         // Lọc hóa đơn trong tháng hiện tại và tính doanh thu theo ngày
         data.forEach((invoice) => {
           const invoiceDate = new Date(invoice.NgayMua);
-          // Kiểm tra trạng thái hóa đơn là "Đã Thanh Toán"
+       
           if (invoiceDate.getMonth() === currentMonth && invoiceDate.getFullYear() === currentYear && invoice.TrangThai === "Đã Thanh Toán") {
             const day = invoiceDate.getDate() - 1; // Giảm 1 vì mảng bắt đầu từ 0
             dailyRevenue[day] += invoice.TongTien;
           }
         });
 
-        setMonthlyRevenueData(dailyRevenue); // Cập nhật doanh thu theo ngày
+        setMonthlyRevenueData(dailyRevenue);
       } catch (error) {
         console.error("Error fetching daily revenue data:", error);
       }
     };
 
-    // Hàm lấy doanh thu theo tháng trong 6 tháng
+    // doanh thu theo tháng trong 6 tháng
     const fetchSixMonthRevenueData = async () => {
       try {
         const response = await fetch("http://localhost:3000/invoice");
         const data: Invoice[] = await response.json();
 
         const now = new Date();
-        const currentMonth = now.getMonth(); // Tháng hiện tại (0-11)
-        const currentYear = now.getFullYear(); // Năm hiện tại
+        const currentMonth = now.getMonth(); 
+        const currentYear = now.getFullYear();
 
-        // Khởi tạo mảng doanh thu cho 6 tháng qua
         const sixMonthRevenue = Array.from({ length: 6 }, () => 0);
 
-        // Lặp qua từng hóa đơn và tính toán doanh thu cho 6 tháng qua
         data.forEach((invoice) => {
           const invoiceDate = new Date(invoice.NgayMua);
-          const invoiceMonth = invoiceDate.getMonth(); // Tháng của hóa đơn (0-11)
-          const invoiceYear = invoiceDate.getFullYear(); // Năm của hóa đơn
+          const invoiceMonth = invoiceDate.getMonth();
+          const invoiceYear = invoiceDate.getFullYear(); 
 
-          // Kiểm tra xem hóa đơn có nằm trong 6 tháng qua không và có trạng thái "Đã Thanh Toán"
+          // trạng thái "Đã Thanh Toán"
           if (invoice.TrangThai === "Đã Thanh Toán" &&
             ((invoiceYear === currentYear && invoiceMonth >= currentMonth - 5 && invoiceMonth <= currentMonth) ||
               (invoiceYear === currentYear - 1 && currentMonth === 0 && invoiceMonth === 11))) {
 
-            const monthIndex = (currentMonth - invoiceMonth + 6) % 6; // Tính chỉ số cho mảng doanh thu
-            sixMonthRevenue[monthIndex] += invoice.TongTien; // Cộng doanh thu vào tháng tương ứng
+            const monthIndex = (currentMonth - invoiceMonth + 6) % 6; 
+            sixMonthRevenue[monthIndex] += invoice.TongTien; 
           }
         });
 
-        setSixMonthRevenueData(sixMonthRevenue); // Cập nhật trạng thái với doanh thu đã tính toán
+        setSixMonthRevenueData(sixMonthRevenue);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu doanh thu 6 tháng:", error);
       }
@@ -282,27 +280,26 @@ export default function Home() {
     scales: {
       x: {
         ticks: {
-          maxRotation: 0, // Không xoay nhãn
-          minRotation: 0, // Không xoay nhãn
+          maxRotation: 0, 
+          minRotation: 0, 
         },
       },
     },
   };
 
-  // Cập nhật tiêu đề để hiển thị tháng
-  const monthNames = ["tháng 1", "tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12"];
+  const monthNames = ["tháng 1", "tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "ttháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12"];
   const currentMonthName = monthNames[currentMonth];
 
   // Cập nhật nhãn cho biểu đồ
   const sixMonthRevenueChartData = {
     labels: Array.from({ length: 6 }, (_, i) => {
-      const monthIndex = (currentMonth - i + 12) % 12; // Lấy tên tháng
-      return monthNames[monthIndex]; // monthNames là mảng chứa tên tháng
-    }).reverse(), // Đảo ngược để hiển thị tháng gần nhất trước
+      const monthIndex = (currentMonth - i + 12) % 12;
+      return monthNames[monthIndex]; 
+    }).reverse(),
     datasets: [
       {
         label: 'Doanh thu 6 tháng',
-        data: [...sixMonthRevenueData].reverse(), // Tạo bản sao và đảo ngược dữ liệu để khớp với nhãn
+        data: [...sixMonthRevenueData].reverse(), 
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderWidth: 1,

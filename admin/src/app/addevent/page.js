@@ -160,7 +160,7 @@ const ThemSuKien = () => {
                   <Form.Group className="form-group col-md-4" controlId="formGiam">
                     <Form.Label>Giam</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="number"
                       name="Giam"
                       value={newEvent.Giam}
                       onChange={handleInputChange}

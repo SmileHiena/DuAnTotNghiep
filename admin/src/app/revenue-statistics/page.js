@@ -4,8 +4,6 @@ import axios from 'axios';
 import Head from 'next/head';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-
-// Registering Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const RevenueStatistics = () => {
@@ -24,7 +22,7 @@ const RevenueStatistics = () => {
                 setData(response.data);
                 setFilteredData(response.data);
                 calculateTotals(response.data);
-                prepareChartData(response.data); // Prepare chart data after fetching
+                prepareChartData(response.data); 
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu từ API:", error);
             }
@@ -33,21 +31,21 @@ const RevenueStatistics = () => {
     }, []);
 
     const calculateTotals = (filteredData) => {
-        // Lọc ra các vé chưa bị hủy (trạng thái khác 'Đã Hủy')
+        // Đã đặt
         const validData = filteredData.filter(item => item.TrangThai !== 'Đã Hủy');
 
-        // Tính tổng số vé bán ra (bao gồm cả vé đã hủy)
-        const tickets = filteredData.length;  // Thay đổi ở đây: tính tất cả vé
+        // Đã đặt + hủy
+        const tickets = filteredData.length;
 
-        // Tính tổng doanh thu (chỉ tính vé chưa hủy)
+        // Tiền đã đặt
         const revenue = validData.reduce((acc, item) => acc + (item.TongTien || item.GiaVe), 0);
 
-        // Tính số vé đã hủy
+        // Đã hủy
         const cancelledTickets = filteredData.filter(item => item.TrangThai === 'Đã Hủy').length;
 
         setTotalTickets(tickets);
         setTotalRevenue(revenue);
-        setTotalCancelledTickets(cancelledTickets); // Cập nhật số vé đã hủy
+        setTotalCancelledTickets(cancelledTickets); 
     };
 
 
@@ -56,15 +54,15 @@ const RevenueStatistics = () => {
         const selectedMonth = event.target.value;
         setMonthFilter(selectedMonth);
 
-        let filtered = data; // Mặc định không lọc
+        let filtered = data; 
 
         if (selectedMonth) {
             filtered = data.filter(item => new Date(item.NgayMua || item.NgaySuatChieu).getMonth() + 1 === parseInt(selectedMonth));
         }
 
         setFilteredData(filtered);
-        calculateTotals(filtered); // Tính toán lại tổng sau khi lọc
-        prepareChartData(filtered); // Cập nhật dữ liệu biểu đồ
+        calculateTotals(filtered);
+        prepareChartData(filtered); 
     };
 
 
@@ -76,15 +74,15 @@ const RevenueStatistics = () => {
         return `${day}/${month}/${year}`;
     };
     const prepareChartData = (data) => {
-        const currentYear = new Date().getFullYear(); // Get the current year
+        const currentYear = new Date().getFullYear(); 
         const allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
 
         const monthRevenue = allMonths.map(month => {
             const filteredDataForMonth = data.filter(item => {
                 const itemDate = new Date(item.NgayMua || item.NgaySuatChieu);
                 const itemMonth = itemDate.getMonth() + 1;
-                const itemYear = itemDate.getFullYear(); // Get the year of the item
-                return itemMonth === month && itemYear === currentYear && item.TrangThai !== 'Đã Hủy'; // Check for current year and non-cancelled tickets
+                const itemYear = itemDate.getFullYear();
+                return itemMonth === month && itemYear === currentYear && item.TrangThai !== 'Đã Hủy'; 
             });
 
             const totalRevenueForMonth = filteredDataForMonth.reduce((acc, item) => acc + (item.TongTien || item.GiaVe), 0);

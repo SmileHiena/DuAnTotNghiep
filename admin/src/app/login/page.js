@@ -1,15 +1,12 @@
-"use client"; // Đảm bảo sử dụng "use client" cho component client
+"use client";
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
-
-// Import các biểu tượng Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Import fa-eye và fa-eye-slash
-
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false); // Trạng thái hiển thị mật khẩu
+  const [showPassword, setShowPassword] = useState(false);   
   const formik = useFormik({
     initialValues: { usernameOrEmail: "", Matkhau: "" },
     validationSchema: Yup.object({
@@ -39,15 +36,15 @@ const Login = () => {
 
         // Giải mã adminToken để lấy thông tin người dùng và vai trò
         const adminToken = data.adminToken;
-        const payload = JSON.parse(atob(adminToken.split(".")[1])); // Decode token để lấy payload
+        const payload = JSON.parse(atob(adminToken.split(".")[1])); 
 
         if (payload.IsAdmin === 0) {
-          window.location.href = "/"; // Chuyển đến trang admin
+          window.location.href = "/";
         } else {
           throw new Error("Vai trò không xác định");
         }
       } catch (error) {
-        setFieldError("general", error.message); // Hiển thị lỗi chung
+        setFieldError("general", error.message); 
       } finally {
         setSubmitting(false);
       }
@@ -98,10 +95,9 @@ const Login = () => {
           />
           <button
             type="button"
-            onClick={() => setShowPassword((prev) => !prev)} // Toggle trạng thái mật khẩu
+            onClick={() => setShowPassword((prev) => !prev)}
             className="absolute right-2 top-[40%]  border-none focus:outline-none transform -translate-y-1/2 text-xl text-black"
           >
-            {/* Sử dụng Font Awesome icons */}
             {showPassword ? (
               <FontAwesomeIcon icon={faEyeSlash} />
             ) : (

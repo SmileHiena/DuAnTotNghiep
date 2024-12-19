@@ -58,7 +58,7 @@ const Combo = () => {
 
   const handleSave = async () => {
     if (currentCombo) {
-      const price = parseFloat(currentCombo.Gia); // Chuyển đổi giá thành số
+      const price = parseFloat(currentCombo.Gia); 
 
       // Kiểm tra nếu giá không phải là số hoặc nhỏ hơn hoặc bằng 0
       if (isNaN(price) || price <= 0) {
@@ -69,7 +69,7 @@ const Combo = () => {
       const formData = new FormData();
       formData.append('TenCombo', currentCombo.TenCombo);
       formData.append('NoiDung', currentCombo.NoiDung);
-      formData.append('Gia', price); // Sử dụng giá đã kiểm tra
+      formData.append('Gia', price);
       if (file) {
         formData.append('Anh', file);
       }

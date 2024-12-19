@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for the toast
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 const ThemNhanVien = () => {
   const router = useRouter();
@@ -31,16 +31,16 @@ const ThemNhanVien = () => {
   };
 
   const validateUserName = (username) => {
-    const usernameRegex = /^[a-zA-Z0-9]{6,}$/; // Tên đăng nhập ít nhất 6 ký tự, không có ký tự đặc biệt
+    const usernameRegex = /^[a-zA-Z0-9]{6,}$/; 
     return usernameRegex.test(username);
   };
 
   const validatePhoneNumber = (phone) => {
-    return phone.length === 10 && /^[0-9]+$/.test(phone); // Kiểm tra số điện thoại 10 chữ số
+    return phone.length === 10 && /^[0-9]+$/.test(phone); 
   };
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/; // Kiểm tra mật khẩu
+    const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
     return passwordRegex.test(password);
   };
 
@@ -113,19 +113,17 @@ const ThemNhanVien = () => {
       if (!response.ok) {
         const errorResult = await response.json();
         console.error('Lỗi từ server:', errorResult);
-        toast.error(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`); // Thông báo lỗi
+        toast.error(`Có lỗi xảy ra: ${errorResult.message || 'Vui lòng thử lại sau.'}`); 
         return;
       }
 
       const result = await response.json();
-      toast.success(result.message); // Hiển thị thông báo thành công
+      toast.success(result.message);
 
-      // Chờ 3 giây trước khi chuyển hướng
       setTimeout(() => {
         router.push('/employee');
       }, 3000);
 
-      // Reset form sau khi thành công
       setFormData({
         HoTen: '',
         TenDangNhap: '',

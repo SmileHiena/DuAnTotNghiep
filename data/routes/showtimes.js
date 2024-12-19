@@ -145,7 +145,7 @@ router.get('/:id', async (req, res) => {
 // Thêm suất chiếu
 router.post('/add', async (req, res) => {
   try {
-    const { NgayChieu, GioChieu, IdPhim, IdPhong, TrangThai, DaDatGhe = [] } = req.body; // Thêm DaDatGhe
+    const { NgayChieu, GioChieu, IdPhim, IdPhong, TrangThai, DaDatGhe = [] } = req.body; 
 
     const db = await connectDb();
     const collection = db.collection('suatchieu');
@@ -154,23 +154,21 @@ router.post('/add', async (req, res) => {
     const idPhim = parseInt(IdPhim, 10);
     const idPhong = parseInt(IdPhong, 10);
 
-    // Tạo ID mới bằng cách đếm số tài liệu hiện có
-    const newId = await collection.countDocuments() + 1; // Tạo ID mới
+    // Tạo ID mới 
+    const newId = await collection.countDocuments() + 1; 
 
     const newShowtime = {
-      id: newId, // Gán ID mới
+      id: newId, 
       NgayChieu,
       GioChieu,
-      IdPhim: idPhim, // Sử dụng idPhim đã chuyển đổi
-      IdPhong: idPhong, // Sử dụng idPhong đã chuyển đổi
+      IdPhim: idPhim, 
+      IdPhong: idPhong, 
       TrangThai,
       DaDatGhe,
     };
 
-    // Thêm suất chiếu vào cơ sở dữ liệu
     await collection.insertOne(newShowtime);
 
-    // Trả về thông báo thành công cùng với suất chiếu vừa tạo
     res.status(201).json({ message: 'Suất chiếu đã được thêm thành công', showtime: newShowtime });
   } catch (error) {
     console.error('Có lỗi xảy ra khi thêm suất chiếu:', error);
@@ -192,14 +190,13 @@ router.put('/edit/:id', async (req, res) => {
       IdPhim,
       IdPhong,
       TrangThai,
-      DaDatGhe // Cập nhật DaDatGhe
+      DaDatGhe 
     };
 
     const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedShowtime });
     if (result.modifiedCount === 0) {
       res.status(404).json({ message: 'Không tìm thấy suất chiếu để cập nhật' });
     } else {
-      // Trả về thông tin suất chiếu đã được cập nhật
       res.json({ message: 'Cập nhật thông tin suất chiếu thành công', updatedShowtime });
     }
   } catch (error) {
@@ -415,7 +412,6 @@ router.get('/ghe/:IdPhong/:GioChieu/:IdPhim', async (req, res) => {
     res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
   }
 });
-
 
 router.post('/capnhatghedadat', async (req, res) => {
   try {

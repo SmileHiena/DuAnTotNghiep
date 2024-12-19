@@ -54,7 +54,7 @@ const BlogSection = () => {
               onClick={() => handleBlogClick(blog.id)}
             >
               <img
-                src={`${blog.Anh}`} // Adjust this path as needed
+                src={`http://localhost:3000${blog.Anh}`} // Adjust this path as needed
                 alt={blog.TenBlog}
                 className="w-[270px] h-[122px] object-cover rounded-[4px]"
               />
