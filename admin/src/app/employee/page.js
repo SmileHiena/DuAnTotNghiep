@@ -137,7 +137,7 @@ const NhanVien = () => {
         await fetch(`http://localhost:3000/employees/edit/${currentEmployee._id}`, {
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${Cookies.get('adminToken')}`, // Sửa ở đây: dùng Cookies.get() thay vì Cookies.getItem()
+            Authorization: `Bearer ${Cookies.get('adminToken')}`, 
           },
           body: formData,
         });
@@ -146,7 +146,7 @@ const NhanVien = () => {
         setEmployees((prev) =>
           prev.map((emp) =>
             emp._id === currentEmployee._id
-              ? { ...currentEmployee, Anh: file ? `/images/${file.name}` : emp.Anh }
+              ? { ...currentEmployee, Anh: file ? `${file.name}` : emp.Anh }
               : emp
           )
         );

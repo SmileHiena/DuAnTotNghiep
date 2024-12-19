@@ -38,7 +38,7 @@ const EventPage = () => {
                 <>
                   <div className="md:w-1/2 h-[300px] md:h-[450px] flex justify-center items-center">
                     <img
-                      src={event.Anh}
+                      src={`http://localhost:3000${event.Anh}`}
                       alt={event.Ten}
                       layout="intrinsic"
                       className="object-cover w-[600px] h-[350px]"
@@ -84,7 +84,7 @@ const EventPage = () => {
                   </div>
                   <div className="md:w-1/2 h-[300px] md:h-[450px] flex justify-center items-center">
                     <img
-                      src={event.Anh}
+                      src={`http://localhost:3000${event.Anh}`}
                       alt={event.Ten}
                       layout="intrinsic"
                       className="object-cover w-[600px] h-[350px]"

@@ -153,7 +153,7 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
         const db = await connectDb();
         const collection = db.collection('admin');
 
-        const Anh = `/images/${req.file.filename}`;
+        const Anh = `${req.file.filename}`;
 
         const newId = (await collection.countDocuments()) + 1; // Tạo ID mới
 

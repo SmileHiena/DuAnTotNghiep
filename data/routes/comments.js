@@ -73,6 +73,7 @@ router.post("/", getUserFromToken, async (req, res) => {
             movieId,
             userId: String(user.userId),
             content,
+            fullname: user.Ten,
             username: user.TenDangNhap,
             userImage: user.Anh,
             timestamp: new Date(),

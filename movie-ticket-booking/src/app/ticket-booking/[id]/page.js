@@ -63,7 +63,7 @@ const DatVe = () => {
         }, {});
         setComboQuantities(initialComboQuantities);
 
-        const showtimeResponse = await fetch(`http://localhost:3000/showtimes/phim/${id}`);
+        const showtimeResponse = await fetch(`http://localhost:3000/showtimes/phim/${id}/dangchieu`);
         const showtimesData = await showtimeResponse.json();
         setShowtimes(showtimesData);
 
