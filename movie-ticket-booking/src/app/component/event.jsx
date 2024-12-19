@@ -85,7 +85,7 @@ const Event = () => {
             <div className="rounded-lg overflow-hidden" key={item.id}>
               <Link href={"/event"} >
                 <img
-                  src={item.Anh}
+                  src={`http://localhost:3000${item.Anh}`} 
                   className="w-full h-[212px] p-2 object-cover rounded-lg" // Thêm lớp rounded-lg
                   alt={`Image ${item.id}`}
                 />

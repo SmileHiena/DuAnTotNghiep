@@ -9,10 +9,10 @@ const ThemSuatchieu = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     GioChieu: '',
-    NgayChieu: '', // Ngày chiếu vẫn để trống ở đây
+    NgayChieu: '',
     IdPhim: '',
     IdPhong: '',
-    TrangThai: 'DangChieu', // Thêm trường trạng thái, mặc định là "Đang chiếu"
+    TrangThai: 'DangChieu',
   });
 
   const [movies, setMovies] = useState([]);
@@ -57,13 +57,13 @@ const ThemSuatchieu = () => {
     setIsSubmitting(true);
     toast.info('Đang gửi...');
 
-    // Chuyển đổi định dạng Ngày chiếu từ 'YYYY-MM-DD' sang 'DD/MM/YYYY'
+    // Chuyển đổi 'YYYY-MM-DD' sang 'DD/MM/YYYY'
     const formattedDate = formData.NgayChieu.split('-').reverse().join('/');
 
     const dataToSubmit = {
       ...formData,
       NgayChieu: formattedDate,
-      DaDatGhe: [] // Thêm trường DaDatGhe vào dữ liệu gửi lên
+      DaDatGhe: []
     };
 
     try {
@@ -84,18 +84,16 @@ const ThemSuatchieu = () => {
       const result = await response.json();
       toast.success(result.message);
 
-      // Chờ 3 giây trước khi chuyển hướng
       setTimeout(() => {
         router.push('/showtimes');
       }, 3000);
 
-      // Reset form sau khi thành công
       setFormData({
         GioChieu: '',
         NgayChieu: '',
         IdPhim: '',
         IdPhong: '',
-        TrangThai: 'DangChieu', // Reset trạng thái về mặc định
+        TrangThai: 'DangChieu',
       });
     } catch (error) {
       console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
@@ -123,76 +121,35 @@ const ThemSuatchieu = () => {
                 <form className="row" onSubmit={handleSubmit}>
                   <div className="form-group col-md-4">
                     <label className="control-label">Giờ chiếu</label>
-                    <input
-                      className="form-control"
-                      type="time"
-                      name="GioChieu"
-                      value={formData.GioChieu}
-                      onChange={handleChange}
-                      required
-                    />
+                    <input className="form-control" type="time" name="GioChieu" value={formData.GioChieu} onChange={handleChange} required />
                   </div>
                   <div className="form-group col-md-4">
                     <label className="control-label">Ngày chiếu</label>
-                    <input
-                      className="form-control"
-                      type="date"
-                      name="NgayChieu"
-                      value={formData.NgayChieu ? formData.NgayChieu.split('/').reverse().join('-') : ''}
-                      onChange={handleChange}
-                      required
-                    />
+                    <input className="form-control" type="date" name="NgayChieu" value={formData.NgayChieu ? formData.NgayChieu.split('/').reverse().join('-') : ''} onChange={handleChange} required />
                   </div>
                   <div className="form-group col-md-4">
-                    <label className="control-label">Phim</label>
-                    <select
-                      className="form-control"
-                      name="IdPhim"
-                      value={formData.IdPhim}
-                      onChange={handleChange}
-                      required
-                    >
+                    <label className="control-label">Tên Phim</label>
+                    <select className="form-control" name="IdPhim" value={formData.IdPhim} onChange={handleChange} required>
                       <option value="">-- Chọn phim --</option>
-                      {movies.map(movie => (
-                        <option key={movie.id} value={movie.id}>
-                          {movie.Ten}
-                        </option>
-                      ))}
+                      {movies.map(movie => (<option key={movie.id} value={movie.id}>{movie.Ten}</option>))}
                     </select>
                   </div>
                   <div className="form-group col-md-4">
                     <label className="control-label">Phòng chiếu</label>
-                    <select
-                      className="form-control"
-                      name="IdPhong"
-                      value={formData.IdPhong}
-                      onChange={handleChange}
-                      required
-                    >
+                    <select className="form-control" name="IdPhong" value={formData.IdPhong} onChange={handleChange} required>
                       <option value="">-- Chọn phòng chiếu --</option>
-                      {rooms.map(room => (
-                        <option key={room.id} value={room.id}>
-                          {room.TenPhongChieu}
-                        </option>
-                      ))}
+                      {rooms.map(room => (<option key={room.id} value={room.id}>{room.TenPhongChieu}</option>))}
                     </select>
                   </div>
                   <div className="form-group col-md-4">
                     <label className="control-label">Trạng thái</label>
-                    <select
-                      className="form-control"
-                      name="TrangThai"
-                      value={formData.TrangThai}
-                      onChange={handleChange}
-                    >
+                    <select className="form-control" name="TrangThai" value={formData.TrangThai} onChange={handleChange}>
                       <option value="DangChieu">Đang chiếu</option>
                       <option value="NgungChieu">Ngừng chiếu</option>
                     </select>
                   </div>
                   <div className="form-group col-md-12">
-                    <button className="btn btn-save mr-3" type="submit" disabled={isSubmitting}>
-                      {isSubmitting ? 'Đang lưu...' : 'Lưu lại'}
-                    </button>
+                    <button className="btn btn-save mr-3" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Đang lưu...' : 'Lưu lại'}</button>
                     <a className="btn btn-cancel" href="/showtimes">Hủy bỏ</a>
                   </div>
                 </form>

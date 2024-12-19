@@ -1,5 +1,4 @@
-"use client"; // Mark this component as a client component
-
+"use client"; 
 import Head from "next/head";
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
@@ -10,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const ThemTheLoai = () => {
   const [newCategory, setNewCategory] = useState({
     Ten: "",
-    Anh: null, // Assuming you want to upload an image
+    Anh: null, 
   });
 
   const router = useRouter();
@@ -26,7 +25,7 @@ const ThemTheLoai = () => {
   const handleFileChange = (e) => {
     setNewCategory((prev) => ({
       ...prev,
-      Anh: e.target.files[0], // Handle image upload
+      Anh: e.target.files[0], 
     }));
   };
 
@@ -34,7 +33,7 @@ const ThemTheLoai = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("Ten", newCategory.Ten); // Change here
+    formData.append("Ten", newCategory.Ten); 
 
     if (newCategory.Anh) {
       formData.append("Anh", newCategory.Anh);
@@ -59,7 +58,6 @@ const ThemTheLoai = () => {
         progress: undefined,
       });
 
-      // Redirect after 2 seconds
       setTimeout(() => {
         router.push("/categories");
       }, 2000);

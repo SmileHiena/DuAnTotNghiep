@@ -15,7 +15,7 @@ const NhanVien = () => {
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);  // State to store admin check result
+  const [isAdmin, setIsAdmin] = useState(false); 
 
   useEffect(() => {
     const adminToken = Cookies.get('adminToken');
@@ -103,7 +103,7 @@ const NhanVien = () => {
       // Kiểm tra số điện thoại
       if (!validatePhoneNumber(currentEmployee.SDT)) {
         setErrorMessage('Số điện thoại phải có 10 chữ số.');
-        return; // Ngừng thực hiện nếu số điện thoại không hợp lệ
+        return; 
       }
 
       // Kiểm tra số điện thoại có tồn tại trong cơ sở dữ liệu hay không
@@ -116,13 +116,13 @@ const NhanVien = () => {
       const result = await response.json();
       if (!response.ok) {
         setErrorMessage(result.message);
-        return; // Ngừng thực hiện nếu số điện thoại đã tồn tại
+        return; 
       }
 
       const formData = new FormData();
       formData.append('HoTen', currentEmployee.HoTen);
       formData.append('TenDangNhap', currentEmployee.TenDangNhap);
-      formData.append('MatKhau', currentEmployee.MatKhau); // Nếu cần thiết
+      formData.append('MatKhau', currentEmployee.MatKhau); 
       formData.append('DiaChi', currentEmployee.DiaChi);
       formData.append('NgaySinh', currentEmployee.NgaySinh);
       formData.append('GioTinh', currentEmployee.GioTinh);
@@ -142,7 +142,7 @@ const NhanVien = () => {
           body: formData,
         });
 
-        // Cập nhật danh sách nhân viên mà không cần tải lại trang
+        // cập nhật mà không loaddddddddinggloaddddddddingg
         setEmployees((prev) =>
           prev.map((emp) =>
             emp._id === currentEmployee._id
@@ -151,7 +151,7 @@ const NhanVien = () => {
           )
         );
 
-        toast.success('Cập nhật nhân viên thành công!', { // Thông báo thành công
+        toast.success('Cập nhật nhân viên thành công!', { 
           position: 'top-right',
           autoClose: 3000,
         });
@@ -179,12 +179,12 @@ const NhanVien = () => {
         await fetch(`http://localhost:3000/employees/delete/${employeeId}`, {
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${Cookies.get('adminToken')}`, // Sử dụng đúng phương thức
+            Authorization: `Bearer ${Cookies.get('adminToken')}`, 
           },
         });
 
         setEmployees((prev) => prev.filter((emp) => emp._id !== employeeId));
-        toast.success('Xóa nhân viên thành công!', { // Thông báo xóa thành công
+        toast.success('Xóa nhân viên thành công!', { 
           position: 'top-right',
           autoClose: 3000,
         });

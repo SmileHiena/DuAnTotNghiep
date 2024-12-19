@@ -88,7 +88,7 @@ const AddBlog = () => {
       console.error("Lỗi khi thêm blog:", error);
       alert("Có lỗi xảy ra! Vui lòng thử lại.");
     } finally {
-      setIsSubmitting(false); // Reset submitting state
+      setIsSubmitting(false); 
     }
   };
 

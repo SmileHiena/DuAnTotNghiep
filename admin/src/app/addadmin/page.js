@@ -45,7 +45,7 @@ const ThemAdmin = () => {
   };
 
   const checkUserExists = async () => {
-    const response = await fetch('http://localhost:3000/admin/check-username', { // Cập nhật endpoint
+    const response = await fetch('http://localhost:3000/admin/check-username', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const ThemAdmin = () => {
     toast.info('Đang gửi...');
 
     try {
-      const response = await fetch('http://localhost:3000/admin/add', { // Cập nhật endpoint
+      const response = await fetch('http://localhost:3000/admin/add', { 
         method: 'POST',
         body: formDataToSend,
       });
@@ -117,7 +117,7 @@ const ThemAdmin = () => {
       toast.success(result.message);
 
       setTimeout(() => {
-        router.push('/admin'); // Cập nhật đường dẫn chuyển hướng
+        router.push('/admin'); 
       }, 3000);
 
       setFormData({

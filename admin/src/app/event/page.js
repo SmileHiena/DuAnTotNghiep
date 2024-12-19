@@ -301,12 +301,14 @@ const EventList = () => {
             </div>
             <div className="form-group col-md-12">
               <label className="control-label">Giảm giá</label>
-              <textarea
+              <input
                 className="form-control"
+                type="number"
                 value={editedEvent.Giam}
                 onChange={(e) => setEditedEvent({ ...editedEvent, Giam: e.target.value })}
               />
             </div>
+
           </div>
         </Modal.Body>
         <Modal.Footer>

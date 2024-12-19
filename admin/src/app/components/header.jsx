@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 const Header = () => {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false); // Thêm trạng thái để kiểm tra quyền admin
+    const [isAdmin, setIsAdmin] = useState(false);
     const router = useRouter();
 
     useEffect(() => {

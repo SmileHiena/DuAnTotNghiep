@@ -292,36 +292,21 @@ const Suatchieu = () => {
 
                                 <div className="form-group col-md-6">
                                     <label className="control-label">Giờ chiếu</label>
-                                    <input
-                                        className="form-control"
-                                        type="time"
-                                        name="GioChieu"
-                                        value={currentShowtime ? currentShowtime.GioChieu : ''}
-                                        onChange={(e) => setCurrentShowtime({ ...currentShowtime, GioChieu: e.target.value })}
-                                        required
-                                    />
+                                    <input className="form-control" type="time" name="GioChieu" value={currentShowtime ? currentShowtime.GioChieu : ''} onChange={(e) => setCurrentShowtime({ ...currentShowtime, GioChieu: e.target.value })} required />
                                 </div>
 
                                 <div className="form-group col-md-6">
-                                    <label className="control-label">ID Phim</label>
+                                    <label className="control-label">Tên Phim</label>
                                     <select className="form-control" value={currentShowtime?.IdPhim || ''} onChange={handleMovieChange} required>
                                         <option value="">Chọn phim</option>
-                                        {movies.map(movie => (
-                                            <option key={movie.id} value={movie.id}>
-                                                {movie.Ten}
-                                            </option>
-                                        ))}
+                                        {movies.map(movie => (<option key={movie.id} value={movie.id}>{movie.Ten}</option>))}
                                     </select>
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label className="control-label">Tên Phòng Chiếu</label>
                                     <select className="form-control" value={currentShowtime?.IdPhong || ''} onChange={handleRoomChange} required>
                                         <option value="">Chọn phòng chiếu</option>
-                                        {rooms.map(room => (
-                                            <option key={room.id} value={room.id}>
-                                                {room.TenPhongChieu}
-                                            </option>
-                                        ))}
+                                        {rooms.map(room => (<option key={room.id} value={room.id}>{room.TenPhongChieu}</option>))}
                                     </select>
                                 </div>
                                 <div className="form-group col-md-6">

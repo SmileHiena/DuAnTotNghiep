@@ -45,6 +45,25 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;  // Lấy id từ URL params
+        const db = await connectDb();
+        const blogCollection = db.collection("blogdetial");  // Giả sử tên collection là "blogdetial"
+
+        // Tìm blog theo id
+        const blog = await blogCollection.findOne({ id: Number(id) });
+
+        if (blog) {
+            res.status(200).json(blog);  // Trả về thông tin blog nếu tìm thấy
+        } else {
+            res.status(404).json({ message: "Blog not found" });  // Nếu không tìm thấy blog
+        }
+    } catch (error) {
+        console.error("Error fetching blog:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+});
 
 router.put("/edit/:id", async (req, res) => {
     const { id } = req.params;
@@ -61,6 +80,7 @@ router.put("/edit/:id", async (req, res) => {
 
         // Prepare the update data
         const updateData = {
+            MaBlog: Number(updatedBlog.MaBlog),
             NoiDung1: updatedBlog.NoiDung1,
             NoiDung2: updatedBlog.NoiDung2,
             NoiDung3: updatedBlog.NoiDung3,
@@ -91,42 +111,37 @@ router.put("/edit/:id", async (req, res) => {
 
 router.post("/add", async (req, res) => {
     try {
-        const newBlog = req.body.newBlog;
-        console.log("Received new blog data:", newBlog);
+        const { MaBlog, NoiDung1, NoiDung2, NoiDung3, NoiDung4, NoiDung5, Anh } = req.body;
+        console.log("Received new blog data:", req.body);
 
         // Kiểm tra dữ liệu blog có hợp lệ không
-        if (!newBlog) {
-            return res.status(400).json({ message: "Invalid blog data" });
+        if (!MaBlog || !NoiDung1 || !NoiDung2 || !NoiDung3 || !NoiDung4 || !NoiDung5 || !Anh) {
+            return res.status(400).json({ message: "Missing required fields" });
         }
 
         const db = await connectDb();
         const blogCollection = db.collection("blogdetial");
-
-        // Lấy id tự động tăng (tìm id lớn nhất hiện tại và cộng 1)
         const lastBlog = await blogCollection.find().sort({ id: -1 }).limit(1).toArray();
         const newId = lastBlog.length > 0 ? lastBlog[0].id + 1 : 1;
-
-        // Chuẩn bị dữ liệu cho blog mới
-        const blogData = {
-            id: newId,
-            MaBlog: Number(newBlog.MaBlog),
-            NoiDung1: newBlog.NoiDung1,
-            NoiDung2: newBlog.NoiDung2,
-            NoiDung3: newBlog.NoiDung3,
-            NoiDung4: newBlog.NoiDung4,
-            NoiDung5: newBlog.NoiDung5,
-            Anh: newBlog.Anh,
+        const blogdata = {
+            id: newId, 
+            MaBlog: Number(MaBlog),
+            NoiDung1: NoiDung1,
+            NoiDung2: NoiDung2,
+            NoiDung3: NoiDung3,
+            NoiDung4: NoiDung4,
+            NoiDung5: NoiDung5,
+            Anh: Anh,
         };
-
-        // Thêm blog mới vào collection
-        const result = await blogCollection.insertOne(blogData);
-
-        res.status(201).json({ message: "Blog added successfully", blog: blogData });
+        const result = await blogCollection.insertOne(blogdata);
+        res.status(201).json({ message: "Blog added successfully", blog: blogdata });
     } catch (error) {
         console.error("Error adding blog:", error);
         res.status(500).json({ message: "Failed to add blog", error: error.message });
     }
 });
+
+
 
 router.delete("/delete/:id", async (req, res) => {
     try {
