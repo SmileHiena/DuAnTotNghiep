@@ -12,9 +12,39 @@ const ResetPassword = () => {
   // Lấy email từ localStorage
   const email = localStorage.getItem('resetEmail');
 
+  // Hàm kiểm tra điều kiện mật khẩu
+  const validatePassword = (password) => {
+    const minLength = 6;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < minLength) {
+      return 'Mật khẩu phải có ít nhất 6 ký tự';
+    }
+    if (!hasUpperCase) {
+      return 'Mật khẩu phải có ít nhất 1 chữ hoa';
+    }
+    if (!hasLowerCase) {
+      return 'Mật khẩu phải có ít nhất 1 chữ thường';
+    }
+    if (!hasSpecialChar) {
+      return 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt';
+    }
+    return '';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    // Kiểm tra điều kiện mật khẩu
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      setMessage(passwordError);
+      setLoading(false);
+      return;
+    }
 
     // Kiểm tra mật khẩu xác nhận có khớp không
     if (newPassword !== confirmPassword) {
@@ -38,10 +68,9 @@ const ResetPassword = () => {
       const data = await res.json();
       if (res.ok) {
         setMessage('Mật khẩu đã được thay đổi thành công');
-        // Sau khi thay đổi mật khẩu, xóa email khỏi localStorage và chuyển hướng
         localStorage.removeItem('resetEmail');
         setTimeout(() => {
-          router.push('/login');  // Điều hướng đến trang đăng nhập
+          router.push('/login'); 
         }, 2000);
       } else {
         setMessage(data.message || 'Có lỗi xảy ra');
@@ -56,7 +85,6 @@ const ResetPassword = () => {
 
   return (
     <div className="flex justify-center items-center bg-cover bg-center w-full min-h-screen bg-[url('../../public/images/10.jpg')]">
-
       <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 rounded-lg text-white w-[90%] sm:w-[85%] md:w-[750px] lg:w-[900px] h-auto" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl mb-5">Đặt lại mật khẩu</h1>
         {message && <p className="text-red-500 mb-3">{message}</p>}
@@ -73,15 +101,11 @@ const ResetPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black rounded-full text-sm sm:text-lg font-bold cursor-pointer mt-5"
+          className="w-full md:w-[520px] h-[40px] sm:h-[45px] bg-black border border-[#F5CF49] rounded-[10px] text-sm sm:text-lg font-bold cursor-pointer text-white hover:bg-[#F5CF49] hover:text-black transition-colors"
         >
           {loading ? 'Đang cập nhật...' : 'Đặt lại mật khẩu'}
         </button>
-
-
       </form>
-
-
     </div>
   );
 };

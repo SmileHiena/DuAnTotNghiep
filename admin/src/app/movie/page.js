@@ -1,7 +1,13 @@
 "use client";
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPenToSquare, faLock, faUnlock, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faPenToSquare,
+  faLock,
+  faUnlock,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -113,12 +119,9 @@ const SanPham = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/movie/delete/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`http://localhost:3000/movie/delete/${id}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) throw new Error("Failed to delete product.");
 
@@ -138,7 +141,6 @@ const SanPham = () => {
     setShowModal(false);
     setSelectedPhim(null);
   };
-
 
   const handleAddPhim = () => {
     router.push("/addmovie");
@@ -246,7 +248,7 @@ const SanPham = () => {
 
   const toggleLockStatus = async (productId, isLocked) => {
     const confirmMessage = isLocked
-      ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
+      ? "Bạn có chắc chắn muốn mở khóa phim này không?" // Xác nhận khóa phim
       : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
 
     const confirmLock = window.confirm(confirmMessage);
@@ -292,12 +294,18 @@ const SanPham = () => {
     }
   };
 
-
   return (
     <main className="app-content">
-      <Head><title>Danh sách phim</title></Head>
+      <Head>
+        <title>Danh sách phim</title>
+      </Head>
       <div className="app-title">
-        <ul className="app-breadcrumb breadcrumb side"><li className="breadcrumb-item active"> <b>Danh sách phim</b></li></ul>
+        <ul className="app-breadcrumb breadcrumb side">
+          <li className="breadcrumb-item active">
+            {" "}
+            <b>Danh sách phim</b>
+          </li>
+        </ul>
       </div>
 
       <div className="row">
@@ -306,27 +314,59 @@ const SanPham = () => {
             <div className="tile-body">
               <div className="row element-button">
                 <div className="col-sm-2">
-                  <Button className="btn btn-add" onClick={handleAddPhim}><FontAwesomeIcon icon={faPlus} /> Thêm mới</Button>
+                  <Button className="btn btn-add" onClick={handleAddPhim}>
+                    <FontAwesomeIcon icon={faPlus} /> Thêm mới
+                  </Button>
                 </div>
               </div>
-              <table className="table table-hover table-bordered">
+              <table className="table-auto w-full border-collapse border border-gray-300">
                 <thead>
-                  <tr>
-                    <th width="50">STT</th>
-                    <th>Tên phim</th>
-                    <th>Trailer</th>
-                    <th>Ảnh phim</th>
-                    <th>Thể loại</th>
-                    <th>Thời lượng</th>
-                    <th>Quốc gia</th>
-                    <th>Ngôn ngữ</th>
-                    <th>Khuyến cáo</th>
-                    <th>Đạo diễn</th>
-                    <th>Diễn viên</th>
-                    <th>Ngày khởi chiếu</th>
-                    <th>Tình trạng</th>
-                    <th>Nội dung</th>
-                    <th>Tính năng</th>
+                  <tr className="bg-gray-100">
+                    <th className="w-12 border border-gray-300 px-2 py-1">
+                      STT
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Tên phim
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Trailer
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Ảnh phim
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Thể loại
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Thời lượng
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Quốc gia
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Ngôn ngữ
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Khuyến cáo
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Đạo diễn
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Diễn viên
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Ngày khởi chiếu
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Tình trạng
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1">
+                      Nội dung
+                    </th>
+                    <th className="border border-gray-300 px-2 py-1 w-32">
+                      Tính năng
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -334,8 +374,18 @@ const SanPham = () => {
                     <tr key={product._id}>
                       <td>{index + 1}</td>
                       <td>{product.Ten}</td>
-                      <td>{product.Trailer && product.Trailer.length > 20 ? `${product.Trailer.slice(0, 10)}...` : product.Trailer || 'No trailer available'}</td>
-                      <td><img src={product.Anh} alt={product.Ten} style={{ width: "100px", height: "auto" }} /></td>
+                      <td>
+                        {product.Trailer && product.Trailer.length > 20
+                          ? `${product.Trailer.slice(0, 10)}...`
+                          : product.Trailer || "No trailer available"}
+                      </td>
+                      <td>
+                        <img
+                          src={product.Anh}
+                          alt={product.Ten}
+                          style={{ width: "100px", height: "auto" }}
+                        />
+                      </td>
                       <td>{product.TheLoai.KieuPhim}</td>
                       <td>{product.TheLoai.ThoiLuong}</td>
                       <td>{product.TheLoai.QuocGia}</td>
@@ -345,16 +395,57 @@ const SanPham = () => {
                       <td>{product.MoTa.DienVien}</td>
                       <td>{product.MoTa.NgayKhoiChieu}</td>
                       <td>
-                        <span className="status-badge">{product.TrangThai}</span>
+                        <span className="status-badge">
+                          {product.TrangThai}
+                        </span>
                       </td>
                       <td>
                         {truncateText(product.ThongTinPhim, 100)}{" "}
-                        <button className="btn btn-link" onClick={() => handleShowMore(product)}>Xem thêm</button>
+                        <button
+                          className="btn btn-link"
+                          onClick={() => handleShowMore(product)}
+                        >
+                          Xem thêm
+                        </button>
                       </td>
                       <td className="table-td-center">
-                        <button className="btn btn-primary edit" type="button" title="Sửa" onClick={() => handleEditProduct(product)}><FontAwesomeIcon icon={faPenToSquare} style={{ color: "#f59d39" }} /></button>
-                        <button className="btn btn-primary trash" type="button" title="Xóa" onClick={() => handleDelete(product._id)}><FontAwesomeIcon icon={faTrash} style={{ color: "#de0400" }} /></button>
-                        <Button className={product.locked ? "btn btn-warning" : "btn btn-success"} onClick={() => toggleLockStatus(product._id, product.locked)}><FontAwesomeIcon icon={product.locked ? faLock : faUnlock} />{" "}{product.locked ? "" : ""}</Button>
+                        <button
+                          className="btn btn-primary edit"
+                          type="button"
+                          title="Sửa"
+                          onClick={() => handleEditProduct(product)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPenToSquare}
+                            style={{ color: "#f59d39" }}
+                          />
+                        </button>
+                        <button
+                          className="btn btn-primary trash"
+                          type="button"
+                          title="Xóa"
+                          onClick={() => handleDelete(product._id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            style={{ color: "#de0400" }}
+                          />
+                        </button>
+                        <Button
+                          className={
+                            product.locked
+                              ? "btn btn-warning"
+                              : "btn btn-success"
+                          }
+                          onClick={() =>
+                            toggleLockStatus(product._id, product.locked)
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={product.locked ? faLock : faUnlock}
+                          />{" "}
+                          {product.locked ? "" : ""}
+                        </Button>
                       </td>
                     </tr>
                   ))}
@@ -373,7 +464,11 @@ const SanPham = () => {
         <Modal.Body>
           {selectedPhim && (
             <div>
-              <img src={selectedPhim.Anh} alt={selectedPhim.Ten} style={{ width: "100%", height: "auto" }} />
+              <img
+                src={selectedPhim.Anh}
+                alt={selectedPhim.Ten}
+                style={{ width: "100%", height: "auto" }}
+              />
               <p>{selectedPhim.ThongTinPhim}</p>
             </div>
           )}
@@ -389,21 +484,55 @@ const SanPham = () => {
           <div className="row">
             <div className="form-group col-md-6">
               <label className="control-label">Mã phim</label>
-              <input className="form-control" type="text" value={editedProduct._id || ""} readOnly />
+              <input
+                className="form-control"
+                type="text"
+                value={editedProduct._id || ""}
+                readOnly
+              />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Tên phim</label>
-              <input className="form-control" type="text" required value={editedProduct.Ten || ""} onChange={(e) => setEditedProduct({ ...editedProduct, Ten: e.target.value })} />
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.Ten || ""}
+                onChange={(e) =>
+                  setEditedProduct({ ...editedProduct, Ten: e.target.value })
+                }
+              />
             </div>
 
             <div className="form-group col-md-6">
               <label className="control-label">Trailer phim</label>
-              <input className="form-control" type="text" required value={editedProduct.Trailer || ""} onChange={(e) => setEditedProduct({ ...editedProduct, Trailer: e.target.value })} />
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.Trailer || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    Trailer: e.target.value,
+                  })
+                }
+              />
             </div>
 
             <div className="form-group col-md-6">
               <label className="control-label">Trạng thái</label>
-              <select className="form-control" required value={editedProduct.TrangThai || ""} onChange={(e) => setEditedProduct({ ...editedProduct, TrangThai: e.target.value, })}>
+              <select
+                className="form-control"
+                required
+                value={editedProduct.TrangThai || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    TrangThai: e.target.value,
+                  })
+                }
+              >
                 <option value="">Chọn trạng thái</option>
                 <option value="dangchieu">Đang chiếu</option>
                 <option value="sapchieu">Sắp chiếu</option>
@@ -413,39 +542,62 @@ const SanPham = () => {
 
             <div className="form-group col-md-6">
               <label className="control-label">Kiểu phim</label>
-              <select className="form-control" required value={editedProduct.TheLoai?.KieuPhim || ""} onChange={(e) => { const selectedValue = e.target.value; setEditedProduct((prev) => ({ ...prev, TheLoai: { ...prev.TheLoai, KieuPhim: selectedValue, }, })); }}>{theloai.map((item) => (<option key={item.id} value={item.Ten}>{item.Ten}</option>))}</select>
+              <select
+                className="form-control"
+                required
+                value={editedProduct.TheLoai?.KieuPhim || ""}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  setEditedProduct((prev) => ({
+                    ...prev,
+                    TheLoai: { ...prev.TheLoai, KieuPhim: selectedValue },
+                  }));
+                }}
+              >
+                {theloai.map((item) => (
+                  <option key={item.id} value={item.Ten}>
+                    {item.Ten}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group col-md-6">
               <label className="control-label">Thời lượng</label>
-              <input className="form-control" type="number" required min="0" value={editedProduct.TheLoai?.ThoiLuong || ""} onChange={(e) => {
-                const value = e.target.value;
+              <input
+                className="form-control"
+                type="number"
+                required
+                min="0"
+                value={editedProduct.TheLoai?.ThoiLuong || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
 
-                // Check if the value is empty
-                if (value === "") {
-                  setEditedProduct({
-                    ...editedProduct,
-                    TheLoai: {
-                      ...editedProduct.TheLoai,
-                      ThoiLuong: "", // Allow empty input
-                    },
-                  });
-                  setEditError(""); // Clear error for empty input
-                }
-                // Check if the value is a valid number and non-negative
-                else if (!isNaN(value) && Number(value) >= 0) {
-                  setEditedProduct({
-                    ...editedProduct,
-                    TheLoai: {
-                      ...editedProduct.TheLoai,
-                      ThoiLuong: value,
-                    },
-                  });
-                  setEditError(""); // Clear error if valid
-                } else {
-                  setEditError("Chỉ được nhập thời lượng là số dương."); // Error message for invalid input
-                }
-              }}
+                  // Check if the value is empty
+                  if (value === "") {
+                    setEditedProduct({
+                      ...editedProduct,
+                      TheLoai: {
+                        ...editedProduct.TheLoai,
+                        ThoiLuong: "", // Allow empty input
+                      },
+                    });
+                    setEditError(""); // Clear error for empty input
+                  }
+                  // Check if the value is a valid number and non-negative
+                  else if (!isNaN(value) && Number(value) >= 0) {
+                    setEditedProduct({
+                      ...editedProduct,
+                      TheLoai: {
+                        ...editedProduct.TheLoai,
+                        ThoiLuong: value,
+                      },
+                    });
+                    setEditError(""); // Clear error if valid
+                  } else {
+                    setEditError("Chỉ được nhập thời lượng là số dương."); // Error message for invalid input
+                  }
+                }}
               />
               {editError && <small className="text-danger">{editError}</small>}{" "}
               {/* Display error message */}
@@ -453,7 +605,20 @@ const SanPham = () => {
 
             <div className="form-group col-md-6">
               <label className="control-label">Quốc Gia</label>
-              <select className="form-control" required value={editedProduct.TheLoai?.QuocGia || ""} onChange={(e) => setEditedProduct({ ...editedProduct, TheLoai: { ...editedProduct.TheLoai, QuocGia: e.target.value, }, })}>
+              <select
+                className="form-control"
+                required
+                value={editedProduct.TheLoai?.QuocGia || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    TheLoai: {
+                      ...editedProduct.TheLoai,
+                      QuocGia: e.target.value,
+                    },
+                  })
+                }
+              >
                 <option value="">Chọn quốc gia</option>
                 <option value="Việt Nam">Việt Nam</option>
                 <option value="Mỹ">Mỹ</option>
@@ -466,7 +631,20 @@ const SanPham = () => {
 
             <div className="form-group col-md-6">
               <label className="control-label">Ngôn ngữ</label>
-              <select className="form-control" required value={editedProduct.TheLoai?.NgonNgu || ""} onChange={(e) => setEditedProduct({ ...editedProduct, TheLoai: { ...editedProduct.TheLoai, NgonNgu: e.target.value, }, })}>
+              <select
+                className="form-control"
+                required
+                value={editedProduct.TheLoai?.NgonNgu || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    TheLoai: {
+                      ...editedProduct.TheLoai,
+                      NgonNgu: e.target.value,
+                    },
+                  })
+                }
+              >
                 <option value="">Chọn ngôn ngữ</option>
                 <option value="Tiếng Việt">Tiếng Việt</option>
                 <option value="Tiếng Anh">Tiếng Anh</option>
@@ -477,37 +655,113 @@ const SanPham = () => {
 
             <div className="form-group col-md-6">
               <label className="control-label">Khuyến cáo</label>
-              <select className="form-control" required value={editedProduct.TheLoai?.KhuyenCao || ""} onChange={(e) => setEditedProduct({ ...editedProduct, TheLoai: { ...editedProduct.TheLoai, KhuyenCao: e.target.value, }, })} >
+              <select
+                className="form-control"
+                required
+                value={editedProduct.TheLoai?.KhuyenCao || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    TheLoai: {
+                      ...editedProduct.TheLoai,
+                      KhuyenCao: e.target.value,
+                    },
+                  })
+                }
+              >
                 <option value="">Chọn khuyến cáo</option>
-                <option value="T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)"> T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)</option>
-                <option value="T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)">T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)</option>
-                <option value="T13: Phim dành cho khán giả từ đủ 16 tuổi trở lên (13+)">T13: Phim dành cho khán giả từ đủ 16 tuổi trở lên (13+)</option>
+                <option value="T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)">
+                  {" "}
+                  T18: Phim dành cho khán giả từ đủ 16 tuổi trở lên (18+)
+                </option>
+                <option value="T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)">
+                  T16: Phim dành cho khán giả từ đủ 16 tuổi trở lên (16+)
+                </option>
+                <option value="T13: Phim dành cho khán giả từ đủ 16 tuổi trở lên (13+)">
+                  T13: Phim dành cho khán giả từ đủ 16 tuổi trở lên (13+)
+                </option>
               </select>
             </div>
 
             <div className="form-group col-md-6">
               <label className="control-label">Đạo diễn</label>
-              <input className="form-control" type="text" required value={editedProduct.MoTa?.DaoDien || ""} onChange={(e) => setEditedProduct({ ...editedProduct, MoTa: { ...editedProduct.MoTa, DaoDien: e.target.value }, })} />
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.MoTa?.DaoDien || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    MoTa: { ...editedProduct.MoTa, DaoDien: e.target.value },
+                  })
+                }
+              />
             </div>
             <div className="form-group col-md-6">
               <label className="control-label">Diễn viên</label>
-              <input className="form-control" type="text" required value={editedProduct.MoTa?.DienVien || ""} onChange={(e) => setEditedProduct({ ...editedProduct, MoTa: { ...editedProduct.MoTa, DienVien: e.target.value }, })} />
+              <input
+                className="form-control"
+                type="text"
+                required
+                value={editedProduct.MoTa?.DienVien || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    MoTa: { ...editedProduct.MoTa, DienVien: e.target.value },
+                  })
+                }
+              />
             </div>
 
             <div className="form-group col-md-6">
               <label className="control-label">Ngày khởi chiếu</label>
-              <input className="form-control" type="date" required value={editedProduct.MoTa?.NgayKhoiChieu || ""} onChange={(e) => setEditedProduct({ ...editedProduct, MoTa: { ...editedProduct.MoTa, NgayKhoiChieu: e.target.value, }, })} />
+              <input
+                className="form-control"
+                type="date"
+                required
+                value={editedProduct.MoTa?.NgayKhoiChieu || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    MoTa: {
+                      ...editedProduct.MoTa,
+                      NgayKhoiChieu: e.target.value,
+                    },
+                  })
+                }
+              />
             </div>
 
             <div className="form-group col-md-12">
               <label className="control-label">Nội dung</label>
-              <textarea className="form-control" rows="3" required value={editedProduct.ThongTinPhim || ""} onChange={(e) => setEditedProduct({ ...editedProduct, ThongTinPhim: e.target.value, })} />
+              <textarea
+                className="form-control"
+                rows="3"
+                required
+                value={editedProduct.ThongTinPhim || ""}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    ThongTinPhim: e.target.value,
+                  })
+                }
+              />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleSaveChanges} className="btn btn-save"> Lưu lại </Button>
-          <Button onClick={() => setShowEditModal(false)} className="btn btn-cancel"> hủy bỏ</Button>
+          <Button onClick={handleSaveChanges} className="btn btn-save">
+            {" "}
+            Lưu lại{" "}
+          </Button>
+          <Button
+            onClick={() => setShowEditModal(false)}
+            className="btn btn-cancel"
+          >
+            {" "}
+            hủy bỏ
+          </Button>
         </Modal.Footer>
       </Modal>
       <ToastContainer />

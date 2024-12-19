@@ -134,7 +134,7 @@ const TaiKhoan = () => {
                           <td>{index + 1}</td>
                           <td>{account.Ten}</td>
                           <td>{account.TenDangNhap}</td>
-                          <td><img className="w-12 h-12 rounded-full object-cover" src={`http://localhost:3000/images/${account.Anh}`} alt={account.Ten} /></td>
+                          <td><img className="w-12 h-12 rounded-full object-cover" src={`http://localhost:3000/images/${account.Anh}`} alt={account.Ten} onError={(e) => { e.target.onerror = null; e.target.src = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"; }} /></td>
                           <td>{account.DiaChi}</td>
                           <td>{account.NgaySinh}</td>
                           <td>{account.GioiTinh}</td>

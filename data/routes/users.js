@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt");
 const { ObjectId } = require('mongodb');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 // Thiết lập nơi lưu trữ và tên file
 let storage = multer.diskStorage({
@@ -32,6 +34,236 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 
 // Import model
 const connectDb = require("../models/db");
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'screntime12@gmail.com',
+    pass: 'cxgd hlre chto yjbz',
+  },
+});
+const verificationCodesemail = {};
+const generateVerificationCode = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+router.post("/users/send-code", async (req, res) => {
+  const { Email } = req.body;
+
+  if (!Email) {
+    return res.status(400).json({ success: false, message: "Email là bắt buộc!" });
+  }
+
+  // Connect to the database
+  const db = await connectDb();
+  const userCollection = db.collection("taikhoan");
+
+  // Check if the email already exists in the database
+  const existingUser = await userCollection.findOne({ Email });
+  if (existingUser) {
+    // Email exists, return error message
+    return res.status(400).json({ success: false, message: "Email đã tồn tại xin nhập Email khác!" });
+  }
+
+  const verificationCode = generateVerificationCode();
+
+  try {
+    verificationCodesemail[Email] = verificationCode;
+    await transporter.sendMail({
+      from: 'screntime12@gmail.com',
+      to: Email, // Địa chỉ người nhận
+      subject: 'Mã xác nhận của bạn',
+      html: `
+     
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xác Thực Tài Khoản</title>
+    <style>
+      /* Reset CSS */
+      body,
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f4f8;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+
+      .email-wrapper {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .header {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .content {
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .content p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #555555;
+      }
+
+      .verification-code {
+        display: inline-block;
+        font-size: 32px;
+        font-weight: bold;
+        color: #6a11cb;
+        background-color: #f0f4ff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        letter-spacing: 3px;
+      }
+
+      .cta-button {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        background-color: #2575fc;
+        color: #ffffff;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(37, 117, 252, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .cta-button:hover {
+        background-color: #1a5fb4;
+        transform: translateY(-3px);
+      }
+
+      .footer {
+        background-color: #f9f9f9;
+        padding: 15px 20px;
+        text-align: center;
+        color: #777;
+        font-size: 12px;
+      }
+
+      .footer a {
+        color: #6a11cb;
+        text-decoration: none;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .header h1 {
+          font-size: 24px;
+        }
+        .content p {
+          font-size: 14px;
+        }
+        .verification-code {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <!-- Header -->
+      <div class="header">
+        <h1>Xác Thực Tài Khoản</h1>
+      </div>
+
+      <!-- Body Content -->
+      <div class="content">
+        <p>Xin chào bạn,</p>
+        <p>
+          Cảm ơn bạn đã đăng ký tài khoản! Để hoàn tất quá trình, vui lòng sử
+          dụng mã xác nhận dưới đây:
+        </p>
+
+        <!-- Verification Code -->
+        <div class="verification-code">${verificationCode}</div>
+
+        <!-- CTA Button -->
+       
+
+        <p style="margin-top: 20px">
+          Nếu bạn không yêu cầu hành động này, vui lòng bỏ qua email này.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>Trân trọng,</p>
+        <p>Đội ngũ hỗ trợ của chúng tôi</p>
+        <p>
+          <a href="mailto:supportScreenTime@example.com">supportScreenTime@example.com</a> |
+    
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+      `
+    });
+
+
+    res.json({ success: true, message: 'Mã xác nhận đã được gửi!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Có lỗi xảy ra khi gửi mã xác nhận!' });
+  }
+});
+
+
+router.post("/users/verify-code", async (req, res) => {
+  const { Email, verificationCode } = req.body;  // Changed 'email' to 'Email'
+
+  if (!Email || !verificationCode) {
+    return res.status(400).json({ success: false, message: "Email và mã xác nhận là bắt buộc!" });
+  }
+
+  try {
+    const storedCode = verificationCodesemail[Email];  // Changed 'verificationCodes[email]' to 'verificationCodesemail[Email]'
+
+    if (!storedCode || storedCode !== verificationCode) {
+      return res.status(400).json({ success: false, message: "Mã xác nhận không đúng!" });
+    }
+
+    // Xóa mã sau khi xác thực
+    delete verificationCodesemail[Email];  // Changed to use 'verificationCodesemail[Email]'
+
+    res.json({ success: true, message: "Xác thực thành công!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Có lỗi xảy ra khi xác thực mã!" });
+  }
+});
 
 router.post("/register", upload.single("Anh"), async (req, res) => {
   try {
@@ -86,7 +318,6 @@ router.post("/register", upload.single("Anh"), async (req, res) => {
   }
 });
 
-// Route cập nhật thông tin người dùng
 router.put("/updateUser/:id", async (req, res) => {
   try {
     const db = await connectDb();
@@ -218,8 +449,8 @@ router.post("/login", async (req, res, next) => {
       });
     }
 
-     // Kiểm tra nếu tài khoản đã bị khóa
-     if (user.IsLocked) {
+    // Kiểm tra nếu tài khoản đã bị khóa
+    if (user.IsLocked) {
       return res.status(403).json({
         message: "Tài khoản của bạn đã bị khóa.",
       });
@@ -282,7 +513,7 @@ router.get("/users/:id", async (req, res, next) => {
   const db = await connectDb();
   const usersCollection = db.collection("taikhoan");
   let id = req.params.id;
-  
+
   // Sử dụng ObjectId nếu id là ObjectId trong MongoDB
   const users = await usersCollection.findOne({ _id: ObjectId(id) });
   if (users) {
@@ -346,22 +577,22 @@ router.get('/detailuser', async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
-  
+
   const bearerToken = token.split(' ')[1];
   jwt.verify(bearerToken, process.env.JWT_SECRET || "secretkey", async (err, user) => {
-      if (err) {
-          return res.status(401).json({ message: "Token không hợp lệ" });
-      }
-      const db = await connectDb();
-      const userCollection = db.collection('taikhoan');
-      const userInfo = await userCollection.findOne({ Email: user.Email });
-      if (userInfo) {
-          res.status(200).json(userInfo);
-      } else {
-          res.status(404).json({ message: "Không tìm thấy người dùng" });
-      }
+    if (err) {
+      return res.status(401).json({ message: "Token không hợp lệ" });
+    }
+    const db = await connectDb();
+    const userCollection = db.collection('taikhoan');
+    const userInfo = await userCollection.findOne({ Email: user.Email });
+    if (userInfo) {
+      res.status(200).json(userInfo);
+    } else {
+      res.status(404).json({ message: "Không tìm thấy người dùng" });
+    }
   });
 });
 
@@ -371,13 +602,6 @@ router.get('/detailuser', async (req, res, next) => {
 module.exports = router;
 
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'toan2211w1@gmail.com',
-    pass: 'rqaq axfn avib gnut', 
-  },
-});
 
 // router.post("/forgot-password", async (req, res) => {
 //   const { Email } = req.body;
@@ -398,7 +622,7 @@ const transporter = nodemailer.createTransport({
 //     // Gửi email chứa mã xác thực (sử dụng Nodemailer)
 
 //     const mailOptions = {
-//       from: 'toan2211w1@gmail.com',
+//       from: 'screntime12@gmail.com',
 //       to: Email,
 //       subject: 'Mã xác thực để đặt lại mật khẩu',
 //       text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
@@ -443,11 +667,30 @@ router.post("/forgot-password", async (req, res) => {
 
     // Gửi email chứa mã xác thực (sử dụng Nodemailer)
     const mailOptions = {
-      from: 'toan2211w1@gmail.com',
+      from: 'screntime12@gmail.com',
       to: Email,
       subject: 'Mã xác thực để đặt lại mật khẩu',
-      text: `Mã xác thực của bạn là: ${verificationCode}\nVui lòng nhập mã này để đặt lại mật khẩu.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; color: #333;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 8px;">
+            <h2 style="color: #4CAF50; text-align: center;">Đặt lại mật khẩu</h2>
+            <p style="font-size: 16px; line-height: 1.6;">
+              Chào bạn, <br><br>
+              Để đảm bảo tính bảo mật, chúng tôi đã nhận được yêu cầu đặt lại mật khẩu của bạn. Vui lòng sử dụng mã xác thực dưới đây để hoàn tất quá trình đặt lại mật khẩu.
+            </p>
+            <h3 style="color: #4CAF50; text-align: center; font-size: 22px; font-weight: bold;">${verificationCode}</h3>
+            <p style="font-size: 16px; line-height: 1.6;">
+              <strong>Lưu ý:</strong> Mã xác thực này không chia sẽ ra bên ngoài. Nếu bạn không yêu cầu thay đổi mật khẩu, vui lòng bỏ qua email này.
+            </p>
+            <p style="font-size: 16px; line-height: 1.6;">
+              Trân trọng,<br>
+              Đội ngũ hỗ trợ khách hàng
+            </p>
+          </div>
+        </div>
+      `,
     };
+
 
     // Gửi email
     transporter.sendMail(mailOptions, (error, info) => {

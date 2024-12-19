@@ -68,28 +68,31 @@ const RevenueStatistics = () => {
     };
 
 
+    const formatDate = (isoString) => {
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (bắt đầu từ 0, cần +1)
+        const year = date.getFullYear(); // Lấy năm
+        return `${day}/${month}/${year}`;
+    };
     const prepareChartData = (data) => {
-        // Tạo một mảng các tháng từ 1 đến 12
+        const currentYear = new Date().getFullYear(); // Get the current year
         const allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
 
-        // Tạo một mảng tháng và tổng doanh thu cho mỗi tháng, chỉ tính vé chưa hủy
         const monthRevenue = allMonths.map(month => {
             const filteredDataForMonth = data.filter(item => {
-                // Lọc dữ liệu cho mỗi tháng (tháng từ 1 đến 12) và vé chưa hủy
-                const itemMonth = new Date(item.NgayMua || item.NgaySuatChieu).getMonth() + 1;
-                return itemMonth === month && item.TrangThai !== 'Đã Hủy'; // Kiểm tra vé chưa hủy
+                const itemDate = new Date(item.NgayMua || item.NgaySuatChieu);
+                const itemMonth = itemDate.getMonth() + 1;
+                const itemYear = itemDate.getFullYear(); // Get the year of the item
+                return itemMonth === month && itemYear === currentYear && item.TrangThai !== 'Đã Hủy'; // Check for current year and non-cancelled tickets
             });
 
-            // Tính tổng doanh thu cho tháng này (chỉ tính vé chưa hủy)
             const totalRevenueForMonth = filteredDataForMonth.reduce((acc, item) => acc + (item.TongTien || item.GiaVe), 0);
-
             return totalRevenueForMonth;
         });
 
-        // Tạo mảng tên tháng để hiển thị trong biểu đồ
         const monthLabels = allMonths.map(month => `Tháng ${month}`);
 
-        // Dữ liệu cho biểu đồ
         const chartData = {
             labels: monthLabels,
             datasets: [
@@ -141,11 +144,11 @@ const RevenueStatistics = () => {
 
                             <div className="mb-4 flex space-x-4">
                                 <div className="bg-blue-100 text-blue-600 font-semibold py-3 px-6 rounded-md shadow-sm text-center flex flex-col items-center">
-                                    <p><strong>Tổng số vé đã bán:</strong></p>
+                                    <p><strong>Tổng số hóa đơn đã bán:</strong></p>
                                     <p className="text-2xl font-bold">{totalTickets}</p>
                                 </div>
                                 <div className="bg-red-100 text-red-600 font-semibold py-3 px-6 rounded-md shadow-sm text-center flex flex-col items-center">
-                                    <p><strong>Số vé đã hủy:</strong></p>
+                                    <p><strong>Số hóa đơn đã hủy:</strong></p>
                                     <p className="text-2xl font-bold">{totalCancelledTickets}</p>
                                 </div>
                                 <div className="bg-green-100 text-green-600 font-semibold py-3 px-6 rounded-md shadow-sm text-center flex flex-col items-center">
@@ -158,12 +161,11 @@ const RevenueStatistics = () => {
                                 <thead>
                                     <tr>
                                         <th with="50">STT</th>
-                                        <th>Ngày Mua/Suất Chiếu</th>
+                                        <th>Ngày Mua</th>
                                         <th>Tên Phim</th>
                                         <th>Ghế Ngồi</th>
                                         <th>Phòng Chiếu</th>
                                         <th>Giá Vé</th>
-                                        <th>Combo</th>
                                         <th>Trạng thái</th>
                                         <th>Tổng Tiền</th>
                                     </tr>
@@ -173,12 +175,11 @@ const RevenueStatistics = () => {
                                         filteredData.map((item, index) => (
                                             <tr key={item._id}>
                                                 <td>{index + 1}</td>
-                                                <td>{item.NgayMua || item.NgaySuatChieu}</td>
+                                                <td>{item.NgayMua ? formatDate(item.NgayMua) : formatDate(item.NgaySuatChieu)}</td>
                                                 <td>{item.TenPhim || 'N/A'}</td>
                                                 <td>{item.GheNgoi || item.SoGhe}</td>
                                                 <td>{item.TenPhong || item.PhongChieu}</td>
                                                 <td>{(item.GiaVe || 0).toLocaleString()} VND</td>
-                                                <td>{item.Combo || 'Không'}</td>
                                                 <td>{item.TrangThai || 'Không'}</td>
                                                 <td>{(item.TongTien || 0).toLocaleString()} VND</td>
                                             </tr>
@@ -193,7 +194,7 @@ const RevenueStatistics = () => {
 
                             {datasets && (
                                 <div className="mb-4">
-                                    <h3 className="text-center font-semibold text-lg">Biểu đồ doanh thu theo tháng</h3>
+                                    <h3 className="text-center font-semibold text-lg">Biểu đồ doanh thu theo năm {new Date().getFullYear()}</h3>
                                     <Line data={datasets} />
                                 </div>
                             )}

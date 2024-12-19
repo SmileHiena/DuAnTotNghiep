@@ -381,11 +381,18 @@ const QuanLyPhongChieu = ({ params }) => {
                                       return (
                                         <div
                                           key={gheIndex}
+<<<<<<< HEAD
                                           className={`px-4 py-3 text-center text-sm rounded ${
                                             isBooked
                                               ? "bg-red-500 text-white cursor-not-allowed"
                                               : "bg-blue-500 text-white"
                                           }`}
+=======
+                                          className={`px-4 py-3 text-center text-sm rounded ${isBooked
+                                              ? "bg-red-500 text-white cursor-not-allowed"
+                                              : "bg-blue-500 text-white"
+                                            }`}
+>>>>>>> master
                                           title={
                                             isBooked
                                               ? "Ghế đã đặt - Không thể chỉnh sửa"
@@ -501,14 +508,22 @@ const QuanLyPhongChieu = ({ params }) => {
                                     String.fromCharCode(65 + rowIndex); // A, B, C...
                                   const gheCountForRow = Math.min(
                                     newSoLuongGhe -
+<<<<<<< HEAD
                                       rowIndex * defaultSeatsPerRow,
+=======
+                                    rowIndex * defaultSeatsPerRow,
+>>>>>>> master
                                     defaultSeatsPerRow
                                   );
                                   const ghe = Array.from(
                                     { length: gheCountForRow },
                                     (_, seatIndex) =>
                                       currentSeats[rowIndex]?.Ghe?.[
+<<<<<<< HEAD
                                         seatIndex
+=======
+                                      seatIndex
+>>>>>>> master
                                       ] || `${hang}${seatIndex + 1}`
                                   );
                                   return { Hang: hang, Ghe: ghe };

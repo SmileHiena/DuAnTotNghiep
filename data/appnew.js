@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const url = "mongodb://localhost:27017";
+const url = "mongodb+srv://screntime12:Y3PO2213Sq4kcmlM@cluster0.zv8zx.mongodb.net/";
 const dbName = "Ticker_Movie";
 
 const data = {
@@ -1266,208 +1266,242 @@ const data = {
       id: 1,
       TenRap: "Rạp ScreenTime Quận 12",
       ViTri: "Vincom Center, Quận 12, TP.HCM",
-      // Phòng trong rạp
       PhongChieu: [
-        // phòng 1
         {
           id: 1,
-          TenPhongChieu: "Phòng chiếu 1",
-          SoLuongGhe: 10,
-          // Thêm danh sách ghế
+          TenPhongChieu: "Phòng 1",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "A", Ghe: ["P1_A01", "P1_A02", "P1_A03", "P1_A04", "P1_A05"] },
-            { Hang: "B", Ghe: ["P1_B01", "P1_B02", "P1_B03", "P1_B04", "P1_B05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 2
         {
           id: 2,
-          TenPhongChieu: "Phòng chiếu 2",
-          SoLuongGhe: 10,
-          // Thêm danh sách ghế
+          TenPhongChieu: "Phòng 2",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "C", Ghe: ["P2_C01", "P2_C02", "P2_C03", "P2_C04", "P2_C05"] },
-            { Hang: "D", Ghe: ["P2_D01", "P2_D02", "P2_D03", "P2_D04", "P2_D05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 3
         {
           id: 3,
-          TenPhongChieu: "Phòng chiếu 3",
-          SoLuongGhe: 10,
-          // Thêm danh sách ghế
+          TenPhongChieu: "Phòng 3",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "E", Ghe: ["P3_E01", "P3_E02", "P3_E03", "P3_E04", "P3_E05"] },
-            { Hang: "F", Ghe: ["P3_F01", "P3_F02", "P3_F03", "P3_F04", "P3_F05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 4
         {
           id: 4,
-          TenPhongChieu: "Phòng chiếu 4",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 4",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "G", Ghe: ["P4_G01", "P4_G02", "P4_G03", "P4_G04", "P4_G05"] },
-            { Hang: "H", Ghe: ["P4_H01", "P4_H02", "P4_H03", "P4_H04", "P4_H05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 5
         {
           id: 5,
-          TenPhongChieu: "Phòng chiếu 5",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 5",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "I", Ghe: ["P5_I01", "P5_I02", "P5_I03", "P5_I04", "P5_I05"] },
-            { Hang: "J", Ghe: ["P5_J01", "P5_J02", "P5_J03", "P5_J04", "P5_J05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 6
         {
           id: 6,
-          TenPhongChieu: "Phòng chiếu 6",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 6",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "K", Ghe: ["P6_K01", "P6_K02", "P6_K03", "P6_K04", "P6_K05"] },
-            { Hang: "L", Ghe: ["P6_L01", "P6_L02", "P6_L03", "P6_L04", "P6_L05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 7
         {
           id: 7,
-          TenPhongChieu: "Phòng chiếu 7",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 7",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "M", Ghe: ["P7_M01", "P7_M02", "P7_M03", "P7_M04", "P7_M05"] },
-            { Hang: "N", Ghe: ["P7_N01", "P7_N02", "P7_N03", "P7_N04", "P7_N05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 8
         {
           id: 8,
-          TenPhongChieu: "Phòng chiếu 8",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 8",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "O", Ghe: ["P8_O01", "P8_O02", "P8_O03", "P8_O04", "P8_O05"] },
-            { Hang: "P", Ghe: ["P8_P01", "P8_P02", "P8_P03", "P8_P04", "P8_P05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 9
         {
           id: 9,
-          TenPhongChieu: "Phòng chiếu 9",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 9",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "Q", Ghe: ["P9_Q01", "P9_Q02", "P9_Q03", "P9_Q04", "P9_Q05"] },
-            { Hang: "R", Ghe: ["P9_R01", "P9_R02", "P9_R03", "P9_R04", "P9_R05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-        // phòng 10
         {
           id: 10,
-          TenPhongChieu: "Phòng chiếu 10",
-          SoLuongGhe: 10,
+          TenPhongChieu: "Phòng 10",
+          SoLuongGhe: 60,
           Ghe: [
-            { Hang: "S", Ghe: ["P10_S01", "P10_S02", "P10_S03", "P10_S04", "P10_S05"] },
-            { Hang: "T", Ghe: ["P10_T01", "P10_T02", "P10_T03", "P10_T04", "P10_T05"] },
-          ],
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
         },
-      ],
-    },
+        {
+          id: 11,
+          TenPhongChieu: "Phòng 11",
+          SoLuongGhe: 60,
+          Ghe: [
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
+        },
+        {
+          id: 12,
+          TenPhongChieu: "Phòng 12",
+          SoLuongGhe: 60,
+          Ghe: [
+            { Hang: "A", Ghe: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"] },
+            { Hang: "B", Ghe: ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"] },
+            { Hang: "C", Ghe: ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"] },
+            { Hang: "D", Ghe: ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"] },
+            { Hang: "E", Ghe: ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10"] },
+            { Hang: "F", Ghe: ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"] }
+          ]
+        },
+
+      ]
+    }
   ],
 
   // ----- Suất Chiếu -----
   SuatChieu: [
-    // Ngày 26/09/2024
-    { id: 1, IdPhim: 1, IdPhong: 1, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 2, IdPhim: 1, IdPhong: 2, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 3, IdPhim: 1, IdPhong: 3, NgayChieu: "26/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 4, IdPhim: 2, IdPhong: 4, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 5, IdPhim: 2, IdPhong: 5, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 6, IdPhim: 2, IdPhong: 6, NgayChieu: "26/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 7, IdPhim: 3, IdPhong: 7, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 8, IdPhim: 3, IdPhong: 8, NgayChieu: "26/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 9, IdPhim: 3, IdPhong: 9, NgayChieu: "26/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 10, IdPhim: 4, IdPhong: 10, NgayChieu: "26/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 27/09/2024
-    { id: 11, IdPhim: 4, IdPhong: 1, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 12, IdPhim: 4, IdPhong: 2, NgayChieu: "27/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 13, IdPhim: 5, IdPhong: 3, NgayChieu: "27/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 14, IdPhim: 5, IdPhong: 4, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 15, IdPhim: 5, IdPhong: 5, NgayChieu: "27/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 16, IdPhim: 6, IdPhong: 6, NgayChieu: "27/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 17, IdPhim: 6, IdPhong: 7, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 18, IdPhim: 6, IdPhong: 8, NgayChieu: "27/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 19, IdPhim: 7, IdPhong: 9, NgayChieu: "27/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 20, IdPhim: 7, IdPhong: 10, NgayChieu: "27/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 28/09/2024
-    { id: 21, IdPhim: 7, IdPhong: 1, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 22, IdPhim: 8, IdPhong: 2, NgayChieu: "28/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 23, IdPhim: 8, IdPhong: 3, NgayChieu: "28/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 24, IdPhim: 8, IdPhong: 4, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 25, IdPhim: 9, IdPhong: 5, NgayChieu: "28/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 26, IdPhim: 9, IdPhong: 6, NgayChieu: "28/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 27, IdPhim: 9, IdPhong: 7, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 28, IdPhim: 10, IdPhong: 8, NgayChieu: "28/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 29, IdPhim: 10, IdPhong: 9, NgayChieu: "28/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 30, IdPhim: 10, IdPhong: 10, NgayChieu: "28/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 29/09/2024
-    { id: 31, IdPhim: 11, IdPhong: 1, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 32, IdPhim: 11, IdPhong: 2, NgayChieu: "29/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 33, IdPhim: 11, IdPhong: 3, NgayChieu: "29/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 34, IdPhim: 12, IdPhong: 4, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 35, IdPhim: 12, IdPhong: 5, NgayChieu: "29/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 36, IdPhim: 12, IdPhong: 6, NgayChieu: "29/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 37, IdPhim: 13, IdPhong: 7, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 38, IdPhim: 13, IdPhong: 8, NgayChieu: "29/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 39, IdPhim: 13, IdPhong: 9, NgayChieu: "29/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 40, IdPhim: 14, IdPhong: 10, NgayChieu: "29/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 30/09/2024
-    { id: 41, IdPhim: 14, IdPhong: 1, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 42, IdPhim: 14, IdPhong: 2, NgayChieu: "30/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 43, IdPhim: 15, IdPhong: 3, NgayChieu: "30/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 44, IdPhim: 15, IdPhong: 4, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 45, IdPhim: 15, IdPhong: 5, NgayChieu: "30/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 46, IdPhim: 16, IdPhong: 6, NgayChieu: "30/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 47, IdPhim: 16, IdPhong: 7, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 48, IdPhim: 16, IdPhong: 8, NgayChieu: "30/09/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 49, IdPhim: 17, IdPhong: 9, NgayChieu: "30/09/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 50, IdPhim: 17, IdPhong: 10, NgayChieu: "30/09/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 01/10/2024
-    { id: 51, IdPhim: 17, IdPhong: 1, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 52, IdPhim: 18, IdPhong: 2, NgayChieu: "01/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 53, IdPhim: 18, IdPhong: 3, NgayChieu: "01/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 54, IdPhim: 18, IdPhong: 4, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 55, IdPhim: 19, IdPhong: 5, NgayChieu: "01/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 56, IdPhim: 19, IdPhong: 6, NgayChieu: "01/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 57, IdPhim: 19, IdPhong: 7, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 58, IdPhim: 20, IdPhong: 8, NgayChieu: "01/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 59, IdPhim: 20, IdPhong: 9, NgayChieu: "01/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 60, IdPhim: 20, IdPhong: 10, NgayChieu: "01/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 02/10/2024
-    { id: 61, IdPhim: 21, IdPhong: 1, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 62, IdPhim: 21, IdPhong: 2, NgayChieu: "02/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 63, IdPhim: 21, IdPhong: 3, NgayChieu: "02/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 64, IdPhim: 22, IdPhong: 4, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 65, IdPhim: 22, IdPhong: 5, NgayChieu: "02/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 66, IdPhim: 22, IdPhong: 6, NgayChieu: "02/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 67, IdPhim: 23, IdPhong: 7, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 68, IdPhim: 23, IdPhong: 8, NgayChieu: "02/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 69, IdPhim: 23, IdPhong: 9, NgayChieu: "02/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 70, IdPhim: 24, IdPhong: 10, NgayChieu: "02/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-
-    // Ngày 03/10/2024
-    { id: 71, IdPhim: 24, IdPhong: 1, NgayChieu: "03/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 72, IdPhim: 24, IdPhong: 2, NgayChieu: "03/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 73, IdPhim: 25, IdPhong: 3, NgayChieu: "03/10/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 74, IdPhim: 25, IdPhong: 4, NgayChieu: "03/10/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
-    { id: 75, IdPhim: 25, IdPhong: 5, NgayChieu: "03/10/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] }
+    { id: 1, IdPhim: 1, IdPhong: 1, NgayChieu: "21/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 2, IdPhim: 2, IdPhong: 2, NgayChieu: "21/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 3, IdPhim: 3, IdPhong: 3, NgayChieu: "22/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 4, IdPhim: 4, IdPhong: 4, NgayChieu: "23/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 5, IdPhim: 5, IdPhong: 5, NgayChieu: "23/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 6, IdPhim: 6, IdPhong: 6, NgayChieu: "23/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 7, IdPhim: 7, IdPhong: 7, NgayChieu: "24/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 8, IdPhim: 8, IdPhong: 8, NgayChieu: "24/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 9, IdPhim: 9, IdPhong: 9, NgayChieu: "24/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 10, IdPhim: 10, IdPhong: 10, NgayChieu: "25/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 11, IdPhim: 11, IdPhong: 11, NgayChieu: "25/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 12, IdPhim: 12, IdPhong: 12, NgayChieu: "25/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 13, IdPhim: 13, IdPhong: 1, NgayChieu: "26/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 14, IdPhim: 14, IdPhong: 2, NgayChieu: "26/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 15, IdPhim: 15, IdPhong: 3, NgayChieu: "26/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 16, IdPhim: 16, IdPhong: 4, NgayChieu: "27/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 17, IdPhim: 17, IdPhong: 5, NgayChieu: "27/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 18, IdPhim: 18, IdPhong: 6, NgayChieu: "27/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 19, IdPhim: 19, IdPhong: 7, NgayChieu: "28/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 20, IdPhim: 20, IdPhong: 8, NgayChieu: "28/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 21, IdPhim: 21, IdPhong: 9, NgayChieu: "28/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 22, IdPhim: 22, IdPhong: 10, NgayChieu: "29/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 23, IdPhim: 23, IdPhong: 11, NgayChieu: "29/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 24, IdPhim: 24, IdPhong: 12, NgayChieu: "29/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 25, IdPhim: 25, IdPhong: 1, NgayChieu: "30/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 26, IdPhim: 1, IdPhong: 2, NgayChieu: "30/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 27, IdPhim: 2, IdPhong: 3, NgayChieu: "30/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 28, IdPhim: 3, IdPhong: 4, NgayChieu: "31/12/2024", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 29, IdPhim: 4, IdPhong: 5, NgayChieu: "31/12/2024", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 30, IdPhim: 5, IdPhong: 6, NgayChieu: "31/12/2024", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 31, IdPhim: 6, IdPhong: 7, NgayChieu: "01/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 32, IdPhim: 7, IdPhong: 8, NgayChieu: "01/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 33, IdPhim: 8, IdPhong: 9, NgayChieu: "01/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 34, IdPhim: 9, IdPhong: 10, NgayChieu: "02/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 35, IdPhim: 10, IdPhong: 11, NgayChieu: "02/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 36, IdPhim: 11, IdPhong: 12, NgayChieu: "02/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 37, IdPhim: 12, IdPhong: 1, NgayChieu: "03/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 38, IdPhim: 13, IdPhong: 2, NgayChieu: "03/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 39, IdPhim: 14, IdPhong: 3, NgayChieu: "03/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 40, IdPhim: 15, IdPhong: 4, NgayChieu: "04/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 41, IdPhim: 16, IdPhong: 5, NgayChieu: "04/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 42, IdPhim: 17, IdPhong: 6, NgayChieu: "04/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 43, IdPhim: 18, IdPhong: 7, NgayChieu: "05/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 44, IdPhim: 19, IdPhong: 8, NgayChieu: "05/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 45, IdPhim: 20, IdPhong: 9, NgayChieu: "05/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 46, IdPhim: 21, IdPhong: 10, NgayChieu: "06/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 47, IdPhim: 22, IdPhong: 11, NgayChieu: "06/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 48, IdPhim: 23, IdPhong: 12, NgayChieu: "06/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 49, IdPhim: 24, IdPhong: 1, NgayChieu: "07/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 50, IdPhim: 25, IdPhong: 2, NgayChieu: "07/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 51, IdPhim: 1, IdPhong: 3, NgayChieu: "07/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 52, IdPhim: 2, IdPhong: 4, NgayChieu: "08/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 53, IdPhim: 3, IdPhong: 5, NgayChieu: "08/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 54, IdPhim: 4, IdPhong: 6, NgayChieu: "08/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 55, IdPhim: 5, IdPhong: 7, NgayChieu: "09/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 56, IdPhim: 6, IdPhong: 8, NgayChieu: "09/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 57, IdPhim: 7, IdPhong: 9, NgayChieu: "09/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 58, IdPhim: 8, IdPhong: 10, NgayChieu: "10/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 59, IdPhim: 9, IdPhong: 11, NgayChieu: "10/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 60, IdPhim: 10, IdPhong: 12, NgayChieu: "10/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 61, IdPhim: 11, IdPhong: 1, NgayChieu: "11/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 62, IdPhim: 12, IdPhong: 2, NgayChieu: "11/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 63, IdPhim: 13, IdPhong: 3, NgayChieu: "11/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 64, IdPhim: 14, IdPhong: 4, NgayChieu: "12/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 65, IdPhim: 15, IdPhong: 5, NgayChieu: "12/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 66, IdPhim: 16, IdPhong: 6, NgayChieu: "12/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 67, IdPhim: 17, IdPhong: 7, NgayChieu: "13/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 68, IdPhim: 18, IdPhong: 8, NgayChieu: "13/01/2025", GioChieu: "18:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 69, IdPhim: 19, IdPhong: 9, NgayChieu: "13/01/2025", GioChieu: "22:00", TrangThai: "DangChieu", DaDatGhe: [] },
+    { id: 70, IdPhim: 20, IdPhong: 10, NgayChieu: "14/01/2025", GioChieu: "15:00", TrangThai: "DangChieu", DaDatGhe: [] }
   ],
+
 
   // ----- Loại Vé -----
   LoaiVe: [
@@ -1480,11 +1514,6 @@ const data = {
       id: 2,
       TenVe: "HSSV-Người Cao Tuổi",
       GiaVe: 45000,
-    },
-    {
-      id: 3,
-      TenVe: "Người Lớn - Đôi",
-      GiaVe: 155000,
     },
   ],
 
@@ -1558,64 +1587,80 @@ const data = {
   // ----- TÀI_KHOẢN -----
   TaiKhoan: [
     {
-      id: 1,
-      Ten: "Nguyen Thai Son",
-      SDT: "0987654321",
-      NgaySinh: "1990-10-10",
+      id: "efb5ccf9-6d7d-445b-a18c-19be1a17e426",
+      userId: 1,
+      Email: "truonghoai2806@gmail.com",
+      NgaySinh: "2004-06-28",
+      DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
       GioiTinh: "Nam",
-      Anh: "path/to/son_image.jpg",
-      TenDangNhap: "NguyenThaiSon",
-      MatKhau: "12345678",
-      Email: "nguyenthaison@example.com",
-      IsAdmin: 0,
-      DiaChi: "123 Đường ABC, Quận 1, TP. HCM",
-    },
+      MatKhau: "$2b$10$Pi1/sHDTlXKI15Fp5lC2heYXvogvjd0QPoCO6.8R27txyzEKhXQSW", // NguyenVanA000@
+      SDT: "0395428360",
+      TenDangNhap: "NguyenVanA", // Tài khoản
+      Ten: "Nguyễn Văn A",
+      Anh: "logovn.png",
+      IsAdmin: 1,
+      IsLocked: false
+    }
   ],
 
   // ----- BÌNH_LUẬN -----
   BinhLuan: [
     {
-      id: 1,
-      NoiDung: "Phim hay",
-      NgayBinhLuan: "26-09-2024",
-      IdPhim: 1,
-      IdTaiKhoan: 1,
-    },
+      movieId: "1",
+      userId: "1",
+      content: "hehehe",
+      username: "hoaidev33",
+      userImage: "1733282666752-banner_event.jpg",
+    }
   ],
 
-  // ----- Hóa_Đơn -----
   HoaDon: [
-    {
-      id: 1,
-      NgaySuatChieu: "29/10 - T6",
-      GheNgoi: "A01",
-      TenPhong: 1,
-      GiaVe: 200000,
-      SoLuongVe: 1,
-      TrangThai: "Đã thanh toán",
-      IdSuatChieu: 1,
-      IdTaiKhoan: 1,
-      IdCombo: 1,
-    },
+    { id: 1, userId: 2, NgayMua: "2024-01-15T11:32:22.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "VISA", TenPhim: "LÀM GIÀU VỚI MA (T16)", ThoiGian: "18:00", NgayChieu: "2024-01-20", SoGhe: ["A2", "B5"], PhongChieu: "Phòng 2", GiaVe: 85000, TongTien: 170000, TenKhachHang: "Nguyễn Minh Khánh", Email: "minhkhankh@gmail.com", Combo: "COMBO LIGHT", IdPhong: 2, IdPhim: 5, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-01-15T11:35:40.000Z" } },
+    { id: 2, userId: 3, NgayMua: "2024-02-04T16:45:01.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "MOMO", TenPhim: "THE SECRET GARDEN", ThoiGian: "15:00", NgayChieu: "2024-02-10", SoGhe: ["C3"], PhongChieu: "Phòng 3", GiaVe: 65000, TongTien: 65000, TenKhachHang: "Lê Thanh Sơn", Email: "sonle@gmail.com", Combo: "COMBO FAMILY (1)", IdPhong: 3, IdPhim: 8, TrangThai: "Đã Mua", createdAt: { "$date": "2024-02-04T16:47:10.000Z" } },
+    { id: 3, userId: 4, NgayMua: "2024-03-10T09:30:59.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "ZALOPAY", TenPhim: "JOURNEY THROUGH TIME", ThoiGian: "22:00", NgayChieu: "2024-03-15", SoGhe: ["D1", "E3"], PhongChieu: "Phòng 4", GiaVe: 90000, TongTien: 270000, TenKhachHang: "Trần Minh Tâm", Email: "minhtam@gmail.com", Combo: "COMBO DELUXE", IdPhong: 4, IdPhim: 12, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-03-10T09:32:08.000Z" } },
+    { id: 4, userId: 5, NgayMua: "2024-04-12T14:00:00.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "MOMO", TenPhim: "MAGIC OF THE OCEAN", ThoiGian: "18:00", NgayChieu: "2024-04-15", SoGhe: ["A5"], PhongChieu: "Phòng 5", GiaVe: 75000, TongTien: 75000, TenKhachHang: "Nguyễn Thiện Minh", Email: "nguyenminh@gmail.com", Combo: "COMBO MEGA (1)", IdPhong: 5, IdPhim: 15, TrangThai: "Đã Mua", createdAt: { "$date": "2024-04-12T14:03:22.000Z" } },
+    { id: 5, userId: 6, NgayMua: "2024-05-21T12:50:10.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "VNBANK", TenPhim: "THE LAST SAMURAI", ThoiGian: "15:00", NgayChieu: "2024-05-25", SoGhe: ["B3", "C7"], PhongChieu: "Phòng 6", GiaVe: 85000, TongTien: 255000, TenKhachHang: "Đoàn Minh Phúc", Email: "minhphuc@gmail.com", Combo: "COMBO FAMILY (2)", IdPhong: 6, IdPhim: 10, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-05-21T12:53:55.000Z" } },
+    { id: 6, userId: 7, NgayMua: "2024-06-08T17:15:35.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "MOMO", TenPhim: "KINGDOM OF DRAGONS", ThoiGian: "18:00", NgayChieu: "2024-06-15", SoGhe: ["C2"], PhongChieu: "Phòng 7", GiaVe: 95000, TongTien: 95000, TenKhachHang: "Phan Thanh Sơn", Email: "phanthanhson@gmail.com", Combo: "COMBO LUXURY", IdPhong: 7, IdPhim: 9, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-06-08T17:20:01.000Z" } },
+    { id: 7, userId: 8, NgayMua: "2024-07-17T13:45:12.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "ZALOPAY", TenPhim: "ROCKET TO THE STARS", ThoiGian: "22:00", NgayChieu: "2024-07-20", SoGhe: ["D4", "E8"], PhongChieu: "Phòng 8", GiaVe: 78000, TongTien: 234000, TenKhachHang: "Lê Minh Thái", Email: "minhthai@gmail.com", Combo: "COMBO STANDARD", IdPhong: 8, IdPhim: 16, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-07-17T13:47:30.000Z" } },
+    { id: 8, userId: 9, NgayMua: "2024-08-03T10:10:24.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "VISA", TenPhim: "FANTASY WORLD", ThoiGian: "18:00", NgayChieu: "2024-08-07", SoGhe: ["A1"], PhongChieu: "Phòng 9", GiaVe: 88000, TongTien: 88000, TenKhachHang: "Trần Minh Lâm", Email: "minhlam@gmail.com", Combo: "COMBO FAMILY (1)", IdPhong: 9, IdPhim: 11, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-08-03T10:13:40.000Z" } },
+    { id: 9, userId: 10, NgayMua: "2024-09-25T15:30:50.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "MOMO", TenPhim: "THE PHANTOM OF THE OPERA", ThoiGian: "22:00", NgayChieu: "2024-09-30", SoGhe: ["B1", "C9"], PhongChieu: "Phòng 10", GiaVe: 90000, TongTien: 270000, TenKhachHang: "Phan Thiên Long", Email: "thienlong@gmail.com", Combo: "COMBO MEGA", IdPhong: 10, IdPhim: 18, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-09-25T15:33:12.000Z" } },
+    { id: 10, userId: 11, NgayMua: "2024-10-17T16:55:21.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "VNBANK", TenPhim: "GHOST IN THE SHELL", ThoiGian: "15:00", NgayChieu: "2024-10-20", SoGhe: ["D7", "E2"], PhongChieu: "Phòng 11", GiaVe: 78000, TongTien: 234000, TenKhachHang: "Bùi Quang Tuấn", Email: "quangtuan@gmail.com", Combo: "COMBO STANDARD", IdPhong: 11, IdPhim: 17, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-10-17T16:57:45.000Z" } },
+    { id: 11, userId: 12, NgayMua: "2024-11-04T10:05:12.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "VISA", TenPhim: "THE WITCHER", ThoiGian: "18:00", NgayChieu: "2024-11-10", SoGhe: ["B2", "D6"], PhongChieu: "Phòng 12", GiaVe: 85000, TongTien: 255000, TenKhachHang: "Trần Tiến Đạt", Email: "tiendat@gmail.com", Combo: "COMBO FAMILY (2)", IdPhong: 12, IdPhim: 13, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-11-04T10:08:05.000Z" } },
+    { id: 12, userId: 13, NgayMua: "2024-12-12T11:40:30.000Z", Rap: "Ticket Quận 12", PhuongThucThanhToan: "ZALOPAY", TenPhim: "THE LAST OF US", ThoiGian: "22:00", NgayChieu: "2024-12-15", SoGhe: ["A3"], PhongChieu: "Phòng 1", GiaVe: 70000, TongTien: 70000, TenKhachHang: "Nguyễn Quang Hòa", Email: "hoanguyen@gmail.com", Combo: "COMBO STANDARD", IdPhong: 1, IdPhim: 14, TrangThai: "Đã Thanh Toán", createdAt: { "$date": "2024-12-12T11:42:58.000Z" } }
   ],
 
   // ----- ADMIN -----
   Admin: [
     {
       id: 1,
-      Quyen: "Admin",
-      HoTen: "Nguyễn Thái Sơn",
-      TenDangNhap: "Sondev",
-      MatKhau: "12345678",
-      Anh: "/images/combo/combo4.jpg",
-      DiaChi: "Quận 12, TP. HCM",
-      NgaySinh: "29-09-2004",
+      HoTen: "Nguyễn Admin",
+      TenDangNhap: "admin01", // username: admin01
+      MatKhau: "$2b$10$kydE/AZs.onp3OjR0i8AaeyALcHftnE2EQ0Rc8favsy2rbIKWw6ui", // password: Admin000@
+      Anh: "/images/logovn.png",
+      DiaChi: "3456 Đường XYZ, Quận 3, TP. HCM",
+      NgaySinh: "2004-12-06",
       GioTinh: "Nam",
-      SDT: "0395427399",
-      ChucVu: "Nhân viên",
+      SDT: "0969125712",
+      ChucVu: "Quản trị viên",
       Tinhtrang: "Hoạt động",
-      IsAdmin: 0,
+      Quyen: "Admin",
+      IsAdmin: 0
     },
+    {
+      id: 2,
+      HoTen: "Nguyễn Nhân Viên",
+      TenDangNhap: "nhanvien01", // username: nhanvien01
+      MatKhau: "$2a$10$dsj3Z3GEJ2wA340QwMZyW.sTNOK6vZKQUBz/L.wScuN7AboMt8mMK", // password: Nhanvien000@
+      Anh: "/images/logovn.png",
+      DiaChi: "456 Đường XYZ, Quận 3, TP. HCM",
+      NgaySinh: "2024-12-10",
+      GioTinh: "Nam",
+      SDT: "0395427388",
+      ChucVu: "Bán hàng",
+      Tinhtrang: "Hoạt động",
+      Quyen: "NhanVien",
+      IsAdmin: 0
+    }
   ],
 
   // ----- Sukien -----

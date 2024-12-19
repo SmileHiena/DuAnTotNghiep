@@ -153,7 +153,7 @@ router.post('/add', upload.single('Anh'), async (req, res) => {
         const db = await connectDb();
         const collection = db.collection('admin');
 
-        const Anh = `/images/${req.file.filename}`;
+        const Anh = `${req.file.filename}`;
 
         const newId = (await collection.countDocuments()) + 1; // Tạo ID mới
 
@@ -201,22 +201,9 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
             IsAdmin: 0 // Thêm thuộc tính IsAdmin mặc định là 0
         };
 
-        // Lấy thông tin nhân viên hiện tại để xóa ảnh cũ
-        const currentEmployee = await collection.findOne({ _id: new ObjectId(id) });
-
         // Nếu có ảnh mới, cập nhật tên file ảnh
         if (req.file) {
             updatedEmployee.Anh = req.file.filename; // Lưu tên file ảnh mới
-
-            // Xóa ảnh cũ nếu có
-            if (currentEmployee.Anh) {
-                const oldImagePath = path.join(__dirname, '../public/images/', currentEmployee.Anh);
-                fs.unlink(oldImagePath, (err) => {
-                    if (err) {
-                        console.error('Có lỗi xảy ra khi xóa ảnh cũ:', err);
-                    }
-                });
-            }
         }
 
         const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedEmployee });
@@ -230,6 +217,7 @@ router.put('/edit/:id', upload.single('Anh'), async (req, res) => {
         res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
     }
 });
+
 
 // Xóa nhân viên (Chỉ Admin có quyền xóa)
 router.delete('/delete/:id', async (req, res) => {

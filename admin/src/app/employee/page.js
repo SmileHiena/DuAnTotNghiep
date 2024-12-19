@@ -137,7 +137,7 @@ const NhanVien = () => {
         await fetch(`http://localhost:3000/employees/edit/${currentEmployee._id}`, {
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${Cookies.get('adminToken')}`, // Sửa ở đây: dùng Cookies.get() thay vì Cookies.getItem()
+            Authorization: `Bearer ${Cookies.get('adminToken')}`, 
           },
           body: formData,
         });
@@ -146,7 +146,7 @@ const NhanVien = () => {
         setEmployees((prev) =>
           prev.map((emp) =>
             emp._id === currentEmployee._id
-              ? { ...currentEmployee, Anh: file ? `/images/${file.name}` : emp.Anh }
+              ? { ...currentEmployee, Anh: file ? `${file.name}` : emp.Anh }
               : emp
           )
         );
@@ -242,7 +242,7 @@ const NhanVien = () => {
                           <td>{index + 1}</td>
                           <td>{employee.HoTen}</td>
                           <td>{employee.TenDangNhap}</td>
-                          <td><img className="w-12 h-12 rounded-full object-cover" src={`http://localhost:3000/${employee.Anh}`} alt={employee.HoTen} /></td>
+                          <td><img className="w-12 h-12 rounded-full object-cover" src={`http://localhost:3000/images/${employee.Anh}`} alt={employee.HoTen} /></td>
                           <td>{employee.DiaChi}</td>
                           <td>{employee.NgaySinh}</td>
                           <td>{employee.GioTinh}</td>
