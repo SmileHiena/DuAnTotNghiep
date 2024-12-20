@@ -18,7 +18,7 @@ const AddBlogForm = () => {
 
     const router = useRouter();
 
-    // Lấy danh sách blog từ API
+    
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
@@ -34,19 +34,19 @@ const AddBlogForm = () => {
         fetchBlogs();
     }, []);
 
-    // Xử lý thay đổi input
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setNewBlog((prev) => ({
             ...prev,
-            [name]: name === "MaBlog" ? Number(value) : value, // Convert MaBlog to a number
+            [name]: name === "MaBlog" ? Number(value) : value, 
         }));
     };
 
-    // Xử lý submit form
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(newBlog); // Log dữ liệu để kiểm tra
+        console.log(newBlog); 
     
         try {
             const response = await fetch("http://localhost:3000/blogdetail/add", {
@@ -70,9 +70,9 @@ const AddBlogForm = () => {
             }
     
             const data = await response.json();
-            console.log("Blog added:", data.blog); // In thông tin blog vừa thêm vào console
+            console.log("Blog added:", data.blog); 
     
-            // Cập nhật lại danh sách blog
+            
             setBlogList((prevList) => [...prevList, data.blog]);
     
             alert("Đã thêm thành công!");
@@ -105,19 +105,19 @@ const AddBlogForm = () => {
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="col-span-2 sm:col-span-1">
-                                        <label htmlFor="MaBlog" className="block text-sm font-medium">Mã Blog</label>
+                                        <label htmlFor="MaBlog" className="block text-sm font-medium">Tên Blog</label>
                                         <select
                                             id="MaBlog"
                                             name="MaBlog"
                                             value={newBlog.MaBlog}
-                                            onChange={handleChange}  // Gọi handleChange
+                                            onChange={handleChange}  
                                             className="w-full p-2 border border-gray-300 rounded-md text-sm"
                                             required
                                         >
-                                            <option value="">Chọn Mã Blog</option>
+                                            <option value="">Chọn TênTên Blog</option>
                                             {blogList.map((blog) => (
                                                 <option key={blog.id} value={blog.id}>
-                                                    {blog.id}
+                                                    {blog.TenBlog}
                                                 </option>
                                             ))}
                                         </select>

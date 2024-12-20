@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import Headers from "./header";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -9,7 +9,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     const adminToken = document.cookie.split(';').find(c => c.trim().startsWith('adminToken='));
-    
+
     if (!adminToken) {
       router.push('/login');
     }
@@ -17,15 +17,15 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
 
   return (
     <>
-    {pathname === '/login' ? (
-      <>{children}</>
-    ) : (
-      <div className="app sidebar-mini rtl">
-        <Headers />
-        {children}
-      </div>
-    )}
-  </>
-  
+      {pathname === '/login' ? (
+        <>{children}</>
+      ) : (
+        <div className="app sidebar-mini rtl">
+          <Headers />
+          {children}
+        </div>
+      )}
+    </>
+
   );
 }

@@ -4,8 +4,8 @@ import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { ToastContainer, toast, Bounce } from 'react-toastify'; // Import Toastify
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS cho Toastify
+import { ToastContainer, toast, Bounce } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import Cookies from 'js-cookie';
 
 const NhanVien = () => {
@@ -19,7 +19,7 @@ const NhanVien = () => {
 
   useEffect(() => {
     const adminToken = Cookies.get('adminToken');
-    // console.log('adminToken:', adminToken); 
+    
 
     if (adminToken) {
       try {
@@ -75,12 +75,12 @@ const NhanVien = () => {
       fetchEmployees();
     }
   }, [isAdmin]);
-  // if (loading) {
-  //   return <p>Đang tải dữ liệu...</p>;
-  // }
+  
+  
+  
 
   const validatePhoneNumber = (phone) => {
-    const phoneRegex = /^[0-9]{10}$/; // Kiểm tra số điện thoại có đúng 10 chữ số không
+    const phoneRegex = /^[0-9]{10}$/; 
     return phoneRegex.test(phone);
   };
 
@@ -95,18 +95,18 @@ const NhanVien = () => {
     setIsModalOpen(false);
     setCurrentEmployee(null);
     setFile(null);
-    setErrorMessage(''); // Reset thông báo lỗi khi đóng modal
+    setErrorMessage(''); 
   };
 
   const handleSave = async () => {
     if (currentEmployee) {
-      // Kiểm tra số điện thoại
+      
       if (!validatePhoneNumber(currentEmployee.SDT)) {
         setErrorMessage('Số điện thoại phải có 10 chữ số.');
         return; 
       }
 
-      // Kiểm tra số điện thoại có tồn tại trong cơ sở dữ liệu hay không
+      
       const response = await fetch(`http://localhost:3000/employees/check-username`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -130,7 +130,7 @@ const NhanVien = () => {
       formData.append('ChucVu', currentEmployee.ChucVu);
       formData.append('Tinhtrang', currentEmployee.Tinhtrang);
       if (file) {
-        formData.append('Anh', file); // Thêm ảnh mới vào formData
+        formData.append('Anh', file); 
       }
 
       try {
@@ -142,7 +142,7 @@ const NhanVien = () => {
           body: formData,
         });
 
-        // cập nhật mà không loaddddddddinggloaddddddddingg
+        
         setEmployees((prev) =>
           prev.map((emp) =>
             emp._id === currentEmployee._id

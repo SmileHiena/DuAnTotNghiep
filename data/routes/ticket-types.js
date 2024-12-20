@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 const connectDb = require('../models/db');
 const multer = require('multer');
 
-// Set up multer for file uploads
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./public/images/");
@@ -25,7 +25,7 @@ const upload = multer({
 });
 
 
-// Fetch all suatchieu
+
 router.get("/", async (req, res) => {
     try {
       const db = await connectDb();

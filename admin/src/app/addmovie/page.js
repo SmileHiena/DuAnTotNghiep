@@ -1,4 +1,4 @@
-"use client"; // Mark this component as a client component
+"use client"; 
 
 import Head from "next/head";
 import { Form, Button } from "react-bootstrap";
@@ -116,7 +116,7 @@ const ThemSanPham = () => {
     }
   };
 
-  // Fetch theloai data from the backend API
+  
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
@@ -225,8 +225,8 @@ const ThemSanPham = () => {
                     <Form.Control
                       as="select"
                       name="KieuPhim"
-                      value={newPhim.TheLoai.KieuPhim}  // Bind to KieuPhim
-                      onChange={handleInputChange} // Use handleInputChange here
+                      value={newPhim.TheLoai.KieuPhim}  
+                      onChange={handleInputChange} 
                       required
                     >
                       <option value="">-- Chọn Kiểu Phim --</option>
@@ -247,7 +247,7 @@ const ThemSanPham = () => {
                       type="text"
                       name="ThoiLuong"
                       value={newPhim.TheLoai.ThoiLuong}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     />
                   </Form.Group>
@@ -261,7 +261,7 @@ const ThemSanPham = () => {
                       as="select"
                       name="QuocGia"
                       value={newPhim.TheLoai.QuocGia}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     >
                       <option value="Việt Nam">Việt Nam</option>
@@ -283,7 +283,7 @@ const ThemSanPham = () => {
                       as="select"
                       name="NgonNgu"
                       value={newPhim.TheLoai.NgonNgu}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     >
                       <option value="Tiếng Việt">Tiếng Việt</option>
@@ -302,7 +302,7 @@ const ThemSanPham = () => {
                       as="select"
                       name="KhuyenCao"
                       value={newPhim.TheLoai.KhuyenCao}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     >
                       <option value="">-- Chọn Khuyến Cáo --</option>
@@ -322,7 +322,7 @@ const ThemSanPham = () => {
                       type="text"
                       name="DaoDien"
                       value={newPhim.MoTa.DaoDien}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     />
                   </Form.Group>
@@ -336,7 +336,7 @@ const ThemSanPham = () => {
                       type="text"
                       name="DienVien"
                       value={newPhim.MoTa.DienVien}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     />
                   </Form.Group>
@@ -350,7 +350,7 @@ const ThemSanPham = () => {
                       type="date"
                       name="NgayKhoiChieu"
                       value={newPhim.MoTa.NgayKhoiChieu}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     />
                   </Form.Group>
@@ -365,7 +365,7 @@ const ThemSanPham = () => {
                       rows={3}
                       name="ThongTinPhim"
                       value={newPhim.ThongTinPhim}
-                      onChange={handleInputChange} // Use handleInputChange here
+                      onChange={handleInputChange} 
                       required
                     />
                   </Form.Group>

@@ -20,15 +20,15 @@ function Header() {
   const [results, setResults] = useState([]);
 
   const fetchData = async (value) => {
-    // Kiểm tra nếu giá trị không hợp lệ (chẳng hạn giá trị trống)
+    
     if (!value.trim()) {
       console.log("Search term is required");
-      setResults([]);  // Hoặc xử lý theo cách bạn muốn khi không có giá trị tìm kiếm
+      setResults([]);  
       return;
     }
 
     try {
-      const query = encodeURIComponent(value);  // Mã hóa giá trị tìm kiếm
+      const query = encodeURIComponent(value);  
       const response = await fetch(`http://localhost:3000/search?name=${value}`);
 
       if (!response.ok) {
@@ -66,7 +66,7 @@ function Header() {
           const response = await fetch('http://localhost:3000/users/detailuser', {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${tokenValue}`, // Dùng tokenValue ở đây
+              'Authorization': `Bearer ${tokenValue}`, 
               'Content-Type': 'application/json'
             }
           });
@@ -138,7 +138,7 @@ function Header() {
         <nav className="ml-8 w-full xl:w-auto hidden xl:block">
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-6 items-center justify-center">
             <li><Link href="/" className="text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">Trang Chủ</Link></li>
-            <li onMouseEnter={() => setIsSubMenuOpen(true)} // Show submenu on hover
+            <li onMouseEnter={() => setIsSubMenuOpen(true)} 
               onMouseLeave={() => setIsSubMenuOpen(false)} className="relative text-[#FFFFFF] no-underline hover:text-[#F5CF49] transition-colors duration-300 h-[50px] flex items-center">
 
               Pages

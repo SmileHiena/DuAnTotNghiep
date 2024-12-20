@@ -4,8 +4,8 @@ import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { ToastContainer, toast, Bounce } from 'react-toastify'; // Import Toastify
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS cho Toastify
+import { ToastContainer, toast, Bounce } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import Cookies from 'js-cookie';
 
 const QuanLiAdmin = () => {
@@ -15,7 +15,7 @@ const QuanLiAdmin = () => {
     const [currentAdmin, setCurrentAdmin] = useState(null);
     const [file, setFile] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
-    const [isSuperAdmin, setIsSuperAdmin] = useState(false);  // State to store super admin check result
+    const [isSuperAdmin, setIsSuperAdmin] = useState(false);  
 
     useEffect(() => {
         const adminToken = Cookies.get('adminToken');
@@ -73,7 +73,7 @@ const QuanLiAdmin = () => {
     }, [isSuperAdmin]);
 
     const validatePhoneNumber = (phone) => {
-        const phoneRegex = /^[0-9]{10}$/; // Kiểm tra số điện thoại có đúng 10 chữ số không
+        const phoneRegex = /^[0-9]{10}$/; 
         return phoneRegex.test(phone);
     };
 
@@ -88,14 +88,14 @@ const QuanLiAdmin = () => {
         setIsModalOpen(false);
         setCurrentAdmin(null);
         setFile(null);
-        setErrorMessage(''); // Reset thông báo lỗi khi đóng modal
+        setErrorMessage(''); 
     };
 
     const handleSave = async () => {
         if (currentAdmin) {
             if (!validatePhoneNumber(currentAdmin.SDT)) {
                 setErrorMessage('Số điện thoại phải có 10 chữ số.');
-                return; // Ngừng thực hiện nếu số điện thoại không hợp lệ
+                return; 
             }
 
             const response = await fetch(`http://localhost:3000/admin/check-username`, {
@@ -107,13 +107,13 @@ const QuanLiAdmin = () => {
             const result = await response.json();
             if (!response.ok) {
                 setErrorMessage(result.message);
-                return; // Ngừng thực hiện nếu số điện thoại đã tồn tại
+                return; 
             }
 
             const formData = new FormData();
             formData.append('HoTen', currentAdmin.HoTen);
             formData.append('TenDangNhap', currentAdmin.TenDangNhap);
-            formData.append('MatKhau', currentAdmin.MatKhau); // Nếu cần thiết
+            formData.append('MatKhau', currentAdmin.MatKhau); 
             formData.append('DiaChi', currentAdmin.DiaChi);
             formData.append('NgaySinh', currentAdmin.NgaySinh);
             formData.append('GioTinh', currentAdmin.GioTinh);
@@ -121,7 +121,7 @@ const QuanLiAdmin = () => {
             formData.append('ChucVu', currentAdmin.ChucVu);
             formData.append('Tinhtrang', currentAdmin.Tinhtrang);
             if (file) {
-                formData.append('Anh', file); // Thêm ảnh mới vào formData
+                formData.append('Anh', file); 
             }
 
             try {
@@ -133,7 +133,7 @@ const QuanLiAdmin = () => {
                     body: formData,
                 });
 
-                // Cập nhật danh sách admin mà không cần tải lại trang
+                
                 setAdmins((prev) =>
                     prev.map((adm) =>
                         adm._id === currentAdmin._id

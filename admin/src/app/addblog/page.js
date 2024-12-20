@@ -42,7 +42,7 @@ const AddBlog = () => {
     if (value && isNaN(value)) {
       setError("Chỉ được nhập số lượt xem.");
     } else {
-      setError(""); // Xóa lỗi nếu giá trị là số
+      setError(""); 
     }
   };
 
@@ -80,7 +80,6 @@ const AddBlog = () => {
 
       const data = await response.json();
       notifySuccess();
-      // Delay navigation for 2 seconds
       setTimeout(() => {
         router.push("/blog");
       }, 2000); 
@@ -144,7 +143,7 @@ const AddBlog = () => {
                       name="LuotXem"
                       value={newBlog.LuotXem}
                       onChange={handleInputChange}
-                      min="0" // Đảm bảo giá trị nhỏ nhất là 0
+                      min="0" 
                       required
                       placeholder="0 Lượt xem"
                     />

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic"; // Import dynamic để sử dụng Slider
+import dynamic from "next/dynamic"; 
 import Link from "next/link";
 
-// Dynamically import the slider
+
 const Slider = dynamic(() => import('react-slick'), { ssr: false });
 
 const Event = () => {
@@ -36,7 +36,7 @@ const Event = () => {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
-  // Cài đặt cho slider
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -86,7 +86,7 @@ const Event = () => {
               <Link href={"/event"} >
                 <img
                   src={`http://localhost:3000${item.Anh}`} 
-                  className="w-full h-[212px] p-2 object-cover rounded-lg" // Thêm lớp rounded-lg
+                  className="w-full h-[212px] p-2 object-cover rounded-lg" 
                   alt={`Image ${item.id}`}
                 />
               </Link>

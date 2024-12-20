@@ -38,7 +38,7 @@ const EditProfile = () => {
           if (response.ok) {
             const data = await response.json();
             setAccountInfo(data);
-            setUpdatedInfo(data); // Initialize updatedInfo with current account info
+            setUpdatedInfo(data); 
           } else {
             console.error('Failed to fetch user data');
             alert('Vui lòng đăng nhập lại.');
@@ -72,7 +72,7 @@ const EditProfile = () => {
         if (response.ok) {
           alert("Cập nhật thông tin thành công!");
           window.location.reload();
-          setAccountInfo(updatedInfo); // Update accountInfo with the new info
+          setAccountInfo(updatedInfo); 
         } else {
           console.error("Update failed");
           alert("Cập nhật không thành công. Vui lòng thử lại.");
@@ -107,7 +107,7 @@ const EditProfile = () => {
       return;
     }
   
-    // Lấy token từ cookie
+    
     const tokenValue = document.cookie
       .split(";")
       .find((c) => c.trim().startsWith("token="))
@@ -115,7 +115,7 @@ const EditProfile = () => {
   
     if (tokenValue) {
       try {
-        // Gửi yêu cầu cập nhật mật khẩu tới API
+        
         const response = await fetch(
           `http://localhost:3000/users/updatepassword/${accountInfo.id}`,
           {
@@ -133,7 +133,7 @@ const EditProfile = () => {
   
         if (response.ok) {
           alert("Đổi mật khẩu thành công!");
-          // Xóa các giá trị trong form sau khi thành công
+          
           setOldPassword("");
           setNewPassword("");
           setConfirmPassword("");
@@ -172,7 +172,7 @@ const EditProfile = () => {
         body: formData,
       });
       if (!selectedFile) {
-        console.log("No file selected."); // Kiểm tra xem có file đã được chọn không
+        console.log("No file selected."); 
         return;
       }
 
@@ -184,7 +184,7 @@ const EditProfile = () => {
       const data = await response.json();
       alert("Đổi ảnh thành công!");
       window.location.reload();
-      console.log(data.message); // Thông báo thành công
+      console.log(data.message); 
     } catch (error) {
       console.error(error);
     }

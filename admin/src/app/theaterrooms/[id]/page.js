@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
-// Toast
+
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,7 @@ import {
 
 const QuanLyPhongChieu = ({ params }) => {
   const { id: rapId } = params;
-  // const { name: tenRap } = params;
+  
   const [raps, setRaps] = useState([]);
   const [phongChieu, setPhongChieu] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -146,7 +146,7 @@ const QuanLyPhongChieu = ({ params }) => {
             `http://localhost:3000/theater/${rapId}/phong-chieu`
           );
           const data = await response.json();
-          console.log("Phong Chieu Data:", data); // Log the data
+          console.log("Phong Chieu Data:", data); 
           setPhongChieu(data);
           setLoading(false);
         } catch (error) {
@@ -159,7 +159,7 @@ const QuanLyPhongChieu = ({ params }) => {
   }, [rapId]);
 
   const handleAddPhongChieu = async () => {
-    // Kiểm tra trùng lặp tên phòng chiếu trước khi gửi yêu cầu
+    
     const isDuplicate = phongChieu.some(
       (phong) =>
         phong.TenPhongChieu.trim().toLowerCase() ===
@@ -217,7 +217,7 @@ const QuanLyPhongChieu = ({ params }) => {
 
   const handleEditPhongChieu = async () => {
     try {
-      // Chuẩn bị payload
+      
       const payload = {
         TenPhongChieu: currentPhong.TenPhongChieu,
         SoLuongGhe: currentPhong.SoLuongGhe,
@@ -226,7 +226,7 @@ const QuanLyPhongChieu = ({ params }) => {
 
       console.log("Payload gửi đi:", payload);
 
-      // Gửi yêu cầu PUT tới API
+      
       const response = await fetch(
         `http://localhost:3000/theater/${rapId}/phong-chieu/${currentPhong.id}`,
         {
@@ -238,12 +238,12 @@ const QuanLyPhongChieu = ({ params }) => {
         }
       );
 
-      // Xử lý lỗi từ phản hồi API
+      
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Lỗi từ API:", errorData);
 
-        // Kiểm tra lỗi cụ thể và hiển thị thông báo phù hợp
+        
         if (
           errorData.message ===
           "Tên phòng chiếu đã tồn tại. Vui lòng chọn tên khác!"
@@ -256,23 +256,22 @@ const QuanLyPhongChieu = ({ params }) => {
         return;
       }
 
-      // Nhận dữ liệu phòng chiếu đã cập nhật từ API
+      
       const updatedPhongChieu = await response.json();
       console.log("Phòng chiếu sau khi cập nhật:", updatedPhongChieu);
 
-      // Cập nhật danh sách phòng chiếu trong state
+      
       setPhongChieu((prev) =>
         prev.map((phong) =>
           phong.id === currentPhong.id ? { ...phong, ...payload } : phong
         )
       );
 
-      // Thông báo thành công và đóng modal
       notifySua();
       setIsEditModalOpen(false);
       setCurrentPhong(null);
     } catch (error) {
-      // Xử lý lỗi bất ngờ
+   
       console.error("Đã xảy ra lỗi trong quá trình sửa phòng chiếu:", error);
       alert("Đã xảy ra lỗi, vui lòng thử lại sau!");
     }
@@ -291,7 +290,7 @@ const QuanLyPhongChieu = ({ params }) => {
           }
         );
         if (response.ok) {
-          // Cập nhật danh sách phòng chiếu trong state
+          
           setPhongChieu((prev) =>
             prev.filter((phong) => phong._id !== phongId)
           );
@@ -473,7 +472,7 @@ const QuanLyPhongChieu = ({ params }) => {
                                 10
                               );
                               if (isNaN(newSoLuongGhe) || newSoLuongGhe <= 0) {
-                                // Nếu số lượng ghế không hợp lệ, trả về trạng thái cũ
+                                
                                 setCurrentPhong({
                                   ...currentPhong,
                                   SoLuongGhe: 0,
@@ -482,22 +481,22 @@ const QuanLyPhongChieu = ({ params }) => {
                                 return;
                               }
 
-                              // Lấy danh sách ghế hiện tại
+                              
                               const currentSeats = currentPhong?.Ghe || [];
 
-                              // Đảm bảo có ít nhất một hàng với số ghế mặc định
-                              const defaultSeatsPerRow = 10; // Số ghế mặc định mỗi hàng
+                              
+                              const defaultSeatsPerRow = 10; 
                               const rowsCount = Math.ceil(
                                 newSoLuongGhe / defaultSeatsPerRow
                               );
 
-                              // Tạo danh sách ghế mới
+                              
                               const updatedGhe = Array.from(
                                 { length: rowsCount },
                                 (_, rowIndex) => {
                                   const hang =
                                     currentSeats[rowIndex]?.Hang ||
-                                    String.fromCharCode(65 + rowIndex); // A, B, C...
+                                    String.fromCharCode(65 + rowIndex); 
                                   const gheCountForRow = Math.min(
                                     newSoLuongGhe -
                                     rowIndex * defaultSeatsPerRow,
@@ -514,7 +513,7 @@ const QuanLyPhongChieu = ({ params }) => {
                                 }
                               );
 
-                              // Cập nhật trạng thái phòng chiếu
+                              
                               setCurrentPhong({
                                 ...currentPhong,
                                 SoLuongGhe: newSoLuongGhe,
@@ -552,7 +551,7 @@ const QuanLyPhongChieu = ({ params }) => {
                                       type="text"
                                       value={ghe}
                                       onChange={(e) => {
-                                        // Cập nhật ghế hiện tại
+                                        
                                         const updatedRow = hang.Ghe.map(
                                           (g, i) =>
                                             i === gheIndex
@@ -560,7 +559,7 @@ const QuanLyPhongChieu = ({ params }) => {
                                               : g
                                         );
 
-                                        // Cập nhật hàng ghế
+                                        
                                         const updatedGhe = currentPhong.Ghe.map(
                                           (h, i) =>
                                             i === index
@@ -568,7 +567,7 @@ const QuanLyPhongChieu = ({ params }) => {
                                               : h
                                         );
 
-                                        // Cập nhật tổng số lượng ghế
+                                        
                                         const updatedPhong = {
                                           ...currentPhong,
                                           Ghe: updatedGhe,
@@ -585,12 +584,12 @@ const QuanLyPhongChieu = ({ params }) => {
                                     {/* Nút xóa ghế */}
                                     <button
                                       onClick={() => {
-                                        // Xóa ghế tại vị trí gheIndex
+                                        
                                         const updatedRow = hang.Ghe.filter(
                                           (g, i) => i !== gheIndex
                                         );
 
-                                        // Cập nhật hàng ghế
+                                        
                                         const updatedGhe = currentPhong.Ghe.map(
                                           (h, i) =>
                                             i === index
@@ -598,7 +597,7 @@ const QuanLyPhongChieu = ({ params }) => {
                                               : h
                                         );
 
-                                        // Cập nhật tổng số lượng ghế
+                                        
                                         const updatedPhong = {
                                           ...currentPhong,
                                           Ghe: updatedGhe,
@@ -620,14 +619,14 @@ const QuanLyPhongChieu = ({ params }) => {
                                 {/* Nút thêm ghế */}
                                 <button
                                   onClick={() => {
-                                    // Thêm ghế mới
-                                    const newGhe = [...hang.Ghe, ""]; // Add a new empty seat
+                                    
+                                    const newGhe = [...hang.Ghe, ""]; 
                                     const updatedGhe = currentPhong.Ghe.map(
                                       (h, i) =>
                                         i === index ? { ...h, Ghe: newGhe } : h
                                     );
 
-                                    // Cập nhật tổng số lượng ghế
+                                    
                                     const updatedPhong = {
                                       ...currentPhong,
                                       Ghe: updatedGhe,

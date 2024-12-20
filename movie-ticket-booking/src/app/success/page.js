@@ -15,22 +15,22 @@ const PaymentSuccess = () => {
   const amount = searchParams.get("vnp_Amount");
   const message = searchParams.get("message");
   const code = searchParams.get("code");
-  const vnp_ResponseCode = searchParams.get("vnp_ResponseCode");  // Lấy mã phản hồi
+  const vnp_ResponseCode = searchParams.get("vnp_ResponseCode");  
 
   useEffect(() => {
-    // Nếu mã phản hồi là không thành công hoặc bị hủy, hiển thị lỗi
+    
     if (vnp_ResponseCode !== "00") {
       setError("Giao dịch không thành công. Vui lòng thử lại.");
       return;
     }
 
-    let isInvoiceSaved = false; // Biến cờ để đảm bảo chỉ gửi một lần
+    let isInvoiceSaved = false; 
 
     const saveInvoice = async () => {
-      if (isInvoiceSaved) return; // Nếu đã gửi thì dừng lại
+      if (isInvoiceSaved) return; 
       isInvoiceSaved = true;
 
-      // Lấy thông tin thanh toán từ cookie
+      
       const tokenValue = Cookies.get("paymentInfo");
       if (!tokenValue) {
         setError("Không tìm thấy thông tin thanh toán.");
@@ -52,22 +52,22 @@ const PaymentSuccess = () => {
         return;
       }
 
-      // Kiểm tra xem thông tin suất chiếu có đầy đủ không
+      
       if (!info.PhongChieu || !info.ThoiGian || !info.SoGhe) {
         setError("Thông tin suất chiếu không hợp lệ.");
         return;
       }
 
-      // Chuyển đổi ghế thành định dạng mong muốn nếu cần
+      
       let formattedSeats = [];
       if (Array.isArray(info.SoGhe)) {
-        // Nếu SoGhe là mảng, xử lý bình thường
+        
         formattedSeats = info.SoGhe.map(ghe => ghe.replace(/^[A-Za-z]-/, "").replace(/\s+/g, ""));
       } else if (typeof info.SoGhe === "string") {
-        // Nếu SoGhe là chuỗi, chuyển đổi nó thành mảng
+        
         formattedSeats = info.SoGhe.split(",").map(ghe => ghe.replace(/^[A-Za-z]-/, "").replace(/\s+/g, ""));
       } else {
-        // Nếu SoGhe không phải mảng hoặc chuỗi, báo lỗi
+        
         setError("Dữ liệu ghế không hợp lệ.");
         return;
       }
@@ -81,7 +81,7 @@ const PaymentSuccess = () => {
         TenPhim: info.TenPhim,
         ThoiGian: info.ThoiGian,
         NgayChieu: info.NgayChieu,
-        SoGhe: formattedSeats, // Đảm bảo sử dụng ghế đã được định dạng lại
+        SoGhe: formattedSeats, 
         PhongChieu: info.PhongChieu,
         GiaVe: info.GiaVe,
         TongTien: info.TongTien,
@@ -111,18 +111,18 @@ const PaymentSuccess = () => {
         const result = await response.json();
         console.log("Hóa đơn đã được tạo:", result);
 
-        // Kiểm tra nếu có ID hóa đơn để chuyển hướng
+        
         if (result.id) {
-          // Chuyển hướng sau 7 giây
+          
           setTimeout(() => {
             router.push(`/invoice-details/${result.id}`);
-          }, 5000); // 5000ms = 5 giây
+          }, 5000); 
           await sendEmail(info.Email, invoiceData);
         } else {
           setError("Không có ID hóa đơn để chuyển hướng.");
         }
 
-        // Gọi API cập nhật ghế đã đặt sau khi tạo hóa đơn thành công
+        
         const updateSeatsResponse = await fetch("http://localhost:3000/showtimes/capnhatghedadat", {
           method: "POST",
           headers: {
@@ -130,10 +130,10 @@ const PaymentSuccess = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            IdPhong: info.IdPhong,  // Đảm bảo IdPhong là đúng
-            GioChieu: info.ThoiGian,   // Đảm bảo GioChieu là đúng
-            IdPhim: info.IdPhim,  // Thêm IdPhim nếu cần
-            SoGhe: formattedSeats,      // Đảm bảo SoGhe là mảng đã được xử lý
+            IdPhong: info.IdPhong,  
+            GioChieu: info.ThoiGian,   
+            IdPhim: info.IdPhim,  
+            SoGhe: formattedSeats,      
           }),
         });
 
@@ -174,12 +174,11 @@ const PaymentSuccess = () => {
     };
 
     saveInvoice();
-  }, [vnp_ResponseCode]); // Chạy lại khi vnp_ResponseCode thay đổi
+  }, [vnp_ResponseCode]); 
 
   return (
     <div className="container mx-auto my-10 flex justify-center items-center h-[500px]">
       <div className="bg-gray-100 p-10 rounded-lg shadow-xl text-center w-full max-w-xl transition-all duration-300 hover:shadow-2xl">
-        {/* Icon */}
         <div className="text-6xl mb-6">
           {error ? (
             <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -192,12 +191,10 @@ const PaymentSuccess = () => {
           )}
         </div>
 
-        {/* Title */}
         <h1 className="text-3xl font-semibold text-gray-800 mb-4">
           {error ? "Thanh toán thất bại!" : "Thanh toán thành công!"}
         </h1>
 
-        {/* Description */}
         <p className="text-lg text-gray-600">
           {error ? "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại." : "Cảm ơn bạn đã hoàn tất thanh toán. Chúc bạn có một ngày vui vẻ!"}
         </p>

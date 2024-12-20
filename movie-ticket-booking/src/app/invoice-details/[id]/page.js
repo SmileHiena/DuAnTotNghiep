@@ -19,14 +19,14 @@ const ChiTietHoaDon = () => {
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Hàm để định dạng ngày
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("vi-VN", {
-      weekday: "long", // Thứ trong tuần
-      year: "numeric", // Năm
-      month: "long", // Tháng
-      day: "numeric", // Ngày
+      weekday: "long", 
+      year: "numeric", 
+      month: "long", 
+      day: "numeric", 
     });
   };
   useEffect(() => {
@@ -71,7 +71,7 @@ const ChiTietHoaDon = () => {
   };
 
   const handleCancel = async () => {
-    // Kiểm tra trạng thái hóa đơn trước khi hủy
+    
     if (hoaDon.TrangThai !== "Đã Thanh Toán") {
       setMessage("Chỉ có thể hủy các hóa đơn có trạng thái 'Đã Thanh Toán'.");
       return;
@@ -91,11 +91,11 @@ const ChiTietHoaDon = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            IdPhong: hoaDon.IdPhong,  // Thay thế bằng thuộc tính tương ứng trong hoaDon
-            GioChieu: hoaDon.ThoiGian,   // Thay thế bằng thuộc tính tương ứng trong hoaDon
-            IdPhim: hoaDon.IdPhim,  // Thay thế bằng thuộc tính tương ứng trong hoaDon
-            SoGhe: hoaDon.SoGhe, // Thay thế bằng thuộc tính tương ứng trong hoaDon
-            NgayChieu: hoaDon.NgayChieu, // Thay thế bằng thuộc tính tương ứng trong hoaDon
+            IdPhong: hoaDon.IdPhong,  
+            GioChieu: hoaDon.ThoiGian,   
+            IdPhim: hoaDon.IdPhim,  
+            SoGhe: hoaDon.SoGhe, 
+            NgayChieu: hoaDon.NgayChieu, 
             InvoiceId: hoaDon.id
           }),
         });
@@ -103,11 +103,11 @@ const ChiTietHoaDon = () => {
         if (!res.ok) throw new Error("Hủy hóa đơn không thành công");
 
         setMessage("Hóa đơn đã được hủy thành công!");
-        setHoaDon(null); // Cập nhật trạng thái hóa đơn
+        setHoaDon(null); 
       } catch (err) {
         setMessage(err.message);
       }
-      router.push("/"); // Chuyển hướng về trang chủ
+      router.push("/"); 
     }
   };
 
@@ -127,7 +127,6 @@ const ChiTietHoaDon = () => {
             </tr>
           </thead>
           <tbody className="text-gray-800 font-semibold">
-            {/* Render các thông tin cần thiết */}
             <tr className="border-t hover:bg-gray-100">
               <td className="py-2 px-4">Mã hóa đơn</td>
               <td className="py-2 px-4">{hoaDon._id}</td>

@@ -30,11 +30,11 @@ const Login = () => {
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
 
-        // Lưu adminToken vào cookie
+        
         const data = await res.json();
-        document.cookie = `adminToken=${data.adminToken}; path=/; max-age=${60 * 60}`; // Thời gian sống của cookie là 1 giờ
+        document.cookie = `adminToken=${data.adminToken}; path=/; max-age=${60 * 60}`; 
 
-        // Giải mã adminToken để lấy thông tin người dùng và vai trò
+        
         const adminToken = data.adminToken;
         const payload = JSON.parse(atob(adminToken.split(".")[1])); 
 

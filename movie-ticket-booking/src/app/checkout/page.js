@@ -13,11 +13,11 @@ const CheckoutPage = () => {
   const [buttonColor2, setButtonColor2] = useState('#F5CF49');
   const [bookingInfo, setBookingInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [discountCode, setDiscountCode] = useState(''); // State for discount code
-  const [discountApplied, setDiscountApplied] = useState(false); // Check if discount is applied
+  const [discountCode, setDiscountCode] = useState(''); 
+  const [discountApplied, setDiscountApplied] = useState(false); 
   const [discountAmount, setDiscountAmount] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
-  const [error, setError] = useState(''); // State for error message
+  const [remainingTime, setRemainingTime] = useState(300); 
+  const [error, setError] = useState(''); 
   const [bankCode, setBankCode] = useState("VNBANK");
   const [language, setLanguage] = useState("vn");
   const [paymentInfo, setPaymentInfo] = useState(null);
@@ -75,7 +75,7 @@ const CheckoutPage = () => {
         alert("Vui lòng đăng nhập lại.");
       }
       const currentTime = new Date().getTime();
-      const holdTimeInSeconds = 300; // 5 minutes
+      const holdTimeInSeconds = 300; 
       const expirationTime = currentTime + holdTimeInSeconds * 1000;
 
       Cookies.set("holdExpiration", expirationTime);
@@ -121,13 +121,13 @@ const CheckoutPage = () => {
   };
 
   const handlePayment = async () => {
-    // Check if a payment method has been selected
+    
     const tokenValue = Cookies.get("token");
     if (!bankCode) {
-      setError('Bạn phải chọn phương thức thanh toán.'); // Set error message if not selected
+      setError('Bạn phải chọn phương thức thanh toán.'); 
       return;
     }
-    setError(''); // Clear error message if a payment method is selected
+    setError(''); 
     
 
 
@@ -154,7 +154,7 @@ const CheckoutPage = () => {
     };
 
     try {
-      // Giả sử bạn sẽ gửi thông tin thanh toán đến server
+      
       const response = await fetch('http://localhost:3000/order/create_payment_url', {
         method: 'POST',
         headers: {
@@ -173,7 +173,7 @@ const CheckoutPage = () => {
       const result = await response.json();
       console.log('Invoice created:', result);
 
-      // Lưu thông tin thanh toán vào token hoặc cookies với thời hạn 1 ngày
+      
       Cookies.set('paymentInfo', JSON.stringify(paymentData), { expires: 1 });
 
 
@@ -186,7 +186,7 @@ const CheckoutPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Đảm bảo thông tin thanh toán hợp lệ
+    
     if (!paymentInfo || !paymentInfo.TongTien || !paymentInfo.orderId) {
       alert("Thông tin thanh toán không đầy đủ.");
       return;
@@ -204,12 +204,12 @@ const CheckoutPage = () => {
           language: language,
         });
 
-        console.log("Response from API:", response); // Kiểm tra response trả về
+        console.log("Response from API:", response); 
 
-        // Kiểm tra nếu response là một chuỗi URL
+        
         if (typeof response === 'string' && response.startsWith("http")) {
-          setPaymentUrl(response);  // Lưu URL thanh toán vào state
-          router.push(response);    // Chuyển hướng đến trang thanh toán
+          setPaymentUrl(response);  
+          router.push(response);    
         } else {
           console.warn("paymentUrl không hợp lệ hoặc không có.");
           alert("Lỗi khi tạo liên kết thanh toán");
@@ -224,8 +224,8 @@ const CheckoutPage = () => {
   const handlePaymentAndSubmit = (event) => {
     event.preventDefault();
 
-    handlePayment();  // Call payment logic
-    handleSubmit(event);  // Call form submission logic
+    handlePayment();  
+    handleSubmit(event);  
   };
 
   const formatTime = (seconds) => {
@@ -241,7 +241,7 @@ const CheckoutPage = () => {
     }
 
     try {
-      // Gửi yêu cầu tới API để kiểm tra mã giảm giá
+      
       const response = await fetch(`http://localhost:3000/event/discount/${discountCode}`, {
         method: 'GET',
         headers: {
@@ -255,10 +255,10 @@ const CheckoutPage = () => {
 
       const data = await response.json();
 
-      // Kiểm tra nếu dữ liệu trả về có mã giảm giá và tỷ lệ giảm
+      
       if (data && data.MaGiamGia && data.discountPercent) {
         const discountPercent = data.discountPercent;
-        setDiscountAmount(bookingInfo.totalAmount * (discountPercent / 100)); // Tính tiền giảm
+        setDiscountAmount(bookingInfo.totalAmount * (discountPercent / 100)); 
         setDiscountApplied(true);
         setError('');
       } else {

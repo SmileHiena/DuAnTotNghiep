@@ -43,7 +43,7 @@ const TheLoai = () => {
     });
   };
 
-  // Fetch theloai data from the backend API
+  
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
@@ -67,14 +67,14 @@ const TheLoai = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa thể loại này không?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/categories/delete/${id}`, { // Ensure endpoint is correct
+      const response = await fetch(`http://localhost:3000/categories/delete/${id}`, { 
         method: "DELETE",
       });
 
       if (response.ok) {
-        // If delete is successful, filter out the deleted category from the list
+        
         setTheloai((prev) => prev.filter((category) => category._id !== id));
-        notify(); // Show success toast notification
+        notify(); 
       } else {
         const errorData = await response.json();
         console.error("Delete error:", errorData.message || "Failed to delete category.");
@@ -104,7 +104,7 @@ const TheLoai = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ TenTheLoai: editedCategory.TenTheLoai }), // Ensure the correct field name
+        body: JSON.stringify({ TenTheLoai: editedCategory.TenTheLoai }), 
       });
 
       if (!response.ok) {

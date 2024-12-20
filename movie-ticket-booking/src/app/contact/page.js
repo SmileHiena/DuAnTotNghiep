@@ -1,4 +1,4 @@
-// pages/contact.js
+
 "use client";
 import React, { useState } from "react";
 
@@ -12,14 +12,14 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Kiểm tra thông tin trước khi gửi
+    
     if (!name || !email || !message) {
       setErrorMessage("Vui lòng điền đầy đủ thông tin.");
       return;
     }
 
-    // Xử lý gửi thông tin (có thể gửi đến API hoặc gửi email)
-    // Ở đây chỉ là một ví dụ đơn giản
+    
+    
     console.log("Tên:", name);
     console.log("Email:", email);
     console.log("Tin nhắn:", message);

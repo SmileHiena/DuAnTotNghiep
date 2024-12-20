@@ -57,7 +57,6 @@ const ThemSuatchieu = () => {
     setIsSubmitting(true);
     toast.info('Đang gửi...');
 
-    // Chuyển đổi 'YYYY-MM-DD' sang 'DD/MM/YYYY'
     const formattedDate = formData.NgayChieu.split('-').reverse().join('/');
 
     const dataToSubmit = {

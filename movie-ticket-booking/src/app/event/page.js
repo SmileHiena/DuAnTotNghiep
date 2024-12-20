@@ -12,13 +12,13 @@ const EventPage = () => {
         const response = await fetch("http://localhost:3000/event");
         if (!response.ok) throw new Error("Failed to fetch events.");
         const data = await response.json();
-        setEvents(data); // Store fetched events in state
+        setEvents(data); 
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
-    fetchEvents(); // Call the fetch function when component mounts
+    fetchEvents(); 
   }, []);
 
   return (
@@ -32,9 +32,8 @@ const EventPage = () => {
               className="mb-8 flex flex-col md:flex-row overflow-hidden rounded-lg shadow"
               style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
             >
-              {/* Conditionally render the layout based on index */}
               {index % 2 === 0 ? (
-                // Image on the left for even index
+                
                 <>
                   <div className="md:w-1/2 h-[300px] md:h-[450px] flex justify-center items-center">
                     <img
@@ -63,7 +62,7 @@ const EventPage = () => {
                   </div>
                 </>
               ) : (
-                // Image on the right for odd index
+                
                 <>
                   <div className="p-8 md:w-1/2 flex flex-col justify-between">
                     <h2 className="text-[32px] font-semibold text-[#F5CF49]">{event.Ten}</h2>

@@ -2,7 +2,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// Bọc trang chi tiết bài viết trong Suspense
 const BlogDetailPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();

@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-// Custom hook for auto-login and fetching user info
 const useAutoLogin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [accountInfo, setAccountInfo] = useState(null);
@@ -51,7 +50,6 @@ const useAutoLogin = () => {
 
 function Profile() {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
-  const { isLoggedIn, accountInfo } = useAutoLogin(); // Get the values from the custom hook
 
   const toggleOrderDetails = () => {
     setShowOrderDetails(!showOrderDetails);
@@ -67,13 +65,11 @@ function Profile() {
         <div className="relative -mt-20 flex flex-col md:flex-row">
           <div className="flex flex-col items-center w-full md:w-1/4">
             <img
-              src={`http://localhost:3000/images/${accountInfo?.Anh}`} // Profile image
               alt="Profile"
               className="rounded-full w-36 h-36 border-5 border-white object-cover"
             />
             <div className="flex justify-center mt-1">
               <h2 className="text-3xl text-center font-semibold text-white">
-                {accountInfo?.Ten || "Chưa có tên"} {/* Display user's name */}
               </h2>
             </div>
           </div>
@@ -106,7 +102,6 @@ function Profile() {
             </nav>
           </div>
 
-          {/* Show user profile information if logged in */}
           {isLoggedIn && (
             <div className="w-full md:w-3/4 p-6 text-white">
               <h1 className="text-3xl font-bold mb-6">THÔNG TIN KHÁCH HÀNG</h1>
@@ -162,7 +157,6 @@ function Profile() {
                   </div>
 
 
-                  {/* Button to Edit Profile */}
                   <div className="flex justify-between mt-4 flex-col md:flex-row">
                     <Link href="/editprofile">
                       <button className="bg-[#F5CF49] font-bold text-[#000000] py-2 px-4 rounded-lg mb-2 md:mb-0 md:mr-2 w-full md:w-auto">

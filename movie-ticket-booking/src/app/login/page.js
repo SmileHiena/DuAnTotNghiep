@@ -1,17 +1,17 @@
-"use client"; // Đảm bảo sử dụng "use client" cho component client
+"use client"; 
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/navigation"; // Sử dụng useRouter để chuyển trang
+import { useRouter } from "next/navigation"; 
 import Link from "next/link";
 
-// Import các biểu tượng Font Awesome
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Import fa-eye và fa-eye-slash
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; 
 
 const Login = () => {
-  const router = useRouter(); // Tạo router để chuyển trang
-  const [showPassword, setShowPassword] = useState(false); // Trạng thái hiển thị mật khẩu
+  const router = useRouter(); 
+  const [showPassword, setShowPassword] = useState(false); 
 
   const formik = useFormik({
     initialValues: { usernameOrEmail: "", MatKhau: "" },
@@ -34,7 +34,7 @@ const Login = () => {
         }
 
         const data = await res.json();
-        console.log(data); // Kiểm tra token từ response
+        console.log(data); 
         if (!data.token) {
           throw new Error("Token không hợp lệ.");
         }
@@ -50,7 +50,7 @@ const Login = () => {
           router.push("/");
         }
       } catch (error) {
-        setFieldError('general', error.message); // Hiển thị lỗi chung
+        setFieldError('general', error.message); 
       } finally {
         setSubmitting(false);
       }
@@ -120,7 +120,6 @@ const Login = () => {
             onClick={() => setShowPassword(prev => !prev)}
             className="absolute right-2 top-[40%] transform -translate-y-1/2 text-xl text-black"
           >
-            {/* Sử dụng Font Awesome icons */}
             {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
           </button>
         </div>

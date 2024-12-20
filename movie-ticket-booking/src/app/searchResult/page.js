@@ -56,7 +56,6 @@ function SearchPage() {
               <div key={phim._id} className="movie-card relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
                 <Link href={`/details/${phim.id}`}>
                   <img src={phim.Anh} alt={phim.Ten} className="w-full h-100 object-cover" />
-                  {/* Overlay that appears on hover */}
                   <div className="movie-overlay absolute inset-0 bg-black bg-opacity-75 opacity-0 hover:opacity-100 transition-opacity">
                     <div className="p-4 text-yellow-400">
                       <h3 className="text-lg font-semibold">{phim.Ten}</h3>
