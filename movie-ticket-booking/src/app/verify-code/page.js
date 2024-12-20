@@ -8,7 +8,7 @@ const VerifyCode = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get('email'); // Get email from query
+  const email = searchParams.get('email'); 
 
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +25,8 @@ const VerifyCode = () => {
 
       const data = await res.json();
       if (res.ok) {
-        localStorage.setItem('resetEmail', email); // Store email only after successful verification
-        router.push('/reset-password'); // Redirect to reset password page
+        localStorage.setItem('resetEmail', email); 
+        router.push('/reset-password'); 
       } else {
         setMessage(data.message || 'Mã xác thực không chính xác');
       }

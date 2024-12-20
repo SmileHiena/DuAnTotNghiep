@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 
-const TuongTu = ({ movieId }) => { // Nhận movieId qua props
+const TuongTu = ({ movieId }) => {
     const [similarMovies, setSimilarMovies] = useState([]);
-    const [error, setError] = useState(null); // Thêm trạng thái lỗi
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         if (movieId) {
@@ -15,7 +15,7 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
     const fetchCategoryId = async (movieId) => {
         try {
             const response = await axios.get(`http://localhost:3000/movie/${movieId}`);
-            const categoryId = response.data.IdDanhMuc; // Lấy IdDanhMuc từ dữ liệu API
+            const categoryId = response.data.IdDanhMuc; 
 
             if (categoryId) {
                 fetchSimilarMovies(categoryId);
@@ -35,11 +35,9 @@ const TuongTu = ({ movieId }) => { // Nhận movieId qua props
 
             // Sắp xếp ngẫu nhiên các phim
             const shuffledMovies = movies.sort(() => Math.random() - 0.5);
-
-            // Giới hạn số lượng phim là 5
             const limitedMovies = shuffledMovies.slice(0, 5);
 
-            setSimilarMovies(limitedMovies); // Cập nhật danh sách phim tương tự
+            setSimilarMovies(limitedMovies);
         } catch (error) {
             console.error('Error fetching similar movies:', error);
             setError('Lỗi khi tải phim tương tự.');

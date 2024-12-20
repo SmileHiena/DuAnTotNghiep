@@ -9,10 +9,10 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Lấy email từ localStorage
+
   const email = localStorage.getItem('resetEmail');
 
-  // Hàm kiểm tra điều kiện mật khẩu
+ 
   const validatePassword = (password) => {
     const minLength = 6;
     const hasUpperCase = /[A-Z]/.test(password);
@@ -38,7 +38,7 @@ const ResetPassword = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Kiểm tra điều kiện mật khẩu
+
     const passwordError = validatePassword(newPassword);
     if (passwordError) {
       setMessage(passwordError);
@@ -46,7 +46,7 @@ const ResetPassword = () => {
       return;
     }
 
-    // Kiểm tra mật khẩu xác nhận có khớp không
+   
     if (newPassword !== confirmPassword) {
       setMessage('Mật khẩu và mật khẩu xác nhận không khớp');
       setLoading(false);

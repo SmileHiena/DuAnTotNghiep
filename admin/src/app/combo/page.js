@@ -60,7 +60,6 @@ const Combo = () => {
     if (currentCombo) {
       const price = parseFloat(currentCombo.Gia); 
 
-      // Kiểm tra nếu giá không phải là số hoặc nhỏ hơn hoặc bằng 0
       if (isNaN(price) || price <= 0) {
         setErrorMessage('Giá phải là một số lớn hơn 0.');
         return;

@@ -1,8 +1,8 @@
-// src/app/search.js
+
 "use client";
 import React from 'react';
-import { useRouter } from 'next/navigation'; // Dùng đúng useRouter
-import MovieList from '../component/MovieList'; // MovieList component
+import { useRouter } from 'next/navigation'; 
+import MovieList from '../component/MovieList';
 
 const SearchPage = () => {
   const router = useRouter();

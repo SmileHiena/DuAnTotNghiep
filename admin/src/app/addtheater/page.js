@@ -1,10 +1,10 @@
-"use client"; // Đảm bảo rằng đây là một component client
+"use client"; 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
 import * as Yup from 'yup';
 
-// Định nghĩa schema xác thực
+
 const validationSchema = Yup.object().shape({
   TenRap: Yup.string().required('Tên rạp không được bỏ trống'),
   ViTri: Yup.string().required('Vị trí không được bỏ trống'),
@@ -38,9 +38,9 @@ const AddRapChieu = () => {
   
       if (response.ok) {
         alert('Rạp chiếu đã được thêm thành công!');
-        router.push('/page/theater'); // Chuyển hướng về trang danh sách rạp chiếu
+        router.push('/page/theater'); 
       } else {
-        const errorData = await response.json(); // Đọc phản hồi
+        const errorData = await response.json(); 
         alert(errorData.message || 'Có lỗi xảy ra, vui lòng thử lại sau.');
       }
     } catch (error) {
@@ -48,7 +48,7 @@ const AddRapChieu = () => {
       alert('Có lỗi xảy ra, vui lòng thử lại sau.');
     } finally {
       setSubmitting(false);
-      resetForm(); // Đặt lại form sau khi hoàn tất
+      resetForm(); 
     }
   };
 

@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 
 const Detail = () => {
   const pathname = usePathname();
-  const id = pathname.split("/").pop(); // Extract the `id` from the URL
+  const id = pathname.split("/").pop(); 
   const [movie, setMovie] = useState(null);
   const [expandedComments, setExpandedComments] = useState({});
   const [comments, setComments] = useState([]);
@@ -28,7 +28,7 @@ const Detail = () => {
       console.log(`Fetching data for movie ID: ${id}`);
 
       try {
-        // Fetch movie data
+        
         const movieResponse = await fetch(
           `http://localhost:3000/movie/${id}`
         );
@@ -40,7 +40,7 @@ const Detail = () => {
         const movieData = await movieResponse.json();
         setMovie(movieData);
 
-        // Fetch comments
+        
         const commentsResponse = await fetch(
           `http://localhost:3000/comments?movieId=${id}`
         );
@@ -86,10 +86,10 @@ const Detail = () => {
       if (response.ok) {
         const addedComment = await response.json();
         setComments((prevComments) => [...prevComments, addedComment]);
-        setNewComment(""); // Clear the comment input
+        setNewComment(""); 
       } else {
         const errorResponse = await response.json();
-        console.error("Error:", errorResponse); // Log error from API
+        console.error("Error:", errorResponse); 
       }
     } catch (error) {
       console.error("Failed to post comment", error);
@@ -103,7 +103,7 @@ const Detail = () => {
   const toggleExpand = (id) => {
     setExpandedComments((prev) => ({
       ...prev,
-      [id]: !prev[id], // Toggle the expanded state for the clicked comment
+      [id]: !prev[id], 
     }));
   };
 
@@ -116,10 +116,8 @@ const Detail = () => {
       <div className="flex justify-center">
         <div className="bg-[rgba(0,0,0,0.5)] shadow-lg w-full max-w-[1410px] mx-auto">
           <div className="flex flex-col md:flex-row items-start gap-10 mt-8">
-            {/* Left box for image */}
             <div className="md:w-1/2 flex justify-end mb-8 md:mb-0"><img src={`http://localhost:3000${movie.Anh}`}  alt={movie.Ten} className="object-cover" style={{ height: "650px", width: "auto" }} /></div>
 
-            {/* Right box for movie information */}
             <div className="md:w-[65%] flex flex-col">
               <h1 className="text-[30px] font-semibold mt-4 mb-4">{movie.Ten}</h1>
               <p className="text-[18px] mb-2"><span className="font-semibold">Đạo diễn: </span>{movie.MoTa.DaoDien}</p>
@@ -140,7 +138,6 @@ const Detail = () => {
                 <p className="text-[18px] w-1/3"><span className="font-semibold">Quốc gia: </span>{movie.TheLoai.QuocGia}</p>
               </div>
 
-              {/* Buttons for booking and trailer */}
               <div className="flex mt-7 space-x-2">
                 <div className="flex">
                   <p className="w-10 h-10 bg-white rounded-full flex items-center justify-center mt-1">
@@ -153,22 +150,17 @@ const Detail = () => {
           </div>
           {isVisible && (
             <>
-              {/* Overlay nền mờ */}
               <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center" onClick={handleToggle} />
 
-              {/* Pop-up iframe */}
               <div className="fixed inset-0 z-50 flex justify-center items-center">
                 <div className="relative w-[80%] h-[70%] max-w-[1200px] max-h-[650px] bg-black rounded-lg overflow-hidden">
-                  {/* Nút đóng */}
                   <button className="absolute top-3 right-3 bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg hover:bg-gray-600" onClick={handleToggle}><FontAwesomeIcon icon={faTimes} /></button>
-                  {/* Iframe */}
                   <iframe className="w-full h-full" src={movie.Trailer} title={movie.Ten} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                 </div>
               </div>
             </>
           )}
 
-          {/* Comment Form Section */}
           <div className="flex justify-center mt-10 w-full">
             <div className="w-full max-w-[1410px]">
               <div className="bg-[rgba(0,0,0,0.5)] p-6 flex flex-col items-center w-full">
@@ -178,7 +170,6 @@ const Detail = () => {
                   <button className="mt-2 text-[20px] bg-[#F5CF49] text-black font-semibold rounded hover:bg-yellow-300 self-start" style={{ width: "150px", height: "40px" }} type="submit" >Gửi</button>
                 </form>
 
-                {/* Displaying Comments */}
                 <div className="w-full max-w-[1200px] mt-4">
                   {comments.map((comment) => (
                     <div
@@ -190,8 +181,8 @@ const Detail = () => {
                         alt={`${comment.username || "Default"}'s avatar`}
                         className="w-14 h-14 rounded-full border-2 border-white"
                         onError={(e) => {
-                          e.target.onerror = null; // Ngăn vòng lặp vô hạn
-                          e.target.src = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"; // Đường dẫn ảnh mặc định
+                          e.target.onerror = null; 
+                          e.target.src = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"; 
                         }}
                       />
                       <div className="flex flex-col flex-1 w-[80%] md:max-w-[1100px] p-4 sm:p-2">
@@ -228,7 +219,6 @@ const Detail = () => {
           </div>
 
 
-          {/* Similar Movies Section */}
           <TuongTu movieId={movie.id} />
           <DangChieu />
         </div>

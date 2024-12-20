@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-// Tải react-slick chỉ khi component được mounted
+
 const Slider = dynamic(() => import('react-slick'), { ssr: false });
 
 const Banner = () => {
@@ -12,7 +12,7 @@ const Banner = () => {
 
   useEffect(() => {
     setIsMounted(true);
-    // Fetch dữ liệu từ API
+    
     const fetchMovies = async () => {
       try {
         const response = await fetch('http://localhost:3000/movie');
@@ -33,10 +33,10 @@ const Banner = () => {
     autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false, // Tắt mũi tên điều hướng nếu bạn không cần
+    arrows: false, 
   };
 
-  if (!isMounted) return null; // Trả về null nếu chưa mounted
+  if (!isMounted) return null; 
 
   return (
     <section className="bg-[#2C2C2C] py-6">

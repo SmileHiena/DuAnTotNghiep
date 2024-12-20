@@ -1,11 +1,11 @@
-"use client"; // Mark this file as a client component
+"use client"; 
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare, faTimes, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// Toast
+
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
@@ -24,7 +24,7 @@ const Blog = () => {
   const [lichchieu, setLichChieu] = useState([]);
   const [error, setError] = useState("");
   const handleAddBlogDetail = () => {
-    router.push('/addblogdetail'); // Điều hướng đến trang "add-bogdetail"
+    router.push('/addblogdetail'); 
   };
   const [blogData, setBlogData] = useState({
     NoiDung1: "",
@@ -58,7 +58,7 @@ const Blog = () => {
     const fetchBlogData = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/blogdetail/edit/${selectedEditBlog}`);
-        // Update the state with fetched data
+        
         setBlogData(response.data);
 
       } catch (error) {
@@ -73,20 +73,20 @@ const Blog = () => {
     const { name, value } = e.target;
     setBlogData((prevData) => ({
       ...prevData,
-      [name]: value,  // Dynamically update the field
+      [name]: value,  
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Update the blog with the new data
+      
       await axios.put(`http://localhost:3000/blogdetail/edit/${selectedEditBlog}`, {
         newBlog: blogData
       });
       setShowShoweditblog(false);
       alert("dã thực hiện thay đổi blogdetail");
-      window.location.reload();// Close the modal after successful update
+      window.location.reload();
     } catch (error) {
       console.error("Error updating blog:", error);
     }
@@ -169,7 +169,7 @@ const Blog = () => {
 
       if (!response.ok) throw new Error("Failed to delete blog.");
 
-      // Update the blog list by filtering out the deleted blog
+      
       setBlogList((prev) => prev.filter((blog) => blog._id !== id));
 
       notify();
@@ -194,20 +194,20 @@ const Blog = () => {
 
   const handleEditBlog = (blog) => {
     setEditedBlog(blog);
-    setSelectedFile(null); // Reset file selection when editing
+    setSelectedFile(null); 
     setShowEditModal(true);
-    setEditError(""); // Reset edit error when opening the edit modal
+    setEditError(""); 
   };
 
   const handleSaveChanges = async () => {
     const { LuotXem } = editedBlog;
 
-    // Validate "Lượt xem"
+    
     if (LuotXem && isNaN(LuotXem)) {
       setEditError("Chỉ được nhập số lượt xem.");
       return;
     } else {
-      setEditError(""); // Clear error if valid
+      setEditError(""); 
     }
 
     const formData = new FormData();
@@ -235,9 +235,9 @@ const Blog = () => {
 
       const result = await response.json();
       console.log('Update result:', result);
-      notifyEditSuccess(); // Notify on successful edit
-      setShowEditModal(false); // Close the modal on success
-      // Refresh the blog list
+      notifyEditSuccess(); 
+      setShowEditModal(false); 
+      
       const updatedBlogs = blogList.map((blog) => blog._id === result._id ? result : blog);
       setBlogList(updatedBlogs);
     } catch (error) {
@@ -246,7 +246,7 @@ const Blog = () => {
   };
 
   const handleNewBlogFileChange = (e) => {
-    setSelectedFile(e.target.files[0]); // Update the selected file
+    setSelectedFile(e.target.files[0]); 
   };
 
   const truncateText = (text, maxLength) => {
@@ -319,113 +319,113 @@ const Blog = () => {
 
 
               {showShoweditblog && (
-               <div className="absolute top-0 left-0 right-0 mx-auto max-w-4xl bg-white shadow-2xl rounded-lg z-10 overflow-y-auto border">
-               <div className="modal-content">
-                 <div className="modal-body p-4">
-                   <h5>Chỉnh Sửa Blog</h5>
-                   <h6>Đang chỉnh sửa blog với ID: {selectedEditBlog}</h6>
-                   <form onSubmit={handleSubmit} className="space-y-8">
-                   <div className="col-span-2 sm:col-span-1">
-                         <label htmlFor="MaBlog" className="block text-sm font-medium">Mã Blog</label>
-                         <select
-                           id="MaBlog"
-                           name="MaBlog"
-                           value={blogData.MaBlog}
-                           onChange={handleChange}
-                           className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                           required
-                         >
-                           <option value="">Chọn Mã Blog</option>
-                           {blogList.map((blog) => (
-                             <option key={blog.id} value={blog.id}>
-                               {blog.id}
-                             </option>
-                           ))}
-                         </select>
-                       </div>
-                      
-             
-                     <div className="col-span-2 sm:col-span-1">
-  <label htmlFor="NoiDung1" className="control-label block text-lg font-medium">Nội Dung 1:</label>
-  <input
-    type="text"
-    id="NoiDung1"
-    name="NoiDung1"
-    value={blogData.NoiDung1}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md text-sm"
-  />
-</div>
+                <div className="absolute top-0 left-0 right-0 mx-auto max-w-4xl bg-white shadow-2xl rounded-lg z-10 overflow-y-auto border">
+                  <div className="modal-content">
+                    <div className="modal-body p-4">
+                      <h5>Chỉnh Sửa Blog</h5>
+                      <h6>Đang chỉnh sửa blog với ID: {selectedEditBlog}</h6>
+                      <form onSubmit={handleSubmit} className="space-y-8">
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="MaBlog" className="block text-sm font-medium">Tên Blog</label>
+                          <select
+                            id="MaBlog"
+                            name="MaBlog"
+                            value={blogData.MaBlog}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                            required
+                          >
+                            <option value="">Chọn tên Blog</option>
+                            {blogList.map((blog) => (
+                              <option key={blog.id} value={blog.id}>
+                                {blog.TenBlog}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-<div className="col-span-2 sm:col-span-1">
-  <label htmlFor="NoiDung2" className="control-label block text-lg font-medium">Nội Dung 2:</label>
-  <input
-    type="text"
-    id="NoiDung2"
-    name="NoiDung2"
-    value={blogData.NoiDung2}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md text-sm"
-  />
-</div>
 
-<div className="col-span-2 sm:col-span-1">
-  <label htmlFor="NoiDung3" className="control-label block text-lg font-medium">Nội Dung 3:</label>
-  <input
-    type="text"
-    id="NoiDung3"
-    name="NoiDung3"
-    value={blogData.NoiDung3}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md text-sm"
-  />
-</div>
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="NoiDung1" className="control-label block text-lg font-medium">Nội Dung 1:</label>
+                          <input
+                            type="text"
+                            id="NoiDung1"
+                            name="NoiDung1"
+                            value={blogData.NoiDung1}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                        </div>
 
-<div className="col-span-2 sm:col-span-1">
-  <label htmlFor="NoiDung4" className="control-label block text-lg font-medium">Nội Dung 4:</label>
-  <input
-    type="text"
-    id="NoiDung4"
-    name="NoiDung4"
-    value={blogData.NoiDung4}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md text-sm"
-  />
-</div>
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="NoiDung2" className="control-label block text-lg font-medium">Nội Dung 2:</label>
+                          <input
+                            type="text"
+                            id="NoiDung2"
+                            name="NoiDung2"
+                            value={blogData.NoiDung2}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                        </div>
 
-<div className="col-span-2 sm:col-span-1">
-  <label htmlFor="NoiDung5" className="control-label block text-lg font-medium">Nội Dung 5:</label>
-  <input
-    type="text"
-    id="NoiDung5"
-    name="NoiDung5"
-    value={blogData.NoiDung5}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md text-sm"
-  />
-</div>
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="NoiDung3" className="control-label block text-lg font-medium">Nội Dung 3:</label>
+                          <input
+                            type="text"
+                            id="NoiDung3"
+                            name="NoiDung3"
+                            value={blogData.NoiDung3}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                        </div>
 
-<div className="col-span-2 sm:col-span-1">
-  <label htmlFor="Anh" className="control-label block text-lg font-medium">Ảnh:</label>
-  <input
-    type="text"
-    id="Anh"
-    name="Anh"
-    value={blogData.Anh}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md text-sm"
-  />
-</div>
-             
-                     <div className="flex mt-8">
-                       <button type="submit" className="btn btn-save mr-3">Lưu lại</button>
-                       <button type="button" onClick={() => setShowShoweditblog(false)} className="btn btn-cancel">Hủy bỏ</button>
-                     </div>
-                   </form>
-                 </div>
-               </div>
-             </div>
-             
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="NoiDung4" className="control-label block text-lg font-medium">Nội Dung 4:</label>
+                          <input
+                            type="text"
+                            id="NoiDung4"
+                            name="NoiDung4"
+                            value={blogData.NoiDung4}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                        </div>
+
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="NoiDung5" className="control-label block text-lg font-medium">Nội Dung 5:</label>
+                          <input
+                            type="text"
+                            id="NoiDung5"
+                            name="NoiDung5"
+                            value={blogData.NoiDung5}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                        </div>
+
+                        <div className="col-span-2 sm:col-span-1">
+                          <label htmlFor="Anh" className="control-label block text-lg font-medium">Ảnh:</label>
+                          <input
+                            type="text"
+                            id="Anh"
+                            name="Anh"
+                            value={blogData.Anh}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                        </div>
+
+                        <div className="flex mt-8">
+                          <button type="submit" className="btn btn-save mr-3">Lưu lại</button>
+                          <button type="button" onClick={() => setShowShoweditblog(false)} className="btn btn-cancel">Hủy bỏ</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
               )}
 
               <div className="row element-button">

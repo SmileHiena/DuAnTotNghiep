@@ -20,19 +20,19 @@ const DatVe = () => {
   const [loading, setLoading] = useState(true);
   const [showCinema, setShowCinema] = useState(false);
   const [selectedRap, setSelectedRap] = useState(null);
-  const [selectedRoomId, setSelectedRoomId] = useState(null); // Lưu ID phòng đã chọn
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedTicketType, setSelectedTicketType] = useState(null);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
   const calculateTotal = () => {
     const ticketPrice = selectedSeats.length > 0 ? ticketTypes.reduce((acc, type) => {
-      return acc + (type.GiaVe * ticketQuantities[type.id]); // Tính giá vé chỉ khi có ghế được chọn
-    }, 0) : 0; // Nếu không có ghế nào được chọn, giá vé là 0
+      return acc + (type.GiaVe * ticketQuantities[type.id]);
+    }, 0) : 0;
     const comboPrice = combos.reduce((acc, combo) => {
-      return acc + (combo.Gia * comboQuantities[combo.id]); // Giả sử mỗi combo có thuộc tính price và quantity
+      return acc + (combo.Gia * comboQuantities[combo.id]);
     }, 0);
-    const total = (ticketPrice + comboPrice) // Tính tổng
+    const total = (ticketPrice + comboPrice)
     setTotalAmount(total);
   };
 
@@ -79,67 +79,49 @@ const DatVe = () => {
   }, []);
 
   useEffect(() => {
-    calculateTotal(); // Gọi hàm tính tổng khi có thay đổi
+    calculateTotal();
   }, [selectedSeats, ticketQuantities, comboQuantities]);
 
 
   const handleSuatChieuClick = async (showtime) => {
     try {
-      // Fetch lại danh sách suất chiếu
+
       const showtimeResponse = await fetch(
         `http://localhost:3000/showtimes/phim/${id}/dangchieu`
       );
       const showtimesData = await showtimeResponse.json();
       setShowtimes(showtimesData);
       setShowCinema(true);
-      setSelectedDate(showtime.NgayChieu); // Lưu Ngày đã chọn
+      setSelectedDate(showtime.NgayChieu);
 
-      // Fetch lại danh sách phòng
+
       const roomsResponse = await fetch(
         `http://localhost:3000/showtimes/phim/${id}`
       );
       const roomsData = await roomsResponse.json();
 
-      // Lọc các phòng chỉ dựa trên IdPhong của showtimesData
+
       const filteredRooms = roomsData.filter((room) =>
         showtimesData.some((showtime) => showtime.IdPhong === room.IdPhong)
       );
 
       setRooms(filteredRooms);
-      setSelectedRoomId(showtime.IdPhong); // Lưu ID phòng đã chọn
+      setSelectedRoomId(showtime.IdPhong);
     } catch (error) {
       console.error("Error fetching showtimes:", error);
     }
   };
 
-  // const handleGioChieuClick = async (showtime) => {
-  //   setSelectedShowtime(showtime);
-  //   setSelectedRoomId(showtime.IdPhong);
-  //   // Fetch ghế tương ứng với giờ chiếu
-  //   try {
-  //     const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}`);
-  //     const seatsData = await seatsResponse.json();
-  //     setSeats(seatsData);
-
-  //     // Cập nhật trạng thái ghế đã đặt
-  //     const bookedSeats = seatsData.flatMap(row =>
-  //       row.Ghe.filter(seat => seat.DaDat).map(seat => `${row.Hang}-${seat.Ghe}`)
-  //     );
-  //     setDaDatGhe(bookedSeats);
-  //   } catch (error) {
-  //     console.error("Error fetching seats:", error);
-  //   }
-  // };
   const handleGioChieuClick = async (showtime) => {
     setSelectedShowtime(showtime);
     setSelectedRoomId(showtime.IdPhong);
-    // Fetch ghế tương ứng với giờ chiếu
+
     try {
-      const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}/${id}`); // Thêm IdPhim vào URL
+      const seatsResponse = await fetch(`http://localhost:3000/showtimes/ghe/${showtime.IdPhong}/${showtime.GioChieu}/${id}`);
       const seatsData = await seatsResponse.json();
       setSeats(seatsData);
 
-      // Cập nhật trạng thái ghế đã đặt
+
       const bookedSeats = seatsData.flatMap(row =>
         row.Ghe.filter(seat => seat.DaDat).map(seat => `${row.Hang}-${seat.Ghe}`)
       );
@@ -188,22 +170,20 @@ const DatVe = () => {
         [ticketId]: Math.max(0, prev[ticketId] + change),
       };
 
-      // Tính tổng số vé
+
       const totalTickets = Object.values(updatedQuantities).reduce(
         (acc, quantity) => acc + quantity,
         0
       );
 
       if (change > 0) {
-        setSelectedTicketType(ticketId); // Lưu loại vé khi tăng số lượng
+        setSelectedTicketType(ticketId);
       } else {
-        // Nếu giảm số lượng, kiểm tra nếu số lượng đã về 0 thì không chọn
         if (updatedQuantities[ticketId] === 0) {
           setSelectedTicketType(null);
         }
       }
 
-      // Giới hạn số ghế chọn theo số lượng vé
       if (selectedSeats.length > totalTickets) {
         setSelectedSeats(selectedSeats.slice(0, totalTickets));
       }
@@ -258,53 +238,53 @@ const DatVe = () => {
     const numberOfSeats = selectedSeats.length;
     if (numberOfTickets !== numberOfSeats) {
       alert("Số loại vé và số ghế phải bằng nhau để thực hiện thanh toán.");
-      return; // Ngừng quá trình thanh toán
+      return;
     }
 
     const selectedTicketTypes = ticketTypes
-      .filter(ticketType => ticketQuantities[ticketType.id] > 0) // Filter selected ticket types
+      .filter(ticketType => ticketQuantities[ticketType.id] > 0)
       .map(ticketType => ({
         name: ticketType.TenVe,
         price: ticketType.GiaVe,
-        quantity: ticketQuantities[ticketType.id] // Quantity of selected ticket types
+        quantity: ticketQuantities[ticketType.id]
       }));
 
     const selectedCombos = combos
-      .filter(combo => comboQuantities[combo.id] > 0) // Filter selected combos
+      .filter(combo => comboQuantities[combo.id] > 0)
       .map(combo => ({
         name: combo.TenCombo,
         price: combo.Gia,
-        quantity: comboQuantities[combo.id] // Quantity of selected combos
+        quantity: comboQuantities[combo.id]
       }));
 
-    // Find the selected showtime and room corresponding to the selected IDs
+
     const selectedShowtime = showtimes.find(showtime => showtime.IdPhong === selectedRoomId && showtime.NgayChieu === selectedDate);
     const selectedRoom = rooms.find(room => room.IdPhong === selectedRoomId);
 
-    const holdTimeInMinutes = 5; // Change this value if needed
+    const holdTimeInMinutes = 5;
     const holdTime = new Date(Date.now() + holdTimeInMinutes * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // Include date and time separately if selectedShowtime is found
-    const showtimeDate = selectedShowtime ? selectedShowtime.NgayChieu : null; // Date
-    const showtimeTime = selectedShowtime ? selectedShowtime.GioChieu : null; // Time
 
-    // Save necessary information to cookie
+    const showtimeDate = selectedShowtime ? selectedShowtime.NgayChieu : null;
+    const showtimeTime = selectedShowtime ? selectedShowtime.GioChieu : null;
+
+
     Cookies.set("bookingInfo", JSON.stringify({
       IdPhim: Number(id),
-      selectedSeats: selectedSeats.map(seatCode => seatCode.split('-')[1]),      // List of selected seats
-      ticketQuantities,    // Ticket quantities
-      combos: selectedCombos || null, // Combo quantities
-      totalAmount,         // Total amount
-      movieName: movies.Ten,   // Movie name
-      showtimeDate,        // Showtime date
-      showtimeTime,        // Showtime time
-      room: selectedRoom ? selectedRoom.TenPhongChieu : "null", // Room name
+      selectedSeats: selectedSeats.map(seatCode => seatCode.split('-')[1]),
+      ticketQuantities,
+      combos: selectedCombos || null,
+      totalAmount,
+      movieName: movies.Ten,
+      showtimeDate,
+      showtimeTime,
+      room: selectedRoom ? selectedRoom.TenPhongChieu : "null",
       ticketTypes: selectedTicketTypes,
       holdTime,
       IdPhong: selectedRoomId
-    }), { expires: 30 / 1440 });  // Expires in 5 minutes (1 day / 288)
+    }), { expires: 30 / 1440 });
 
-    // Redirect or perform other actions after saving to cookie
+
     router.push("/checkout");
   };
 
@@ -313,7 +293,7 @@ const DatVe = () => {
       <section className="w-1/3 sticky top-0">
         <div className="flex justify-center  sticky top-6">
           <div className="flex flex-col md:flex-col items-center  gap-20  mt-8">
-            {/* left box image */}
+
             <div className="md:w-1/2 flex mb-8 md:mb-0">
               <img src={movies.Anh} alt={movies.title} className="object-cover" style={{ height: "auto", width: "auto" }} />
             </div>
@@ -322,7 +302,6 @@ const DatVe = () => {
       </section>
 
       <div className="w-2/3 mr-8">
-        {/* Suất Chiếu Section */}
         <section className="pb-10">
           <h1 className="text-center text-[40px] font-bold mt-20 pb-3">LỊCH CHIẾU</h1>
           <div className="flex justify-center gap-4 mt-6">
@@ -337,15 +316,15 @@ const DatVe = () => {
                 }, {})
             )
               .filter(([date]) => {
-                // Lọc chỉ các suất chiếu trong tương lai
+
                 const [day, month, year] = date.split("/").map(Number);
                 const showtimeDate = new Date(year, month - 1, day);
                 const today = new Date();
-                today.setHours(0, 0, 0, 0); // Đặt thời gian về đầu ngày
-                return showtimeDate >= today; // Chỉ giữ ngày hiện tại hoặc tương lai
+                today.setHours(0, 0, 0, 0);
+                return showtimeDate >= today;
               })
               .sort(([dateA], [dateB]) => {
-                // Sắp xếp ngày
+
                 const [dayA, monthA, yearA] = dateA.split("/").map(Number);
                 const [dayB, monthB, yearB] = dateB.split("/").map(Number);
                 return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
@@ -374,7 +353,7 @@ const DatVe = () => {
 
 
 
-        {showCinema && selectedDate && ( // Hiển thị danh sách phòng chiếu nếu đã chọn Ngày
+        {showCinema && selectedDate && (
           <section className="mt-10">
             <h2 className="text-[40px] font-bold mb-4 text-center mt-20 pb-3">DANH SÁCH PHÒNG CHIẾU</h2>
             <div className="flex flex-col items-center">
@@ -386,7 +365,6 @@ const DatVe = () => {
                     </h3>
                   </div>
                   <div className="flex flex-row justify-start">
-                    {/* Hiển thị giờ chiếu cho phòng */}
                     {room.showtimes.map((showtime, index) => (
                       <div
                         key={index}
@@ -406,7 +384,6 @@ const DatVe = () => {
         )}
 
 
-        {/* Chọn Loại Vé Section */}
         {showCinema && selectedDate && (
           <section className="mt-10 px-4 md:px-0 pb-10">
             <h2 className="text-[30px] md:text-[40px] font-bold mt-20 mb-5 text-center">CHỌN LOẠI VÉ </h2>
@@ -426,7 +403,6 @@ const DatVe = () => {
           </section>
         )}
 
-        {/* Seat Selection Section */}
         {seats.length > 0 && (
           <>
             <section className="mt-10">
@@ -439,7 +415,7 @@ const DatVe = () => {
                     {row.Ghe.map((ghe, index) => {
                       const seatCode = `${row.Hang}-${ghe.Ghe}`;
                       const isSelected = selectedSeats.includes(seatCode);
-                      const isBooked = ghe.DaDat; // Sử dụng thuộc tính DaDat từ dữ liệu mới
+                      const isBooked = ghe.DaDat;
 
                       return (
                         <div
@@ -453,16 +429,15 @@ const DatVe = () => {
                     ${isSelected ? "bg-[#F5CF49]" : isBooked ? "bg-gray-800" : "bg-gray-500"}`}
                           onMouseEnter={(e) => {
                             if (isBooked) {
-                              e.target.style.cursor = "not-allowed"; // Thay đổi con trỏ khi rê chuột lên ghế đã đặt
+                              e.target.style.cursor = "not-allowed";
                             }
                           }}
                           onMouseLeave={(e) => {
-                            e.target.style.cursor = "pointer"; // Reset con trỏ khi rời khỏi ghế
+                            e.target.style.cursor = "pointer";
                           }}
                         >
                           <p className="font-bold text-white">{ghe.Ghe}</p>
 
-                          {/* Hiển thị ghi chú cho ghế đã đặt khi rê chuột vào ghế đã đặt */}
                           {isBooked && (
                             <div
                               className="absolute bg-white text-red-600 text-xs p-1 rounded-md top-[-20px] left-[50%] transform -translate-x-1/2"
@@ -500,7 +475,6 @@ const DatVe = () => {
               <div className="flex flex-wrap justify-center gap-4">
                 {combos.map((item) => (
                   <div key={item.id} className="w-[350px] p-4 flex items-center gap-4">
-                    {/* Left: Combo Image */}
                     <div className="flex-shrink-0">
                       <img
                         src={`${item.Anh}`}
@@ -508,7 +482,6 @@ const DatVe = () => {
                         className="h-[130px] w-[130px] object-cover rounded"
                       />
                     </div>
-                    {/* Right: Combo Info */}
                     <div>
                       <h3 className="mb-2 text-[16px] font-bold">{item.TenCombo}</h3>
                       <p className="mb-2 text-[14px] font-bold">{item.NoiDung}</p>
@@ -536,7 +509,6 @@ const DatVe = () => {
               </div>
             </section>
 
-            {/* Tổng tiền */}
             <section className="mt-10 pb-5">
               <div className="flex justify-between items-center mr-3">
                 <div className="flex-grow"></div>

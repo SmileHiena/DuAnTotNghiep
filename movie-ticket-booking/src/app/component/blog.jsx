@@ -1,9 +1,9 @@
-"use client"; // Đảm bảo đây là Client Component
+"use client"; 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Sử dụng 'next/navigation' cho Next.js 13+
+import { useRouter } from "next/navigation"; 
 
 const BlogSection = () => {
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter(); 
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,7 +54,7 @@ const BlogSection = () => {
               onClick={() => handleBlogClick(blog.id)}
             >
               <img
-                src={`http://localhost:3000${blog.Anh}`} // Adjust this path as needed
+                src={`http://localhost:3000${blog.Anh}`} 
                 alt={blog.TenBlog}
                 className="w-[270px] h-[122px] object-cover rounded-[4px]"
               />

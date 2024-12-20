@@ -24,7 +24,7 @@ const ForgotPassword = () => {
       const data = await res.json();
       if (res.ok) {
         setMessage('Mã xác thực đã được gửi tới email của bạn');
-        router.push(`/verify-code?email=${encodeURIComponent(email)}`); // Pass email via URL
+        router.push(`/verify-code?email=${encodeURIComponent(email)}`); 
       } else {
         setMessage(data.message || 'Có lỗi xảy ra');
       }

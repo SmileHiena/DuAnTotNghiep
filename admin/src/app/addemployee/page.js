@@ -58,34 +58,34 @@ const ThemNhanVien = () => {
 
     if (!response.ok) {
       const errorResult = await response.json();
-      return errorResult.message; // Trả về thông báo lỗi từ server
+      return errorResult.message; 
     }
 
-    return null; // Không có lỗi
+    return null; 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra tên đăng nhập
+    
     if (!validateUserName(formData.TenDangNhap)) {
       toast.error('Tên đăng nhập phải ít nhất 6 ký tự và không có ký tự đặc biệt.');
       return;
     }
 
-    // Kiểm tra số điện thoại
+    
     if (!validatePhoneNumber(formData.SDT)) {
       toast.error('Số điện thoại phải có đúng 10 chữ số.');
       return;
     }
 
-    // Kiểm tra mật khẩu
+    
     if (!validatePassword(formData.MatKhau)) {
       toast.error('Mật khẩu phải ít nhất 6 ký tự, bắt đầu bằng chữ hoa, có số, chữ và ít nhất 1 ký tự đặc biệt.');
       return;
     }
 
-    // Kiểm tra tên đăng nhập và số điện thoại đã tồn tại
+    
     const existsMessage = await checkUserExists();
     if (existsMessage) {
       toast.error(existsMessage);
@@ -138,7 +138,7 @@ const ThemNhanVien = () => {
       });
     } catch (error) {
       console.error('Có lỗi xảy ra khi gửi yêu cầu:', error);
-      toast.error('Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.'); // Thông báo lỗi
+      toast.error('Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.'); 
     } finally {
       setIsSubmitting(false);
     }

@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer, toast } from 'react-toastify'; // Thêm import cho ToastContainer và toast
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS cho Toast
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const TaiKhoan = () => {
   const [accounts, setAccounts] = useState([]);
@@ -169,7 +169,7 @@ const TaiKhoan = () => {
         </div>
       </main>
 
-      <ToastContainer /> {/* Thêm ToastContainer vào cuối để hiển thị thông báo */}
+      <ToastContainer /> 
     </>
   );
 };

@@ -75,8 +75,7 @@ const RapChieu = () => {
 
   const handleManagePhongChieu = (rap) => {
     setCurrentRap(rap);
-    // Sử dụng chuỗi URL thay vì đối tượng
-    router.push(`/theaterrooms/${rap._id}`); // Cập nhật đường dẫn tương ứng
+    router.push(`/theaterrooms/${rap._id}`);
   };
 
   if (loading) {

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ClientWrapper from "./components/ClientWrapper"; // Import ClientWrapper
+import ClientWrapper from "./components/ClientWrapper"; 
 
-// Định nghĩa metadata cho ứng dụng
+
 export const metadata: Metadata = {
   title: "ScreenTime",
   description: "ScreenTime booking tickets for movies.",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Export viewport riêng biệt
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,

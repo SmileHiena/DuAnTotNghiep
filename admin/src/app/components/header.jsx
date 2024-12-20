@@ -31,7 +31,7 @@ const Header = () => {
                     if (response.ok) {
                         const data = await response.json();
                         setUser(data);
-                        setIsAdmin(data.Quyen === 'Admin'); // Kiểm tra quyền admin
+                        setIsAdmin(data.Quyen === 'Admin'); 
                     } else {
                         console.error('Failed to fetch user data');
                         setIsLoggedIn(false);

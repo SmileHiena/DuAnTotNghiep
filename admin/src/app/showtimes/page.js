@@ -60,7 +60,7 @@ const Suatchieu = () => {
         return `${year}-${month}-${day}`;
     };
 
-    // Hàm lọc
+    
     const filteredShowtimes = showtimes.filter((showtime) => {
         const { date, room, status } = filters;
         const matchDate = date ? convertToISODate(showtime.NgayChieu) === date : true;
@@ -69,7 +69,6 @@ const Suatchieu = () => {
         return matchDate && matchRoom && matchStatus;
     });
 
-    // Cập nhật bộ lọc
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({

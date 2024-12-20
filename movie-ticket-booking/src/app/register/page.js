@@ -4,7 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 
 const Register = () => {
-  const [step, setStep] = useState(1); // Steps: 1 - Enter Email, 2 - Verify Code, 3 - Register
+  const [step, setStep] = useState(1);
   const [Email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState(["", "", "", "", "", ""]);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -31,34 +31,34 @@ const Register = () => {
 
   useEffect(() => {
     let interval;
-    if (step === 2) { // Start the timer when step 2 is reached
+    if (step === 2) {
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           if (prevTimer === 1) {
             clearInterval(interval);
             alert("Mã xác nhận hết thời gian. Vui lòng tải lại trang.");
-            window.location.reload(); // Reload the page when the timer expires
+            window.location.reload();
             return 0;
           }
           return prevTimer - 1;
         });
-      }, 1000); // Update every second
+      }, 1000);
     }
 
     return () => {
-      clearInterval(interval); // Clean up interval on step change
+      clearInterval(interval);
     };
-  }, [step]); // Only run the effect when the step changes
+  }, [step]);
   const handleChange = (e, index) => {
     const { value } = e.target;
 
-    // Kiểm tra giá trị nhập vào, chỉ cho phép số từ 0-9
+   
     if (/^\d?$/.test(value)) {
       const newCode = [...verificationCode];
       newCode[index] = value;
       setVerificationCode(newCode);
 
-      // Tự động chuyển sang ô tiếp theo nếu người dùng nhập một số
+     
       if (value && index < verificationCode.length - 1) {
         document.getElementById(`verificationCode${index + 1}`).focus();
       }
@@ -69,7 +69,7 @@ const Register = () => {
     if (e.key === "Backspace") {
       const newCode = [...verificationCode];
 
-      // Nếu ô hiện tại rỗng, chuyển về ô trước đó và xóa ký tự
+     
       if (verificationCode[index] === "" && index > 0) {
         document.getElementById(`verificationCode${index - 1}`).focus();
         newCode[index - 1] = "";
@@ -80,7 +80,7 @@ const Register = () => {
       setVerificationCode(newCode);
     }
 
-    // Điều hướng qua các ô bằng phím mũi tên
+   
     if (e.key === "ArrowLeft" && index > 0) {
       document.getElementById(`verificationCode${index - 1}`).focus();
     }
@@ -98,7 +98,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/users/send-code",  // Correct URL
+        "http://localhost:3000/users/users/send-code", 
         { Email: Email }
       );
 
@@ -126,15 +126,15 @@ const Register = () => {
     setIsVerifying(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/users/verify-code", // URL for verifying code
+        "http://localhost:3000/users/users/verify-code",
         { Email, verificationCode: fullCode },
         { headers: { "Content-Type": "application/json" } }
       );
       if (response.data.success) {
         setErrorMessage("Xác nhập thành công  ");
         setStep(3);
-        setFormData({ ...formData, Email }); // Update formData with the verified email
-        localStorage.setItem("verifiedEmail", Email); // Store email after successful verification
+        setFormData({ ...formData, Email });
+        localStorage.setItem("verifiedEmail", Email);
       } else {
         setErrorMessage("Sai mã xác nhận mời nhập lại ");
       }
@@ -149,13 +149,13 @@ const Register = () => {
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all required fields
+   
     if (!formData.Ten || !formData.SDT || !formData.NgaySinh || !formData.DiaChi || !formData.TenDangNhap) {
       alert("Tất cả các trường là bắt buộc!");
       return;
     }
 
-    // Check password match and terms agreement
+   
     if (formData.MatKhau !== formData.confirmPassword) {
       alert("Mật khẩu và xác nhận mật khẩu không khớp!");
       return;
@@ -166,7 +166,7 @@ const Register = () => {
       return;
     }
 
-    // Password validation logic
+   
     if (formData.MatKhau.length < 6) {
       alert("Mật khẩu phải có ít nhất 6 ký tự.");
       return;
@@ -179,7 +179,7 @@ const Register = () => {
     }
 
     try {
-      setIsSubmitting(true); // Set loading state
+      setIsSubmitting(true);
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => {
         formDataToSend.append(key, formData[key]);
@@ -200,7 +200,7 @@ const Register = () => {
       alert("Có lỗi xảy ra khi đăng ký tài khoản.");
       console.error("Registration error:", error);
     } finally {
-      setIsSubmitting(false); // Reset loading state
+      setIsSubmitting(false);
     }
   };
 
@@ -255,15 +255,14 @@ const Register = () => {
                   onChange={(e) => handleChange(e, index)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   maxLength="1"
-                  inputMode="numeric" // Gợi ý bàn phím số trên các thiết bị di động
-                  pattern="[0-9]*" // Chỉ cho phép số
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   className="p-2 border rounded text-black w-12 text-center"
                   autoFocus={index === 0}
                 />
               ))}
             </div>
 
-            {/* Display the countdown timer */}
             <div className="text-center mb-4">
               <p className="text-red-500">
                 Thời gian còn lại: {Math.floor(timer / 60)}:

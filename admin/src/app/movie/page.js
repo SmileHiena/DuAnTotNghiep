@@ -91,7 +91,7 @@ const SanPham = () => {
     fetchSanPham();
   }, []);
 
-  // Fetch theloai data from the backend API
+  
   useEffect(() => {
     const fetchTheLoai = async () => {
       try {
@@ -161,7 +161,7 @@ const SanPham = () => {
       setEditError("Chỉ được nhập thời lượng là số.");
       return;
     } else {
-      setEditError(""); // Clear error if valid
+      setEditError(""); 
     }
 
     const newPhim = {
@@ -194,7 +194,7 @@ const SanPham = () => {
         }
       );
 
-      // Cập nhật danh sách tài khoản mà không cần tải lại trang
+      
       setSanPhamList((prev) =>
         prev.map((pro) =>
           pro._id === editedProduct._id
@@ -206,10 +206,10 @@ const SanPham = () => {
 
       if (!response.ok) throw new Error("Failed to update product.");
 
-      // Optionally refresh the product list here or handle UI updates
+      
       setShowEditModal(false);
       setEditedProduct({
-        _id: "", // Resetting to initial state
+        _id: "", 
         Ten: "",
         Trailer: "",
         TrangThai: "",
@@ -246,16 +246,16 @@ const SanPham = () => {
 
   const toggleLockStatus = async (productId, isLocked) => {
     const confirmMessage = isLocked
-      ? "Bạn có chắc chắn muốn mở khóa phim này không?"  // Xác nhận khóa phim
-      : "Bạn có chắc chắn muốn khóa phim này không?"; // Xác nhận mở khóa phim
+      ? "Bạn có chắc chắn muốn mở khóa phim này không?"  
+      : "Bạn có chắc chắn muốn khóa phim này không?"; 
 
     const confirmLock = window.confirm(confirmMessage);
 
     if (confirmLock) {
       try {
         const url = isLocked
-          ? `http://localhost:3000/movie/unlock/${productId}` // Unlock API
-          : `http://localhost:3000/movie/lock/${productId}`; // Lock API
+          ? `http://localhost:3000/movie/unlock/${productId}` 
+          : `http://localhost:3000/movie/lock/${productId}`; 
 
         const response = await fetch(url, {
           method: "PUT",
@@ -270,7 +270,7 @@ const SanPham = () => {
 
         const data = await response.json();
 
-        // Update the product list dynamically
+        
         setSanPhamList((prevProducts) =>
           prevProducts.map((product) =>
             product._id === productId
@@ -279,11 +279,11 @@ const SanPham = () => {
           )
         );
 
-        // Trigger the correct toast notification based on the lock/unlock status
+        
         if (isLocked) {
-          notifyUnLocktSuccess(); // Show unlock success toast
+          notifyUnLocktSuccess(); 
         } else {
-          notifyLocktSuccess(); // Show lock success toast
+          notifyLocktSuccess(); 
         }
       } catch (error) {
         console.error("Error toggling lock status:", error);
@@ -422,18 +422,18 @@ const SanPham = () => {
               <input className="form-control" type="number" required min="0" value={editedProduct.TheLoai?.ThoiLuong || ""} onChange={(e) => {
                 const value = e.target.value;
 
-                // Check if the value is empty
+                
                 if (value === "") {
                   setEditedProduct({
                     ...editedProduct,
                     TheLoai: {
                       ...editedProduct.TheLoai,
-                      ThoiLuong: "", // Allow empty input
+                      ThoiLuong: "", 
                     },
                   });
-                  setEditError(""); // Clear error for empty input
+                  setEditError(""); 
                 }
-                // Check if the value is a valid number and non-negative
+                
                 else if (!isNaN(value) && Number(value) >= 0) {
                   setEditedProduct({
                     ...editedProduct,
@@ -442,9 +442,9 @@ const SanPham = () => {
                       ThoiLuong: value,
                     },
                   });
-                  setEditError(""); // Clear error if valid
+                  setEditError(""); 
                 } else {
-                  setEditError("Chỉ được nhập thời lượng là số dương."); // Error message for invalid input
+                  setEditError("Chỉ được nhập thời lượng là số dương."); 
                 }
               }}
               />

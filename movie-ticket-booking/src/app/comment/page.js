@@ -96,7 +96,7 @@ const Profile = () => {
   const toggleExpand = (id) => {
     setExpandedComments((prev) => ({
       ...prev,
-      [id]: !prev[id], // Toggle the expanded state for the clicked comment
+      [id]: !prev[id], 
     }));
   };
 

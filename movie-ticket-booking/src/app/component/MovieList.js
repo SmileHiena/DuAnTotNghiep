@@ -85,7 +85,7 @@ const MovieList = ({ apiUrl, title }) => {
   };
 
   useEffect(() => {
-    // Reset to the first page if the filtered movies change
+    
     setCurrentPage(1);
   }, [selectedGenre, selectedRating, movies]);
 

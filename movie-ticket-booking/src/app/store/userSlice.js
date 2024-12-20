@@ -16,11 +16,9 @@ const userSlice = createSlice({
     logout: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('user'); // Xóa thông tin người dùng khỏi localStorage
     },
     register: (state, action) => {
       state.currentUser = action.payload;
-      // Không thay đổi trạng thái khi đăng ký
     },
     updateUser: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload };

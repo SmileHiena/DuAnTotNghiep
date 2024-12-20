@@ -1,4 +1,4 @@
-'use client'; // Ensures that this component is client-side only
+'use client'; 
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { QRCode } from "react-qr-code";
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faClipboard, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useRouter } from "next/navigation"; // Use the 'next/navigation' package
+import { useRouter } from "next/navigation"; 
 
 const Profile = () => {
   const [accountInfo, setAccountInfo] = useState({});
@@ -14,26 +14,26 @@ const Profile = () => {
   const [showInvoiceDetails, setShowInvoiceDetails] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [message, setMessage] = useState("");
-  const [isClient, setIsClient] = useState(false); // Client-side check state
+  const [isClient, setIsClient] = useState(false); 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const router = useRouter(); // Initialize the router
+  const router = useRouter(); 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("vi-VN", {
-      weekday: "long", // Thứ trong tuần
-      year: "numeric", // Năm
-      month: "long", // Tháng
-      day: "numeric", // Ngày
+      weekday: "long", 
+      year: "numeric", 
+      month: "long", 
+      day: "numeric", 
     });
   };
   useEffect(() => {
-    setIsClient(true); // Ensures router actions happen only after the component mounts on the client side
+    setIsClient(true); 
 
 
   }, []);
 
-  // Toggle invoice details modal
+  
   const toggleInvoiceDetails = (invoice) => {
     setSelectedInvoice(invoice);
     setShowInvoiceDetails(!showInvoiceDetails);
@@ -64,7 +64,7 @@ const Profile = () => {
     setIsModalOpen(false);
   };
 
-  // Handle canceling the invoice
+  
   const handleCancel = async () => {
     const token = document.cookie
       .split(";")
@@ -102,16 +102,16 @@ const Profile = () => {
 
         setMessage("Hóa đơn đã được hủy thành công!");
         setInvoices(invoices.filter(invoice => invoice.id !== selectedInvoice.id));
-        setShowInvoiceDetails(false); // Close the invoice details view after cancellation
+        setShowInvoiceDetails(false); 
       } catch (error) {
         console.error("Error canceling invoice: ", error);
         setMessage(error.message);
       }
     }
 
-    // Navigate to the invoice page only on the client side
+    
     if (isClient) {
-      router.push("/invoice"); // Navigate to the invoice page
+      router.push("/invoice"); 
     }
   };
 
@@ -135,7 +135,7 @@ const Profile = () => {
           if (response.ok) {
             const data = await response.json();
             setAccountInfo(data);
-            fetchInvoices(data.userId); // Fetch invoices for the user after getting user info
+            fetchInvoices(data.userId); 
           } else {
             console.error("Failed to fetch user data");
             alert("Vui lòng đăng nhập lại.");

@@ -52,10 +52,10 @@ const EventList = () => {
       if (!response.ok) throw new Error("Failed to delete event.");
 
       setEvents((prev) => prev.filter((event) => event._id !== id));
-      toast.success("Sự kiện đã được xóa thành công!"); // Show success notification
+      toast.success("Sự kiện đã được xóa thành công!"); d
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("Có lỗi xảy ra khi xóa sự kiện."); // Show error notification
+      toast.error("Có lỗi xảy ra khi xóa sự kiện."); d
     }
   };
 
@@ -75,14 +75,14 @@ const EventList = () => {
 
   const handleEditEvent = (event) => {
     setEditedEvent(event);
-    setSelectedFile(null); // Reset file selection when editing
+    setSelectedFile(null); d
     setShowEditModal(true);
   };
 
   const handleSaveChanges = async () => {
     const formData = new FormData();
 
-    // Append all necessary fields to the FormData
+    d
     formData.append('newEvent', JSON.stringify({
       Ten: editedEvent.Ten || "",
       NoiDung: editedEvent.NoiDung || "",
@@ -109,20 +109,20 @@ const EventList = () => {
 
       const result = await response.json();
       console.log('Update result:', result);
-      setShowEditModal(false); // Close the modal on success
+      setShowEditModal(false); d
 
-      // Refresh the event list
+      d
       const updatedEvents = events.map((event) => event._id === result._id ? result : event);
       setEvents(updatedEvents);
-      toast.success("Sự kiện đã được cập nhật thành công!"); // Show success notification
+      toast.success("Sự kiện đã được cập nhật thành công!"); d
     } catch (error) {
       console.error('Update error:', error);
-      toast.error("Có lỗi xảy ra khi cập nhật sự kiện."); // Show error notification
+      toast.error("Có lỗi xảy ra khi cập nhật sự kiện."); d
     }
   };
 
   const handleNewEventFileChange = (e) => {
-    setSelectedFile(e.target.files[0]); // Update the selected file
+    setSelectedFile(e.target.files[0]); d
   };
 
   return (

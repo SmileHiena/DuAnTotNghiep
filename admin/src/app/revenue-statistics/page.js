@@ -31,16 +31,16 @@ const RevenueStatistics = () => {
     }, []);
 
     const calculateTotals = (filteredData) => {
-        // Đã đặt
+        
         const validData = filteredData.filter(item => item.TrangThai !== 'Đã Hủy');
 
-        // Đã đặt + hủy
+        
         const tickets = filteredData.length;
 
-        // Tiền đã đặt
+        
         const revenue = validData.reduce((acc, item) => acc + (item.TongTien || item.GiaVe), 0);
 
-        // Đã hủy
+        
         const cancelledTickets = filteredData.filter(item => item.TrangThai === 'Đã Hủy').length;
 
         setTotalTickets(tickets);
@@ -68,9 +68,9 @@ const RevenueStatistics = () => {
 
     const formatDate = (isoString) => {
         const date = new Date(isoString);
-        const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (bắt đầu từ 0, cần +1)
-        const year = date.getFullYear(); // Lấy năm
+        const day = date.getDate().toString().padStart(2, '0'); 
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+        const year = date.getFullYear(); 
         return `${day}/${month}/${year}`;
     };
     const prepareChartData = (data) => {

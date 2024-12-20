@@ -1,11 +1,11 @@
-"use client"; // Mark this component as a client component
+"use client"; 
 
 import Head from "next/head";
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const ThemSuKien = () => {
   const [newEvent, setNewEvent] = useState({
@@ -32,7 +32,7 @@ const ThemSuKien = () => {
   const handleFileChange = (e) => {
     setNewEvent((prev) => ({
       ...prev,
-      Anh: e.target.files[0], // Handle image upload
+      Anh: e.target.files[0], 
     }));
   };
 
@@ -40,10 +40,10 @@ const ThemSuKien = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("newEvent", JSON.stringify(newEvent)); // Serialize newEvent as JSON string
+    formData.append("newEvent", JSON.stringify(newEvent)); 
 
     if (newEvent.Anh) {
-      formData.append("Anh", newEvent.Anh); // Include image if uploaded
+      formData.append("Anh", newEvent.Anh); 
     }
 
     try {
@@ -65,7 +65,7 @@ const ThemSuKien = () => {
         progress: undefined,
       });
 
-      // Redirect after 2 seconds
+      
       setTimeout(() => {
         router.push("/event");
       }, 2000);
@@ -182,7 +182,7 @@ const ThemSuKien = () => {
                   </div>
 
                 </Form>
-                <ToastContainer /> {/* Include the ToastContainer here */}
+                <ToastContainer /> 
               </div>
             </div>
           </div>

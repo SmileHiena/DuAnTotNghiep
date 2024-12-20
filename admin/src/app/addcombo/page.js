@@ -18,7 +18,7 @@ const AddCombo = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Lấy danh sách combo hiện tại
+    
     const fetchCombos = async () => {
       try {
         const response = await fetch('http://localhost:3000/combo/');
@@ -43,7 +43,7 @@ const AddCombo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra giá tiền
+    
     const price = parseFloat(formData.Gia);
     if (isNaN(price) || price <= 0) {
       toast.error('Giá phải là một số lớn hơn 0.', {
@@ -53,7 +53,7 @@ const AddCombo = () => {
       return;
     }
 
-    // Kiểm tra tên combo có trùng không
+    
     if (existingCombos.some(combo => combo.TenCombo === formData.TenCombo)) {
       toast.error('Tên combo đã tồn tại. Vui lòng chọn tên khác.', {
         position: 'top-right',

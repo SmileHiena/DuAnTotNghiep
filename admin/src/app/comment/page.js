@@ -9,18 +9,18 @@ import "react-toastify/dist/ReactToastify.css";
 const BinhLuan = () => {
   const [binhluan, setBinhLuan] = useState([]);
 
-  // Lấy danh sách bình luận từ API và tên phim từ movieId
+  
   useEffect(() => {
     const fetchBinhLuan = async () => {
       try {
         const response = await fetch("http://localhost:3000/comments");
         const commentsData = await response.json();
 
-        // Lấy tên phim dựa vào movieId
+        
         const moviePromises = commentsData.map(async (comment) => {
           const movieResponse = await fetch(`http://localhost:3000/movie/${comment.movieId}`);
           const movieData = await movieResponse.json();
-          return { ...comment, movieName: movieData.Ten }; // Giả sử `Ten` là tên phim trả về từ API
+          return { ...comment, movieName: movieData.Ten }; 
         });
 
         const commentsWithMovieNames = await Promise.all(moviePromises);
@@ -32,7 +32,7 @@ const BinhLuan = () => {
     fetchBinhLuan();
   }, []);
 
-  // Xóa bình luận trên server và cập nhật danh sách bình luận
+  
   const handleDelete = async (_id) => {
     try {
       await fetch(`http://localhost:3000/comments/${_id}`, {

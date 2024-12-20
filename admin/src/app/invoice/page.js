@@ -15,14 +15,14 @@ const Ve = () => {
   const [endDate, setEndDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch data from the API
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:3000/invoice/");
         const data = await response.json();
         setHoaDon(data);
-        setFilteredHoaDon(data); // Initialize filtered data with full list
+        setFilteredHoaDon(data); 
       } catch (error) {
         console.error("Error fetching invoices:", error);
       }
@@ -59,7 +59,7 @@ const Ve = () => {
         );
 
         setTimeout(() => {
-          window.location.reload(); // Reload lại trang
+          window.location.reload(); 
         }, 3000);
         toast.success(`Cập nhật trạng thái thành công`);
       } else {
@@ -145,7 +145,7 @@ const Ve = () => {
 
 
 
-  // Filter invoices based on selected date range and search query
+  
   const handleFilter = () => {
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
@@ -162,9 +162,9 @@ const Ve = () => {
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
-    const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (bắt đầu từ 0, cần +1)
-    const year = date.getFullYear(); // Lấy năm
+    const day = date.getDate().toString().padStart(2, '0'); 
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const year = date.getFullYear(); 
     return `${day}/${month}/${year}`;
   };
 
@@ -264,7 +264,7 @@ const Ve = () => {
                       </td>
                       <td>{item.TrangThai}</td>
                       <td>  <button
-                        onClick={() => handchangestate(item.id)} // Nhấn để gọi hàm cập nhật
+                        onClick={() => handchangestate(item.id)} 
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:border-2 focus:border-white"
                       >
                         {item.TrangThaiVe === "Chưa xuất vé" ? "Xuất Vé" : "Đã Xuất"}
